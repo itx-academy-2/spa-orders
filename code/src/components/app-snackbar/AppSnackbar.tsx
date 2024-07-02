@@ -1,12 +1,14 @@
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+
+import AppTypography from "@/components/app-typography/AppTypography";
 import useSnackbar from "@/hooks/use-snackbar/useSnackbar";
 
 import "@/components/app-snackbar/AppSnackbar.scss";
 
 const AppSnackbar = () => {
   const { isOpen, config, closeSnackbar } = useSnackbar();
-  const { message, variant } = config;
+  const { messageTranslationKey, variant } = config;
 
   return (
     <Snackbar
@@ -21,7 +23,10 @@ const AppSnackbar = () => {
         variant="filled"
         className="spa-snackbar__alert"
       >
-        {message}
+        <AppTypography
+          translationKey={messageTranslationKey}
+          component="span"
+        />
       </Alert>
     </Snackbar>
   );
