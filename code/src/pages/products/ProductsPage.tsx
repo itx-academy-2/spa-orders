@@ -4,6 +4,10 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import AppBox from "@/components/app-box/AppBox";
 import ProductCard from "@/components/product-card/ProductCard";
 import AppDropdown from "@/components/app-dropdown/AppDropdown";
+
+import { Product } from "@/types/product.types";
+import createProductSkeletons from "@/utils/createSkeletonCards";
+
 import AppPagination from "@/components/app-pagination/AppPagination";
 import AppContainer from "@/components/app-container/AppContainer";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
@@ -19,26 +23,27 @@ const ProductsPage = () => {
   const isPageValid = searchParamsPage && !Number.isNaN(searchParamsPage);
   const page = isPageValid ? Number(searchParamsPage) : 1;
 
-  const { data: productsResponse, isLoading: productsLoading } =
-    useGetProductsQuery({
-      page: page - 1,
-      size: 8,
-      sort: sortOption
-    });
+  const { data: productsResponse, isLoading } = useGetProductsQuery({
+    page: page - 1,
+    size: 8,
+    sort: sortOption
+  });
 
   const defaultDropdownText = (
     <AppTypography translationKey="productsDefault.label" />
   );
 
-  const productCards = productsResponse?.content?.map((product) => (
+  const skeletonCards = createProductSkeletons(
+    productsResponse?.content?.length || 8
+  );
+
+  const productCards = productsResponse?.content?.map((product: Product) => (
     <ProductCard key={product.id} product={product} />
   ));
 
   const handleSortChange = (value: string) => {
     setSearchParams({ sort: value });
   };
-
-  if (productsLoading) return <AppTypography>Loading...</AppTypography>;
 
   const pagesCount = productsResponse?.totalPages ?? 1;
   const productsCount = productsResponse?.totalElements ?? 0;
@@ -73,7 +78,9 @@ const ProductsPage = () => {
             className="spa-products-page__sort"
           />
         </AppBox>
-        <AppBox className="spa-products-page__grid">{productCards}</AppBox>
+        <AppBox className="spa-products-page__grid">
+          {isLoading ? skeletonCards : productCards}
+        </AppBox>
         {paginationBlock}
       </AppBox>
     </PageWrapper>

@@ -48,12 +48,14 @@ describe("BestSellers component", () => {
     expect(bestSellersHeader).toBeInTheDocument();
   });
 
-  test("Should render loader if isLoading", () => {
+  test("Should render product skeletons if isLoading", () => {
     renderAndMock({ isLoading: true });
 
-    const bestSellersLoader = screen.getByText(/Loading/i);
+    const productSkeletonElement = screen.getAllByTestId(
+      "spa-product-skeleton"
+    );
 
-    expect(bestSellersLoader).toBeInTheDocument();
+    expect(productSkeletonElement[0]).toBeInTheDocument();
   });
 
   test("Should render product cards when data is available", async () => {
