@@ -22,3 +22,11 @@ export type APIError = {
   title: string;
   detail: string;
 };
+
+export type RTKQueryReturnState<TData = null, TError = null> = {
+  data: TData | null;
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+  error: TError | null;
+};
