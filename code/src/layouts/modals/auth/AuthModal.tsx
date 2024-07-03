@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -7,43 +7,47 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 import AppButton from "@/components/app-button/AppButton";
 
-import LoginForm from "@/layouts/modals/auth/components/login-form/LoginForm";
-import SignupForm from "@/layouts/modals/auth/components/signup-form/SignupForm";
+import SignInForm from "@/layouts/forms/sign-in-form/SignInForm";
+import SignUpForm from "@/layouts/forms/sign-up-form/SignUpForm";
 
 import { useModalContext } from "@/context/ModalContext";
 
 import "@/layouts/modals/auth/AuthModal.scss";
 
-type AuthTab = "login" | "signup";
+type AuthTab = "signIn" | "signUp";
+
+const authModalForms = {
+  signIn: <SignInForm />,
+  signUp: <SignUpForm />
+};
 
 const AuthModal = () => {
   const { closeModal } = useModalContext();
 
-  const [activeTab, setActiveTab] = useState<AuthTab>("login");
+  const [activeTab, setActiveTab] = useState<AuthTab>("signIn");
 
   const toggleForm = () => {
-    setActiveTab((prevTab) => (prevTab === "login" ? "signup" : "login"));
+    setActiveTab((prevTab) => (prevTab === "signIn" ? "signUp" : "signIn"));
   };
 
-  const authModalContent =
-    activeTab === "login" ? <LoginForm /> : <SignupForm />;
+  const authModalContent = authModalForms[activeTab] as ReactNode;
 
   const toggleText =
-    activeTab === "login" ? (
-      <AppTypography translationKey="authModal.tosignUp.text" />
+    activeTab === "signIn" ? (
+      <AppTypography translationKey="authModal.toSignUp.text" />
     ) : (
-      <AppTypography translationKey="authModal.tologIn.text" />
+      <AppTypography translationKey="authModal.toSignIn.text" />
     );
 
   const toggleButtonText =
-    activeTab === "login" ? (
+    activeTab === "signIn" ? (
       <AppTypography
-        translationKey="authModal.tosignUp.button"
+        translationKey="authModal.toSignUp.button"
         fontWeight="extra-bold"
       />
     ) : (
       <AppTypography
-        translationKey="authModal.tologIn.button"
+        translationKey="authModal.toSignIn.button"
         fontWeight="extra-bold"
       />
     );
@@ -60,8 +64,8 @@ const AuthModal = () => {
         <AppTypography
           variant="h3"
           translationKey={
-            activeTab === "login"
-              ? "authModal.logIn.title"
+            activeTab === "signIn"
+              ? "authModal.signIn.title"
               : "authModal.signUp.title"
           }
           className="spa-auth-modal__title"

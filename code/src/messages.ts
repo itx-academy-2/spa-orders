@@ -11,8 +11,8 @@ import callToActionSectionMessages from "@/layouts/call-to-action/messages";
 import authModalMessages from "@/layouts/modals/auth/messages";
 import orderItemMessages from "@/layouts/order-item/messages";
 import dropDownMessages from "@/components/app-dropdown/messages";
-import signupFormMessages from "@/layouts/modals/auth/components/signup-form/messages";
-import loginFormMessages from "@/layouts/modals/auth/components/login-form/messages";
+import signupFormMessages from "@/layouts/forms/sign-up-form/messages";
+import signInFormMessages from "@/layouts/forms/sign-in-form/messages";
 import orderPageMessages from "@/pages/orders/messages";
 
 const messages = {
@@ -30,7 +30,7 @@ const messages = {
     ...orderItemMessages.en,
     ...dropDownMessages.en,
     ...signupFormMessages.en,
-    ...loginFormMessages.en,
+    ...signInFormMessages.en,
     ...orderPageMessages.en,
     ...notFoundMessages.en
   },
@@ -49,7 +49,7 @@ const messages = {
     ...dropDownMessages.uk,
     ...notFoundMessages.uk,
     ...signupFormMessages.uk,
-    ...loginFormMessages.uk,
+    ...signInFormMessages.uk,
     ...orderPageMessages.uk
   }
 };

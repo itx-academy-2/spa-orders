@@ -1,0 +1,8 @@
+{
+  "signUp.button": "Sign Up",
+  "signUp.firstname.field": "First Name *",
+  "signUp.lastname.field": "Last Name *",
+  "signUp.email.field": "Email *",
+  "signUp.password.field": "Password *",
+  "signUp.confirmpassword.field": "Confirm Password *"
+}

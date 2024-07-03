@@ -1,0 +1,8 @@
+{
+  "signUp.button": "Зареєструватися",
+  "signUp.firstname.field": "Ім'я *",
+  "signUp.lastname.field": "Прізвище *",
+  "signUp.email.field": "Електронна адреса *",
+  "signUp.password.field": "Пароль *",
+  "signUp.confirmpassword.field": "Підтвердження пароля *"
+}

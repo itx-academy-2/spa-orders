@@ -10,7 +10,7 @@ describe("useInputVisibility custom hook", () => {
   });
 
   test("should toggle input visibility after click", () => {
-    const { result } = renderHook(() => useInputVisibility());
+    const { result } = renderHook(() => useInputVisibility({ isError: true }));
 
     act(() => {
       result.current.inputVisibility.endAdornment.props.children.props.onClick();
