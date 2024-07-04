@@ -49,7 +49,10 @@ const AppDropdown = ({
   };
 
   const handleBlur = (event: FocusEvent<HTMLElement>) => {
-    if (!dropdownRef.current?.contains(event.relatedTarget as Node)) {
+    if (
+      !dropdownRef.current ||
+      !dropdownRef.current.contains(event.relatedTarget as Node)
+    ) {
       setIsOpen(false);
     }
   };
@@ -68,6 +71,7 @@ const AppDropdown = ({
       onClick={handleToggleDropdownClick}
       onBlur={handleBlur}
       tabIndex={0}
+      data-testid="app-dropdown"
       {...props}
     >
       <AppBox component="span" className="app-dropdown__selected">
