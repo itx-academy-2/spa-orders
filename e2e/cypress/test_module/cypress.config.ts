@@ -1,22 +1,16 @@
 import { defineConfig } from "cypress";
 import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-preprocessor";
-import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild";
-import createBundler from "@bahmutov/cypress-esbuild-preprocessor";
+import addTestCoveragePlugin from "@cypress/code-coverage/task";
+import addWebpackPreprocessorPlugin from "./cypress/plugins/addWebpackPreprocessorPlugin";
 
 export default defineConfig({
   defaultCommandTimeout: 15000,
   e2e: {
-    // @ts-ignore
-    apiBaseUrl: "http://localhost:3000/api",
     baseUrl: "http://localhost:3000",
     async setupNodeEvents(on, config) {
+      addWebpackPreprocessorPlugin(on, config);
+      addTestCoveragePlugin(on, config);
       await addCucumberPreprocessorPlugin(on, config);
-      on(
-        "file:preprocessor",
-        createBundler({
-          plugins: [createEsbuildPlugin(config)]
-        })
-      );
       return config;
     },
     specPattern: "cypress/features/**/*.feature",
@@ -28,10 +22,6 @@ export default defineConfig({
   },
   execTimeout: 15000,
   pageLoadTimeout: 20000,
-  reporter: "cypress-multi-reporters",
-  reporterOptions: {
-    configFile: "cypress/reporter-config.json"
-  },
   retries: 2,
   screenshotsFolder: "results/screenshots",
   video: false,
