@@ -61,8 +61,8 @@ const HeaderToolbar = () => {
       <LogoutIcon />
     </AppButton>
   ) : (
-    <AppButton onClick={handleOpenAuthModal}>
-      <AppTypography translationKey="signIn.label" />
+    <AppButton onClick={handleOpenAuthModal} data-cy="auth-button">
+      <AppTypography component="span" translationKey="signIn.label" />
     </AppButton>
   );
 

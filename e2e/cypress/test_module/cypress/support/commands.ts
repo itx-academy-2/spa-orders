@@ -1,29 +1,35 @@
 import "cypress-wait-until";
 
-import { httpMethod, httpStatusCode } from "@cypress-e2e/fixtures/global-data";
+Cypress.Commands.addQuery("getById", (id: string) => {
+  const getFn = cy.now(
+    "get",
+    `[data-cy="${id}"]`
+  ) as () => Promise<HTMLElement>;
+  return () => getFn();
+});
 
-const USERNAME = Cypress.config().username;
-const PASSWORD_ENV_PROPERTY = Cypress.config().password;
-const PASSWORD = Cypress.env(PASSWORD_ENV_PROPERTY);
+Cypress.Commands.add("loginWithRole", (role = "ROLE_USER") => {
+  const email = Cypress.env(`${role}_EMAIL`);
+  const password = Cypress.env(`${role}_PASSWORD`);
 
-// @ts-ignore
-Cypress.Commands.add("login", () => {
-  if (Cypress.env("configFile") !== "local") {
-    cy.clearLocalStorage();
-    cy.clearCookies();
-    cy.request({
-      headers: {
-        "Accept-API-Version": "resource=2.0, protocol=1.0",
-        "Content-Type": "application/json",
-        "X-OpenAM-Password": PASSWORD,
-        "X-OpenAM-Username": USERNAME,
-      },
-      method: httpMethod.post,
-      // url: commonRoutes.global.authenticate,
-    }).then((resp) => {
-      cy.log(`${resp.status}`);
+  cy.intercept("POST", "/api/auth/sign-in").as("loginRequest");
 
-      expect(resp.status).to.eq(httpStatusCode.ok);
+  cy.visit("/");
+  cy.getById("auth-button").click();
+  cy.getById("auth-email").click().type(email);
+  cy.getById("auth-password").click().type(password, { log: false });
+  cy.getById("auth-signin-submit").click();
+
+  cy.wait("@loginRequest");
+
+  cy.window()
+    .its("localStorage")
+    .invoke("getItem", "spa-user-details")
+    .then((value) => {
+      const userDetails = JSON.parse(value);
+      expect(userDetails.token).to.exist;
+      expect(userDetails.role).to.eq(role);
     });
-  }
+
+  cy.getById("snackbar").should("contain", "You successfully signed in");
 });
