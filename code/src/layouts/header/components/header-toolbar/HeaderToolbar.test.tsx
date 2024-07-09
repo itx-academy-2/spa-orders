@@ -6,7 +6,8 @@ import { useAppDispatch } from "@/hooks/use-redux/useRedux";
 import {
   logout,
   useIsAuthLoadingSelector,
-  useIsAuthSelector
+  useIsAuthSelector,
+  useUserRoleSelector
 } from "@/store/slices/userSlice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
@@ -16,6 +17,7 @@ jest.mock("@/store/slices/userSlice", () => ({
   default: () => ({}),
   useIsAuthSelector: jest.fn(),
   useIsAuthLoadingSelector: jest.fn(),
+  useUserRoleSelector: jest.fn(),
   logout: jest.fn()
 }));
 
@@ -73,6 +75,20 @@ describe("HeaderToolbar", () => {
     test("triggers logout after clicking logout button", () => {
       fireEvent.click(logoutButton);
       expect(mockDispatch).toHaveBeenCalledWith(logout());
+    });
+  });
+
+  describe("for shop maneger", () => {
+    beforeEach(() => {
+      (useIsAuthSelector as jest.Mock).mockReturnValue(true);
+      (useIsAuthLoadingSelector as jest.Mock).mockReturnValue(false);
+      (useUserRoleSelector as jest.Mock).mockReturnValue("ROLE_SHOP_MANAGER");
+      renderWithProviders(<HeaderToolbar />);
+    });
+
+    test("renders dashboard button", () => {
+      const dashboardButton = screen.getByTestId("DashboardCustomizeIcon");
+      expect(dashboardButton).toBeInTheDocument();
     });
   });
 
