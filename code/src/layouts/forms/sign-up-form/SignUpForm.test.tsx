@@ -2,7 +2,7 @@ import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 import SignUpForm from "@/layouts/forms/sign-up-form/SignUpForm";
 
-import { useModalContext } from "@/context/ModalContext";
+import { useModalContext } from "@/context/modal/ModalContext";
 import useSignUp from "@/hooks/use-sign-up/useSignUp";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
@@ -12,8 +12,8 @@ jest.mock("@/hooks/use-sign-up/useSignUp", () => ({
   default: jest.fn()
 }));
 
-jest.mock("@/context/ModalContext", () => ({
-  ...jest.requireActual("@/context/ModalContext"),
+jest.mock("@/context/modal/ModalContext", () => ({
+  ...jest.requireActual("@/context/modal/ModalContext"),
   useModalContext: jest.fn()
 }));
 
