@@ -1,0 +1,9 @@
+{
+  "ordersTable.columns.id": "ID",
+  "ordersTable.columns.status": "Статус",
+  "ordersTable.columns.createdAt": "Створено",
+  "ordersTable.columns.receiver": "Одержувач",
+  "ordersTable.columns.deliveryMethod": "Спосіб доставки",
+  "ordersTable.columns.totalPrice": "Загальна вартість",
+  "ordersTable.columns.isPaid": "Оплачено"
+}
