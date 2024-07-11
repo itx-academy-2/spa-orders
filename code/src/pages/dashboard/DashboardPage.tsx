@@ -1,5 +1,6 @@
-import DashboardTabs from "@/layouts/dashboard-tabs/DashboardTabs";
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
+
+import DashboardTabs from "@/containers/dashboard-tabs/DashboardTabs";
 
 import "@/pages/dashboard/DashboardPage.scss";
 

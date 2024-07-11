@@ -5,6 +5,7 @@
     "<THIRD_PARTY_MODULES>",
     "^@/App$",
     "^@/layouts/(?!.*\\.scss$)(.*)$",
+    "^@/containers/(?!.*\\.scss$)(.*)$",
     "^@/components/(?!.*\\.scss$)(.*)$",
     "^@/(?!.*\\.scss$)(.*)$",
     "^.+\\.scss$",

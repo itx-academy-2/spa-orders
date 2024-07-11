@@ -4,15 +4,17 @@
   "description": "",
   "scripts": {
     "start": "webpack serve --config ./config/webpack.development.config.js --mode development",
-    "start:prod": "webpack serve --config ./config/webpack.production.config.js --mode development",
-    "start:test": "webpack serve --config ./config/webpack.test.config.js --mode development",
+    "start:prod": "webpack serve --config ./config/webpack.production.config.js --mode production",
+    "start:test": "webpack serve --config ./config/webpack.test.config.js --mode test",
     "build": "webpack --config ./config/webpack.production.config.js --mode production",
     "test": "jest --config config/jest.config.js --rootDir ./ --maxWorkers=25% --passWithNoTests --colors -u",
     "test:coverage": "npm run test -- --collectCoverage",
     "test:mutation": "stryker run",
     "typescript:check": "tsc --noEmit",
     "lint": "eslint \"./src/**/*.{js,ts,jsx,tsx}\" --max-warnings 0",
-    "lint:fix": "eslint \"./src/**/*.{js,ts,jsx,tsx}\" --fix --max-warnings 0"
+    "lint:fix": "eslint \"./src/**/*.{js,ts,jsx,tsx}\" --fix --max-warnings 0",
+    "format:check": "prettier --check ./src/",
+    "format:fix": "prettier --write ./src/"
   },
   "author": "",
   "license": "ISC",
