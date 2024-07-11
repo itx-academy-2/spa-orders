@@ -1,7 +1,9 @@
 @import "@design-system";
 
+$divider-color: var(--spa-order-divider-color, $ghost-alpha);
+
 .spa-order-details {
-  border-top: 1px solid $ghost-alpha;
+  border-top: 1px solid $divider-color;
   display: flex;
   padding: spacing(5) spacing(12);
   gap: spacing(7);
@@ -13,13 +15,37 @@
     gap: spacing(3);
     padding-block: spacing(2);
   }
-  &__address {
-    &-label {
-      margin-bottom: spacing(1);
+
+  &__divider {
+    width: 1px;
+    min-height: 100%;
+    background-color: $divider-color;
+  }
+
+  &__receiver {
+    display: flex;
+    flex-direction: column;
+
+    &-item {
+      margin-block: spacing(1);
     }
   }
+
+  &__address {
+    margin-top: spacing(3);
+  }
+
   &__address-fields {
     display: flex;
     justify-content: space-between;
+    margin-block: spacing(2);
+  }
+
+  &__total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: spacing(5);
+    padding-left: spacing(5);
   }
 }
