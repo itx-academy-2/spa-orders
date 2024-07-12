@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-
+import AppBox from "@/components/app-box/AppBox";
+import { AppTableProps } from "@/components/app-table/AppTable.types";
 import {
   AppTableBody,
   AppTableBox,
@@ -10,42 +10,36 @@ import {
 
 import cn from "@/utils/cn/cn";
 
-type ClassNames = {
-  container?: string;
-  head?: string;
-  body?: string;
-};
-
-type AppTableProps<T> = {
-  classNames?: ClassNames;
-  bodyItems: T[];
-  headItems: string[];
-  renderBodyItem: (item: T) => ReactNode;
-  renderHeadItem: (item: string) => ReactNode;
-};
-
 const AppTable = <TableContent,>({
   classNames,
   bodyItems,
   headItems,
   renderBodyItem,
-  renderHeadItem
+  renderHeadItem,
+  fallback
 }: AppTableProps<TableContent>) => {
+  const tableBody = bodyItems.map((item, i) => (
+    <AppTableRow className={cn(classNames?.body)} key={i}>
+      {renderBodyItem(item)}
+    </AppTableRow>
+  ));
+
+  const tableFallback = !bodyItems.length && fallback && (
+    <AppBox className={cn(classNames?.fallback)}>{fallback}</AppBox>
+  );
+
   return (
-    <AppTableContainer className={cn(classNames?.container)}>
-      <AppTableBox>
-        <AppTableHead className={cn(classNames?.head)}>
-          <AppTableRow>{headItems.map(renderHeadItem)}</AppTableRow>
-        </AppTableHead>
-        <AppTableBody>
-          {bodyItems.map((item, i) => (
-            <AppTableRow className={cn(classNames?.body)} key={i}>
-              {renderBodyItem(item)}
-            </AppTableRow>
-          ))}
-        </AppTableBody>
-      </AppTableBox>
-    </AppTableContainer>
+    <AppBox>
+      <AppTableContainer className={cn(classNames?.container)}>
+        <AppTableBox>
+          <AppTableHead className={cn(classNames?.head)}>
+            <AppTableRow>{headItems.map(renderHeadItem)}</AppTableRow>
+          </AppTableHead>
+          <AppTableBody>{tableBody}</AppTableBody>
+        </AppTableBox>
+      </AppTableContainer>
+      {tableFallback}
+    </AppBox>
   );
 };
 
