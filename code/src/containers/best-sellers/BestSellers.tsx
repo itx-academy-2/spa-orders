@@ -22,7 +22,7 @@ const BestSellers = () => {
   });
 
   return (
-    <PageWrapper className="spa-best-sellers">
+    <PageWrapper className="spa-best-sellers" data-cy="best-sellers">
       <AppTypography
         className="spa-best-sellers__header"
         translationKey="bestSellers.header"
@@ -34,7 +34,7 @@ const BestSellers = () => {
         products={productsResponse?.content ?? []}
       />
       <AppBox className="spa-best-sellers__button">
-        <AppButton to={routes.products.path} size="extra-large">
+        <AppButton to={routes.products.path} size="extra-large" data-cy="best-sellers-button">
           <AppTypography translationKey="bestSellers.button" />
         </AppButton>
       </AppBox>

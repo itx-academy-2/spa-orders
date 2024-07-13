@@ -16,7 +16,7 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   };
 
   return (
-    <AppBox data-testid="product-card" className="spa-product-card">
+    <AppBox data-testid="product-card" className="spa-product-card" data-cy="product-card">
       <AppLink className="spa-product-card__link-wrapper" to="/">
         <AppBox className="spa-product-card__img">
           <AppBox
@@ -24,8 +24,12 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
             className="spa-product-card__img-name"
             component="img"
             src={product.image}
+            data-cy="product-card-img"
           />
-          <AppBox className="spa-product-card__description">
+          <AppBox
+            className="spa-product-card__description"
+            data-cy="product-card-description"
+          >
             <AppTypography>{product.description}</AppTypography>
           </AppBox>
         </AppBox>

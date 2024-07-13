@@ -1,3 +1,4 @@
+import { httpMethod, httpStatusCode } from "@cypress-e2e/fixtures/global-data";
 import "cypress-wait-until";
 
 Cypress.Commands.addQuery("getById", (id: string) => {
@@ -22,16 +23,45 @@ Cypress.Commands.add("loginWithRole", (role = "ROLE_USER") => {
   cy.getById("auth-password").click().type(password, { log: false });
   cy.getById("auth-signin-submit").click();
 
-  cy.wait("@loginRequest");
+  cy.wait("@loginRequest").then(() => {
+    cy.window()
+      .its("localStorage")
+      .invoke("getItem", "spa-user-details")
+      .then((value) => {
+        const userDetails = JSON.parse(value);
+        expect(userDetails.token).to.exist;
+        expect(userDetails.role).to.eq(role);
+      });
 
-  cy.window()
-    .its("localStorage")
-    .invoke("getItem", "spa-user-details")
-    .then((value) => {
-      const userDetails = JSON.parse(value);
-      expect(userDetails.token).to.exist;
-      expect(userDetails.role).to.eq(role);
-    });
+    cy.getById("snackbar").should("contain", "You successfully signed in");
+  });
+});
 
-  cy.getById("snackbar").should("contain", "You successfully signed in");
+Cypress.Commands.add("getProductsWithQuantity", (quantity) => {
+  cy.intercept(httpMethod.get, `/api/v1/products?page=0&size=${quantity}`).as(
+    "getProductsWithQuantityRequest"
+  );
+});
+
+Cypress.Commands.add("getProductsServerError", (quantity) => {
+  cy.intercept(httpMethod.get, `/api/v1/products?page=0&size=${quantity}`, {
+    statusCode: httpStatusCode.internalServerError
+  }).as("getProductsRequestServerError");
+});
+
+Cypress.Commands.add("getProductsLoading", (quantity) => {
+  cy.intercept(
+    httpMethod.get,
+    `/api/v1/products?page=0&size=${quantity}`,
+    (req) => {
+      req.continue((res) => {
+        res.send({
+          statusCode: httpStatusCode.ok,
+          body: {
+            products: []
+          }
+        });
+      });
+    }
+  ).as("getProductsRequestLoading");
 });

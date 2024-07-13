@@ -21,6 +21,7 @@ const IntroBanner = () => {
   return (
     <AppBox
       className={`spa-banner-intro spa-banner-intro--image-${currentImageIndex}`}
+      data-cy="banner"
     >
       <AppContainer maxWidth="lg">
         <AppBox className="spa-banner-intro__wrapper">
@@ -44,6 +45,7 @@ const IntroBanner = () => {
             to={routes.products.path}
             size="large"
             className="spa-banner-intro__button"
+            data-cy="banner-intro-button"
           >
             <AppTypography variant="body" translationKey="introBanner.button" />
           </AppButton>

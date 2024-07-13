@@ -53,7 +53,7 @@ const Footer = () => {
   ));
 
   return (
-    <AppBox className="footer" component="footer">
+    <AppBox className="footer" component="footer" data-cy="footer">
       <AppContainer maxWidth="lg">
         <AppBox className="footer__container">
           <AppBox>
