@@ -2,6 +2,7 @@ import { fireEvent, screen } from "@testing-library/react";
 
 import HeaderToolbar from "@/layouts/header/components/header-toolbar/HeaderToolbar";
 
+import { ROLES } from "@/constants/common";
 import { useAppDispatch } from "@/hooks/use-redux/useRedux";
 import {
   logout,
@@ -40,6 +41,19 @@ jest.mock("@/hooks/use-redux/useRedux", () => ({
 const mockDispatch = jest.fn();
 (useAppDispatch as jest.Mock).mockReturnValue(mockDispatch);
 
+const mockedRoles = [
+  {
+    role: ROLES.SHOP_MANAGER,
+    shouldRenderDashboard: true,
+    shouldRenderOrders: false
+  },
+  {
+    role: ROLES.ADMIN,
+    shouldRenderDashboard: true,
+    shouldRenderOrders: false
+  }
+];
+
 describe("HeaderToolbar", () => {
   describe("for guest users", () => {
     beforeEach(() => {
@@ -68,6 +82,7 @@ describe("HeaderToolbar", () => {
     beforeEach(() => {
       (useIsAuthSelector as jest.Mock).mockReturnValue(true);
       (useIsAuthLoadingSelector as jest.Mock).mockReturnValue(false);
+      (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.USER);
       renderWithProviders(<HeaderToolbar />);
       logoutButton = screen
         .getByTestId("LogoutButton")
@@ -82,20 +97,45 @@ describe("HeaderToolbar", () => {
       fireEvent.click(logoutButton);
       expect(mockDispatch).toHaveBeenCalledWith(logout());
     });
+
+    test("renders orders button", () => {
+      const ordersButton = screen.getByTestId("ListAltIcon");
+      expect(ordersButton).toBeInTheDocument();
+    });
   });
 
-  describe("for shop maneger", () => {
+  describe("HeaderToolbar for roles manager and admin", () => {
     beforeEach(() => {
       (useIsAuthSelector as jest.Mock).mockReturnValue(true);
       (useIsAuthLoadingSelector as jest.Mock).mockReturnValue(false);
-      (useUserRoleSelector as jest.Mock).mockReturnValue("ROLE_MANAGER");
-      renderWithProviders(<HeaderToolbar />);
     });
 
-    test("renders dashboard button", () => {
-      const dashboardButton = screen.getByTestId("DashboardCustomizeIcon");
-      expect(dashboardButton).toBeInTheDocument();
-    });
+    mockedRoles.forEach(
+      ({ role, shouldRenderDashboard, shouldRenderOrders }) => {
+        describe(`for ${role}`, () => {
+          beforeEach(() => {
+            (useUserRoleSelector as jest.Mock).mockReturnValue(role);
+            renderWithProviders(<HeaderToolbar />);
+          });
+
+          if (shouldRenderDashboard) {
+            test("renders dashboard button", () => {
+              const dashboardButton = screen.getByTestId(
+                "DashboardCustomizeIcon"
+              );
+              expect(dashboardButton).toBeInTheDocument();
+            });
+          }
+
+          if (!shouldRenderOrders) {
+            test("does not render orders button", () => {
+              const ordersButton = screen.queryByTestId("ListAltIcon");
+              expect(ordersButton).not.toBeInTheDocument();
+            });
+          }
+        });
+      }
+    );
   });
 
   test("renders search field", () => {

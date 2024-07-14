@@ -20,6 +20,7 @@ import AppLogo from "@/components/app-logo/AppLogo";
 import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import { ROLES } from "@/constants/common";
 import routes from "@/constants/routes";
 import { useDrawerContext } from "@/context/drawer/DrawerContext";
 import { useModalContext } from "@/context/modal/ModalContext";
@@ -133,14 +134,17 @@ const HeaderToolbar = () => {
 
   const loadingDashboardButton = isLoadingAuth && <AppLoader />;
 
-  const authenticatedDashboardButton = userRole === "ROLE_MANAGER" &&
-    !isLoadingAuth && (
-      <AppTooltip titleTranslationKey="dashboard.tooltip">
-        <AppIconButton to={routes.dashboard.path} component={AppLink} data-cy="dashboard-button">
-          <DashboardCustomizeIcon fontSize="medium" />
-        </AppIconButton>
-      </AppTooltip>
-    );
+  const isDashboardAvailable =
+    (userRole === ROLES.SHOP_MANAGER || userRole === ROLES.ADMIN) &&
+    !isLoadingAuth;
+
+  const authenticatedDashboardButton = isDashboardAvailable && (
+    <AppTooltip titleTranslationKey="dashboard.tooltip">
+      <AppIconButton to={routes.dashboard.path} component={AppLink}>
+        <DashboardCustomizeIcon fontSize="medium" />
+      </AppIconButton>
+    </AppTooltip>
+  );
 
   const dashboardButton =
     loadingDashboardButton || authenticatedDashboardButton;
@@ -149,13 +153,14 @@ const HeaderToolbar = () => {
 
   const loadingOrdersButton = isLoadingAuth && <AppLoader />;
 
-  const authenticatedOrdersButton = isAuthenticated && !isLoadingAuth && (
-    <AppTooltip titleTranslationKey="orders.tooltip">
-      <AppIconButton to={routes.orders.path} component={AppLink} data-cy="orders-button">
-        <ListAltIcon className="header__toolbar-icon" fontSize="medium" />
-      </AppIconButton>
-    </AppTooltip>
-  );
+  const authenticatedOrdersButton = userRole === ROLES.USER &&
+    !isLoadingAuth && (
+      <AppTooltip titleTranslationKey="orders.tooltip">
+        <AppIconButton to={routes.orders.path} component={AppLink}>
+          <ListAltIcon className="header__toolbar-icon" fontSize="medium" />
+        </AppIconButton>
+      </AppTooltip>
+    );
 
   const ordersButton = loadingOrdersButton || authenticatedOrdersButton;
 
