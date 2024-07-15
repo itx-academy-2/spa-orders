@@ -21,7 +21,12 @@ const mockProduct: Product = {
 describe("ProductCard component", () => {
   beforeEach(() => {
     renderWithProviders(
-      <ProductCard product={mockProduct} onAddToCart={() => {}} />
+      <ProductCard
+        product={mockProduct}
+        onCartIconClick={() => {}}
+        isUserAuthorized
+        isInCart
+      />
     );
   });
   test("should render product name", () => {

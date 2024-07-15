@@ -59,4 +59,14 @@
     padding-top: spacing(2);
     border-top: 1px solid var(--spa-products-container-border-color, $light);
   }
+
+  &__cart-button {
+    @include box(40px, 40px);
+
+    color: var(--spa-best-sellers-cart-color, $gray);
+  }
+
+  &__cart-button--active {
+    color: var(--spa-best-sellers-cart-active-color, $purple);
+  }
 }
