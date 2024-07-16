@@ -13,18 +13,20 @@ import {
 const ordersApi = appApi.injectEndpoints({
   endpoints: (build) => ({
     getUserOrders: build.query<UserOrderResponse, OrderGetParams>({
-      query: ({ userId }) => URLS.orders.getForUser({ userId })
+      query: ({ userId }) => URLS.orders.getForUser({ userId }),
+      providesTags: [rtkQueryTags.USER_ORDERS]
     }),
     getAdminOrders: build.query<AdminOrderResponse, void>({
-      query: () => URLS.orders.getForAdmin
+      query: () => URLS.orders.getForAdmin,
+      providesTags: [rtkQueryTags.ADMIN_ORDERS]
     }),
     createOrder: build.mutation<OrderPostResponse, OrderPostParams>({
       query: ({ userId, ...body }) => ({
-        url: URLS.orders.post(userId),
+        url: URLS.orders.post({ userId }),
         method: httpMethods.post,
         body: body
       }),
-      invalidatesTags: [rtkQueryTags.CART]
+      invalidatesTags: [rtkQueryTags.CART, rtkQueryTags.ADMIN_ORDERS, rtkQueryTags.USER_ORDERS]
     })
   })
 });
