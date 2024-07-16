@@ -3,7 +3,6 @@ import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 import OrderSummary from "@/containers/order-summary/OrderSummary";
 
 import AppBox from "@/components/app-box/AppBox";
-import AppLoader from "@/components/app-loader/AppLoader";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import useCartItems from "@/hooks/use-cart-items/useUserCartItems";
@@ -14,16 +13,14 @@ import { CartItem as CartItemType } from "@/types/cart.types";
 import "@/pages/cart/CartPage.scss";
 
 const CartPage = () => {
-  const { user, cartItems, cartItemsLoading, error, handleRemoveItem } =
+  const { user, cartItems, error, handleRemoveItem } =
     useCartItems();
   const [createOrder, { isLoading }] = useCreateOrder();
+  
   //@TODO Create interaction with unauthorization user
   if (!user) {
     return null;
   }
-
-  //@TODO Implement Skeleton for loading items
-  if (cartItemsLoading) return <AppLoader />;
 
   if (error) return <AppTypography translationKey="error.label" />;
 
