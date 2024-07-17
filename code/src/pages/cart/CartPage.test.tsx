@@ -13,6 +13,10 @@ type RenderWithMockParams = {
   error?: boolean;
 };
 
+jest.mock("@/pages/cart/components/empty-cart/EmptyCart", () =>
+  jest.fn(() => <div>EmptyCartWiew</div>)
+);
+
 jest.mock("@/hooks/use-get-user-details/useGetUserDetails", () => ({
   __esModule: true,
   default: jest.fn()
@@ -77,6 +81,13 @@ describe("CartPage", () => {
     jest.clearAllMocks();
     mockUseGetUserDetails.mockReturnValue(userId);
     (useCreateOrder as jest.Mock).mockReturnValue([mockCreateOrder, {}]);
+  });
+
+  test("renders empty view", () => {
+    renderWithMockParams({});
+
+    const emptyCart = screen.getByText(/EmptyCartWiew/);
+    expect(emptyCart).toBeInTheDocument();
   });
 
   test("renders error state when there is an error fetching cart items", () => {

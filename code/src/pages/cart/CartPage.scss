@@ -26,10 +26,4 @@
       padding-bottom: spacing(3);
     }
   }
-
-  &__empty {
-    padding: spacing(5);
-    color: var(--spa-empty-cart-color, $gray);
-    font-size: $fs-h3;
-  }
 }

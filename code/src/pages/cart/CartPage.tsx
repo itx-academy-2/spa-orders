@@ -8,7 +8,8 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import useCartItems from "@/hooks/use-cart-items/useUserCartItems";
 import useCreateOrder from "@/hooks/use-create-order/useCreateOrder";
 import useGetUserDetails from "@/hooks/use-get-user-details/useGetUserDetails";
-import CartItem from "@/pages/cart/components/CartItem";
+import CartItem from "@/pages/cart/components/cart-item/CartItem";
+import EmptyCart from "@/pages/cart/components/empty-cart/EmptyCart";
 import { CartItem as CartItemType } from "@/types/cart.types";
 
 import "@/pages/cart/CartPage.scss";
@@ -22,18 +23,9 @@ const CartPage = () => {
   if (error) return <AppTypography translationKey="error.label" />;
 
   if (!cartItems?.items?.length) {
-    return (
-      <PageWrapper>
-        <AppBox className="spa-cart-page">
-          <AppTypography
-            className="spa-cart-page__empty"
-            variant="h3"
-            translationKey="cartEmpty.label"
-          />
-        </AppBox>
-      </PageWrapper>
-    );
+    return <EmptyCart />;
   }
+
   const handleCreateOrder = () => {
     createOrder({
       userId: user.id,
