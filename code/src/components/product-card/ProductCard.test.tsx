@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 
 import ProductCard from "@/components/product-card/ProductCard";
 
@@ -18,17 +18,30 @@ const mockProduct: Product = {
   price: 500
 };
 
+const mockCartIconClickHandler = jest.fn();
+const mockSetState = jest.fn();
+
+jest.mock("react", () => ({
+  ...jest.requireActual("react"),
+  useState: jest.fn((init) => [init, mockSetState])
+}));
+
 describe("ProductCard component", () => {
   beforeEach(() => {
     renderWithProviders(
       <ProductCard
         product={mockProduct}
-        onCartIconClick={() => {}}
+        onCartIconClick={mockCartIconClickHandler}
         isUserAuthorized
         isInCart
       />
     );
   });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test("should render product name", () => {
     const productName = screen.getByText(mockProduct.name);
     expect(productName).toBeInTheDocument();
@@ -53,5 +66,27 @@ describe("ProductCard component", () => {
   test("should render product link", () => {
     const productLink = screen.getByRole("link");
     expect(productLink).toHaveAttribute("href", "/");
+  });
+
+  test("should call useState on mount", () => {
+    expect(mockSetState).toHaveBeenCalledWith(true);
+  });
+
+  test("Should call functions on cart icon click", () => {
+    const cartIcon = screen.getByTestId("add-to-cart-button");
+
+    fireEvent.click(cartIcon);
+
+    expect(mockSetState).toHaveBeenNthCalledWith(3, true); // 3 times becase mui button internally calls it once
+    expect(mockCartIconClickHandler).toHaveBeenCalledWith({
+      ...mockProduct,
+      isInCart: true
+    });
+  });
+
+  test("should render cart icon with right class if product is in cart", () => {
+    const cartIcon = screen.getByTestId("add-to-cart-button");
+
+    expect(cartIcon).toHaveClass("spa-product-card__cart-button--active");
   });
 });
