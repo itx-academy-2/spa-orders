@@ -8,7 +8,6 @@ import AuthModal from "@/containers/modals/auth/AuthModal";
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
-import AppLoader from "@/components/app-loader/AppLoader";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import routes from "@/constants/routes";
@@ -24,15 +23,11 @@ const CartDrawer = () => {
   const { openModal } = useModalContext();
   const navigate = useNavigate();
   const { closeDrawer } = useDrawerContext();
-  const { user, cartItems, cartItemsLoading, error, handleRemoveItem } =
-    useCartItems();
+  const { user, cartItems, isError, handleRemoveItem } = useCartItems();
 
-  // @TODO Implement Skeleton for loading items
-  if (cartItemsLoading) return <AppLoader />;
+  if (isError) return <AppTypography translationKey="error.label" />;
 
-  if (error) return <AppTypography translationKey="error.label" />;
-
-  const cartItemsList = cartItems.items.map((item: CartItem) => (
+  const cartItemsList = cartItems?.items.map((item: CartItem) => (
     <CartDrawerItem
       key={item.productId}
       onRemove={handleRemoveItem}
@@ -50,7 +45,7 @@ const CartDrawer = () => {
   };
 
   const cartItemsContent =
-    cartItemsList.length > 0 ? (
+    cartItemsList?.length > 0 ? (
       cartItemsList
     ) : (
       <AppBox className="cart-drawer__empty-label">
