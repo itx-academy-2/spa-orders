@@ -3,6 +3,7 @@ import { fireEvent, screen, waitFor } from "@testing-library/react";
 import SignUpForm from "@/containers/forms/sign-up-form/SignUpForm";
 
 import { useModalContext } from "@/context/modal/ModalContext";
+import useInputVisibility from "@/hooks/use-input-visibility/useInputVisibility";
 import useSignUp from "@/hooks/use-sign-up/useSignUp";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
@@ -25,6 +26,17 @@ const mockCloseModal = jest.fn();
   closeModal: mockCloseModal
 });
 
+// Needed to mock import and at the same time use the actual implementation because spy.on does not work here for some reason
+jest.mock("@/hooks/use-input-visibility/useInputVisibility", () => ({
+  __esModule: true,
+  default: jest
+    .fn()
+    .mockImplementation(
+      jest.requireActual("@/hooks/use-input-visibility/useInputVisibility")
+        .default
+    )
+}));
+
 const mockFormValues = {
   email: "test@example.com",
   password: "Helloworld123!",
@@ -43,6 +55,7 @@ describe("SignUpForm", () => {
     });
 
     afterEach(() => {
+      jest.restoreAllMocks();
       jest.clearAllMocks();
     });
 
@@ -92,6 +105,11 @@ describe("SignUpForm", () => {
 
       const showVisibilityIcon = screen.getAllByTestId("VisibilityIcon");
       expect(showVisibilityIcon).toHaveLength(2);
+    });
+
+    test("Passes correct params to useInputVisibility", () => {
+      expect(useInputVisibility).toHaveBeenNthCalledWith(1, { isError: false });
+      expect(useInputVisibility).toHaveBeenNthCalledWith(2, { isError: false });
     });
   });
 
