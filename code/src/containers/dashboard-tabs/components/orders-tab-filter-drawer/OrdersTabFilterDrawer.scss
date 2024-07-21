@@ -14,6 +14,26 @@
     );
     color: var(--spa-orders-tab-filters-header-color, $white);
     text-align: center;
+    position: relative;
+  }
+
+  &__clear-filters-tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: spacing(4);
+
+    .MuiTouchRipple-child {
+      color: var(--spa-orders-tab-filters-header-color, $white);
+    }
+
+    .spa-icon-button {
+      padding: spacing(1);
+    }
+
+    svg {
+      color: var(--spa-orders-tab-filters-header-color, $white);
+    }
   }
 
   &__items {
@@ -29,5 +49,10 @@
 
   &__delivery-method-image {
     @include box(22px);
+  }
+
+  &__date-period-select {
+    padding-block: spacing(2);
+    padding-inline: spacing(4) spacing(8) !important; //to override MUI styles
   }
 }

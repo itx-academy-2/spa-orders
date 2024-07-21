@@ -1,6 +1,9 @@
+import { timeSpans } from "@/constants/timeSpans";
+
 export type TimerId = ReturnType<typeof setTimeout>;
 export type NonEmptyArray<T> = [T, ...T[]];
 export type ExtractValues<T> = T[keyof T];
+export type ExtractSetValue<T> = T extends Set<infer U> ? U : never;
 
 // utility to debug typescript. More: https://www.youtube.com/watch?v=2lCCKiWGlC0
 export type Prettify<T> = {
@@ -42,3 +45,5 @@ export type PaginationParams = {
 export type RTKQueryMockState<TData = null, TError = null> = Partial<
   RTKQueryReturnState<TData, TError>
 >;
+
+export type TimeSpan = keyof typeof timeSpans;
