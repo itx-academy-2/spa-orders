@@ -1,0 +1,10 @@
+{
+  "productsTable.columns.image": "Image",
+  "productsTable.columns.name": "Name",
+  "productsTable.columns.status": "Visibility",
+  "productsTable.columns.category": "Category",
+  "productsTable.columns.quantity": "Quantity",
+  "productsTable.columns.price": "Price",
+  "productsTable.columns.date": "Date of creation",
+  "productsTable.fallback": "No products found"
+}
