@@ -1,8 +1,8 @@
 import parseSerializedRange from "@/hooks/use-filters-with-apply/parse-serialized-range/parseSerializedRange";
 import parseSerializedSet from "@/hooks/use-filters-with-apply/parse-serialized-set/parseSerializedSet";
 
-const checkNumber = (value: unknown) => {
-  return Number(value) === value;
+const checkNumber = (value: string) => {
+  return !isNaN(Number(value));
 };
 
 const deserializeFromQueryString = <Value>(queryString: string): Value => {
@@ -36,11 +36,7 @@ const deserializeFromQueryString = <Value>(queryString: string): Value => {
     return parsedRange as Value;
   }
 
-  if (typeof queryString === "string") {
-    return queryString as Value;
-  }
-
-  throw new Error(`Type is not supported`);
+  return queryString as Value;
 };
 
 export default deserializeFromQueryString;
