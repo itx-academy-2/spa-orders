@@ -17,7 +17,7 @@ import "@/containers/tables/products-table/components/products-table-body/Produc
 const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
   const { name, imageLink, price, quantity, status, tags, createdAt } = product;
 
-  const categoryName = getCategoryFromTags(tags) || "-";
+  const categoryName = getCategoryFromTags(tags);
 
   const productStatus = (
     <AppTypography
@@ -26,11 +26,13 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
     />
   );
 
-  const category = (
+  const category = categoryName ? (
     <AppTypography
-      translationKey={`category.${categoryName}`}
+      translationKey={`productsAll.${categoryName}`}
       variant="caption"
     />
+  ) : (
+    <AppTypography variant="caption">-</AppTypography>
   );
 
   const nameElement = (
