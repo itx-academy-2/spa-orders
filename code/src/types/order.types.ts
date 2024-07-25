@@ -1,4 +1,4 @@
-import { Pageable, Sort } from "@/types/common";
+import { Lang, Pageable, Sort, SortOrder } from "@/types/common";
 import { DeliveryMethod, PostAddress } from "@/types/delivery.types";
 import { Product } from "@/types/product.types";
 import { User, UserId } from "@/types/user.types";
@@ -73,18 +73,17 @@ export type OrderPatchParams = {
   orderStatus: OrderStatus;
 };
 
-export type GetUserOrderParams = {
+export type GetUserOrderParams = Lang & {
   userId: UserId;
 };
 
 export type GetAdminOrderParams = Partial<
-  Pick<BaseOrder, "isPaid"> & {
-    sort?: string;
-    deliveryMethods: DeliveryMethod[];
-    statuses: OrderStatus[];
-    totalMore: number;
-    totalLess: number;
-    createdBefore: string;
-    createdAfter: string;
-  }
+  Lang & { sort: SortOrder } & Pick<BaseOrder, "isPaid"> & {
+      deliveryMethods: DeliveryMethod[];
+      statuses: OrderStatus[];
+      totalMore: number;
+      totalLess: number;
+      createdBefore: string;
+      createdAfter: string;
+    }
 >;

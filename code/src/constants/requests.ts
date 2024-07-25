@@ -27,8 +27,8 @@ export const URLS = {
     delete: "/v1/products"
   },
   orders: {
-    getForUser: ({ userId }: GetUserOrderParams) =>
-      `/v1/users/${userId}/orders`,
+    getForUser: ({ userId, lang }: GetUserOrderParams) =>
+      `/v1/users/${userId}/orders?lang=${lang}`,
     getForAdmin: (queryParams: GetAdminOrderParams) =>
       createUrlPath("/v1/management/orders", undefined, queryParams),
     post: ({ userId }: Pick<OrderPostParams, "userId">) =>
@@ -37,8 +37,8 @@ export const URLS = {
       `/v1/orders/${orderId}/status`
   },
   cart: {
-    get: ({ userId }: CartManagementGetParams) =>
-      `/v1/users/${userId}/cart/items`,
+    get: ({ userId, lang }: CartManagementGetParams) =>
+      `/v1/users/${userId}/cart/items?lang=${lang}`,
     post: ({ userId, productId }: CartManagementPostParams) =>
       `/v1/users/${userId}/cart/${productId}`,
     delete: ({ userId, productId }: CartManagementDeleteParams) =>

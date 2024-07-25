@@ -10,6 +10,10 @@ import timeSpanToDateRange from "@/utils/time-span-to-date-range/timeSpanToDateR
 jest.mock("@/store/api/ordersApi", () => ({
   useGetAdminOrdersQuery: jest.fn()
 }));
+jest.mock("@/context/i18n/I18nProvider", () => ({
+  ...jest.requireActual("@/context/i18n/I18nProvider"),
+  useLocaleContext: jest.fn(() => ({ lang: "en" }))
+}));
 jest.mock("@/hooks/use-filters-with-apply/useFiltersWithApply");
 jest.mock("@/utils/time-span-to-date-range/timeSpanToDateRange");
 
@@ -171,9 +175,9 @@ describe("useFilteredAdminOrders", () => {
       });
 
       const { result } = renderHook(() => useFilteredAdminOrders());
-      expect(mockUseGetAdminOrdersQuery).toHaveBeenCalledWith({
-        deliveryMethods: []
-      });
+      expect(mockUseGetAdminOrdersQuery).toHaveBeenCalledWith(
+        expect.objectContaining({ deliveryMethods: [] })
+      );
       expect(result.current.orders).toEqual([]);
     });
   });
