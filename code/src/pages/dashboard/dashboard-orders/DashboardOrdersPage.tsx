@@ -21,10 +21,6 @@ const DashboardOrdersPage = () => {
 
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   const handleCloseFilterDrawer = () => {
     setIsFilterDrawerOpen(false);
   };
@@ -32,6 +28,10 @@ const DashboardOrdersPage = () => {
   const handleOpenFilterDrawer = () => {
     setIsFilterDrawerOpen(true);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const titleTypography =
     activeFiltersCount > 0 ? (
@@ -64,7 +64,7 @@ const DashboardOrdersPage = () => {
           <FilterListIcon />
         </AppButton>
       </AppBox>
-      <OrdersTable orders={orders} />
+      <OrdersTable ordersData={orders} />
       <AppDrawer isOpen={isFilterDrawerOpen} onClose={handleCloseFilterDrawer}>
         <OrdersTabFilterDrawer
           filters={filters}

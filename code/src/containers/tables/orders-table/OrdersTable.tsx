@@ -11,10 +11,10 @@ import { AdminOrder, OrderStatus } from "@/types/order.types";
 import "@/containers/tables/orders-table/OrdersTable.scss";
 
 type OrdersTableProps = {
-  orders: AdminOrder[];
+  ordersData: AdminOrder[];
 };
 
-const OrdersTable = ({ orders }: OrdersTableProps) => {
+const OrdersTable = ({ ordersData }: OrdersTableProps) => {
   const [changeOrderStatus] = useChangeOrderStatusMutation();
 
   const OrderTableBodyItem = (order: AdminOrder) => {
@@ -52,7 +52,7 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
       }}
       headItems={tableColumns}
       renderHeadItem={OrderTableHeadItem}
-      bodyItems={orders}
+      bodyItems={ordersData}
       renderBodyItem={OrderTableBodyItem}
       fallback={ordersTableFallback}
     />

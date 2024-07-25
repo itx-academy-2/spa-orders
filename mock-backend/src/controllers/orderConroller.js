@@ -1,6 +1,7 @@
 const { userOrders, adminOrders } = require("../data/mokedOrders");
 const wait = require("../utils/wait");
 const { filterOrders } = require("../utils/filterUtils");
+const { sortOrders } = require("../utils/sortUtils");
 
 const getUserOrders = (req, res) => {
   res.json(userOrders);
@@ -8,7 +9,17 @@ const getUserOrders = (req, res) => {
 
 const getAdminOrders = (req, res) => {
   const filteredOrders = filterOrders(adminOrders, req.query);
-  res.json(filteredOrders);
+
+  const { sort = "createdAt,desc" } = req.query;
+
+  const sortedAdminOrders = {
+    ...filteredOrders,
+    content: sort
+      ? sortOrders(filteredOrders.content, sort)
+      : filteredOrders.content,
+  };
+
+  res.json(sortedAdminOrders);
 };
 
 const changeOrderStatus = (req, res) => {
