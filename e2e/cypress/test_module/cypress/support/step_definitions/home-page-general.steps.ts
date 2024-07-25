@@ -1,8 +1,7 @@
 /// <reference types="cypress" />
 
 import { Given, Then, When } from "@badeball/cypress-cucumber-preprocessor";
-import { homePage } from "../page_objects/home-pages";
-import { ERRORS } from "@cypress-e2e/fixtures/global-data";
+import { ERRORS, homePage } from "@cypress-e2e/fixtures/global-data";
 
 Given("I am on a home page", () => {
   cy.getProductsWithQuantity(5);
