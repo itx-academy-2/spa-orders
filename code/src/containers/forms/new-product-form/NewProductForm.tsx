@@ -100,6 +100,92 @@ const NewProductForm = () => {
     }
   };
 
+  const mainInfo = supportedLocales.map((locale, index) => {
+    const isNameError = Boolean(errors.productTranslations?.[index]?.name);
+
+    const nameHelperText =
+      isNameError && errors.productTranslations?.[index]?.name?.message;
+
+    const isDescriptionError = Boolean(
+      errors.productTranslations?.[index]?.description
+    );
+
+    const descriptionHelperText =
+      isDescriptionError &&
+      errors.productTranslations?.[index]?.description?.message;
+
+    return (
+      <AppBox className="product-form__container" key={locale}>
+        <AppBox className="product-form__header">
+          <AppTypography
+            component="h1"
+            variant="h3"
+            translationKey={`productForm.section.mainInformation.title.${locale}`}
+            className="product-form__header-title"
+          />
+        </AppBox>
+        <AppBox className="product-form__body">
+          <AppInput
+            className="product-form__text-input"
+            fullWidth
+            labelTranslationKey="productForm.inputLabel.name"
+            data-testid={`new-product-name-input-${locale}`}
+            error={isNameError}
+            helperText={nameHelperText}
+            {...register(`productTranslations.${index}.name`)}
+          />
+          <AppInput
+            className="product-form__text-input"
+            fullWidth
+            multiline
+            labelTranslationKey="productForm.inputLabel.description"
+            data-testid={`new-product-description-input-${locale}`}
+            inputProps={{
+              className: "product-form__description-input"
+            }}
+            rows={5}
+            error={isDescriptionError}
+            helperText={descriptionHelperText}
+            {...register(`productTranslations.${index}.description`)}
+          />
+        </AppBox>
+      </AppBox>
+    );
+  });
+
+  const categorySelect = (
+    <>
+      <AppSelect
+        fullWidth
+        label="productForm.inputLabel.category"
+        inputProps={{
+          className: "product-form__category-select"
+        }}
+        error={Boolean(errors.tagIds)}
+        value={selectedCategory}
+        onChange={handleSelectChange}
+        data-testid="new-product-category-select"
+      >
+        {categories.map((item) => (
+          <AppMenuItem value={item.id} key={item.id}>
+            <AppTypography
+              className="product-form__category-select-label"
+              translationKey={item.label}
+            />
+          </AppMenuItem>
+        ))}
+      </AppSelect>
+      {errors.tagIds && (
+        <AppFormHelperText
+          className="product-form__category-select-helper"
+          error
+        >
+          {errors.tagIds.message}
+        </AppFormHelperText>
+      )}
+    </>
+  );
+
   return (
     <AppBox component="form" onSubmit={handleSubmit(onSubmit)}>
       <AppBox className="product-form">
@@ -140,6 +226,7 @@ const NewProductForm = () => {
                 type="number"
                 error={Boolean(errors.price)}
                 helperText={errors.price ? errors.price.message : undefined}
+                data-testid="new-product-price-input"
                 {...register("price", { valueAsNumber: true })}
               />
               <AppInput
@@ -151,99 +238,25 @@ const NewProductForm = () => {
                 helperText={
                   errors.quantity ? errors.quantity.message : undefined
                 }
+                data-testid="new-product-quantity-input"
                 {...register("quantity", { valueAsNumber: true })}
               />
             </AppBox>
             <AppBox className="product-form__category-select-container">
-              <AppSelect
-                fullWidth
-                label="productForm.inputLabel.category"
-                inputProps={{
-                  className: "product-form__category-select"
-                }}
-                error={Boolean(errors.tagIds)}
-                value={selectedCategory}
-                onChange={handleSelectChange}
-              >
-                {categories.map((item) => (
-                  <AppMenuItem value={item.id} key={item.id}>
-                    <AppTypography
-                      className="product-form__category-select-label"
-                      translationKey={item.label}
-                    />
-                  </AppMenuItem>
-                ))}
-              </AppSelect>
-              {errors.tagIds && (
-                <AppFormHelperText
-                  className="product-form__category-select-helper"
-                  error
-                >
-                  {errors.tagIds.message}
-                </AppFormHelperText>
-              )}
+              {categorySelect}
             </AppBox>
             <AppCheckbox
               className="product-form__visibility-checkbox"
               variant="dark"
               labelTranslationKey="productForm.inputLabel.status"
               labelClassName="product-form__visibility-checkbox-label"
+              data-testid="new-product-status-checkbox"
               {...register("status")}
             />
           </AppBox>
         </AppBox>
         <AppBox className="product-form__main-info-section">
-          {supportedLocales.map((locale, index) => (
-            <AppBox className="product-form__container" key={locale}>
-              <AppBox className="product-form__header">
-                <AppTypography
-                  component="h1"
-                  variant="h3"
-                  translationKey={`productForm.section.mainInformation.title.${locale}`}
-                  className="product-form__header-title"
-                />
-              </AppBox>
-              <AppBox className="product-form__body">
-                <AppInput
-                  className="product-form__text-input"
-                  fullWidth
-                  labelTranslationKey="productForm.inputLabel.name"
-                  error={Boolean(
-                    errors.productTranslations &&
-                      errors.productTranslations[index]?.name
-                  )}
-                  helperText={
-                    errors.productTranslations &&
-                    errors.productTranslations[index]?.name
-                      ? errors.productTranslations[index]?.name.message
-                      : undefined
-                  }
-                  {...register(`productTranslations.${index}.name`)}
-                />
-                <AppInput
-                  className="product-form__text-input"
-                  fullWidth
-                  multiline
-                  labelTranslationKey="productForm.inputLabel.description"
-                  inputProps={{
-                    className: "product-form__description-input"
-                  }}
-                  rows={5}
-                  error={Boolean(
-                    errors.productTranslations &&
-                      errors.productTranslations[index]?.description
-                  )}
-                  helperText={
-                    errors.productTranslations &&
-                    errors.productTranslations[index]?.description
-                      ? errors.productTranslations[index]?.description.message
-                      : undefined
-                  }
-                  {...register(`productTranslations.${index}.description`)}
-                />
-              </AppBox>
-            </AppBox>
-          ))}
+          {mainInfo}
           <AppButton
             className="product-form__footer-button"
             type="submit"
