@@ -35,6 +35,14 @@ const routes = {
       path: "/dashboard/users"
     }
   },
+  error: {
+    notFound: {
+      path: "/not-found"
+    },
+    unknown: {
+      path: "/unknown"
+    }
+  },
   any: {
     path: "*"
   }
