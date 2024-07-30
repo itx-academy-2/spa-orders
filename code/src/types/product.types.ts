@@ -40,6 +40,17 @@ export type GetUserProductsParams = Lang & {
   sort?: string;
 };
 
+export type GetUserProductByIdResponse = Pick<
+  Product,
+  "image" | "price" | "tags" | "name" | "description"
+> & {
+  quantity: number;
+};
+
+export type GetUserProductByIdParams = Lang & {
+  productId: string;
+};
+
 export type GetManagerProductsResponse = {
   totalElements: number;
   totalPages: number;

@@ -6,6 +6,8 @@ import {
   CreateProductBody,
   GetManagerProductsParams,
   GetManagerProductsResponse,
+  GetUserProductByIdParams,
+  GetUserProductByIdResponse,
   GetUserProductsParams,
   GetUserProductsResponse,
   Product
@@ -22,6 +24,20 @@ const productsApi = appApi.injectEndpoints({
         url: URLS.products.getForUser,
         params: params ?? {}
       }),
+      providesTags: [rtkQueryTags.PRODUCTS]
+    }),
+    getUserProductById: build.query<
+      GetUserProductByIdResponse,
+      GetUserProductByIdParams
+    >({
+      query: (params) => URLS.products.getForUserById(params),
+      transformErrorResponse: (response) => {
+        if (response.status !== 404) {
+          response.isSnackbarHidden = false;
+        }
+
+        return response;
+      },
       providesTags: [rtkQueryTags.PRODUCTS]
     }),
     getManagerProducts: build.query<
@@ -60,6 +76,7 @@ const productsApi = appApi.injectEndpoints({
 
 export const {
   useGetUserProductsQuery,
+  useGetUserProductByIdQuery,
   useGetManagerProductsQuery,
   useAddProductMutation,
   useDeleteProductMutation,
