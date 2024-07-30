@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import {
@@ -18,8 +18,8 @@ type OrderTableHeadProps = {
   head: string;
 };
 
-const getSortKey = (head: string): string | null => {
-  return sortKeyMap[head] || null;
+const getSortKey = (head: string): string => {
+  return sortKeyMap[head];
 };
 
 const OrdersTableHead = ({ head }: OrderTableHeadProps) => {
@@ -30,29 +30,44 @@ const OrdersTableHead = ({ head }: OrderTableHeadProps) => {
 
   const sortKey = getSortKey(head);
 
-  const handleSort = () => {
-    if (sortKey) {
-      const newSortDirection =
-        sortDirections[sortKey] === "desc" ? "asc" : "desc";
+  const isActive = searchParams.get("sort")?.startsWith(sortKey);
 
-      setSortDirections((prevDirections) => ({
-        ...prevDirections,
-        [sortKey]: newSortDirection
-      }));
+  const sortDirection = isActive
+    ? sortDirections[sortKey]
+    : initialSortOrder[sortKey];
 
-      const newSort = `${sortKey},${newSortDirection}`;
-      const params = new URLSearchParams(searchParams);
-      params.set("sort", newSort);
-      setSearchParams(params);
-    }
+  const updateSearchParams = (key: string, direction: SortOrder) => {
+    const newSort = `${key},${direction}`;
+    const params = new URLSearchParams(searchParams);
+    params.set("sort", newSort);
+    setSearchParams(params);
   };
 
-  const sortDirection = sortKey && sortDirections[sortKey];
+  const handleSort = () => {
+    const currentSortDirection = isActive
+      ? sortDirections[sortKey]
+      : initialSortOrder[sortKey];
+    const newSortDirection = currentSortDirection === "desc" ? "asc" : "desc";
+
+    setSortDirections((prevDirections) => ({
+      ...prevDirections,
+      [sortKey]: newSortDirection
+    }));
+
+    updateSearchParams(sortKey, newSortDirection);
+  };
+
+  useEffect(() => {
+    if (!searchParams.has("sort")) {
+      updateSearchParams("createdAt", "desc");
+    }
+  }, [searchParams, setSearchParams]);
+
   return (
     <AppTableCell className="spa-order-table__head">
       {sortKey ? (
         <AppTableSortLabel
-          active={sortKey === head}
+          active={isActive}
           onClick={handleSort}
           sortDirection={sortDirection as SortOrder}
           className="spa-order-table__head-label"
