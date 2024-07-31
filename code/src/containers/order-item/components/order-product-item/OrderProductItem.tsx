@@ -1,6 +1,8 @@
 import AppBox from "@/components/app-box/AppBox";
+import AppLink from "@/components/app-link/AppLink";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import routes from "@/constants/routes";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 
@@ -9,22 +11,30 @@ import "@/containers/order-item/components/order-product-item/OrderProductItem.s
 type OrderProductItemProps = {
   product: Product;
   quantity: number;
-  price: number;
+  totalPrice: number;
 };
 
 const OrderProductItem = ({
   product,
   quantity,
-  price
+  totalPrice
 }: OrderProductItemProps) => {
+  const { price, id, image, name, description } = product;
+
+  const priceQuantityLabel = `${formatPrice(price)} x ${quantity}`;
+
+
   return (
-    <AppBox className="spa-order-product__container">
+    <AppLink
+      to={routes.productDetails.path(id)}
+      className="spa-order-product__container"
+    >
       <AppBox className="spa-order-product__info">
         <AppBox
           className="spa-order-product__image"
           component="img"
-          src={product.image}
-          alt={product.name}
+          src={image}
+          alt={name}
         />
         <AppBox className="spa-order-product__description">
           <AppTypography
@@ -33,14 +43,14 @@ const OrderProductItem = ({
             fontWeight="extra-bold"
             component="p"
           >
-            {product.name}
+            {name}
           </AppTypography>
           <AppTypography
             variant="caption-small"
             component="p"
             className="spa-order-product__description-caption"
           >
-            {product.description}
+            {description}
           </AppTypography>
         </AppBox>
         <AppTypography
@@ -49,14 +59,13 @@ const OrderProductItem = ({
           component="p"
           fontWeight="extra-bold"
         >
-          {formatPrice(product.price)} x {quantity}
+          {priceQuantityLabel}
         </AppTypography>
       </AppBox>
-
       <AppTypography variant="body" component="p" fontWeight="extra-bold">
-        {formatPrice(price)}
+        {formatPrice(totalPrice)}
       </AppTypography>
-    </AppBox>
+    </AppLink>
   );
 };
 
