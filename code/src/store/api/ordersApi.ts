@@ -50,10 +50,10 @@ const ordersApi = appApi.injectEndpoints({
     }),
 
     changeOrderStatus: build.mutation<void, OrderPatchParams>({
-      query: ({ orderStatus, ...params }) => ({
+      query: ({ orderStatus, isPaid, ...params }) => ({
         url: URLS.orders.patch(params),
         method: httpMethods.patch,
-        body: { orderStatus }
+        body: { orderStatus, isPaid }
       }),
       invalidatesTags: [rtkQueryTags.ADMIN_ORDERS]
     })

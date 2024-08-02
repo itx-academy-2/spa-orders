@@ -5,3 +5,11 @@ export const orderStatusesTranslationKeys = {
   CANCELED: "orders.statuses.canceled",
   COMPLETED: "orders.statuses.completed"
 } as const;
+
+export const orderDeliveryStatuses = {
+  IN_PROGRESS: "IN_PROGRESS",
+  SHIPPED: "SHIPPED",
+  DELIVERED: "DELIVERED",
+  CANCELED: "CANCELED",
+  COMPLETED: "COMPLETED"
+} as const;
