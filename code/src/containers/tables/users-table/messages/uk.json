@@ -1,0 +1,8 @@
+{
+  "usersTable.columns.name": "Ім'я",
+  "usersTable.columns.email": "Електронна пошта",
+  "usersTable.columns.role": "Роль",
+  "usersTable.columns.status": "Статус",
+  "usersTable.columns.createdAt": "Дата створення",
+  "usersTable.fallback": "Користувачі не знайдені"
+}

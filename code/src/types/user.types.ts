@@ -1,7 +1,8 @@
-import { ROLES } from "@/constants/common";
-import { ExtractValues } from "@/types/common";
+import { ROLES, USER_STATUSES } from "@/constants/common";
+import { ExtractValues, PageableResponse } from "@/types/common";
 
 export type UserRole = ExtractValues<typeof ROLES>;
+export type UserStatus = ExtractValues<typeof USER_STATUSES>;
 
 export type UserId = number;
 
@@ -25,3 +26,10 @@ export type TokenPayload = {
 };
 
 export type UserDetails = User & TokenPayload;
+
+export type ExtendedUserDetails = User & {
+  status: UserStatus;
+  createdAt: string;
+};
+
+export type GetUsersForAdminResponse = PageableResponse<ExtendedUserDetails[]>;

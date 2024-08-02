@@ -1,0 +1,8 @@
+{
+  "usersTable.columns.name": "Name",
+  "usersTable.columns.email": "Email",
+  "usersTable.columns.role": "Role",
+  "usersTable.columns.status": "Status",
+  "usersTable.columns.createdAt": "Date of creation",
+  "usersTable.fallback": "No users found"
+}
