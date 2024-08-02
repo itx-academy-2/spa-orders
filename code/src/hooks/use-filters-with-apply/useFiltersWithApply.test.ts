@@ -156,6 +156,59 @@ describe("useFiltersWithApply", () => {
     expect(mockDelete).toHaveBeenCalled();
   });
 
+  test("applies filters correctly with additional params", () => {
+    act(() => {
+      result.current.actions.updateFilterByKey(
+        "filter1",
+        updatedFilters.filter1
+      );
+      result.current.actions.updateFilterByKey(
+        "filter2",
+        updatedFilters.filter2
+      );
+    });
+
+    act(() => {
+      result.current.actions.applyFilters({
+        additionalParams: { key: "value" }
+      });
+    });
+
+    const mockDelete = jest.fn();
+    jest
+      .spyOn(URLSearchParams.prototype, "delete")
+      .mockImplementationOnce(mockDelete);
+
+    const expectedParams = new URLSearchParams(updatedFilters);
+    expectedParams.set("key", "value");
+
+    expect(mockSetSearchParams).toHaveBeenCalledWith(expectedParams);
+    expect(mockDelete).not.toHaveBeenCalled();
+
+    (parseFiltersFromParams as jest.Mock).mockReturnValue({
+      defaultActiveFilters: new Set([filterKeys.filter1]),
+      defaultFiltersFromParams: { filter1: updatedFilters.filter1 }
+    });
+
+    act(() => {
+      result.current.actions.resetFilterByKey(filterKeys.filter1);
+    });
+
+    act(() => {
+      result.current.actions.applyFilters({
+        additionalParams: { key: "value" }
+      });
+    });
+
+    const expectedParamsAfterReset = new URLSearchParams({
+      filter2: updatedFilters.filter2
+    });
+    expectedParamsAfterReset.set("key", "value");
+
+    expect(mockSetSearchParams).toHaveBeenCalledWith(expectedParamsAfterReset);
+    expect(mockDelete).toHaveBeenCalled();
+  });
+
   test("checks if a filter is active correctly", () => {
     act(() => {
       result.current.actions.updateFilterByKey(

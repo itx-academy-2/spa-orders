@@ -58,7 +58,7 @@ const useFiltersWithApply = <Filters extends Record<string, unknown>>(
     return activeFiltersRef.current.has(key);
   };
 
-  const applyFilters: ApplyFilters = () => {
+  const applyFilters: ApplyFilters = (options = {}) => {
     const params = new URLSearchParams(searchParams);
 
     for (const [filterKey, filterValue] of Object.entries(localFilters)) {
@@ -66,6 +66,12 @@ const useFiltersWithApply = <Filters extends Record<string, unknown>>(
         params.set(filterKey, serializeToQueryString(filterValue));
       } else {
         params.delete(filterKey);
+      }
+    }
+
+    if (options.additionalParams) {
+      for (const [key, value] of Object.entries(options.additionalParams)) {
+        params.set(key, serializeToQueryString(value));
       }
     }
 

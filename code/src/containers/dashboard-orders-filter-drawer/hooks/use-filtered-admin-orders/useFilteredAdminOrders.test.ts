@@ -40,7 +40,15 @@ const mockFiltersEmpty = {
   filterActions: {},
   filters: {},
   isLoading: false,
-  orders: []
+  orders: [],
+  page: 1
+};
+
+const setupSearchParamsMock = (searchParamsString = "") => {
+  (useSearchParams as jest.Mock).mockReturnValue([
+    new URLSearchParams(searchParamsString),
+    mockSetSearchParams
+  ]);
 };
 
 describe("useFilteredAdminOrders", () => {
@@ -50,10 +58,7 @@ describe("useFilteredAdminOrders", () => {
       data: { content: [] },
       isLoading: false
     });
-    (useSearchParams as jest.Mock).mockReturnValue([
-      new URLSearchParams(),
-      mockSetSearchParams
-    ]);
+    setupSearchParamsMock();
   });
 
   describe("without filters", () => {
@@ -101,19 +106,6 @@ describe("useFilteredAdminOrders", () => {
 
       const { result } = renderHook(() => useFilteredAdminOrders());
       expect(result.current.orders).toEqual([]);
-    });
-
-    test("does not set default sort parameter if already present", () => {
-      const searchParams = new URLSearchParams("sort=total,asc");
-      (useSearchParams as jest.Mock).mockReturnValue([
-        searchParams,
-        mockSetSearchParams
-      ]);
-
-      renderHook(() => useFilteredAdminOrders());
-
-      expect(mockSetSearchParams).not.toHaveBeenCalled();
-      expect(searchParams.get("sort")).toEqual("total,asc");
     });
   });
 
@@ -193,5 +185,26 @@ describe("useFilteredAdminOrders", () => {
       );
       expect(result.current.orders).toEqual([]);
     });
+  });
+
+  test("does not set default sort parameter if already present", () => {
+    setupSearchParamsMock("sort=total,asc");
+
+    renderHook(() => useFilteredAdminOrders());
+
+    expect(mockSetSearchParams).not.toHaveBeenCalled();
+    expect(useSearchParams()[0].get("sort")).toEqual("total,asc");
+  });
+
+  test("sets page to 1 when page parameter is absent", () => {
+    const { result } = renderHook(() => useFilteredAdminOrders());
+    expect(result.current.page).toBe(1);
+  });
+
+  test("sets page to the value of the page parameter when present and valid", () => {
+    setupSearchParamsMock("page=2");
+
+    const { result } = renderHook(() => useFilteredAdminOrders());
+    expect(result.current.page).toBe(2);
   });
 });
