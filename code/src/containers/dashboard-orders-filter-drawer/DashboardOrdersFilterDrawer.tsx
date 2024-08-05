@@ -4,6 +4,7 @@ import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 import FilterRecordAccordion from "@/containers/dashboard-orders-filter-drawer/components/filter-record-accordion/FilterRecordAccordion";
+import { defaultAdminOrderFilters } from "@/containers/dashboard-orders-filter-drawer/hooks/use-filtered-admin-orders/useFilteredAdminOrders.constants";
 import { AdminOrderFilters } from "@/containers/dashboard-orders-filter-drawer/hooks/use-filtered-admin-orders/useFilteredAdminOrders.types";
 
 import AppBadge from "@/components/app-badge/AppBadge";
@@ -158,7 +159,7 @@ const DashboardOrdersFilterDrawer = ({
     resetFilterByKey("delivery-methods");
   };
 
-  const handlePriceRangeChange = (event: Event, value: number[]) => {
+  const handlePriceRangeChange = (value: number[]) => {
     updateFilterByKey("price", { start: value[0], end: value[1] });
   };
 
@@ -238,6 +239,8 @@ const DashboardOrdersFilterDrawer = ({
           <AppRangeSlider
             value={[filters.price.start, filters.price.end]}
             onChange={handlePriceRangeChange}
+            min={defaultAdminOrderFilters.price.start}
+            max={defaultAdminOrderFilters.price.end}
           />
         </FilterRecordAccordion>
         <FilterRecordAccordion

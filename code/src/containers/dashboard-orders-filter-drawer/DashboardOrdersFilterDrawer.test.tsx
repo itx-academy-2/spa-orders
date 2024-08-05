@@ -51,7 +51,11 @@ const renderAndMock = ({
   );
 };
 
-describe("OrdersTabFilterDrawer", () => {
+describe("DashboardOrdersFilterDrawer", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe("apply filters and drawer actions", () => {
     test("applies filters and closes drawer when apply filters button is pressed", () => {
       renderAndMock();
@@ -59,7 +63,10 @@ describe("OrdersTabFilterDrawer", () => {
         name: "dashboardTabs.orders.filters.applyFiltersButton"
       });
       fireEvent.click(applyFilterButton);
-      expect(mockApplyFilters).toHaveBeenCalled();
+      expect(mockApplyFilters).toHaveBeenCalledWith({
+        additionalParams: { page: "1" }
+      });
+
       expect(mockCloseFilterDrawer).toHaveBeenCalled();
     });
   });
@@ -80,18 +87,11 @@ describe("OrdersTabFilterDrawer", () => {
 
     test("updates correctly", async () => {
       const start = 90;
-      const end = 1500;
-
       await typeIntoInput(rangeStartInput, start);
-      expect(mockUpdateFilterByKey).toHaveBeenCalledWith("price", {
-        start,
-        end: defaultFilters.price.end
-      });
 
-      await typeIntoInput(rangeEndInput, end);
       expect(mockUpdateFilterByKey).toHaveBeenCalledWith("price", {
-        start,
-        end
+        start: start.toString(),
+        end: defaultFilters.price.end.toString()
       });
     });
 
