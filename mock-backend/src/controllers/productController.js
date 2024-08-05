@@ -1,3 +1,5 @@
+const { categoryFilter } = require('../utils/categoryFilter')
+
 const { managerProducts, managerProduct } = require("../data/managerProducts");
 const products = require("../data/mokedData");
 const { sortProducts } = require("../utils/sortUtils");
@@ -10,7 +12,7 @@ const validateNumberQueryParam = (value, defaultValue = 0) => {
 const getAllProducts = (req, res) => {
   const page = validateNumberQueryParam(req.query.page);
   const size = validateNumberQueryParam(req.query.size, 10);
-  const { sort } = req.query;
+  const {sort, tags: category} = req.query
 
   let sortedProducts = sort ? sortProducts(products, sort) : products;
   const skip = page * size;
@@ -18,8 +20,10 @@ const getAllProducts = (req, res) => {
 
   const slicedProducts = sortedProducts.slice(skip, limit);
 
+  const finalProducts = categoryFilter(category, slicedProducts)
+
   const response = {
-    content: slicedProducts,
+    content: finalProducts,
     totalPages: Math.ceil(products.length / size),
     totalElements: products.length,
   };
