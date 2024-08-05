@@ -1,14 +1,17 @@
 @import "@design-system";
 
 .spa-search-input {
+  position: relative;
   padding: spacing(1) spacing(2);
   display: flex;
   align-items: flex-end;
   height: spacing(9);
   border-radius: spacing(10);
   background-color: var(--spa-search-input-background-color, $light);
+  box-shadow: $shadow-black-alpha;
 
-  &:hover {
+  &:hover,
+  &:focus-within {
     background-color: var(--spa-search-input-hover-background-color, $white);
   }
 
@@ -28,4 +31,5 @@
       background-color: var(--spa-search-button-background-color, $black);
     }
   }
+
 }
