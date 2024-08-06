@@ -1,5 +1,6 @@
 import { httpMethod, httpStatusCode } from "@cypress-e2e/fixtures/global-data";
 import "cypress-wait-until";
+import { checkUserDetailsInLocalStorage } from "@cypress-e2e/support/helpers";
 
 Cypress.Commands.addQuery("getById", (id: string) => {
   const getFn = cy.now(
@@ -28,9 +29,18 @@ Cypress.Commands.add("loginWithRole", (role = "ROLE_USER") => {
       .its("localStorage")
       .invoke("getItem", "spa-user-details")
       .then((value) => {
-        const userDetails = JSON.parse(value);
-        expect(userDetails.token).to.exist;
-        expect(userDetails.role).to.eq(role);
+        const userDetails = value ? JSON.parse(value) : null;
+        if (userDetails) {
+          checkUserDetailsInLocalStorage(value, role);
+        } else {
+          cy.wait(1000);
+          cy.window()
+            .its("localStorage")
+            .invoke("getItem", "spa-user-details")
+            .then((retryValue) => {
+              checkUserDetailsInLocalStorage(retryValue, role);
+            });
+        }
       });
 
     cy.getById("snackbar").should("contain", "You successfully signed in");
