@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 
 import { deliveryMethods } from "@/constants/deliveryMethods";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
+import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
 import ProductDetailsContainer from "@/pages/product-details/components/product-details-container/ProductDetailsContainer";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
 import { RTKQueryMockState } from "@/types/common";
@@ -38,6 +39,16 @@ jest.mock("@/context/i18n/I18nProvider", () => ({
   ...jest.requireActual("@/context/i18n/I18nProvider"),
   useLocaleContext: jest.fn(() => ({ locale }))
 }));
+
+jest.mock(
+  "@/pages/product-details/components/buy-now-button/BuyNowButton",
+  () => ({
+    __esModule: true,
+    default: jest.fn(() => (
+      <button data-testid="buy-now-button">Buy now</button>
+    ))
+  })
+);
 
 type MockState = RTKQueryMockState<
   typeof mockProduct,
@@ -132,6 +143,14 @@ describe("ProductDetailsContainer", () => {
 
     const inStockTypography = screen.getByText("productDetailsPage.inStock");
     expect(inStockTypography).toBeInTheDocument();
+
+    const buyNowButton = screen.getByTestId("buy-now-button");
+    expect(buyNowButton).toBeInTheDocument();
+
+    expect(BuyNowButton).toHaveBeenCalledWith(
+      { productWithId: { ...mockProduct, id: productId } },
+      {}
+    );
   });
 
   test("renders delivery methods correctly", () => {
