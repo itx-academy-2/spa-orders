@@ -6,8 +6,8 @@ import { MemoryRouter } from "react-router-dom";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { StateFromReducersMapObject, configureStore } from "@reduxjs/toolkit";
 
-import { I18nProvider } from "@/context/i18n/I18nProvider";
 import { DrawerProvider } from "@/context/drawer/DrawerContext";
+import { I18nProvider } from "@/context/i18n/I18nProvider";
 import { ModalProvider } from "@/context/modal/ModalContext";
 import { reducer } from "@/store/reducer";
 

@@ -1,11 +1,14 @@
 import AppBox from "@/components/app-box/AppBox";
 import AppLink from "@/components/app-link/AppLink";
 import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
+import AppSkeleton from "@/components/app-skeleton/AppSkeleton";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import noResultsImage from "@/assets/images/search/no-results.png";
 import routePaths from "@/constants/routes";
+import useInfiniteScroll from "@/hooks/use-infinite-scroll/useInfiniteScroll";
 import { ProductFromSearch } from "@/types/product.types";
+import repeatComponent from "@/utils/repeat-component/repeatComponent";
 
 import "@/layouts/header/components/header-search-input-dropdown/HeaderSearchInputDropdown.scss";
 
@@ -13,8 +16,9 @@ type HeaderSearchInputDropdownProps = {
   isError: boolean;
   searchResults: ProductFromSearch[];
   handleCloseDropdown: () => void;
-  totalElements: number;
+  totalElements?: number;
   isLoading: boolean;
+  loadNextPage: () => void;
 };
 
 const HeaderSearchInputDropdown = ({
@@ -22,8 +26,11 @@ const HeaderSearchInputDropdown = ({
   searchResults,
   totalElements,
   isError,
-  isLoading
+  isLoading,
+  loadNextPage
 }: HeaderSearchInputDropdownProps) => {
+  const lastItemRef = useInfiniteScroll(loadNextPage);
+
   const errorLabel = (
     <AppTypography component="li" translationKey="errors.somethingWentWrong" /> //@TODO  will be replaced by error layout
   );
@@ -44,8 +51,15 @@ const HeaderSearchInputDropdown = ({
     </AppMenuItem>
   );
 
-  //@TODO: Will be implemented with pagination
-  const loadingLabel = <AppTypography component="li">Loading...</AppTypography>;
+  const loadingLabel = repeatComponent(
+    <AppSkeleton
+      variant="text"
+      className="search-input-dropdown__skeleton"
+      animation="pulse"
+      data-testid="search-skeleton"
+    />,
+    5
+  );
 
   const noResultsLabel = (
     <AppBox className="search-input-dropdown__no-results">
@@ -68,7 +82,7 @@ const HeaderSearchInputDropdown = ({
 
   if (isError) {
     content = errorLabel;
-  } else if (isLoading) {
+  } else if (isLoading || totalElements === undefined) {
     content = loadingLabel;
   } else if (totalElements === 0) {
     content = noResultsLabel;
@@ -76,11 +90,12 @@ const HeaderSearchInputDropdown = ({
     content = (
       <>
         {searchResultsLabel}
-        {searchResults.map(({ id, name, image }) => (
+        {searchResults.map(({ id, name, image }, index) => (
           <AppMenuItem
             key={id}
             className="search-input-dropdown__item"
             onClick={handleCloseDropdown}
+            ref={index === searchResults.length - 1 ? lastItemRef : undefined}
           >
             <AppLink
               className="search-input-dropdown__item-container"

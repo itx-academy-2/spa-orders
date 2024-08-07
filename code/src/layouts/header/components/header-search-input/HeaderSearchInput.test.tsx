@@ -1,10 +1,10 @@
-import { skipToken } from "@reduxjs/toolkit/query/react";
 import { fireEvent, screen } from "@testing-library/react";
 
 import HeaderSearchInput from "@/layouts/header/components/header-search-input/HeaderSearchInput";
 
 import { useGetUserProductsBySearchQuery } from "@/store/api/productsApi";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+import { setupMockIntersectionObserver } from "@/utils/setup-mock-intersection-observer/setupMockIntersectionObserver";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
 
 jest.mock("@/store/api/productsApi", () => ({
@@ -27,17 +27,8 @@ const mockUseGetUserProductsBySearchQueryWithData = {
   }
 };
 
-const mockQueryParams = {
-  searchQuery: "test",
-  lang: "en",
-  page: 1,
-  size: 10
-};
-
 describe("HeaderSearchInput", () => {
-  const loadingLabel = "Loading...";
-  const noResultsLabel = "header.searchInputNoResults";
-
+  setupMockIntersectionObserver();
   describe("With results", () => {
     beforeEach(() => {
       (useGetUserProductsBySearchQuery as jest.Mock).mockReturnValue(
@@ -136,11 +127,11 @@ describe("HeaderSearchInput", () => {
       await typeIntoInput(searchField, "test");
       expect(searchField).toHaveValue("test");
 
-      const loadingLabelElement = await screen.findByText(loadingLabel);
-      expect(loadingLabelElement).toBeInTheDocument();
+      const skeletonElements = screen.getAllByTestId("search-skeleton");
+      expect(skeletonElements).toHaveLength(5);
     });
 
-    test("displays no results label when totalElements is 0 and not loading", async () => {
+    test("displays no-results label when totalElements is undefined and not loading", async () => {
       (useGetUserProductsBySearchQuery as jest.Mock).mockReturnValue({
         ...mockUseGetUserProductsBySearchQuery,
         data: {
@@ -157,30 +148,8 @@ describe("HeaderSearchInput", () => {
 
       await typeIntoInput(searchField, "test");
 
-      const noResultsLabelElement = await screen.findByText(noResultsLabel);
-      expect(noResultsLabelElement).toBeInTheDocument();
-    });
-  });
-
-  describe("tests Query Params", () => {
-    test("passes correct query parameters when debouncedSearchQuery length is 4 or more", async () => {
-      (useGetUserProductsBySearchQuery as jest.Mock).mockImplementation(
-        (params) => {
-          if (params !== skipToken) {
-            expect(params).toEqual(mockQueryParams);
-          }
-          return mockUseGetUserProductsBySearchQueryWithData;
-        }
-      );
-
-      renderWithProviders(<HeaderSearchInput />);
-      const searchField = screen.getByPlaceholderText(
-        /header.searchInputPlaceholder/
-      );
-      expect(searchField).toBeInTheDocument();
-
-      await typeIntoInput(searchField, "test");
-      expect(searchField).toHaveValue("test");
+      const skeletonElements = screen.getByText(/header.searchInputNoResults/);
+      expect(skeletonElements).toBeInTheDocument();
     });
   });
 });

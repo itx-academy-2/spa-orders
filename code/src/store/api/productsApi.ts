@@ -19,7 +19,7 @@ import {
 } from "@/types/product.types";
 import createUrlPath from "@/utils/create-url-path/createUrlPath";
 
-const productsApi = appApi.injectEndpoints({
+export const productsApi = appApi.injectEndpoints({
   endpoints: (build) => ({
     getUserProducts: build.query<
       GetUserProductsResponse,
