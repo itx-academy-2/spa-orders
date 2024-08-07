@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 import AppBox from "@/components/app-box/AppBox";
+import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import useDebouncedValue from "@/hooks/use-debounced-value/useDebouncedValue";
@@ -20,8 +21,17 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
 
   const lastDebouncedQuantityRef = useRef(debouncedQuantity);
 
+  const shouldUpdateQuantity = (
+    debouncedQuantity: number,
+    lastDebouncedQuantity: number
+  ) => {
+    return debouncedQuantity !== lastDebouncedQuantity && debouncedQuantity > 0;
+  };
+
   useEffect(() => {
-    if (debouncedQuantity !== lastDebouncedQuantityRef.current) {
+    if (
+      shouldUpdateQuantity(debouncedQuantity, lastDebouncedQuantityRef.current)
+    ) {
       onQuantityChange(item, debouncedQuantity);
       lastDebouncedQuantityRef.current = debouncedQuantity;
     }
@@ -89,6 +99,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
           onChange={handleQuantityInputChange}
           onBlur={handleBlur}
           data-cy="cart-item-quantity"
+          maxLength={6}
         />
         <AppBox
           className="spa-cart-item__quantity-block"
@@ -98,9 +109,16 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
           <AddCircleOutlineIcon />
         </AppBox>
       </AppBox>
-      <AppTypography className="spa-cart-item__price">
-        {totalPrice}
-      </AppTypography>
+      <AppBox className="spa-cart-item__price">
+        <AppTooltip titleTranslationKey={totalPrice}>
+          <AppTypography
+            component="span"
+            className="spa-cart-item__price-value"
+          >
+            {totalPrice}
+          </AppTypography>
+        </AppTooltip>
+      </AppBox>
       <AppBox
         className="spa-cart-item__delete-block"
         onClick={handleRemoveCartItem}
