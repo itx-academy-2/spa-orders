@@ -10,3 +10,7 @@ export type AdminOrderFilters = {
   timespan: "" | TimeSpan;
   price: RangeFilter<number>;
 };
+
+export type AdminOrderSearch = {
+  accountEmail: string;
+};

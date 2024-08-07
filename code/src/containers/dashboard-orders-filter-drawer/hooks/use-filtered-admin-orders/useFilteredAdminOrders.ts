@@ -1,6 +1,9 @@
 import { useSearchParams } from "react-router-dom";
 
-import { defaultAdminOrderFilters } from "@/containers/dashboard-orders-filter-drawer/hooks/use-filtered-admin-orders/useFilteredAdminOrders.constants";
+import {
+  defaultAdminOrderFilters,
+  defaultSearchOrderFilter
+} from "@/containers/dashboard-orders-filter-drawer/hooks/use-filtered-admin-orders/useFilteredAdminOrders.constants";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import useFiltersWithApply from "@/hooks/use-filters-with-apply/useFiltersWithApply";
@@ -18,6 +21,12 @@ const useFilteredAdminOrders = () => {
     activeFiltersCount,
     actions: filterActions
   } = useFiltersWithApply(defaultAdminOrderFilters);
+
+  const {
+    filters: searchFilters,
+    appliedFilters: { accountEmail },
+    actions: searchActions
+  } = useFiltersWithApply(defaultSearchOrderFilter);
 
   const dateRange = timespan ? timeSpanToDateRange(timespan) : undefined;
 
@@ -38,6 +47,7 @@ const useFilteredAdminOrders = () => {
     createdBefore: dateRange?.end.toISOString(),
     createdAfter: dateRange?.start.toISOString(),
     sort: sortParam || undefined,
+    accountEmail: accountEmail || undefined,
     page: page - 1,
     size: 8
   });
@@ -47,7 +57,9 @@ const useFilteredAdminOrders = () => {
 
   return {
     filters,
+    searchFilters,
     filterActions,
+    searchActions,
     activeFiltersCount,
     orders,
     totalPages,

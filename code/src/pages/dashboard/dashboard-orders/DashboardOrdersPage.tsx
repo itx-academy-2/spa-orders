@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { useIntl } from "react-intl";
 
 import FilterListIcon from "@mui/icons-material/FilterList";
 
@@ -12,6 +13,7 @@ import OrdersTable from "@/containers/tables/orders-table/OrdersTable";
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppDrawer from "@/components/app-drawer/AppDrawer";
+import AppSearchInput from "@/components/app-search-input/AppSearchInput";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import "@/pages/dashboard/dashboard-orders/DashboardOrdersPage.scss";
@@ -20,6 +22,8 @@ const DashboardOrdersPage = () => {
   const {
     filters,
     filterActions,
+    searchActions,
+    searchFilters,
     activeFiltersCount,
     orders,
     page,
@@ -27,7 +31,25 @@ const DashboardOrdersPage = () => {
     isLoading
   } = useFilteredAdminOrders();
 
+  const { applyFilters, resetFilterByKey, updateFilterByKey } = searchActions;
+
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+  const { formatMessage } = useIntl();
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    updateFilterByKey("accountEmail", value);
+  };
+
+  const handleClearSearch = () => {
+    resetFilterByKey("accountEmail");
+    applyFilters();
+  };
+
+  const handleSearch = () => {
+    applyFilters({ additionalParams: { page: "1" } });
+  };
 
   const handleCloseFilterDrawer = () => {
     setIsFilterDrawerOpen(false);
@@ -68,15 +90,24 @@ const DashboardOrdersPage = () => {
           data-cy="orders-tab"
           translationKey="dashboardTabs.orders.title"
         />
-        <AppButton
-          variant="dark"
-          onClick={handleOpenFilterDrawer}
-          data-testid="filter-button"
-          data-cy="filter-button"
-        >
-          {titleTypography}
-          <FilterListIcon />
-        </AppButton>
+        <AppBox className="dashboard-orders-tab__toolbar-filter-icons">
+          <AppSearchInput
+            placeholder={formatMessage({ id: "dashboardTabs.orders.search" })}
+            value={searchFilters.accountEmail}
+            onChange={handleSearchChange}
+            onClear={handleClearSearch}
+            onSearch={handleSearch}
+          />
+          <AppButton
+            variant="dark"
+            onClick={handleOpenFilterDrawer}
+            data-testid="filter-button"
+            data-cy="filter-button"
+          >
+            {titleTypography}
+            <FilterListIcon />
+          </AppButton>
+        </AppBox>
       </AppBox>
       <OrdersTable ordersData={orders} />
       <AppDrawer isOpen={isFilterDrawerOpen} onClose={handleCloseFilterDrawer}>
