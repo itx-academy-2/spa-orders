@@ -48,17 +48,26 @@ jest.mock("@/context/i18n/I18nProvider", () => ({
 const defaultQueryArguments = {
   size: 10,
   page: 0,
-  sort: "recommended",
+  sort: undefined,
   lang: "en",
   tags: ""
 };
 
-const testQueryArguments = (args: Partial<PaginationParams> = {}) => {
+type TestQueryArguments = PaginationParams & {
+  tags: string;
+};
+
+const testQueryArguments = (args: Partial<TestQueryArguments> = {}) => {
   expect(useGetUserProductsQuery).toHaveBeenCalledWith({
     ...defaultQueryArguments,
     ...args
   });
 };
+
+const mockDelete = jest.fn();
+jest
+  .spyOn(URLSearchParams.prototype, "delete")
+  .mockImplementationOnce(mockDelete);
 
 const renderAndMock = (
   {
@@ -99,24 +108,43 @@ describe("ProductsPage", () => {
     expect(productsCountElement).toBeInTheDocument();
   });
 
-  test("Should apply selected sort criterai", () => {
+  test("Should apply selected sort criteria", () => {
     renderAndMock();
 
     const dropdownElement = screen.getByText(/sortBy.label/);
-
     fireEvent.click(dropdownElement);
 
     const dropdownItemElement = screen.getByText(/sortOptions.newest/);
-
     fireEvent.click(dropdownItemElement);
 
-    testQueryArguments({ sort: "createdAt,desc" });
+    testQueryArguments({ sort: "product.createdAt,desc" });
+    expect(mockDelete).not.toHaveBeenCalled();
+
+    fireEvent.click(dropdownElement);
+
+    const defaultOptionElement = screen.getByText(/productsDefault.label/);
+    fireEvent.click(defaultOptionElement);
+
+    testQueryArguments();
+    expect(mockDelete).toHaveBeenCalled();
   });
 
   test("Should give substracted page", () => {
     renderAndMock({ entries: "?page=3" });
 
     testQueryArguments({ page: 2 });
+  });
+
+  test("Should give category type correctly", () => {
+    renderAndMock({ entries: "?category=computers" });
+
+    testQueryArguments({ tags: `category:computers` });
+
+    const labelByCategory = screen.getByText("productsAll.computers");
+    expect(labelByCategory).toBeInTheDocument();
+
+    const categoryAllLabel = screen.queryByText("productsAll.label");
+    expect(categoryAllLabel).not.toBeInTheDocument();
   });
 
   test("Should give default parameters if no params were provided", () => {
@@ -129,12 +157,6 @@ describe("ProductsPage", () => {
     renderAndMock({ entries: "?page=ah" });
 
     testQueryArguments({ page: 0 });
-  });
-
-  test("Should correctly apply sort criteria from search query", () => {
-    renderAndMock({ entries: "?sort=price%2Casc" });
-
-    testQueryArguments({ sort: "price,asc" });
   });
 
   test("Should not render pagination if there is only one page", () => {
