@@ -24,12 +24,12 @@ jobs:
     env:
       NODE_VERSION: '18.x'
     steps:
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: setup node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -44,7 +44,7 @@ jobs:
         run: |
           npm run lint
 
-      - name: Build app and rub tests
+      - name: Build app and run tests
         working-directory: code
         run: |
           npm run build
