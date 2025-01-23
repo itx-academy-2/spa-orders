@@ -2,6 +2,9 @@ FROM node:18.20.3-alpine AS builder
 WORKDIR "/build"
 COPY . .
 
+ARG API_BASE_PATH
+ENV API_BASE_PATH=$API_BASE_PATH
+
 RUN npm ci; \
         npm run build; \
         npm prune --omit-dev
