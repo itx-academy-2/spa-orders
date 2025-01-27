@@ -307,6 +307,105 @@ const products = [
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
     price: 777,
   },
+  {
+    id: "151",
+    name: "Mobile Phone Motorola Edge 30 Pro 256GB Blue",
+    description:
+      'Screen: 6.7" OLED, 2400x1080 / Snapdragon 8 Gen 1 / Main Triple Camera: 50 MP + 50 MP + 2 MP, Front Camera: 60 MP / RAM 12 GB / 256 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM) / Android 12 / 4800 mAh',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_1234-2xIucM8hgLayGS23HoLYzJ27c4SigN.jpg",
+    price: 899,
+  },
+  {
+    id: "152",
+    name: "Mobile Phone Huawei P50 Pro 256GB Black",
+    description:
+      'Screen: 6.6" OLED, 2700x1228 / Kirin 9000 / Main Quad Camera: 50 MP + 40 MP + 13 MP + 64 MP, Front Camera: 13 MP / RAM 8 GB / 256 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM) / HarmonyOS 2.0 / 4360 mAh',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_12345-WASAxiPaRLLT3EHgRIlP47A0YaQdBJ.jpg",
+    price: 899,
+  },
+  {
+    id: "153",
+    name: 'Tablet Acer Swift 3 14" Intel Core i5 512GB SSD Silver',
+    description:
+      'Screen: 14" IPS, 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_123-K40mc0f8xHjEtLRuJ5dmc95PcBK3Cf.png",
+    price: 999,
+  },
+  {
+    id: "154",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 777,
+  },
+  {
+    id: "155",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 777,
+  },
+  {
+    id: "156",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 777,
+  },
+  {
+    id: "157",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 777,
+  },
+  {
+    id: "158",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 777,
+  },
+  {
+    id: "159",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:sales"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 777,
+  },
 ];
 
 module.exports = products;
