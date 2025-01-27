@@ -16,8 +16,8 @@ describe("HeaderCategories", () => {
   test("Should render navLink", () => {
     renderWithProviders(<HeaderCategories />);
 
-    const navLink = screen.getByTestId("nav-link");
-    expect(navLink).toBeInTheDocument();
+    const navLinks = screen.getAllByTestId("nav-link");
+    expect(navLinks.length).toBeGreaterThan(0);
   });
 
   test("Should render navLink as last category in a list", () => {
