@@ -23,8 +23,13 @@ const mockData = { content: mockProducts, totalPages: 2, totalElements: 8 };
 
 jest.mock("@/containers/products-container/ProductsContainer", () => ({
   __esModule: true,
-  default: ({ isLoading, isError, products }: ProductsContainerProps) => (
-    <div data-testid="products-container">
+  default: ({
+    isLoading,
+    isError,
+    products,
+    maxColumns
+  }: ProductsContainerProps) => (
+    <div data-testid="products-container" data-size={maxColumns}>
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error!</div>}
       {products.length > 0 &&
@@ -186,5 +191,15 @@ describe("ProductsPage", () => {
 
     expect(productsCount).toBeInTheDocument();
     expect(linksElemnts.length).toBe(0);
+  });
+
+  test("Should display only four items for sales category", () => {
+    renderAndMock({
+      entries: "/products?category=sales"
+    });
+
+    const containerElement = screen.getByTestId("products-container");
+
+    expect(containerElement).toHaveAttribute("data-size", "4");
   });
 });

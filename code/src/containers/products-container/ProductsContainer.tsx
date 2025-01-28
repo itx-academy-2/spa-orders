@@ -19,6 +19,7 @@ const ProductsContainer = ({
   isLoading = false,
   isError = false,
   loadingItemsCount = 5,
+  maxColumns = 5,
   errorMessage = "errors.somethingWentWrong"
 }: ProductsContainerProps) => {
   const { isLoading: isCartLoading } = useGetCart();
@@ -46,12 +47,17 @@ const ProductsContainer = ({
   const skeletonCards = repeatComponent(<ProductSkeleton />, loadingItemsCount);
 
   const isLoadingInProgress = isLoading || isAuthLoading || isCartLoading;
-  
+
   const gridItems = isLoadingInProgress ? skeletonCards : productCards;
 
   return (
     <AppBox
-      className={cn("products-container", className)}
+      className={cn(
+        "products-container",
+        `products-container__${maxColumns}-cols`,
+        className
+      )}
+      data-testid="products-container"
       data-cy="products-container"
     >
       {gridItems}
