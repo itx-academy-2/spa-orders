@@ -26,7 +26,6 @@ const HeaderCategories = () => {
                 : category.href.includes(`${categoryType}`)
             }
             key={category.label}
-            data-testid="nav-link"
           >
             <AppTypography
               variant="caption"
