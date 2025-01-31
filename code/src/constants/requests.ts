@@ -40,6 +40,9 @@ export const URLS = {
     searchByQuery: (params: GetUserProductsBySearchQueryParams) =>
       createUrlPath("/v1/products/search", undefined, params)
   },
+  sales: {
+    getSaleProducts: "/v1/products/sales"
+  },
   orders: {
     getForUser: ({ userId, lang, page }: GetUserOrderParams) =>
       `/v1/users/${userId}/orders?lang=${lang}&page=${page}`,

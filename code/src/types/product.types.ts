@@ -12,6 +12,8 @@ export type Product = {
   tags: string[];
   image: string;
   price: number;
+  discountedAmount?: number;
+  originalPrice?: number;
 };
 
 export type ManagerProductStatus = "VISIBLE" | "HIDDEN";

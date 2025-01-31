@@ -100,6 +100,16 @@ export const productsApi = appApi.injectEndpoints({
         body
       }),
       invalidatesTags: [rtkQueryTags.ADMIN_PRODUCTS, rtkQueryTags.PRODUCTS]
+    }),
+    getSalesProducts: build.query<
+      GetUserProductsResponse,
+      GetUserProductsParams
+    >({
+      query: (params) => ({
+        url: URLS.sales.getSaleProducts,
+        params: params ?? {}
+      }),
+      providesTags: [rtkQueryTags.SALES]
     })
   })
 });
@@ -112,5 +122,6 @@ export const {
   useCreateProductMutation,
   useGetManagerProductQuery,
   useGetUserProductsBySearchQuery,
-  useUpdateProductMutation
+  useUpdateProductMutation,
+  useGetSalesProductsQuery
 } = productsApi;
