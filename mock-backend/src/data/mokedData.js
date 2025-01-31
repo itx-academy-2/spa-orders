@@ -8,7 +8,9 @@ const products = [
     tags: ["category:mobile"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
-    price: 500,
+    price: 1000,
+    discount: 50,
+    priceWithDiscount: 500,
   },
   {
     id: "124",
@@ -42,6 +44,8 @@ const products = [
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_2-ayF4QQ9ilJtRKlpBLCvwlJkBYddhPO.png",
     price: 999,
+    discount: 40,
+    priceWithDiscount: 500,
   },
   {
     id: "127",
@@ -53,6 +57,8 @@ const products = [
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/computer_1-J0a7bI2jB5NozuSaXnzyMtxHyijWoD.jpg",
     price: 1999,
+    discount: 40,
+    priceWithDiscount: 500,
   },
   {
     id: "128",

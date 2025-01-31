@@ -28,6 +28,8 @@ export type CartItem = {
   productPrice: number;
   quantity: number;
   calculatedPrice: number;
+  discount?: number;
+  priceWithDiscount?: number;
 };
 
 export type CartType = {
