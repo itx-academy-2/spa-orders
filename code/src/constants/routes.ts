@@ -22,9 +22,6 @@ const routes = {
   mobiles: {
     path: "/products?category=mobile"
   },
-  sales: {
-    path: "/products?category=sales"
-  },
   orders: {
     path: "/orders"
   },
