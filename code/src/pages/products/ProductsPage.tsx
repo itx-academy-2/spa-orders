@@ -12,10 +12,10 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
-import usePageSize from "@/hooks/use-products-page-size/useProductsPageSize";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
 import { useGetUserProductsQuery } from "@/store/api/productsApi";
-import cn from "@/utils/cn/cn";
+import useScreenSize from "@/utils/check-screen-size/useScreenSize";
+import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
 import "@/pages/products/ProductsPage.scss";
 
@@ -28,7 +28,9 @@ const ProductsPage = () => {
 
   const categoryType = searchParams.get("category");
 
-  const size = usePageSize(categoryType);
+  const screenSize = useScreenSize();
+
+  const size = setProductsPerPageSize(screenSize.width);
 
   const {
     data: productsResponse,
@@ -79,8 +81,6 @@ const ProductsPage = () => {
     }
   }, [pagesCount, page, searchParams, setSearchParams]);
 
-  const maxColumns = categoryType === "sales" ? 4 : 5;
-
   return (
     <PageWrapper>
       <AppBox className="spa-products-page" data-cy="products-page">
@@ -107,12 +107,11 @@ const ProductsPage = () => {
           />
         </AppBox>
         <ProductsContainer
-          className={cn("spa-products-page__grid")}
+          className="spa-products-page__grid"
           products={productsList ?? []}
           loadingItemsCount={10}
           isLoading={isLoading}
           isError={isError}
-          maxColumns={maxColumns}
         />
         <PaginationBlock
           page={page}

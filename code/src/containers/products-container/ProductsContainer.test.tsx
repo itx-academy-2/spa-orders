@@ -88,7 +88,7 @@ describe("Test ProductsContainer", () => {
     const { container } = renderProductsContainer({ className: "products" });
 
     const gridContainer = container.getElementsByClassName("products")[0];
-
+    
     expect(gridContainer).toBeInTheDocument();
   });
 
@@ -106,13 +106,5 @@ describe("Test ProductsContainer", () => {
     const errorElement = screen.getByText("error");
 
     expect(errorElement).toBeInTheDocument();
-  });
-
-  test("Should render different amount of columns based on passed maxColumns", () => {
-    renderProductsContainer({ maxColumns: 4 });
-
-    const gridElement = screen.getByTestId("products-container");
-
-    expect(gridElement).toHaveClass("products-container__4-cols");
   });
 });

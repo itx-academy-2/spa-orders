@@ -7,7 +7,6 @@ export type ProductsContainerProps = {
   className?: string;
   isError?: boolean;
   errorMessage?: string;
-  maxColumns?: number;
 };
 
 export type HandleCartIconClickParam = Product & { isInCart: boolean };
