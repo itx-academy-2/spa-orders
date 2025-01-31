@@ -112,7 +112,7 @@ const getSalesProducts = (req, res) => {
   let sortedProducts = sort ? sortProducts(products, sort) : products;
 
   const saleProducts = sortedProducts.filter(
-    (product) => product.originalPrice && product.discountedAmount
+    (product) => product.priceWithDiscount && product.discount
   );
 
   const finalProducts = categoryFilter(category, saleProducts);

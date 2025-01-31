@@ -316,9 +316,9 @@ const products = [
     tags: ["category:mobile"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_1234-2xIucM8hgLayGS23HoLYzJ27c4SigN.jpg",
-    price: 475,
-    discountedAmount: 50,
-    originalPrice: 950,
+    price: 950,
+    discount: 50,
+    priceWithDiscount: 475,
   },
   {
     id: "152",
@@ -329,9 +329,9 @@ const products = [
     tags: ["category:mobile"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_12345-WASAxiPaRLLT3EHgRIlP47A0YaQdBJ.jpg",
-    price: 719,
-    discountedAmount: 20,
-    originalPrice: 899,
+    price: 899,
+    discount: 20,
+    priceWithDiscount: 719,
   },
   {
     id: "153",
@@ -342,9 +342,9 @@ const products = [
     tags: ["category:tablet"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_123-K40mc0f8xHjEtLRuJ5dmc95PcBK3Cf.png",
-    price: 714,
-    discountedAmount: 35,
-    originalPrice: 1099,
+    price: 1099,
+    discount: 35,
+    priceWithDiscount: 714,
   },
   {
     id: "154",
@@ -355,9 +355,9 @@ const products = [
     tags: ["category:tablet"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
-    price: 623,
-    discountedAmount: 22,
-    originalPrice: 799,
+    price: 799,
+    discount: 22,
+    priceWithDiscount: 623,
   },
   {
     id: "155",
@@ -368,9 +368,9 @@ const products = [
     tags: ["category:mobile"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_1234-2xIucM8hgLayGS23HoLYzJ27c4SigN.jpg",
-    price: 475,
-    discountedAmount: 50,
-    originalPrice: 950,
+    price: 950,
+    discount: 50,
+    priceWithDiscount: 475,
   },
   {
     id: "156",
@@ -381,9 +381,9 @@ const products = [
     tags: ["category:mobile"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_12345-WASAxiPaRLLT3EHgRIlP47A0YaQdBJ.jpg",
-    price: 719,
-    discountedAmount: 20,
-    originalPrice: 899,
+    price: 899,
+    discount: 20,
+    priceWithDiscount: 719,
   },
   {
     id: "157",
@@ -394,9 +394,9 @@ const products = [
     tags: ["category:tablet"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_123-K40mc0f8xHjEtLRuJ5dmc95PcBK3Cf.png",
-    price: 714,
-    discountedAmount: 35,
-    originalPrice: 1099,
+    price: 1099,
+    discount: 35,
+    priceWithDiscount: 714,
   },
   {
     id: "158",
@@ -407,9 +407,9 @@ const products = [
     tags: ["category:tablet"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
-    price: 623,
-    discountedAmount: 22,
-    originalPrice: 799,
+    price: 799,
+    discount: 22,
+    priceWithDiscount: 623,
   },
 ];
 
