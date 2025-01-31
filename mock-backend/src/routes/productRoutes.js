@@ -6,13 +6,15 @@ const {
   createProduct,
   getProductByIdForManager,
   searchProducts,
-  updateProduct
+  updateProduct,
+  getSalesProducts
 } = require("../controllers/productController");
 
 const router = express.Router();
 
 router.get("/products", getAllProducts);
 router.get("/products/search", searchProducts);
+router.get("/products/sales", getSalesProducts);
 router.get("/products/:productId", getProductById);
 router.get("/management/products", getAllManagerProducts);
 router.get("/management/products/:id", getProductByIdForManager);
