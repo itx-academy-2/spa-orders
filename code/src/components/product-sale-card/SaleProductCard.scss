@@ -1,0 +1,29 @@
+@import "@design-system";
+
+.spa-sale-product-card {
+  &__label {
+    position: absolute;
+    top: spacing(2);
+    left: spacing(2);
+    background-color: var(--spa-sale-label-bg-color, $red);
+    color: var(--spa-sale-label-text-color, $white);
+    padding: spacing(1) 10px;
+    border-radius: 15px;
+    font-size: 15px;
+    z-index: 1;
+  }
+
+  &__price {
+    color: var(--spa-sale-price-color, $red);
+  }
+
+  &__original-price {
+    text-decoration: line-through;
+    margin-right: spacing(1);
+  }
+
+  &__price-container {
+    display: flex;
+    align-items: center;
+  }
+}

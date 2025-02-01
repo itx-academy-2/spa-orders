@@ -13,7 +13,7 @@ export type Product = {
   image: string;
   price: number;
   discount?: number;
-  priceWithDiscount?: number;
+  priceWithDiscount?: number | null;
 };
 
 export type ManagerProductStatus = "VISIBLE" | "HIDDEN";
