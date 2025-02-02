@@ -149,4 +149,12 @@ describe("Test ProductsContainer", () => {
 
     expect(saleProductElement).not.toBeInTheDocument();
   });
+
+  test("Should render different amount of columns based on passed maxColumns", () => {
+    renderProductsContainer({ maxColumns: 4 });
+
+    const gridElement = screen.getByTestId("products-container");
+
+    expect(gridElement).toHaveClass("products-container__4-cols");
+  });
 });

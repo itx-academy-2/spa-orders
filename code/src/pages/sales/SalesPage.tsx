@@ -1,11 +1,13 @@
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
+import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
 import ProductsContainer from "@/containers/products-container/ProductsContainer";
 
 import AppBox from "@/components/app-box/AppBox";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import usePagination from "@/hooks/use-pagination/usePagination";
 import { useGetSalesProductsQuery } from "@/store/api/productsApi";
 
 import "@/pages/sales/SalesPage.scss";
@@ -13,12 +15,16 @@ import "@/pages/sales/SalesPage.scss";
 const SalesPage = () => {
   const { locale } = useLocaleContext();
 
+  const { page } = usePagination();
+
   const {
     data: salesResponse,
     isLoading,
     isError
   } = useGetSalesProductsQuery({
-    lang: locale
+    lang: locale,
+    size: 3,
+    page: page - 1
   });
 
   const salesList = salesResponse?.content;
@@ -45,10 +51,12 @@ const SalesPage = () => {
         <ProductsContainer
           className="spa-sales-page__grid"
           products={salesList ?? []}
-          loadingItemsCount={10}
+          loadingItemsCount={3}
           isLoading={isLoading}
           isError={isError}
+          maxColumns={3}
         />
+        <PaginationBlock page={page} totalPages={salesResponse?.totalPages} />
       </AppBox>
     </PageWrapper>
   );
