@@ -10,12 +10,31 @@ Cypress.Commands.addQuery("getById", (id: string) => {
   return () => getFn();
 });
 
-Cypress.Commands.add("typeIntoBlank", (element: Cypress.Chainable<JQuery<HTMLElement>>, text: string) => {
-  if (!text) {
-    return element.clear();
-  } else {
-    return element.clear().type(text);
+Cypress.Commands.add(
+  "typeIntoBlank",
+  (element: Cypress.Chainable<JQuery<HTMLElement>>, text: string) => {
+    if (!text) {
+      return element.clear();
+    } else {
+      return element.clear().type(text);
+    }
   }
+);
+
+Cypress.Commands.addQuery("getByData", (name: string, value: string) => {
+  const getFn = cy.now(
+    "get",
+    `[data-${name}="${value}"]`
+  ) as () => Promise<HTMLElement>;
+  return () => getFn();
+});
+
+Cypress.Commands.addQuery("getByLabel", (value: string) => {
+  const getFn = cy.now(
+    "get",
+    `[aria-label="${value}"]`
+  ) as () => Promise<HTMLElement>;
+  return () => getFn();
 });
 
 Cypress.Commands.add("loginWithRole", (role = "ROLE_USER") => {

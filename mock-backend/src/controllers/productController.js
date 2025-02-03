@@ -136,5 +136,5 @@ module.exports = {
   searchProducts,
   getProductByIdForManager,
   updateProduct,
-  getSalesProducts
+  getSalesProducts,
 };
