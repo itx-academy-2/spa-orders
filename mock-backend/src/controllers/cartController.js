@@ -3,7 +3,7 @@ const products = require("../data/mokedData");
 let store = [];
 
 const getCartItems = (req, res) => {
-  const price = store.reduce((acc, item) => acc + item.calculatedPrice, 0)
+  const price = store.reduce((acc, item) => acc + (item.priceWithDiscount || item.calculatedPrice), 0);
 
   const responseBody = {
     totalPrice: price,
@@ -21,13 +21,19 @@ const addToCart = (req, res) => {
     return res.status(409).json();
   }
 
+  const discount = item.discount || 0;
+
+  const priceWithDiscount = item.price - (item.price * discount / 100);
+
   store.push({
     productId: item.id,
     image: item.image,
     name: item.name,
     productPrice: item.price,
     quantity: 1,
-    calculatedPrice: item.price
+    calculatedPrice: item.price,
+    discount: discount,
+    priceWithDiscount: priceWithDiscount
   });
 
   res.json();
@@ -47,6 +53,7 @@ const updateCartItemQuantity = (req, res) => {
 
   item.quantity = parseInt(req.query.quantity);
   item.calculatedPrice = item.productPrice * item.quantity;
+  item.priceWithDiscount = (item.productPrice - (item.productPrice * item.discount / 100)) * item.quantity;
 
   res.status(200).json(item);
 };

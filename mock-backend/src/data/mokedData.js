@@ -58,7 +58,7 @@ const products = [
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/computer_1-J0a7bI2jB5NozuSaXnzyMtxHyijWoD.jpg",
     price: 1999,
     discount: 40,
-    priceWithDiscount: 500,
+    priceWithDiscount: 1199,
   },
   {
     id: "128",
