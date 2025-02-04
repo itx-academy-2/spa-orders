@@ -74,6 +74,8 @@ $fs: (
   4xl: $fs-4xl
 );
 
+$breakpointsArray: ("xs", "sm", "md", "lg", "xl");
+
 /* Text transforms */
 
 $tt-none: none;

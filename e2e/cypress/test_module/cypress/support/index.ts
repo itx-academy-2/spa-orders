@@ -30,7 +30,17 @@ declare global {
 
       visitWithLanguage(url: string, language?: string): Chainable<void>;
 
-      typeIntoBlank(element: Cypress.Chainable<JQuery<HTMLElement>>, text: string): Cypress.Chainable<JQuery<HTMLElement>>
+      typeIntoBlank(
+        element: Cypress.Chainable<JQuery<HTMLElement>>,
+        text: string
+      ): Cypress.Chainable<JQuery<HTMLElement>>;
+
+      getByLabel(value: string | number): Chainable<JQuery<HTMLElement>>;
+
+      getByData(
+        name: string,
+        value: string | number
+      ): Chainable<JQuery<HTMLElement>>;
     }
   }
 }
