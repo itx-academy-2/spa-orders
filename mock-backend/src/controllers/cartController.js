@@ -3,7 +3,10 @@ const products = require("../data/mokedData");
 let store = [];
 
 const getCartItems = (req, res) => {
-  const price = store.reduce((acc, item) => acc + (item.priceWithDiscount || item.calculatedPrice), 0);
+  const price = store.reduce((acc, item) => {
+    const itemTotal = item.priceWithDiscount !== null ? item.priceWithDiscount * item.quantity : item.productPrice * item.quantity;
+    return acc + itemTotal;
+  }, 0);
 
   const responseBody = {
     totalPrice: price,
@@ -51,11 +54,18 @@ const updateCartItemQuantity = (req, res) => {
     return res.status(404).json({ message: "The requested resource was not found" });
   }
 
-  item.quantity = parseInt(req.query.quantity);
-  item.calculatedPrice = item.productPrice * item.quantity;
-  item.priceWithDiscount = (item.productPrice - (item.productPrice * item.discount / 100)) * item.quantity;
+  const quantity = parseInt(req.query.quantity);
+  if (isNaN(quantity) || quantity < 1) {
+    return res.status(400).json({ message: "Invalid quantity" });
+  }
 
-  res.status(200).json(item);
+  item.quantity = quantity;
+
+  const effectivePrice = item.discount > 0 ? item.priceWithDiscount : item.productPrice;
+
+  item.calculatedPrice = effectivePrice * quantity;
+
+  res.status(200).json({ item });
 };
 
 module.exports = { getCartItems, addToCart, removeFromCart, updateCartItemQuantity };

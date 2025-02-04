@@ -42,8 +42,8 @@ const useUserCartItems = () => {
   ) => {
     if (user) {
       const oldQuantity = product.quantity;
-      const priceDifference =
-        product.productPrice * (newQuantity - oldQuantity);
+      const unitPrice = product.priceWithDiscount ?? product.productPrice;
+      const priceDifference = unitPrice * (newQuantity - oldQuantity);
 
       setOptimisticTotalPrice((prevState) => prevState + priceDifference);
 

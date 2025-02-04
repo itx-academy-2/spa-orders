@@ -7,7 +7,6 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import { CartDrawerItemProps } from "@/types/cart.types";
-import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 
 import "@/containers/cart-drawer/cart-drawer-item/CartDrawerItem.scss";
@@ -17,11 +16,11 @@ const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
     onRemove(props);
   };
 
-  const hasDiscount = !!props.priceWithDiscount;
+  const hasDiscount = props.discount && props.discount > 0;
 
   return (
     <AppBox className="cart-item">
-      {hasDiscount && (
+      {hasDiscount ? (
         <AppBadge
           className="cart-item__discount-badge"
           data-testid="cart-item-discount-badge"
@@ -33,7 +32,7 @@ const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
           variant="danger"
           size="small"
         />
-      )}
+      ) : null}
       <AppBox
         component="img"
         alt={props.name}
@@ -43,22 +42,25 @@ const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
       <AppBox className="cart-item__content">
         <AppTypography className="cart-item__title">{props.name}</AppTypography>
         <Box className="cart-item__price-container">
-          <AppTypography
-            className={cn(
-              "cart-item__price",
-              hasDiscount && "cart-item__price-old"
-            )}
-            variant={hasDiscount ? "body" : "concept"}
-          >
-            {formatPrice(props.calculatedPrice)}
-          </AppTypography>
-          {hasDiscount && (
-            <AppTypography
-              className="cart-item__price-discounted"
-              variant="concept"
-              data-testid="cart-item-discounted-price"
-            >
-              {formatPrice(props.priceWithDiscount!)}
+          {hasDiscount ? (
+            <>
+              <AppTypography
+                className="cart-item__price cart-item__price-old"
+                variant="body"
+              >
+                {formatPrice(props.calculatedPrice)}
+              </AppTypography>
+              <AppTypography
+                className="cart-item__price cart-item__price-discounted"
+                variant="concept"
+                data-testid="cart-item-discounted-price"
+              >
+                {formatPrice(props.priceWithDiscount!)}
+              </AppTypography>
+            </>
+          ) : (
+            <AppTypography className="cart-item__price" variant="concept">
+              {formatPrice(props.calculatedPrice)}
             </AppTypography>
           )}
         </Box>

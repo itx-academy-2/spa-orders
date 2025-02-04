@@ -4,6 +4,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
+import AppBadge from "@/components/app-badge/AppBadge";
 import AppBox from "@/components/app-box/AppBox";
 import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import AppTypography from "@/components/app-typography/AppTypography";
@@ -70,15 +71,36 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
 
   const disableMinusQuantity = quantity === 1 && "disabled";
 
-  const totalPrice = formatPrice(quantity * item.productPrice);
+  const hasDiscount =
+    item.priceWithDiscount && item.priceWithDiscount < item.productPrice;
+
+  const totalPrice = hasDiscount
+    ? formatPrice(quantity * (item.priceWithDiscount ?? 0))
+    : formatPrice(quantity * (item.productPrice ?? 0));
 
   return (
     <AppBox className="spa-cart-item" data-cy="cart-item">
-      <AppBox
-        component="img"
-        src={item.image}
-        className="spa-cart-item__image"
-      />
+      {hasDiscount && (
+        <AppBadge
+          className="spa-cart-item__discount-badge"
+          badgeContent={`-${item.discount}%`}
+          variant="danger"
+          size="small"
+        >
+          <AppBox
+            component="img"
+            src={item.image}
+            className="spa-cart-item__image"
+          />
+        </AppBadge>
+      )}
+      {!hasDiscount && (
+        <AppBox
+          component="img"
+          src={item.image}
+          className="spa-cart-item__image"
+        />
+      )}
       <AppBox className="spa-cart-item__details">
         <AppTypography
           className="spa-cart-item__title"
@@ -87,7 +109,22 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
         >
           {item.name}
         </AppTypography>
-        <AppTypography>{formatPrice(item.productPrice)}</AppTypography>
+        <AppBox className="spa-cart-item__prices">
+          {hasDiscount ? (
+            <>
+              <AppTypography className="spa-cart-item__price-old">
+                {formatPrice(item.productPrice)}
+              </AppTypography>
+              <AppTypography className="spa-cart-item__price-discounted">
+                {formatPrice(item.priceWithDiscount ?? 0)}
+              </AppTypography>
+            </>
+          ) : (
+            <AppTypography className="spa-cart-item__regular-price">
+              {formatPrice(item.productPrice)}
+            </AppTypography>
+          )}
+        </AppBox>
       </AppBox>
       <AppBox className="spa-cart-item__quantity-selector">
         <AppBox
@@ -116,8 +153,11 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
       <AppBox className="spa-cart-item__price">
         <AppTooltip titleTranslationKey={totalPrice}>
           <AppTypography
-            component="span"
-            className="spa-cart-item__price-value"
+            className={
+              hasDiscount
+                ? "spa-cart-item__price-discounted-total"
+                : "spa-cart-item__price-value"
+            }
           >
             {totalPrice}
           </AppTypography>

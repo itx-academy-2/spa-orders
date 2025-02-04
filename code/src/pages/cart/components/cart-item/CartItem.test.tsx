@@ -1,10 +1,21 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 import CartItem from "@/pages/cart/components/cart-item/CartItem";
+import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
 
-const mockedItem = {
+interface CartItemType {
+  productId: string;
+  image: string;
+  name: string;
+  productPrice: number;
+  quantity: number;
+  calculatedPrice: number;
+  discount?: number;
+}
+
+const mockedItem: CartItemType = {
   productId: "8efbee82-8a0c-407a-a4c0-16bbad40a23e",
   image:
     "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
@@ -136,5 +147,72 @@ describe("CartItem", () => {
     fireEvent.blur(quantityInputElement);
 
     expect(quantityInputElement.value).toBe("3");
+  });
+
+  test("should display correct total price with discount", async () => {
+    const discountedItem = {
+      ...mockedItem,
+      priceWithDiscount: 80,
+      discount: 20
+    };
+    const quantity = 2;
+    const expectedTotalPrice = formatPrice(
+      quantity * (discountedItem.priceWithDiscount ?? 0)
+    );
+
+    renderWithProviders(
+      <CartItem
+        item={discountedItem}
+        onRemove={mockOnRemove}
+        onQuantityChange={mockOnQuantityChange}
+      />
+    );
+
+    expect(
+      screen.getByText(expectedTotalPrice, {
+        selector: ".spa-cart-item__price-discounted-total"
+      })
+    ).toBeInTheDocument();
+  });
+
+  test("should display correct total price without discount", async () => {
+    const quantity = 2;
+    const expectedTotalPrice = formatPrice(
+      quantity * (mockedItem.productPrice ?? 0)
+    );
+
+    renderWithProviders(
+      <CartItem
+        item={mockedItem}
+        onRemove={mockOnRemove}
+        onQuantityChange={mockOnQuantityChange}
+      />
+    );
+
+    const totalPriceElements = screen.getAllByText(expectedTotalPrice, {
+      selector: ".spa-cart-item__price-value"
+    });
+    expect(totalPriceElements.length).toBeGreaterThan(0);
+  });
+
+  test("should display formatted discounted price", () => {
+    const discountedItem = {
+      ...mockedItem,
+      priceWithDiscount: 80
+    };
+
+    renderWithProviders(
+      <CartItem
+        item={discountedItem}
+        onRemove={mockOnRemove}
+        onQuantityChange={mockOnQuantityChange}
+      />
+    );
+
+    expect(
+      screen.getByText(formatPrice(discountedItem.priceWithDiscount ?? 0), {
+        selector: ".spa-cart-item__price-discounted"
+      })
+    ).toBeInTheDocument();
   });
 });
