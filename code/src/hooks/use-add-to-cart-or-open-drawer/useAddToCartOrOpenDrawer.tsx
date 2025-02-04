@@ -41,7 +41,7 @@ const useAddToCartOrOpenDrawer = <T extends MinimalRequiredProduct>(
       quantity: 1,
       calculatedPrice: product.price,
       discount: product.discount,
-      priceWithDiscount: product.priceWithDiscount
+      priceWithDiscount: product.priceWithDiscount ?? undefined
     });
   };
 
