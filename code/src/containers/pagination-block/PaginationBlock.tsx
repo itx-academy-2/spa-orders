@@ -21,7 +21,10 @@ const PaginationBlock = ({
   }
 
   return (
-    <AppContainer className={cn("pagination-block", className)}>
+    <AppContainer
+      data-testid="pagination-block"
+      className={cn("pagination-block", className)}
+    >
       <AppPagination page={page} count={totalPages} size="large" />
     </AppContainer>
   );

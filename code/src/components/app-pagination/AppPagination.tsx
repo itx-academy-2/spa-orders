@@ -27,12 +27,19 @@ const AppPagination = (props: AppPaginationProps) => {
         onClick={handlePageChange}
         data-cy="pagination"
         data-testid="pagination-button"
+        data-page={itemProps.page}
         {...itemProps}
       />
     );
   };
 
-  return <Pagination renderItem={renderPaginationItem} {...props} />;
+  return (
+    <Pagination
+      data-current-page={page}
+      renderItem={renderPaginationItem}
+      {...props}
+    />
+  );
 };
 
 export default AppPagination;
