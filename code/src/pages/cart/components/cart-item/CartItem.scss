@@ -22,6 +22,30 @@
     max-width: 350px;
   }
 
+  &__prices {
+    display: flex;
+    align-items: center;
+    gap: spacing(2);
+  }
+
+  &__price-old {
+    text-decoration: line-through;
+    color: $gray;
+    font-size: var(--spa-cart-price-old-font-size, $fs-lg);
+  }
+
+  &__price-discounted {
+    color: $red;
+    font-weight: bold;
+    font-size: var(--spa-cart-price-discounted-font-size, $fs-lg);
+  }
+
+  &__regular-price {
+    color: $black;
+    font-weight: bold;
+    font-size: var(--spa-cart-regular-price-font-size, $fs-lg);
+  }
+
   &__quantity-selector {
     display: flex;
     align-items: center;
@@ -64,11 +88,25 @@
     }
   }
 
+  .spa-cart-item__price-discounted-total {
+    color: var(--spa-cart-regular-price-color, $black);
+    font-weight: var(--spa-cart-price-value-font-weight, $fw-extra-bold);
+    font-size: var(--spa-cart-price-value-font-size, $fs-lg);
+    text-align: center;
+  }
+
   &__delete-block {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     @include box(32px);
+  }
+
+  &__discount-badge {
+    .MuiBadge-badge {
+      padding: 12px 6px;
+      transform: translate(-50%, -50%);
+    }
   }
 }

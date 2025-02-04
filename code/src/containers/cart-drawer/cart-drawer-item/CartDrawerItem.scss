@@ -7,6 +7,12 @@
   border-bottom: 1px solid var(--spa-light-border-color, $light);
   position: relative;
 
+  &__discount-badge {
+    position: absolute;
+    left: 50px;
+    top: 20px;
+  }
+
   &__img {
     @include box(85px);
     object-fit: cover;
@@ -26,8 +32,24 @@
     overflow: hidden;
   }
 
+  &__price-container {
+    display: flex;
+    gap: spacing(4);
+    align-items: center;
+  }
+
   &__price {
     font-size: var(--cart-item-price-size, $fs-sm);
+
+    &-old {
+      text-decoration: line-through;
+      color: gray;
+    }
+  }
+
+  &__price-discounted {
+    font-size: var(--cart-item-price-size, $fs-sm);
+    color: red;
   }
 
   &__remove-button {

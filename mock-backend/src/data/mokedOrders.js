@@ -23,7 +23,7 @@ const userOrders = {
       isPaid: true,
       orderStatus: "IN_PROGRESS",
       createdAt: "2024-07-05T12:35:14.396Z",
-      total: 4796,
+      total: 3799,
       receiver: {
         firstName: "Eugene",
         lastName: "Hetsyanyn",
@@ -51,7 +51,7 @@ const userOrders = {
           },
         },
         {
-          price: 2997,
+          price: 2000,
           quantity: 4,
           product: {
             id: "125",
@@ -63,6 +63,8 @@ const userOrders = {
             image:
               "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
             price: 999,
+            priceWithDiscount: 500,
+            discount: 50,
           },
         },
       ],
@@ -82,10 +84,10 @@ const userOrders = {
         city: "Kyiv",
         department: "№7",
       },
-      total: 4995,
+      total: 4399,
       orderItems: [
         {
-          price: 2997,
+          price: 2400,
           quantity: 3,
           product: {
             id: "124",
@@ -96,7 +98,9 @@ const userOrders = {
             tags: ["category:electronics"],
             image:
               "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
-            price: 999,
+            price: 1000,
+            priceWithDiscount: 800,
+            discount: 20,
           },
         },
         {
