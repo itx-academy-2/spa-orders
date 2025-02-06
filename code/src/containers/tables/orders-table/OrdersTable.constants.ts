@@ -29,7 +29,8 @@ export const mockOrders: AdminOrder[] = [
       department: "123"
     },
     orderItems: [],
-    total: 0
+    total: 0,
+    totalWithDiscount: null
   },
   {
     id: "2",
@@ -48,7 +49,8 @@ export const mockOrders: AdminOrder[] = [
       department: "123"
     },
     orderItems: [],
-    total: 0
+    total: 0,
+    totalWithDiscount: null
   },
   {
     id: "3",
@@ -67,6 +69,7 @@ export const mockOrders: AdminOrder[] = [
       department: "123"
     },
     orderItems: [],
-    total: 0
+    total: 0,
+    totalWithDiscount: null
   }
 ];

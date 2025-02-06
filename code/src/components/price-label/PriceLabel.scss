@@ -1,0 +1,25 @@
+@import "@design-system";
+
+.price-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__original-price {
+    text-decoration: line-through;
+    color: $gray-light;
+  }
+
+  &__discounted-price {
+    color: $red;
+  }
+
+  &--horizontal {
+    gap: spacing(2);
+  }
+
+  &--vertical {
+    flex-direction: column;
+    gap: spacing(1);
+  }
+}

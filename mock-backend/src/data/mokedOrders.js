@@ -23,7 +23,8 @@ const userOrders = {
       isPaid: true,
       orderStatus: "IN_PROGRESS",
       createdAt: "2024-07-05T12:35:14.396Z",
-      total: 3799,
+      total: 5795,
+      totalWithDiscount: 3799,
       receiver: {
         firstName: "Eugene",
         lastName: "Hetsyanyn",
@@ -37,6 +38,7 @@ const userOrders = {
       orderItems: [
         {
           price: 1799,
+          priceWithDiscount: null,
           quantity: 1,
           product: {
             id: "126",
@@ -51,7 +53,8 @@ const userOrders = {
           },
         },
         {
-          price: 2000,
+          price: 3996,
+          priceWithDiscount: 2000,
           quantity: 4,
           product: {
             id: "125",
@@ -84,10 +87,12 @@ const userOrders = {
         city: "Kyiv",
         department: "№7",
       },
-      total: 4399,
+      total: 4999,
+      totalWithDiscount: 4399,
       orderItems: [
         {
-          price: 2400,
+          price: 3000,
+          priceWithDiscount: 2400,
           quantity: 3,
           product: {
             id: "124",

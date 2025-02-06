@@ -9,6 +9,7 @@ import renderWithProviders from "@/utils/render-with-providers/renderWithProvide
 const mockOrder: UserOrder = {
   id: "order-1",
   total: 100,
+  totalWithDiscount: null,
   receiver: {
     firstName: "John",
     lastName: "Doe",
@@ -31,7 +32,9 @@ const mockOrder: UserOrder = {
         price: 100
       },
       quantity: 2,
-      price: 500
+      price: 500,
+      discount: null,
+      priceWithDiscount: null
     }
   ],
   isPaid: false,

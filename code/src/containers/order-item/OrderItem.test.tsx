@@ -30,14 +30,17 @@ const mockOrder: UserOrder = {
         price: 100
       },
       quantity: 2,
-      price: 500
+      price: 500,
+      discount: null,
+      priceWithDiscount: null
     }
   ],
   isPaid: false,
   orderStatus: "IN_PROGRESS",
   availableStatuses: ["SHIPPED", "DELIVERED", "COMPLETED", "CANCELED"],
   createdAt: "2024-06-27T12:35:14.396Z",
-  total: 123
+  total: 123,
+  totalWithDiscount: null
 };
 
 describe("OrderItem", () => {

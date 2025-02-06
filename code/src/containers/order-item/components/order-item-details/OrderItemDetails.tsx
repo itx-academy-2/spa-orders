@@ -2,11 +2,11 @@ import OrderProductItem from "@/containers/order-item/components/order-product-i
 
 import AppBox from "@/components/app-box/AppBox";
 import AppTypography from "@/components/app-typography/AppTypography";
+import PriceLabel from "@/components/price-label/PriceLabel";
 
 import { PostAddress } from "@/types/delivery.types";
 import { UserOrder } from "@/types/order.types";
 import extractFullname from "@/utils/extract-fullname/extractFullname";
-import formatPrice from "@/utils/format-price/formatPrice";
 
 import "@/containers/order-item/components/order-item-details/OrderItemDetails.scss";
 
@@ -36,12 +36,14 @@ const OrderItemDetails = ({ order }: OrderItemDetailsProps) => {
     )
   );
 
-  const orderProductItems = orderItems.map(({ product, quantity, price }) => (
+  const orderProductItems = orderItems.map((order) => (
     <OrderProductItem
-      key={product.id}
-      product={product}
-      quantity={quantity}
-      totalPrice={price}
+      key={order.product.id}
+      price={order.price}
+      priceWithDiscount={order.priceWithDiscount}
+      quantity={order.quantity}
+      product={order.product}
+      discount={order.discount}
     />
   ));
 
@@ -91,9 +93,10 @@ const OrderItemDetails = ({ order }: OrderItemDetailsProps) => {
             variant="subtitle1"
             translationKey="orderProductItem.details.totalPrice"
           />
-          <AppTypography variant="subtitle2" fontWeight="extra-bold">
-            {formatPrice(order.total)}
-          </AppTypography>
+          <PriceLabel
+            price={order.total}
+            priceWithDiscount={order.totalWithDiscount}
+          />
         </AppBox>
       </AppBox>
     </AppBox>
