@@ -17,6 +17,8 @@ export type ProductFormValues = {
   quantity?: number;
   price?: number;
   category: number | "";
+  discount?: number | null;
+  priceWithDiscount?: number | null;
   productTranslations: ProductTranslation[];
 };
 
@@ -53,7 +55,9 @@ export type ProductFormImageSectionProps = ProductFormSectionExtendedProps;
 export type ProductFormMainInfoSectionProps = ProductFormSectionProps;
 
 export type ProductFormAdditionalInfoSectionProps =
-  ProductFormSectionExtendedProps;
+  ProductFormSectionExtendedProps & {
+    initialPriceWithDiscount?: number;
+  };
 
 export type ProductFormControllerRenderFunctionProps = {
   field: ControllerRenderProps<ProductFormValues>;

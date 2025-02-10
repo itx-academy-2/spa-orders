@@ -20,7 +20,8 @@ import AppTypography from "@/components/app-typography/AppTypography";
 const AdditionalInfo = ({
   register,
   errors,
-  control
+  control,
+  initialPriceWithDiscount
 }: ProductFormAdditionalInfoSectionProps) => {
   const categoryErrorElement = errors.category && (
     <AppFormHelperText className="product-form__category-select-helper" error>
@@ -98,7 +99,7 @@ const AdditionalInfo = ({
         <AppBox className="product-form__quantity-price-container">
           <AppInput
             fullWidth
-            labelTranslationKey="product.price"
+            labelTranslationKey="productForm.basePrice.label"
             inputProps={{ min: 0, step: "any" }}
             type="number"
             error={Boolean(errors.price)}
@@ -119,6 +120,35 @@ const AdditionalInfo = ({
             {...register("quantity", { valueAsNumber: true })}
           />
         </AppBox>
+        {initialPriceWithDiscount && (
+          <AppBox className="product-form__quantity-price-container">
+            <AppInput
+              className="product-form__discount"
+              fullWidth
+              labelTranslationKey="productForm.discountPercentage.label"
+              inputProps={{ min: 0, step: "any" }}
+              type="number"
+              data-testid="product-form-discount-input"
+              disabled
+              {...register("discount", {
+                valueAsNumber: true
+              })}
+            />
+            <AppInput
+              fullWidth
+              labelTranslationKey="productForm.finalPrice.label"
+              inputProps={{
+                min: 0
+              }}
+              type="number"
+              data-testid="product-form-discounted-price-input"
+              disabled
+              {...register("priceWithDiscount", {
+                valueAsNumber: true
+              })}
+            />
+          </AppBox>
+        )}
         <AppBox className="product-form__category-select-container">
           <Controller
             name="category"

@@ -7,6 +7,7 @@ export const tableColumns = [
   "ordersTable.columns.createdAt",
   "ordersTable.columns.deliveryMethod",
   "ordersTable.columns.totalPrice",
+  "ordersTable.columns.totalPriceWithDiscount",
   "ordersTable.columns.isPaid",
   "ordersTable.columns.details"
 ];
@@ -50,7 +51,7 @@ export const mockOrders: AdminOrder[] = [
     },
     orderItems: [],
     total: 0,
-    totalWithDiscount: null
+    totalWithDiscount: 1
   },
   {
     id: "3",

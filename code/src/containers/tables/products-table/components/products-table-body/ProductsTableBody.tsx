@@ -10,6 +10,7 @@ import { AppTableCell } from "@/components/app-table/components";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import routes from "@/constants/routes";
+import cn from "@/utils/cn/cn";
 import formatDate from "@/utils/format-date/formatDate";
 import formatPrice from "@/utils/format-price/formatPrice";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
@@ -17,8 +18,18 @@ import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromT
 import "@/containers/tables/products-table/components/products-table-body/ProductsTableBody.scss";
 
 const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
-  const { name, imageLink, price, quantity, status, tags, createdAt, id } =
-    product;
+  const {
+    name,
+    imageLink,
+    price,
+    quantity,
+    status,
+    tags,
+    createdAt,
+    id,
+    priceWithDiscount,
+    discount
+  } = product;
 
   const categoryName = getCategoryFromTags(tags);
 
@@ -64,6 +75,16 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
       <AppTableCell>{category}</AppTableCell>
       <AppTableCell>{quantity}</AppTableCell>
       <AppTableCell>{formatPrice(price)}</AppTableCell>
+      <AppTableCell
+        className={cn(priceWithDiscount && "products-table__discounted-price")}
+      >
+        {priceWithDiscount ? formatPrice(priceWithDiscount) : "-"}
+      </AppTableCell>
+      <AppTableCell
+        className={cn(priceWithDiscount && "products-table__discounted-price")}
+      >
+        {priceWithDiscount ? discount + "%" : "-"}
+      </AppTableCell>
       <AppTableCell>{formatDate(createdAt)}</AppTableCell>
       <AppTableCell>
         <AppIconButton

@@ -28,6 +28,8 @@ export type ManagerProduct = {
   createdAt: string;
   status: ManagerProductStatus;
   tags: string[];
+  discount: number | null;
+  priceWithDiscount: number | null;
 };
 
 export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
@@ -107,6 +109,8 @@ export type GetManagerProductByIdResponse = {
   createdAt: string;
   quantity: number;
   price: number;
+  discount: number | null;
+  priceWithDiscount: number | null;
   tags: ManagerProductTag[];
   productTranslations: ProductTranslation[];
 };
