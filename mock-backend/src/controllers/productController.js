@@ -42,6 +42,8 @@ const getProductById = (req, res) => {
     tags: product.tags,
     name: product.name,
     description: product.description,
+    discount: product.discount,
+    priceWithDiscount: product.priceWithDiscount
   };
 
   res.json(transformedProduct);

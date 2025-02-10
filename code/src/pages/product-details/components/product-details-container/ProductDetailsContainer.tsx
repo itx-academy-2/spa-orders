@@ -5,6 +5,7 @@ import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingF
 import AppBadge from "@/components/app-badge/AppBadge";
 import AppBox from "@/components/app-box/AppBox";
 import AppTypography from "@/components/app-typography/AppTypography";
+import PriceLabel from "@/components/price-label/PriceLabel";
 import ProductDescription from "@/components/product-description/ProductDescription";
 
 import { deliveryMethods as deliveryMethodsData } from "@/constants/deliveryMethods";
@@ -14,7 +15,6 @@ import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
-import formatPrice from "@/utils/format-price/formatPrice";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 
@@ -99,6 +99,11 @@ const ProductDetailsContainer = ({
   return (
     <AppBox className="product-details">
       <AppBox className="product-details__image-wrapper">
+        {product.discount! > 0 && (
+          <AppBox className="product-details__image-label">
+            -{product.discount}%
+          </AppBox>
+        )}
         <AppBox component="img" src={product.image} alt={product.name} />
       </AppBox>
       <AppBox className="product-details__summary">
@@ -110,13 +115,15 @@ const ProductDetailsContainer = ({
           <AppBox className="product-details__section">
             {inStockTypography}
             <AppBox className="product-details__buy-action">
-              <AppTypography
-                className="product-details__price"
-                variant="h3"
-                component="h2"
-              >
-                {formatPrice(product.price)}
-              </AppTypography>
+              <PriceLabel
+                price={product.price}
+                priceWithDiscount={product.priceWithDiscount}
+                className="custom-price-label"
+                originalPriceSize="h3"
+                originalPriceWeight="bold"
+                discountedPriceSize="h3"
+                discountedPriceWeight="bold"
+              />
               <BuyNowButton productWithId={productWithId} />
             </AppBox>
           </AppBox>

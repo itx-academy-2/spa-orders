@@ -43,11 +43,18 @@ export type GetUserProductsParams = Lang & {
   page?: number;
   size?: number;
   sort?: string;
+  discount?: number;
 };
 
 export type GetUserProductByIdResponse = Pick<
   Product,
-  "image" | "price" | "tags" | "name" | "description"
+  | "image"
+  | "price"
+  | "tags"
+  | "name"
+  | "description"
+  | "discount"
+  | "priceWithDiscount"
 > & {
   quantity: number;
 };

@@ -11,7 +11,12 @@ import "@/components/price-label/PriceLabel.scss";
 const PriceLabel: FC<PriceLabelProps> = ({
   price,
   priceWithDiscount,
-  align = "horizontal"
+  align = "horizontal",
+  className,
+  originalPriceSize = "caption",
+  originalPriceWeight = "regular",
+  discountedPriceSize = "body",
+  discountedPriceWeight = "extra-bold"
 }) => {
   if (!priceWithDiscount) {
     return (
@@ -20,6 +25,7 @@ const PriceLabel: FC<PriceLabelProps> = ({
         component="p"
         fontWeight="extra-bold"
         data-testid="price-label-no-discount"
+        className={className}
       >
         {formatPrice(price)}
       </AppTypography>
@@ -27,20 +33,21 @@ const PriceLabel: FC<PriceLabelProps> = ({
   }
 
   return (
-    <div className={cn("price-label", `price-label--${align}`)}>
+    <div className={cn("price-label", `price-label--${align}`, className)}>
       <AppTypography
         className="price-label__original-price"
-        variant="caption"
+        variant={originalPriceSize}
         component="p"
+        fontWeight={originalPriceWeight}
         data-testid="price-label-original-price"
       >
         {formatPrice(price)}
       </AppTypography>
       <AppTypography
         className="price-label__discounted-price"
-        variant="body"
+        variant={discountedPriceSize}
         component="p"
-        fontWeight="extra-bold"
+        fontWeight={discountedPriceWeight}
         data-testid="price-label-discounted-price"
       >
         {formatPrice(priceWithDiscount)}
