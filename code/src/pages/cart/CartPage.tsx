@@ -20,7 +20,8 @@ const CartPage = () => {
     isCartItemsLoading,
     handleRemoveItem,
     handleQuantityChange,
-    optimisticTotalPrice
+    optimisticTotalPrice,
+    totalDiscountedPrice
   } = useUserCartItems();
 
   if (isError) return <AppTypography translationKey="error.label" />;
@@ -59,7 +60,10 @@ const CartPage = () => {
             />
             {cartItemsBlock}
           </AppBox>
-          <DeliveryForm totalPrice={optimisticTotalPrice} />
+          <DeliveryForm
+            totalPrice={optimisticTotalPrice}
+            totalDiscountedPrice={totalDiscountedPrice}
+          />
         </AppBox>
       </AppBox>
     </PageWrapper>
