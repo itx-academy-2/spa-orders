@@ -47,6 +47,7 @@ describe("OrdersTableBody", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   test("renders order information correctly", () => {
     renderOrdersTableBody({ order: mockOrders[0], role: ROLES.SHOP_MANAGER });
     const ordersReceiver = screen.getByText(
@@ -56,6 +57,13 @@ describe("OrdersTableBody", () => {
 
     expect(checkbox).toBeInTheDocument();
     expect(ordersReceiver).toBeInTheDocument();
+  });
+
+  test("Should render total with discount", () => {
+    renderOrdersTableBody({ order: mockOrders[1], role: ROLES.SHOP_MANAGER });
+
+    const dashes = screen.getByText("$1.00");
+    expect(dashes).toBeInTheDocument();
   });
 
   test("not renders order information correctly if user role is 'null'", () => {
@@ -73,6 +81,7 @@ describe("OrdersTableBody", () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
+
     test("renders select elements properly", () => {
       renderOrdersTableBody({ order: mockOrders[0], role: ROLES.SHOP_MANAGER });
       const statusSelectText = screen.getByText(

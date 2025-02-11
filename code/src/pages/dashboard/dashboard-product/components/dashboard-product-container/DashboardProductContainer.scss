@@ -73,9 +73,15 @@ $gridGapHalf: calc($gridGap / 2);
     grid-row: 2 / 3;
   }
 
+  &__discounted-price {
+    color: red;
+    font-weight: bold;
+  }
+
   &__additional-info-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: spacing(2);
     margin-bottom: spacing(4);
 

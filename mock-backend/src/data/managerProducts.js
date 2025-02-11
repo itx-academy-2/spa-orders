@@ -14,8 +14,10 @@ const managerProducts = {
       imageLink:
         "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/computer-copy-0-wlgCGUS3SKMFcugVqvFYYzVGrY5OGh.png",
       quantity: 92,
-      price: 1299,
+      price: 1300,
       createdAt: "2024-07-15T13:10:15.705024",
+      priceWithDiscount: 650,
+      discount: 50,
       status: "VISIBLE",
       tags: ["category:computer"],
     },
@@ -25,8 +27,10 @@ const managerProducts = {
       imageLink:
         "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/computer-wDPU7h0cjIZoXklhV0kykrFYJqKAjT.png",
       quantity: 94,
-      price: 1899,
+      price: 2000,
       createdAt: "2024-07-15T13:10:15.705024",
+      priceWithDiscount: 1800,
+      discount: 10,
       status: "VISIBLE",
       tags: ["category:computer"],
     },
@@ -201,23 +205,26 @@ const managerProducts = {
 const managerProduct = {
   id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   status: "VISIBLE",
-  image: "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
+  image:
+    "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
   createdAt: "2024-07-29T20:20:02.404Z",
   quantity: 10,
   price: 999.99,
+  priceWithDiscount: 500,
+  discount: 50,
   tags: [
     {
       id: 1,
-      name: "category:mobile"
-    }
+      name: "category:mobile",
+    },
   ],
   productTranslations: [
     {
       name: "APPLE iPhone",
       description: "Screen 6.1 Super Retina XDR, 2532x1170 / A16 Bionic chip",
-      languageCode: "en"
-    }
-  ]
+      languageCode: "en",
+    },
+  ],
 };
 
 module.exports = { managerProducts, managerProduct };

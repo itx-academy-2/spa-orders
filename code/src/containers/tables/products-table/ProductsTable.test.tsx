@@ -26,7 +26,9 @@ describe("Test ProductsTable", () => {
     const bodyElement = container.querySelector(".products-table__body");
     const containerElement = container.querySelector(".products-table");
 
-    expect(tableCells.length).toBe(8 * 2);
+    const expectedNumberOfCells = 10 * 2;
+
+    expect(tableCells.length).toBe(expectedNumberOfCells);
     expect(bodyElement).toBeInTheDocument();
     expect(containerElement).toBeInTheDocument();
   });

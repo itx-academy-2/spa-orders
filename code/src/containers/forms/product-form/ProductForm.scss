@@ -75,10 +75,26 @@ $gridGapHalf: calc($gridGap / 2);
       display: inline;
     }
   }
+
   &__quantity-price-container {
     display: flex;
     gap: spacing(5);
     margin-bottom: spacing(5);
+  }
+
+  &__discount-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: spacing(5);
+  }
+
+  &__discount-price {
+    padding: spacing(8);
+  }
+
+  &__discount {
+    flex: 0 0 98px;
   }
 
   &__text-input {

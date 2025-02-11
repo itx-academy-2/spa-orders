@@ -31,6 +31,7 @@ const controlFunction = (() => ({})) as unknown as ProductFormControl;
 const renderAdditionalInfo = (errors: ProductFormFieldErrors = {}) => {
   return render(
     <AdditionalInfo
+      initialPriceWithDiscount={21}
       register={registerFunction}
       errors={errors}
       control={controlFunction}
@@ -45,7 +46,13 @@ describe("Test AdditionalInfo component", () => {
     const categorySelect = screen.getByTestId("product-form-category-select");
     const priceInput = getTagIn("product-form-price-input");
     const quantityInput = getTagIn("product-form-quantity-input");
+    const discountInput = screen.getByTestId("product-form-discount-input");
+    const discountedPriceInput = screen.getByTestId(
+      "product-form-discounted-price-input"
+    );
 
+    expect(discountedPriceInput).toBeInTheDocument();
+    expect(discountInput).toBeInTheDocument();
     expect(priceInput).toBeInTheDocument();
     expect(quantityInput).toBeInTheDocument();
     expect(categorySelect).toBeInTheDocument();

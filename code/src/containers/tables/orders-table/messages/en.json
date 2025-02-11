@@ -6,6 +6,7 @@
   "ordersTable.columns.email": "Email",
   "ordersTable.columns.deliveryMethod": "Delivery\n method",
   "ordersTable.columns.totalPrice": "Total price",
+  "ordersTable.columns.totalPriceWithDiscount": "Total price with discount",
   "ordersTable.columns.isPaid": "Is paid",
   "ordersTable.fallback": "No orders found",
   "ordersTable.notpaid.tooltip": "Mark this order as paid?",

@@ -48,7 +48,12 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     <AppBox component="form" onSubmit={handleSubmit(onSubmit)}>
       <AppBox className="product-form">
         <ImagePreview control={control} register={register} errors={errors} />
-        <AdditionalInfo control={control} register={register} errors={errors} />
+        <AdditionalInfo
+          control={control}
+          register={register}
+          errors={errors}
+          initialPriceWithDiscount={product.priceWithDiscount ?? product.price}
+        />
         <AppBox className="product-form__main-info-section">
           <MainInfo register={register} errors={errors} />
           <AppButton

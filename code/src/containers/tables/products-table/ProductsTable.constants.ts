@@ -6,7 +6,9 @@ export const productsTableColumns = [
   "productsTable.columns.status",
   "productsTable.columns.category",
   "productsTable.columns.quantity",
-  "productsTable.columns.price",
+  "product.originalPrice",
+  "product.priceWithDiscount",
+  "product.discountPercentage",
   "productsTable.columns.date",
   ""
 ];
@@ -26,6 +28,8 @@ export const mockProducts: ManagerProduct[] = [
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
     quantity: 10,
     price: 100.45,
+    priceWithDiscount: 5,
+    discount: 5,
     createdAt: "2024-07-21T11:37:31.744Z",
     status: "VISIBLE",
     tags: ["category:computer"]
@@ -39,6 +43,8 @@ export const mockProducts: ManagerProduct[] = [
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
     quantity: 10,
     price: 100.45,
+    priceWithDiscount: null,
+    discount: null,
     createdAt: "2024-07-21T11:37:31.744Z",
     status: "VISIBLE",
     tags: ["category:computer"]

@@ -1,6 +1,9 @@
 {
   "productForm.image.preview": "Вставте посилання на зображення для попереднього перегляду",
   "productForm.image.previewError": "Помилка завантаження зображення",
+  "productForm.basePrice.label": "Початкова ціна",
+  "productForm.finalPrice.label": "Кінцева ціна",
+  "productForm.discountPercentage.label": "Знижка, %",
   "productForm.inputLabel.image": "URL зображення",
   "productForm.inputLabel.status": "Видимий для покупців",
   "productForm.update.submit": "Оновити товар",

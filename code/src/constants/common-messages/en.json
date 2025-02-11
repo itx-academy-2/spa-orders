@@ -45,5 +45,8 @@
   "product.description": "Description",
   "product.price": "Price",
   "product.category": "Category",
-  "product.quantity": "Quantity"
+  "product.quantity": "Quantity",
+  "product.priceWithDiscount": "Price with discount",
+  "product.originalPrice": "Price",
+  "product.discountPercentage": "Discount percentage"
 }

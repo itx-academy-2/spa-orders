@@ -24,7 +24,9 @@ const getDefaultValues = (product: FullManagerProduct): ProductFormValues => {
     image: product.image,
     status: product.status === "VISIBLE",
     category: product.tags[0].id,
-    productTranslations: translations
+    productTranslations: translations,
+    discount: product.discount ?? 0,
+    priceWithDiscount: product.priceWithDiscount ?? product.price
   } as const;
 };
 
