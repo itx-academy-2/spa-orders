@@ -6,7 +6,14 @@
   flex-wrap: wrap;
   gap: spacing(8) spacing(15);
 
+  &__price-label {
+    color: purple;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
   &__image-wrapper {
+    position: relative;
     flex: 3;
     width: 100%;
     min-width: 300px;
@@ -17,6 +24,16 @@
       object-fit: cover;
       border: 1px solid var(--spa-product-details-delimiter-color, $ghost-alpha);
     }
+  }
+
+  &__image-label {
+    position: absolute;
+    top: spacing(2);
+    left: spacing(2);
+    background-color: var(--spa-badge-background-color, $red);
+    color: var(--spa-badge-text-color, $white);
+    padding: 15px 10px;
+    border-radius: 25px;
   }
 
   &__summary {
@@ -38,7 +55,7 @@
 
   &__buy-action {
     display: flex;
-    column-gap: spacing(6);
+    column-gap: 15px;
     align-items: center;
   }
 

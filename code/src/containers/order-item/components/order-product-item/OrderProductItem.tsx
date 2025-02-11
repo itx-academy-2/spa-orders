@@ -2,28 +2,18 @@ import AppBadge from "@/components/app-badge/AppBadge";
 import AppBox from "@/components/app-box/AppBox";
 import AppLink from "@/components/app-link/AppLink";
 import AppTypography from "@/components/app-typography/AppTypography";
+import PriceLabel from "@/components/price-label/PriceLabel";
 
 import routes from "@/constants/routes";
-import { Product } from "@/types/product.types";
-import formatPrice from "@/utils/format-price/formatPrice";
+import { OrderItem } from "@/types/order.types";
 
 import "@/containers/order-item/components/order-product-item/OrderProductItem.scss";
 
-type OrderProductItemProps = {
-  product: Product;
-  quantity: number;
-  totalPrice: number;
-};
-
-const OrderProductItem = ({
-  product,
-  quantity,
-  totalPrice
-}: OrderProductItemProps) => {
+const OrderProductItem = (order: OrderItem) => {
   const { price, id, image, name, description, priceWithDiscount, discount } =
-    product;
+    order.product;
 
-  const hasDiscount = product.discount && product.discount > 0;
+  const hasDiscount = !!priceWithDiscount;
 
   return (
     <AppLink
@@ -52,7 +42,6 @@ const OrderProductItem = ({
             />
           ) : null}
         </AppBox>
-
         <AppBox className="spa-order-product__description">
           <AppTypography
             className="spa-order-product__description-title"
@@ -71,51 +60,26 @@ const OrderProductItem = ({
           </AppTypography>
         </AppBox>
         <AppBox className="spa-order-product__price-container">
-          {hasDiscount ? (
-            <AppBox
-              className="spa-order-product__discounted-price-container"
-              data-testid="spa-order-product-discounted-price-container"
-            >
-              <AppTypography
-                className="spa-order-product__price spa-order-product__price-old"
-                variant="caption"
-                component="p"
-                fontWeight="extra-bold"
-              >
-                {formatPrice(price)}
-              </AppTypography>
-              <AppTypography
-                className="spa-order-product__price spa-order-product__price-discounted"
-                variant="caption"
-                component="p"
-                fontWeight="extra-bold"
-              >
-                {formatPrice(priceWithDiscount!)}
-              </AppTypography>
-            </AppBox>
-          ) : (
-            <AppTypography
-              className="spa-order-product__price"
-              variant="caption"
-              component="p"
-              fontWeight="extra-bold"
-            >
-              {formatPrice(price)}
-            </AppTypography>
-          )}
+          <PriceLabel
+            price={price}
+            priceWithDiscount={priceWithDiscount}
+            align="vertical"
+          />
           <AppTypography
             className="spa-order-product__quantity"
             variant="caption"
             component="p"
             fontWeight="extra-bold"
           >
-            x {quantity}
+            &times; {order.quantity}
           </AppTypography>
         </AppBox>
       </AppBox>
-      <AppTypography variant="body" component="p" fontWeight="extra-bold">
-        {formatPrice(totalPrice)}
-      </AppTypography>
+      <PriceLabel
+        price={order.price}
+        priceWithDiscount={order.priceWithDiscount}
+        align="vertical"
+      />
     </AppLink>
   );
 };

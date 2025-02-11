@@ -11,7 +11,14 @@ export type TextVariant =
   | "subtitle2"
   | "caption"
   | "caption-small";
-export type AppFontWeightVariant = "regular" | "extra-bold";
+
+export type AppFontWeightVariant =
+  | "regular"
+  | "medium"
+  | "semi-bold"
+  | "bold"
+  | "extra-bold";
+
 export type AppTypographyVariant = HeadingVariant | TextVariant;
 
 export type TranslationProps = Omit<

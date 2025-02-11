@@ -1,6 +1,9 @@
 {
   "productForm.image.preview": "Insert link to preview image",
   "productForm.image.previewError": "Image loading error",
+  "productForm.basePrice.label": "Base price",
+  "productForm.finalPrice.label": "Final price",
+  "productForm.discountPercentage.label": "Discount, %",
   "productForm.inputLabel.image": "Image URL",
   "productForm.inputLabel.status": "Visible to customers",
   "productForm.update.submit": "Update product",

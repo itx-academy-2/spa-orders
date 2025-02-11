@@ -63,6 +63,16 @@ const useUserCartItems = () => {
     }
   };
 
+  const totalDiscountedPrice = cartItems?.items?.length
+    ? cartItems.items.reduce((total, item) => {
+        const itemPrice =
+          item.priceWithDiscount ??
+          item.productPriceWithDiscount ??
+          item.productPrice;
+        return total + (item.quantity ?? 0) * (itemPrice ?? 0);
+      }, 0)
+    : 0;
+
   return {
     user,
     cartItems,
@@ -72,7 +82,8 @@ const useUserCartItems = () => {
     handleQuantityChange,
     isUpdating,
     updateError,
-    optimisticTotalPrice
+    optimisticTotalPrice,
+    totalDiscountedPrice
   };
 };
 

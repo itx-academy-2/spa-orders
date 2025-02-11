@@ -10,6 +10,8 @@ const product: FullManagerProduct = {
   createdAt: "2024-07-29T20:20:02.404Z",
   quantity: 10,
   price: 999.99,
+  priceWithDiscount: null,
+  discount: null,
   tags: [
     {
       id: 1,
@@ -31,6 +33,8 @@ const outputProduct = {
   image: product.image,
   status: product.status === "VISIBLE",
   category: product.tags[0].id,
+  discount: 0,
+  priceWithDiscount: 999.99,
   productTranslations: [
     {
       name: "",

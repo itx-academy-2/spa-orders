@@ -45,5 +45,8 @@
   "product.description": "Опис",
   "product.price": "Ціна",
   "product.category": "Категорія",
-  "product.quantity": "Кількість"
+  "product.quantity": "Кількість",
+  "product.priceWithDiscount": "Ціна зі знижкою",
+  "product.originalPrice": "Ціна",
+  "product.discountPercentage": "Розмір знижки"
 }
