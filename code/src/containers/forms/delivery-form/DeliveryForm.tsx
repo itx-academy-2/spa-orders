@@ -20,9 +20,13 @@ import "@/containers/forms/delivery-form/DeliveryForm.scss";
 
 type DeliveryFormProps = {
   totalPrice: number;
+  totalDiscountedPrice?: number;
 };
 
-const DeliveryForm = ({ totalPrice }: DeliveryFormProps) => {
+const DeliveryForm = ({
+  totalPrice,
+  totalDiscountedPrice
+}: DeliveryFormProps) => {
   const { id, firstName, lastName, email } = useGetUserDetails();
 
   const {
@@ -108,6 +112,7 @@ const DeliveryForm = ({ totalPrice }: DeliveryFormProps) => {
         isDisabled={!isValid}
         isLoading={isLoading}
         totalPrice={totalPrice}
+        totalDiscountedPrice={totalDiscountedPrice}
       />
     </AppBox>
   );

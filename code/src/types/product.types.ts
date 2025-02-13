@@ -12,6 +12,8 @@ export type Product = {
   tags: string[];
   image: string;
   price: number;
+  discount?: number;
+  priceWithDiscount?: number | null;
 };
 
 export type ManagerProductStatus = "VISIBLE" | "HIDDEN";
@@ -26,6 +28,8 @@ export type ManagerProduct = {
   createdAt: string;
   status: ManagerProductStatus;
   tags: string[];
+  discount: number | null;
+  priceWithDiscount: number | null;
 };
 
 export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
@@ -41,11 +45,18 @@ export type GetUserProductsParams = Lang & {
   page?: number;
   size?: number;
   sort?: string;
+  discount?: number;
 };
 
 export type GetUserProductByIdResponse = Pick<
   Product,
-  "image" | "price" | "tags" | "name" | "description"
+  | "image"
+  | "price"
+  | "tags"
+  | "name"
+  | "description"
+  | "discount"
+  | "priceWithDiscount"
 > & {
   quantity: number;
 };
@@ -98,6 +109,8 @@ export type GetManagerProductByIdResponse = {
   createdAt: string;
   quantity: number;
   price: number;
+  discount: number | null;
+  priceWithDiscount: number | null;
   tags: ManagerProductTag[];
   productTranslations: ProductTranslation[];
 };

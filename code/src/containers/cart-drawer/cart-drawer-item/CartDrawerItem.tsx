@@ -1,5 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
 
+import AppBadge from "@/components/app-badge/AppBadge";
 import AppBox from "@/components/app-box/AppBox";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTypography from "@/components/app-typography/AppTypography";
@@ -14,8 +16,25 @@ const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
     onRemove(props);
   };
 
+  const hasDiscount = props.discount && props.discount > 0;
+
+  const price = props.priceWithDiscount || props.productPriceWithDiscount!;
+
   return (
     <AppBox className="cart-item">
+      {hasDiscount ? (
+        <AppBadge
+          className="cart-item__discount-badge"
+          data-testid="cart-item-discount-badge"
+          badgeContent={
+            <AppTypography variant="caption-small">
+              {`-${props.discount}%`}
+            </AppTypography>
+          }
+          variant="danger"
+          size="small"
+        />
+      ) : null}
       <AppBox
         component="img"
         alt={props.name}
@@ -24,9 +43,29 @@ const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
       />
       <AppBox className="cart-item__content">
         <AppTypography className="cart-item__title">{props.name}</AppTypography>
-        <AppTypography className="cart-item__price" variant="concept">
-          {formatPrice(props.calculatedPrice)}
-        </AppTypography>
+        <Box className="cart-item__price-container">
+          {hasDiscount ? (
+            <>
+              <AppTypography
+                className="cart-item__price cart-item__price-old"
+                variant="body"
+              >
+                {formatPrice(props.calculatedPrice)}
+              </AppTypography>
+              <AppTypography
+                className="cart-item__price cart-item__price-discounted"
+                variant="concept"
+                data-testid="cart-item-discounted-price"
+              >
+                {formatPrice(price)}
+              </AppTypography>
+            </>
+          ) : (
+            <AppTypography className="cart-item__price" variant="concept">
+              {formatPrice(props.calculatedPrice)}
+            </AppTypography>
+          )}
+        </Box>
       </AppBox>
       <AppIconButton
         color="default"

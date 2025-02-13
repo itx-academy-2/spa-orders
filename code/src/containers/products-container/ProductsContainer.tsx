@@ -3,6 +3,7 @@ import { ProductsContainerProps } from "@/containers/products-container/Products
 import AppBox from "@/components/app-box/AppBox";
 import AppTypography from "@/components/app-typography/AppTypography";
 import ProductCard from "@/components/product-card/ProductCard";
+import SaleProductCard from "@/components/product-sale-card/SaleProductCard";
 import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
 
 import useGetCart from "@/hooks/use-get-cart/useGetCart";
@@ -19,6 +20,7 @@ const ProductsContainer = ({
   isLoading = false,
   isError = false,
   loadingItemsCount = 5,
+  maxColumns = 5,
   errorMessage = "errors.somethingWentWrong"
 }: ProductsContainerProps) => {
   const { isLoading: isCartLoading } = useGetCart();
@@ -39,19 +41,28 @@ const ProductsContainer = ({
     );
   }
 
-  const productCards = products.map((product: Product) => {
-    return <ProductCard key={product.id} product={product} />;
-  });
+  const productCards = products.map((product: Product) =>
+    product.priceWithDiscount && product.discount ? (
+      <SaleProductCard key={product.id} product={product} />
+    ) : (
+      <ProductCard key={product.id} product={product} />
+    )
+  );
 
   const skeletonCards = repeatComponent(<ProductSkeleton />, loadingItemsCount);
 
   const isLoadingInProgress = isLoading || isAuthLoading || isCartLoading;
-  
+
   const gridItems = isLoadingInProgress ? skeletonCards : productCards;
 
   return (
     <AppBox
-      className={cn("products-container", className)}
+      className={cn(
+        "products-container",
+        `products-container__${maxColumns}-cols`,
+        className
+      )}
+      data-testid="products-container"
       data-cy="products-container"
     >
       {gridItems}

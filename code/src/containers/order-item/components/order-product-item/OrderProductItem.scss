@@ -20,10 +20,20 @@ $divider-color: var(--spa-order-divider-color, $ghost-alpha);
     justify-content: space-between;
   }
 
+  &__discount-badge {
+    position: absolute;
+    right: -4px;
+    top: spacing(2);
+  }
+
   &__info {
     display: flex;
     align-items: center;
     gap: spacing(3);
+  }
+
+  &__image-container {
+    position: relative;
   }
 
   &__image {
@@ -43,7 +53,26 @@ $divider-color: var(--spa-order-divider-color, $ghost-alpha);
     }
   }
 
-  &__price {
-    margin-left: spacing(12);
+  &__price-container {
+    margin-left: spacing(4);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: spacing(2);
+  }
+
+  &__discounted-price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__price-old {
+    text-decoration: line-through;
+    color: gray;
+  }
+
+  &__price-discounted {
+    color: red;
   }
 }

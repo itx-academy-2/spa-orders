@@ -1,0 +1,28 @@
+@import "@design-system";
+
+.spa-sales-page {
+  padding: spacing(10);
+  background-color: var(--spa-foreground-background-color, $white);
+  display: flex;
+  flex-direction: column;
+  gap: spacing(5);
+
+  &__info {
+    display: flex;
+    align-items: center;
+    margin-top: spacing(5);
+    width: 100%;
+  }
+
+  &__count {
+    font-size: 1rem;
+    color: var(--spa-info-text-color, $gray);
+    display: flex;
+    gap: spacing(1);
+  }
+
+  &__grid {
+    margin-top: spacing(5);
+    width: 100%;
+  }
+}

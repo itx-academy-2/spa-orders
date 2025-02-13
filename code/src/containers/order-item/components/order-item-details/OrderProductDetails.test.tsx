@@ -26,17 +26,22 @@ const mockOrder: UserOrder = {
         status: "AVAILABLE",
         tags: ["tag1"],
         image: "https://example.com/product-1.jpg",
-        price: 100
+        price: 100,
+        discount: 0,
+        priceWithDiscount: null
       },
       quantity: 2,
-      price: 500
+      discount: null,
+      price: 500,
+      priceWithDiscount: null
     }
   ],
   isPaid: false,
   orderStatus: "IN_PROGRESS",
   availableStatuses: ["SHIPPED", "DELIVERED", "COMPLETED", "CANCELED"],
   createdAt: "20.12.2020",
-  total: 0
+  total: 0,
+  totalWithDiscount: null
 };
 
 describe("Test OrderProductDetails", () => {

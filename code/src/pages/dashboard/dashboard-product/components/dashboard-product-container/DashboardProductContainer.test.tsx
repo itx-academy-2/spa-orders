@@ -32,6 +32,8 @@ const managerProduct: GetManagerProductByIdResponse = {
   createdAt: "2024-07-29T20:20:02.404Z",
   quantity: 10,
   price: 999.99,
+  priceWithDiscount: 3,
+  discount: 3,
   tags: [
     {
       id: 1,
@@ -56,6 +58,15 @@ const defaultParams = {
   data: managerProduct,
   isLoading: false,
   error: null
+};
+
+const responseWithoutDiscount = {
+  ...defaultParams,
+  data: {
+    ...managerProduct,
+    priceWithDiscount: null,
+    discount: null
+  }
 };
 
 const mockAndRender = (
@@ -180,5 +191,12 @@ describe("DashboardProductContainer", () => {
 
     const label = screen.getByTestId("page-loading-fallback");
     expect(label).toBeInTheDocument();
+  });
+
+  test("Should display dashes instad of price with discount and discount percentage", () => {
+    mockAndRender(responseWithoutDiscount);
+
+    const dashes = screen.getAllByText("-");
+    expect(dashes).toHaveLength(2);
   });
 });

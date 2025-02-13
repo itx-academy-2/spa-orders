@@ -8,7 +8,9 @@ const products = [
     tags: ["category:mobile"],
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
-    price: 500,
+    price: 1000,
+    discount: 50,
+    priceWithDiscount: 500,
   },
   {
     id: "124",
@@ -42,6 +44,8 @@ const products = [
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_2-ayF4QQ9ilJtRKlpBLCvwlJkBYddhPO.png",
     price: 999,
+    discount: 40,
+    priceWithDiscount: 500,
   },
   {
     id: "127",
@@ -53,6 +57,8 @@ const products = [
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/computer_1-J0a7bI2jB5NozuSaXnzyMtxHyijWoD.jpg",
     price: 1999,
+    discount: 40,
+    priceWithDiscount: 1199,
   },
   {
     id: "128",
@@ -306,6 +312,110 @@ const products = [
     image:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
     price: 777,
+  },
+  {
+    id: "151",
+    name: "Mobile Phone Motorola Edge 30 Pro 256GB Blue",
+    description:
+      'Screen: 6.7" OLED, 2400x1080 / Snapdragon 8 Gen 1 / Main Triple Camera: 50 MP + 50 MP + 2 MP, Front Camera: 60 MP / RAM 12 GB / 256 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM) / Android 12 / 4800 mAh',
+    status: "AVAILABLE",
+    tags: ["category:mobile"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_1234-2xIucM8hgLayGS23HoLYzJ27c4SigN.jpg",
+    price: 950,
+    discount: 50,
+    priceWithDiscount: 475,
+  },
+  {
+    id: "152",
+    name: "Mobile Phone Huawei P50 Pro 256GB Black",
+    description:
+      'Screen: 6.6" OLED, 2700x1228 / Kirin 9000 / Main Quad Camera: 50 MP + 40 MP + 13 MP + 64 MP, Front Camera: 13 MP / RAM 8 GB / 256 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM) / HarmonyOS 2.0 / 4360 mAh',
+    status: "AVAILABLE",
+    tags: ["category:mobile"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_12345-WASAxiPaRLLT3EHgRIlP47A0YaQdBJ.jpg",
+    price: 899,
+    discount: 20,
+    priceWithDiscount: 719,
+  },
+  {
+    id: "153",
+    name: 'Tablet Acer Swift 3 14" Intel Core i5 512GB SSD Silver',
+    description:
+      'Screen: 14" IPS, 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:tablet"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_123-K40mc0f8xHjEtLRuJ5dmc95PcBK3Cf.png",
+    price: 1099,
+    discount: 35,
+    priceWithDiscount: 714,
+  },
+  {
+    id: "154",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:tablet"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 799,
+    discount: 22,
+    priceWithDiscount: 623,
+  },
+  {
+    id: "155",
+    name: "Mobile Phone Motorola Edge 30 Pro 256GB Blue",
+    description:
+      'Screen: 6.7" OLED, 2400x1080 / Snapdragon 8 Gen 1 / Main Triple Camera: 50 MP + 50 MP + 2 MP, Front Camera: 60 MP / RAM 12 GB / 256 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM) / Android 12 / 4800 mAh',
+    status: "AVAILABLE",
+    tags: ["category:mobile"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_1234-2xIucM8hgLayGS23HoLYzJ27c4SigN.jpg",
+    price: 950,
+    discount: 50,
+    priceWithDiscount: 475,
+  },
+  {
+    id: "156",
+    name: "Mobile Phone Huawei P50 Pro 256GB Black",
+    description:
+      'Screen: 6.6" OLED, 2700x1228 / Kirin 9000 / Main Quad Camera: 50 MP + 40 MP + 13 MP + 64 MP, Front Camera: 13 MP / RAM 8 GB / 256 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM) / HarmonyOS 2.0 / 4360 mAh',
+    status: "AVAILABLE",
+    tags: ["category:mobile"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/mobile_12345-WASAxiPaRLLT3EHgRIlP47A0YaQdBJ.jpg",
+    price: 899,
+    discount: 20,
+    priceWithDiscount: 719,
+  },
+  {
+    id: "157",
+    name: 'Tablet Acer Swift 3 14" Intel Core i5 512GB SSD Silver',
+    description:
+      'Screen: 14" IPS, 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:tablet"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_123-K40mc0f8xHjEtLRuJ5dmc95PcBK3Cf.png",
+    price: 1099,
+    discount: 35,
+    priceWithDiscount: 714,
+  },
+  {
+    id: "158",
+    name: 'Tablet Microsoft Surface Laptop 5 13.5" Intel Core i7 512GB SSD Black',
+    description:
+      'Screen: 13.5", 1920x1080 / Intel Core i5-1135G7 / RAM 8 GB / 512 GB SSD / Wi-Fi 6 / Bluetooth 5.1 / Windows 11 Home / 56 Wh battery',
+    status: "AVAILABLE",
+    tags: ["category:tablet"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/tablet_12345-8pInISBpW8ZsixocpZnZ1nTMpgLCyv.png",
+    price: 799,
+    discount: 22,
+    priceWithDiscount: 623,
   },
 ];
 

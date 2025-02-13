@@ -54,8 +54,18 @@ const CartDrawer = () => {
       </AppBox>
     );
 
+  const totalDiscountedPrice =
+    cartItems?.items?.reduce((total, item) => {
+      const itemPrice =
+        item.priceWithDiscount ??
+        item.productPriceWithDiscount ??
+        item.calculatedPrice ??
+        0;
+      return total + itemPrice;
+    }, 0) ?? 0;
+
   const translationCartDrawerProps = {
-    values: { price: formatPrice(cartItems?.totalPrice ?? 0) }
+    values: { price: formatPrice(totalDiscountedPrice) }
   };
 
   return (

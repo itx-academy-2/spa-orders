@@ -1,54 +1,59 @@
 @import "@design-system";
 
-.spa-order-table__body {
-  @include transition((background-color));
-
-  background-color: var(--spa-order-table-body-bg-color, $white);
-
-  &:hover {
-    background-color: var(--spa-order-table-body-hover-bg-color, $light);
+.spa-order-table {
+  &__discounted-price {
+    color: red;
+    font-weight: bold;
   }
 
-  &-status-select {
-    .MuiOutlinedInput-notchedOutline {
-      border: none !important; // To overwrite mui styles
+  &__body {
+    background-color: var(--spa-order-table-body-bg-color, $white);
+
+    &:hover {
+      background-color: var(--spa-order-table-body-hover-bg-color, $light);
     }
 
-    & > div {
+    &-status-select {
+      .MuiOutlinedInput-notchedOutline {
+        border: none !important; // To overwrite mui styles
+      }
+
+      & > div {
+        padding: 0;
+      }
+    }
+
+    &-status-text {
+      width: 90px;
+      text-align: center;
       padding: 0;
     }
-  }
 
-  &-status-text {
-    width: 90px;
-    text-align: center;
-    padding: 0;
-  }
-
-  &-status-select-input {
-    padding-right: 0 !important; // To overwrite mui styles
-  }
-
-  &-email {
-    word-break: break-word;
-  }
-
-  &-checkbox {
-    margin: 0;
-
-    & svg {
-      fill: var(
-        --order-table-body-checkbox-color,
-        $light-alpha
-      ) !important; // To rewrite mui styles and styles setted in AppCheckbox
+    &-status-select-input {
+      padding-right: 0 !important; // To overwrite mui styles
     }
 
-    .Mui-checked {
+    &-email {
+      word-break: break-word;
+    }
+
+    &-checkbox {
+      margin: 0;
+
       & svg {
         fill: var(
           --order-table-body-checkbox-color,
-          $green
+          $light-alpha
         ) !important; // To rewrite mui styles and styles setted in AppCheckbox
+      }
+
+      .Mui-checked {
+        & svg {
+          fill: var(
+            --order-table-body-checkbox-color,
+            $green
+          ) !important; // To rewrite mui styles and styles setted in AppCheckbox
+        }
       }
     }
   }

@@ -51,7 +51,16 @@ const DashboardProductContainer = ({
     return <AppTypography translationKey="errors.somethingWentWrong" />;
   }
 
-  const { status, image, price, quantity, tags, productTranslations } = product;
+  const {
+    status,
+    image,
+    quantity,
+    tags,
+    productTranslations,
+    priceWithDiscount,
+    price,
+    discount
+  } = product;
 
   const languageButtons = productTranslations.map(({ languageCode }, index) => {
     const buttonClassNames = cn(
@@ -149,9 +158,35 @@ const DashboardProductContainer = ({
               <AppBox className="dashboard-product__additional-info-item">
                 <AppTypography
                   className="dashboard-product__additional-info-item-label"
-                  translationKey="product.price"
+                  translationKey="product.originalPrice"
                 />
                 <AppTypography>{formatPrice(price)}</AppTypography>
+              </AppBox>
+              <AppBox className="dashboard-product__additional-info-item">
+                <AppTypography
+                  className="dashboard-product__additional-info-item-label"
+                  translationKey="product.priceWithDiscount"
+                />
+                <AppTypography
+                  className={cn(
+                    priceWithDiscount && "dashboard-product__discounted-price"
+                  )}
+                >
+                  {priceWithDiscount ? formatPrice(priceWithDiscount) : "-"}
+                </AppTypography>
+              </AppBox>
+              <AppBox className="dashboard-product__additional-info-item">
+                <AppTypography
+                  className="dashboard-product__additional-info-item-label"
+                  translationKey="product.discountPercentage"
+                />
+                <AppTypography
+                  className={cn(
+                    priceWithDiscount && "dashboard-product__discounted-price"
+                  )}
+                >
+                  {discount ? discount + "%" : "-"}
+                </AppTypography>
               </AppBox>
               <AppBox className="dashboard-product__additional-info-item">
                 <AppTypography

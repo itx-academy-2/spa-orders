@@ -42,6 +42,8 @@ const getProductById = (req, res) => {
     tags: product.tags,
     name: product.name,
     description: product.description,
+    discount: product.discount,
+    priceWithDiscount: product.priceWithDiscount
   };
 
   res.json(transformedProduct);
@@ -105,6 +107,29 @@ const updateProduct = (req, res) => {
   res.status(204).end();
 };
 
+const getSalesProducts = (req, res) => {
+  const { sort, tags: category } = req.query;
+  const { limit, skip, size } = parsePageable(req, 10);
+
+  let sortedProducts = sort ? sortProducts(products, sort) : products;
+
+  const saleProducts = sortedProducts.filter(
+    (product) => product.priceWithDiscount && product.discount
+  );
+
+  const finalProducts = categoryFilter(category, saleProducts);
+
+  const slicedProducts = finalProducts.slice(skip, limit);
+
+  const response = {
+    content: slicedProducts,
+    totalPages: Math.ceil(finalProducts.length / size),
+    totalElements: finalProducts.length,
+  };
+
+  res.json(response);
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
@@ -112,5 +137,6 @@ module.exports = {
   getAllManagerProducts,
   searchProducts,
   getProductByIdForManager,
-  updateProduct
+  updateProduct,
+  getSalesProducts,
 };

@@ -30,12 +30,14 @@ const useSynchronizeCart = () => {
       return;
     }
 
-    // @TODO: change it to make only one request when backend will have such endpoint
+    if (!cartData?.items) return;
+
     for (const cartItem of cartData.items) {
       try {
         await addToCart({
           productId: cartItem.productId,
-          userId: userId
+          userId: userId,
+          priceWithDiscount: cartItem.priceWithDiscount ?? cartItem.productPrice
         }).unwrap();
       } catch (e: unknown) {
         // 409 error means user already has this product in the remote cart, no need for error in such case
@@ -53,7 +55,7 @@ const useSynchronizeCart = () => {
     if (userId && isFirstSessionAfterAuth) {
       synchornize(userId);
     }
-  }, [userId]);
+  }, [userId, isFirstSessionAfterAuth]);
 };
 
 export default useSynchronizeCart;

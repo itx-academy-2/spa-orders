@@ -28,6 +28,8 @@ const testData: FullManagerProduct = {
   quantity: 10,
   price: 100,
   tags: [{ id: 1, name: "category:mobile" }],
+  priceWithDiscount: null,
+  discount: null,
   productTranslations: [
     {
       name: "name",

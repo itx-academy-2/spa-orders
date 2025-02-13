@@ -35,6 +35,7 @@ import notFoundMessages from "@/pages/not-found/messages";
 import orderPageMessages from "@/pages/orders/messages";
 import productDetailsMessages from "@/pages/product-details/messages";
 import productsItemsMessages from "@/pages/products/messages";
+import salesPageMessages from "@/pages/sales/messages";
 
 type MessagesType = Record<Locale, Record<string, string>>;
 
@@ -75,7 +76,8 @@ const messages: MessagesType = {
     ...productFormMessages.en,
     ...dashboardOrderDetailsPageMessages.en,
     ...productDetailsMessages.en,
-    ...dashboardProductMessages.en
+    ...dashboardProductMessages.en,
+    ...salesPageMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -112,7 +114,8 @@ const messages: MessagesType = {
     ...usersTableMessages.uk,
     ...dashboardOrderDetailsPageMessages.uk,
     ...productDetailsMessages.uk,
-    ...dashboardProductMessages.uk
+    ...dashboardProductMessages.uk,
+    ...salesPageMessages.uk
   }
 };
 

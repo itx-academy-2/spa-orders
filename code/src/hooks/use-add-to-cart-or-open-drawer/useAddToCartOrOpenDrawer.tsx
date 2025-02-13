@@ -39,7 +39,9 @@ const useAddToCartOrOpenDrawer = <T extends MinimalRequiredProduct>(
       image: product.image,
       productPrice: product.price,
       quantity: 1,
-      calculatedPrice: product.price
+      calculatedPrice: product.price,
+      discount: product.discount,
+      priceWithDiscount: product.priceWithDiscount ?? undefined
     });
   };
 

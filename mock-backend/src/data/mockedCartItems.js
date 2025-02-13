@@ -5,11 +5,15 @@ const cartItems = {
       image: "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
       name: "Iphone",
       productPrice: 100.45,
+      productPriceWithDiscount: 90,
+      discount: 10,
       quantity: 2,
       calculatedPrice: 200.9,
+      calculatedPriceWithDiscount: 180
     },
   ],
-  totalPrice: 200.9
+  totalPrice: 200.9,
+  totalPriceWithDiscount: 180
 };
 
 module.exports = cartItems;

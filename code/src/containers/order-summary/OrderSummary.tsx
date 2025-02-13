@@ -1,6 +1,7 @@
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppTypography from "@/components/app-typography/AppTypography";
+import PriceLabel from "@/components/price-label/PriceLabel";
 
 import formatPrice from "@/utils/format-price/formatPrice";
 
@@ -8,6 +9,7 @@ import "@/containers/order-summary/OrderSummary.scss";
 
 type OrderSummaryProps = {
   totalPrice: number;
+  totalDiscountedPrice?: number;
   isDisabled: boolean;
   isLoading: boolean;
 };
@@ -15,9 +17,13 @@ type OrderSummaryProps = {
 const OrderSummary = ({
   totalPrice,
   isDisabled,
-  isLoading
+  isLoading,
+  totalDiscountedPrice
 }: OrderSummaryProps) => {
-  const formattedTotalPrice = formatPrice(totalPrice);
+  const discountedTotalPrice = formatPrice(totalDiscountedPrice ?? totalPrice);
+
+  const hasItemDiscount =
+    totalDiscountedPrice !== undefined && totalDiscountedPrice < totalPrice;
 
   return (
     <AppBox className="spa-cart-page__order-summary">
@@ -35,12 +41,12 @@ const OrderSummary = ({
             translationKey="subtotal.label"
             data-testid="subtotalLabel"
           />
-          <AppTypography
-            className="spa-order-summary__text"
-            variant="subtitle2"
-          >
-            {formattedTotalPrice}
-          </AppTypography>
+          <PriceLabel
+            price={totalPrice}
+            priceWithDiscount={
+              hasItemDiscount ? totalDiscountedPrice : undefined
+            }
+          />
         </AppBox>
         <AppBox className="spa-order-summary__row">
           <AppTypography
@@ -62,7 +68,7 @@ const OrderSummary = ({
             data-testid="totalLabel"
           />
           <AppTypography variant="subtitle2">
-            {formattedTotalPrice}
+            {discountedTotalPrice}
           </AppTypography>
         </AppBox>
       </AppBox>

@@ -14,6 +14,8 @@ export type OrderIsPaid = boolean;
 
 export type OrderItem = {
   price: number;
+  priceWithDiscount: number | null;
+  discount: number | null;
   quantity: number;
   product: Product;
 };
@@ -26,6 +28,7 @@ type BaseOrder = {
   id: OrderId;
   isPaid: OrderIsPaid;
   total: number;
+  totalWithDiscount: number | null;
   orderStatus: OrderStatus;
   availableStatuses: OrderStatus[];
   createdAt: string;

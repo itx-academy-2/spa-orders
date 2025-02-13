@@ -7,6 +7,7 @@ import { ProductsContainerProps } from "@/containers/products-container/Products
 import { ProductCardProps } from "@/components/product-card/ProductCard.types";
 
 import useGetCart from "@/hooks/use-get-cart/useGetCart";
+import { Product } from "@/types/product.types";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 const mockOpenDrawer = jest.fn();
@@ -26,6 +27,13 @@ jest.mock("@/components/product-card/ProductCard", () => ({
   __esModule: true,
   default: ({ product }: ProductCardProps) => (
     <div data-testid="product-card">{product.name}</div>
+  )
+}));
+
+jest.mock("@/components/product-sale-card/SaleProductCard", () => ({
+  __esModule: true,
+  default: ({ product }: { product: Product }) => (
+    <div data-testid="sale-product-card">{product.name}</div>
   )
 }));
 
@@ -88,7 +96,7 @@ describe("Test ProductsContainer", () => {
     const { container } = renderProductsContainer({ className: "products" });
 
     const gridContainer = container.getElementsByClassName("products")[0];
-    
+
     expect(gridContainer).toBeInTheDocument();
   });
 
@@ -106,5 +114,47 @@ describe("Test ProductsContainer", () => {
     const errorElement = screen.getByText("error");
 
     expect(errorElement).toBeInTheDocument();
+  });
+
+  test("Should render SaleProductCard when product has a discount", () => {
+    const discountedProduct = {
+      ...mockProducts[0],
+      priceWithDiscount: 299,
+      discount: 20
+    };
+
+    renderProductsContainer({ products: [discountedProduct] });
+
+    const saleProductElement = screen.getByTestId("sale-product-card");
+    expect(saleProductElement).toBeInTheDocument();
+
+    const productElement = screen.queryByTestId("product-card");
+    expect(productElement).not.toBeInTheDocument();
+  });
+
+  test("Should render ProductCard when product has no discount", () => {
+    const nonDiscountedProduct = {
+      ...mockProducts[0],
+      priceWithDiscount: undefined,
+      discount: undefined
+    };
+
+    renderProductsContainer({ products: [nonDiscountedProduct] });
+
+    const productElement = screen.getByTestId("product-card");
+
+    expect(productElement).toBeInTheDocument();
+
+    const saleProductElement = screen.queryByTestId("sale-product-card");
+
+    expect(saleProductElement).not.toBeInTheDocument();
+  });
+
+  test("Should render different amount of columns based on passed maxColumns", () => {
+    renderProductsContainer({ maxColumns: 4 });
+
+    const gridElement = screen.getByTestId("products-container");
+
+    expect(gridElement).toHaveClass("products-container__4-cols");
   });
 });

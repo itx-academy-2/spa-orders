@@ -4,6 +4,7 @@ import { UserId } from "@/types/user.types";
 export type CartManagementPostParams = {
   productId: string;
   userId: UserId;
+  priceWithDiscount?: number;
 };
 
 export type CartManagementDeleteParams = {
@@ -28,6 +29,9 @@ export type CartItem = {
   productPrice: number;
   quantity: number;
   calculatedPrice: number;
+  discount?: number;
+  priceWithDiscount?: number;
+  productPriceWithDiscount?: number;
 };
 
 export type CartType = {

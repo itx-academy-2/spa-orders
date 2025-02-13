@@ -23,7 +23,8 @@ const userOrders = {
       isPaid: true,
       orderStatus: "IN_PROGRESS",
       createdAt: "2024-07-05T12:35:14.396Z",
-      total: 4796,
+      total: 5795,
+      totalWithDiscount: 3799,
       receiver: {
         firstName: "Eugene",
         lastName: "Hetsyanyn",
@@ -37,6 +38,7 @@ const userOrders = {
       orderItems: [
         {
           price: 1799,
+          priceWithDiscount: null,
           quantity: 1,
           product: {
             id: "126",
@@ -51,7 +53,8 @@ const userOrders = {
           },
         },
         {
-          price: 2997,
+          price: 3996,
+          priceWithDiscount: 2000,
           quantity: 4,
           product: {
             id: "125",
@@ -63,6 +66,8 @@ const userOrders = {
             image:
               "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
             price: 999,
+            priceWithDiscount: 500,
+            discount: 50,
           },
         },
       ],
@@ -82,10 +87,12 @@ const userOrders = {
         city: "Kyiv",
         department: "№7",
       },
-      total: 4995,
+      total: 4999,
+      totalWithDiscount: 4399,
       orderItems: [
         {
-          price: 2997,
+          price: 3000,
+          priceWithDiscount: 2400,
           quantity: 3,
           product: {
             id: "124",
@@ -96,7 +103,9 @@ const userOrders = {
             tags: ["category:electronics"],
             image:
               "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
-            price: 999,
+            price: 1000,
+            priceWithDiscount: 800,
+            discount: 20,
           },
         },
         {
@@ -146,6 +155,7 @@ const adminOrders = {
       availableStatuses: ["SHIPPED", "DELIVERED", "COMPLETED", "CANCELED"],
       createdAt: "2024-07-05T12:35:14.396Z",
       total: 4796,
+      totalWithDiscount: 3500,
       receiver: {
         firstName: "Eugene",
         lastName: "Hetsyanyn",
@@ -159,6 +169,8 @@ const adminOrders = {
       orderItems: [
         {
           price: 1799,
+          priceWithDiscount: 134,
+          discount: 1,
           quantity: 1,
           product: {
             id: "126bf189-9f8c-46ed-9138-f74d9d93206e",
@@ -170,6 +182,8 @@ const adminOrders = {
             image:
               "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/computer_2-KjjXijfL9U0rd3P4Jfk06KwUHkSRRl.webp",
             price: 1799,
+            priceWithDiscount: 1,
+            discount: 1,
           },
         },
         {
@@ -555,6 +569,7 @@ const adminOrders = {
         city: "Sydney",
         department: "№4",
       },
+      totalWithDiscount: 1999,
       total: 2199,
       orderItems: [
         {
@@ -574,6 +589,8 @@ const adminOrders = {
         },
         {
           price: 1000,
+          priceWithDiscount: 800,
+          discount: 20,
           quantity: 1,
           product: {
             id: "123e4567-e89b-12d3-a456-426614174000244",
@@ -585,6 +602,8 @@ const adminOrders = {
             image:
               "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/computer_8-Microsoft.jpg",
             price: 1000,
+            priceWithDiscount: 800,
+            discount: 20,
           },
         },
       ],

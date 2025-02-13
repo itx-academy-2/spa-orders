@@ -18,6 +18,7 @@ import { orderDeliveryStatuses } from "@/constants/orderStatuses";
 import routes from "@/constants/routes";
 import { useUserDetailsSelector } from "@/store/slices/userSlice";
 import { AdminOrder, OrderIsPaid, OrderStatus } from "@/types/order.types";
+import cn from "@/utils/cn/cn";
 import formatDate from "@/utils/format-date/formatDate";
 import formatPrice from "@/utils/format-price/formatPrice";
 
@@ -42,7 +43,8 @@ const OrdersTableBody = ({
     isPaid,
     availableStatuses,
     receiver: { firstName, lastName, email },
-    postAddress: { deliveryMethod }
+    postAddress: { deliveryMethod },
+    totalWithDiscount
   } = order;
 
   const user = useUserDetailsSelector();
@@ -188,6 +190,11 @@ const OrdersTableBody = ({
       <AppTableCell>{formatDate(createdAt)}</AppTableCell>
       <AppTableCell>{deliveryMethod}</AppTableCell>
       <AppTableCell>{formatPrice(total)}</AppTableCell>
+      <AppTableCell
+        className={cn(totalWithDiscount && "spa-order-table__discounted-price")}
+      >
+        {totalWithDiscount ? formatPrice(totalWithDiscount) : "-"}
+      </AppTableCell>
       <AppTableCell>{isPaidField}</AppTableCell>
       <AppTableCell>
         <AppLink to={routes.dashboard.orderDetails.path(id)}>
