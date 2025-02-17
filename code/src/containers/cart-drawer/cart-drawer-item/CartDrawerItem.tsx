@@ -11,7 +11,10 @@ import formatPrice from "@/utils/format-price/formatPrice";
 
 import "@/containers/cart-drawer/cart-drawer-item/CartDrawerItem.scss";
 
-const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
+const CartDrawerItem = ({
+  onRemove = () => {},
+  ...props
+}: CartDrawerItemProps) => {
   const handleRemove = () => {
     onRemove(props);
   };

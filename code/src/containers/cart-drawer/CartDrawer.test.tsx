@@ -56,7 +56,9 @@ const mockCartItems = {
 };
 
 const renderAndMock = (
-  data: Partial<ReturnType<typeof useUserCartItems>> = {}
+  data: Partial<Omit<ReturnType<typeof useUserCartItems>, "cartItems">> & {
+    cartItems?: ReturnType<typeof useUserCartItems>["cartItems"] | null;
+  } = {}
 ) => {
   (formatPrice as jest.Mock).mockImplementation(mockFormatPrice);
   (useNavigate as jest.Mock).mockReturnValue(navigate);
@@ -115,6 +117,7 @@ describe("CartDrawer", () => {
     fireEvent.click(viewCartButton);
 
     expect(navigate).toHaveBeenCalledWith("/cart");
+    expect(closeDrawer).toHaveBeenCalled();
   });
 
   test("Should open the authentication modal when user is not logged in", () => {
@@ -162,5 +165,65 @@ describe("CartDrawer", () => {
     expect(emptyCartMessageElement).toBeInTheDocument();
 
     expect(mockFormatPrice).toHaveBeenCalledWith(0);
+  });
+
+  test("Should not break when cartItems are null", () => {
+    renderAndMock({ cartItems: null });
+
+    const emptyCartMessageElement = screen.getByText("cart.emptyItem");
+
+    expect(emptyCartMessageElement).toBeInTheDocument();
+  });
+
+  test("Should correctly calculate total price when all items have discounts", () => {
+    renderAndMock({
+      cartItems: {
+        items: [
+          {
+            productId: "1",
+            name: "Product 1",
+            productPrice: 10,
+            quantity: 1,
+            image: "some image",
+            calculatedPrice: 15
+          },
+          {
+            productId: "2",
+            name: "Product 2",
+            productPrice: 20,
+            quantity: 1,
+            image: "some image",
+            calculatedPrice: 25
+          }
+        ],
+        totalPrice: 40
+      }
+    });
+
+    expect(mockFormatPrice).toHaveBeenCalledWith(40);
+  });
+
+  test("Should handle undefined user gracefully when navigating", () => {
+    renderAndMock({ user: undefined });
+
+    const viewCartButton = screen.getByText("cart.viewCart");
+    fireEvent.click(viewCartButton);
+
+    expect(navigate).not.toHaveBeenCalled();
+    expect(openModal).toHaveBeenCalled();
+  });
+
+  test("Should not crash when handleRemoveItem is missing", () => {
+    renderAndMock({ handleRemoveItem: undefined });
+
+    const removeButtons = screen.queryAllByTestId(
+      "remove-item-from-cart-button"
+    );
+
+    expect(removeButtons.length).toBeGreaterThan(0);
+
+    if (removeButtons.length > 0) {
+      expect(() => fireEvent.click(removeButtons[0])).not.toThrow();
+    }
   });
 });
