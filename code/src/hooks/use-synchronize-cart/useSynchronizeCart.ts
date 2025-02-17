@@ -37,7 +37,8 @@ const useSynchronizeCart = () => {
         await addToCart({
           productId: cartItem.productId,
           userId: userId,
-          priceWithDiscount: cartItem.priceWithDiscount ?? cartItem.productPrice
+          priceWithDiscount:
+            cartItem.productPriceWithDiscount ?? cartItem.productPrice
         }).unwrap();
       } catch (e: unknown) {
         // 409 error means user already has this product in the remote cart, no need for error in such case

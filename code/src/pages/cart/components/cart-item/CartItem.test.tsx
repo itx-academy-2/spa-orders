@@ -1,6 +1,7 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 
 import CartItem from "@/pages/cart/components/cart-item/CartItem";
+import { CartItemProps } from "@/types/cart.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
@@ -22,25 +23,35 @@ const mockedItem: CartItemType = {
     "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
   name: "Iphone",
   productPrice: 100.45,
-  productPriceWithDiscount: 90.45,
   quantity: 2,
-  calculatedPrice: 200.9,
-  discount: 10
+  calculatedPrice: 200.9
+};
+
+const mockedItemWithDiscount = {
+  ...mockedItem,
+  productPriceWithDiscount: 80,
+  discount: 20
 };
 
 const mockOnRemove = jest.fn();
 const mockOnQuantityChange = jest.fn();
 
+const mockAndRender = (extraProps?: Partial<CartItemProps>) => {
+  renderWithProviders(
+    <CartItem
+      item={mockedItem}
+      onRemove={mockOnRemove}
+      onQuantityChange={mockOnQuantityChange}
+      {...extraProps}
+    />
+  );
+};
+
+jest.useFakeTimers();
+
 describe("CartItem Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    renderWithProviders(
-      <CartItem
-        item={mockedItem}
-        onRemove={mockOnRemove}
-        onQuantityChange={mockOnQuantityChange}
-      />
-    );
   });
 
   const getQuantityInputElement = () =>
@@ -49,12 +60,16 @@ describe("CartItem Component", () => {
     ) as HTMLInputElement;
 
   test("removes item when delete button is clicked", () => {
+    mockAndRender();
+
     const deleteIcon = screen.getByTestId("remove-cart-item-button");
     fireEvent.click(deleteIcon);
     expect(mockOnRemove).toHaveBeenCalledWith(mockedItem);
   });
 
   test("increases quantity when add button is clicked", async () => {
+    mockAndRender();
+
     const addIconElement = screen.getByTestId("increase-quantity-button");
     fireEvent.click(addIconElement);
 
@@ -64,6 +79,8 @@ describe("CartItem Component", () => {
   });
 
   test("decreases quantity but not below 1", async () => {
+    mockAndRender();
+
     const removeIconElement = screen.getByTestId("decrease-quantity-button");
     fireEvent.click(removeIconElement);
 
@@ -78,6 +95,8 @@ describe("CartItem Component", () => {
   });
 
   test("changes quantity via input and triggers update", async () => {
+    mockAndRender();
+
     const quantityInputElement = getQuantityInputElement();
     await typeIntoInput(quantityInputElement, "5");
 
@@ -87,6 +106,8 @@ describe("CartItem Component", () => {
   });
 
   test("resets quantity on blur if input is zero", async () => {
+    mockAndRender();
+
     const quantityInputElement = getQuantityInputElement();
     await typeIntoInput(quantityInputElement, "0");
     fireEvent.blur(quantityInputElement);
@@ -97,28 +118,20 @@ describe("CartItem Component", () => {
   });
 
   test("handles empty input gracefully", async () => {
+    mockAndRender();
+
     const quantityInputElement = getQuantityInputElement();
     await typeIntoInput(quantityInputElement, "");
     expect(quantityInputElement.value).toBe("");
   });
 
   test("displays correct total price with discount", async () => {
-    const discountedItem = {
-      ...mockedItem,
-      productPriceWithDiscount: 80,
-      discount: 20
-    };
     const expectedTotalPrice = formatPrice(
-      discountedItem.quantity * (discountedItem.productPriceWithDiscount ?? 0)
+      mockedItemWithDiscount.quantity *
+        (mockedItemWithDiscount.productPriceWithDiscount ?? 0)
     );
 
-    renderWithProviders(
-      <CartItem
-        item={discountedItem}
-        onRemove={mockOnRemove}
-        onQuantityChange={mockOnQuantityChange}
-      />
-    );
+    mockAndRender({ item: mockedItemWithDiscount });
 
     expect(
       screen.getByText(expectedTotalPrice, {
@@ -128,6 +141,8 @@ describe("CartItem Component", () => {
   });
 
   test("displays correct total price", async () => {
+    mockAndRender();
+
     const hasDiscount = mockedItem.productPriceWithDiscount !== undefined;
     const expectedTotalPrice = formatPrice(
       mockedItem.quantity *
@@ -146,22 +161,11 @@ describe("CartItem Component", () => {
   });
 
   test("formats and displays discounted price correctly", () => {
-    const discountedItem = {
-      ...mockedItem,
-      productPriceWithDiscount: 80
-    };
-
-    renderWithProviders(
-      <CartItem
-        item={discountedItem}
-        onRemove={mockOnRemove}
-        onQuantityChange={mockOnQuantityChange}
-      />
-    );
+    mockAndRender({ item: mockedItemWithDiscount });
 
     expect(
       screen.getByText(
-        formatPrice(discountedItem.productPriceWithDiscount ?? 0),
+        formatPrice(mockedItemWithDiscount.productPriceWithDiscount ?? 0),
         {
           selector: ".spa-cart-item__price-discounted"
         }
@@ -170,6 +174,8 @@ describe("CartItem Component", () => {
   });
 
   test("does not call onQuantityChange when quantity remains the same", async () => {
+    mockAndRender();
+
     const quantityInputElement = getQuantityInputElement();
 
     await typeIntoInput(quantityInputElement, mockedItem.quantity.toString());
@@ -178,5 +184,119 @@ describe("CartItem Component", () => {
     await waitFor(() => {
       expect(mockOnQuantityChange).not.toHaveBeenCalled();
     });
+  });
+
+  test("Should set intitial quantity when input looses focus with 0 quantity", async () => {
+    mockAndRender();
+
+    const quantityInputElement = getQuantityInputElement();
+
+    fireEvent.focus(quantityInputElement);
+
+    await typeIntoInput(quantityInputElement, "");
+
+    fireEvent.blur(quantityInputElement);
+
+    expect(quantityInputElement).toHaveValue(mockedItem.quantity.toString());
+  });
+
+  test("Should set user's inputed quantity if it is more than 0", async () => {
+    mockAndRender();
+
+    const quantityInputElement = getQuantityInputElement();
+
+    fireEvent.focus(quantityInputElement);
+
+    await typeIntoInput(quantityInputElement, "5");
+
+    fireEvent.blur(quantityInputElement);
+
+    expect(quantityInputElement).toHaveValue("5");
+  });
+
+  test("Should show discount badge when discount is applied", () => {
+    mockAndRender({ item: mockedItemWithDiscount });
+
+    const badgeWithImage = screen.getByTestId("cart-item-discount-badge");
+
+    expect(badgeWithImage).toBeInTheDocument();
+  });
+
+  test("Should not render badge when there is no discount", () => {
+    mockAndRender();
+
+    const badgeWithImage = screen.queryByTestId("cart-item-discount-badge");
+
+    expect(badgeWithImage).not.toBeInTheDocument();
+  });
+
+  test("Should render separate image when there is no discount", () => {
+    mockAndRender();
+
+    const image = screen.getByTestId("cart-item-img");
+
+    expect(image).toBeInTheDocument();
+  });
+
+  test("Should not render separate image when discount is applied", () => {
+    mockAndRender({ item: mockedItemWithDiscount });
+
+    const image = screen.queryByTestId("cart-item-img");
+
+    expect(image).not.toBeInTheDocument();
+  });
+
+  test("Should be able to decrease quantity", () => {
+    mockAndRender();
+
+    const decreaseQuantityButton = screen.getByTestId(
+      "decrease-quantity-button"
+    );
+
+    expect(decreaseQuantityButton).not.toHaveClass("disabled");
+  });
+
+  test("Should disable descrease quantity button when quantity equals one", () => {
+    mockAndRender({ item: { ...mockedItem, quantity: 1 } });
+
+    const decreaseQuantityButton = screen.getByTestId(
+      "decrease-quantity-button"
+    );
+
+    expect(decreaseQuantityButton).toHaveClass("disabled");
+  });
+
+  test("Should not call onQuantityChange if quantity is not setted", async () => {
+    mockAndRender();
+
+    const quantityInputElement = getQuantityInputElement();
+
+    fireEvent.focus(quantityInputElement);
+
+    await typeIntoInput(quantityInputElement, "3");
+
+    await act(() => jest.advanceTimersByTime(1000));
+
+    await typeIntoInput(quantityInputElement, "");
+
+    await act(() => jest.advanceTimersByTime(1000));
+
+    fireEvent.blur(quantityInputElement);
+
+    expect(mockOnQuantityChange).toHaveBeenCalledTimes(1);
+  });
+
+  test("Should not set 0 to quantity if 0 is typed", async () => {
+    mockAndRender();
+
+    const quantityInputElement = getQuantityInputElement();
+
+    fireEvent.focus(quantityInputElement);
+
+    await typeIntoInput(quantityInputElement, "3");
+
+    await typeIntoInput(quantityInputElement, "0");
+
+    expect(quantityInputElement).toHaveAttribute("data-real-quantity", "3");
   });
 });

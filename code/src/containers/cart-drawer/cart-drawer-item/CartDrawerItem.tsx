@@ -11,14 +11,15 @@ import formatPrice from "@/utils/format-price/formatPrice";
 
 import "@/containers/cart-drawer/cart-drawer-item/CartDrawerItem.scss";
 
-const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
+const CartDrawerItem = ({
+  onRemove = () => {},
+  ...props
+}: CartDrawerItemProps) => {
   const handleRemove = () => {
     onRemove(props);
   };
 
   const hasDiscount = props.discount && props.discount > 0;
-
-  const price = props.priceWithDiscount || props.productPriceWithDiscount!;
 
   return (
     <AppBox className="cart-item">
@@ -57,7 +58,7 @@ const CartDrawerItem = ({ onRemove, ...props }: CartDrawerItemProps) => {
                 variant="concept"
                 data-testid="cart-item-discounted-price"
               >
-                {formatPrice(price)}
+                {formatPrice(props.productPriceWithDiscount!)}
               </AppTypography>
             </>
           ) : (

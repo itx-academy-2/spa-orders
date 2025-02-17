@@ -27,9 +27,7 @@ const useUserCartItems = () => {
   } = useUpdateCartItemQuantity();
 
   useEffect(() => {
-    if (cartItems) {
-      setOptimisticTotalPrice(cartItems.totalPrice);
-    }
+    setOptimisticTotalPrice(cartItems.totalPrice);
   }, [cartItems]);
 
   const handleRemoveItem = (product: CartItem) => {
@@ -42,7 +40,8 @@ const useUserCartItems = () => {
   ) => {
     if (user) {
       const oldQuantity = product.quantity;
-      const unitPrice = product.priceWithDiscount ?? product.productPrice;
+      const unitPrice =
+        product.productPriceWithDiscount ?? product.productPrice;
       const priceDifference = unitPrice * (newQuantity - oldQuantity);
 
       setOptimisticTotalPrice((prevState) => prevState + priceDifference);
@@ -63,15 +62,10 @@ const useUserCartItems = () => {
     }
   };
 
-  const totalDiscountedPrice = cartItems?.items?.length
-    ? cartItems.items.reduce((total, item) => {
-        const itemPrice =
-          item.priceWithDiscount ??
-          item.productPriceWithDiscount ??
-          item.productPrice;
-        return total + (item.quantity ?? 0) * (itemPrice ?? 0);
-      }, 0)
-    : 0;
+  const totalDiscountedPrice = cartItems.items.reduce((total, item) => {
+    const itemPrice = item.productPriceWithDiscount ?? item.productPrice;
+    return total + item.quantity * itemPrice;
+  }, 0);
 
   return {
     user,

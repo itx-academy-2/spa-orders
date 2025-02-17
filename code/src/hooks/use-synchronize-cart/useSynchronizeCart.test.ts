@@ -25,7 +25,7 @@ type ErrorLike = Record<string, unknown> | null;
 type MockAndRender = {
   user: { id: number; role: UserRole } | null;
   isFirstSessionAfterAuth: boolean;
-  items: Partial<CartItem>[];
+  items: Partial<CartItem>[] | null;
   error: ErrorLike;
 };
 
@@ -99,11 +99,13 @@ describe("useSynchronizeCart", () => {
   test("synchronizes cart by adding all items to cart", () => {
     mockAndRender({ user: mockUser, isFirstSessionAfterAuth: true });
 
-    for (const item of defaultArgs.items) {
-      expect(mockAddToCart).toHaveBeenCalledWith({
-        productId: item.productId,
-        userId: mockUser.id
-      });
+    if (defaultArgs.items) {
+      for (const item of defaultArgs.items) {
+        expect(mockAddToCart).toHaveBeenCalledWith({
+          productId: item.productId,
+          userId: mockUser.id
+        });
+      }
     }
   });
 
@@ -134,5 +136,25 @@ describe("useSynchronizeCart", () => {
       messageTranslationKey: "cart.itemAdditionToRemote.fail",
       variant: "error"
     });
+  });
+
+  test("does not synchronize cart when cartData.items is undefined", () => {
+    mockAndRender({
+      user: mockUser,
+      isFirstSessionAfterAuth: true,
+      items: undefined
+    });
+
+    expect(mockAddToCart).not.toHaveBeenCalled();
+  });
+
+  test("does not synchronize cart when cartData.items is null", () => {
+    mockAndRender({
+      user: mockUser,
+      isFirstSessionAfterAuth: true,
+      items: null
+    });
+
+    expect(mockAddToCart).not.toHaveBeenCalled();
   });
 });
