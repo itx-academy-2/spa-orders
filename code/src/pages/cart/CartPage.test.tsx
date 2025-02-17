@@ -46,6 +46,11 @@ const mockUseRemoveFromCart = useRemoveFromCart as jest.Mock;
 const mockUseUpdateCartItemQuantity = useUpdateCartItemQuantity as jest.Mock;
 const mockCreateOrder = jest.fn();
 
+const emptyCartData = {
+  items: [],
+  totalPrice: 0
+};
+
 const mockedCartItems = {
   items: [
     {
@@ -63,7 +68,7 @@ const mockedCartItems = {
 const userId = { id: 3 };
 
 const renderWithMockParams = ({
-  data = null,
+  data = emptyCartData,
   isError = false,
   isLoading = false
 }: RenderWithMockParams) => {

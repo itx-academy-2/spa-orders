@@ -57,10 +57,7 @@ const CartDrawer = () => {
   const totalDiscountedPrice =
     cartItems?.items?.reduce((total, item) => {
       const itemPrice =
-        item.priceWithDiscount ??
-        item.productPriceWithDiscount ??
-        item.calculatedPrice ??
-        0;
+        item.productPriceWithDiscount ?? item.calculatedPrice ?? 0;
       return total + itemPrice;
     }, 0) ?? 0;
 
