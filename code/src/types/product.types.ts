@@ -88,6 +88,7 @@ export type ProductBody = {
   image: string;
   price: number;
   quantity: number;
+  discount: number | null;
   productTranslations: ProductTranslation[];
 };
 

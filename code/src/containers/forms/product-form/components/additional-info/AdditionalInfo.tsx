@@ -1,6 +1,7 @@
 import { SyntheticEvent } from "react";
 import { Controller } from "react-hook-form";
 
+import CancelIcon from "@mui/icons-material/Cancel";
 import { MenuProps } from "@mui/material/Menu";
 
 import { productCategories } from "@/containers/forms/product-form/ProductForm.constants";
@@ -12,6 +13,7 @@ import {
 import AppBox from "@/components/app-box/AppBox";
 import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
 import AppFormHelperText from "@/components/app-form-helper-text/AppFormHelperText";
+import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppInput from "@/components/app-input/AppInput";
 import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
 import AppSelect from "@/components/app-select/AppSelect";
@@ -21,7 +23,8 @@ const AdditionalInfo = ({
   register,
   errors,
   control,
-  initialPriceWithDiscount
+  showRemoveDiscountBtn,
+  onRemoveDiscount
 }: ProductFormAdditionalInfoSectionProps) => {
   const categoryErrorElement = errors.category && (
     <AppFormHelperText className="product-form__category-select-helper" error>
@@ -120,35 +123,43 @@ const AdditionalInfo = ({
             {...register("quantity", { valueAsNumber: true })}
           />
         </AppBox>
-        {initialPriceWithDiscount && (
-          <AppBox className="product-form__quantity-price-container">
+        <AppBox className="product-form__quantity-price-container">
+          <AppBox className="product-form__discount-container">
             <AppInput
               className="product-form__discount"
               fullWidth
               labelTranslationKey="productForm.discountPercentage.label"
-              inputProps={{ min: 0, step: "any" }}
+              inputProps={{ min: 0, step: "any", max: 100 }}
               type="number"
               data-testid="product-form-discount-input"
-              disabled
               {...register("discount", {
-                valueAsNumber: true
+                setValueAs: (v) => (v === "" ? undefined : parseInt(v, 10))
               })}
             />
-            <AppInput
-              fullWidth
-              labelTranslationKey="productForm.finalPrice.label"
-              inputProps={{
-                min: 0
-              }}
-              type="number"
-              data-testid="product-form-discounted-price-input"
-              disabled
-              {...register("priceWithDiscount", {
-                valueAsNumber: true
-              })}
-            />
+            {showRemoveDiscountBtn && (
+              <AppIconButton
+                className="product-form__discount-remove"
+                data-testid="product-form-discount-remove"
+                onClick={onRemoveDiscount}
+              >
+                <CancelIcon fontSize="small" color="warning" />
+              </AppIconButton>
+            )}
           </AppBox>
-        )}
+          <AppInput
+            fullWidth
+            labelTranslationKey="productForm.finalPrice.label"
+            inputProps={{
+              min: 0
+            }}
+            type="number"
+            data-testid="product-form-discounted-price-input"
+            disabled
+            {...register("priceWithDiscount", {
+              valueAsNumber: true
+            })}
+          />
+        </AppBox>
         <AppBox className="product-form__category-select-container">
           <Controller
             name="category"

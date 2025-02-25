@@ -40,6 +40,7 @@ const testProductData: ProductBody = {
   image: "https://example.com",
   quantity: 10,
   price: 100,
+  discount: 10,
   tagIds: [1],
   productTranslations: [
     {

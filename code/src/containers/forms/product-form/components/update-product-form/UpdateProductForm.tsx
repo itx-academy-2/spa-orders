@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useIntl } from "react-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -27,6 +28,8 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     handleSubmit,
     register,
     control,
+    setValue,
+    getValues,
     formState: { errors, dirtyFields, isDirty }
   } = useForm<ProductFormValues>({
     defaultValues: getDefaultValues(product),
@@ -34,6 +37,12 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
   });
 
   const [updateProduct, { isLoading }] = useUpdateProduct();
+  const [removeProductDiscount] = useUpdateProduct({
+    onSuccess: () => {
+      setValue("discount", 0);
+      setValue("priceWithDiscount", getValues().price);
+    }
+  });
 
   const onSubmit = async (values: ProductFormValues) => {
     if (!isDirty) return;
@@ -44,6 +53,21 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     await updateProduct({ ...body, productId: product.id });
   };
 
+  const { formatMessage } = useIntl();
+
+  const handleRemoveDiscount = () => {
+    const confirmResult = confirm(
+      formatMessage({ id: "productForm.discountRemoval.confirmation" })
+    );
+
+    if (confirmResult) {
+      removeProductDiscount({
+        discount: null,
+        productId: product.id
+      });
+    }
+  };
+
   return (
     <AppBox component="form" onSubmit={handleSubmit(onSubmit)}>
       <AppBox className="product-form">
@@ -52,7 +76,8 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
           control={control}
           register={register}
           errors={errors}
-          initialPriceWithDiscount={product.priceWithDiscount ?? product.price}
+          onRemoveDiscount={handleRemoveDiscount}
+          showRemoveDiscountBtn={Boolean(product.discount)}
         />
         <AppBox className="product-form__main-info-section">
           <MainInfo register={register} errors={errors} />

@@ -56,7 +56,8 @@ export type ProductFormMainInfoSectionProps = ProductFormSectionProps;
 
 export type ProductFormAdditionalInfoSectionProps =
   ProductFormSectionExtendedProps & {
-    initialPriceWithDiscount?: number;
+    showRemoveDiscountBtn?: boolean;
+    onRemoveDiscount?: () => void;
   };
 
 export type ProductFormControllerRenderFunctionProps = {

@@ -93,8 +93,23 @@ $gridGapHalf: calc($gridGap / 2);
     padding: spacing(8);
   }
 
+  &__discount-container {
+    position: relative;
+  }
+
+  &__discount-remove {
+    height: spacing(6);
+    width: spacing(6);
+    position: absolute;
+    top: 50%;
+    right: spacing(3);
+    transform: translateY(-50%);
+  }
+
   &__discount {
-    flex: 0 0 98px;
+    .MuiInputBase-input {
+      padding-right: spacing(16);
+    }
   }
 
   &__text-input {

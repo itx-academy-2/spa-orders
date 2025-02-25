@@ -40,7 +40,12 @@ const CreateProductForm = () => {
     <AppBox component="form" onSubmit={handleSubmit(onSubmit)}>
       <AppBox className="product-form">
         <ImagePreview control={control} register={register} errors={errors} />
-        <AdditionalInfo control={control} register={register} errors={errors} />
+        <AdditionalInfo
+          control={control}
+          register={register}
+          errors={errors}
+          showRemoveDiscountBtn={false}
+        />
         <AppBox className="product-form__main-info-section">
           <MainInfo register={register} errors={errors} />
           <AppButton

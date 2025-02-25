@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { ControllerRenderProps } from "react-hook-form";
 
 import {
+  ProductFormAdditionalInfoSectionProps,
   ProductFormControl,
   ProductFormFieldErrors,
   ProductFormRegisterFunction
@@ -28,13 +29,15 @@ const categoryError = {
 const registerFunction = (() => ({})) as unknown as ProductFormRegisterFunction;
 const controlFunction = (() => ({})) as unknown as ProductFormControl;
 
-const renderAdditionalInfo = (errors: ProductFormFieldErrors = {}) => {
+const renderAdditionalInfo = (
+  props?: Partial<ProductFormAdditionalInfoSectionProps>
+) => {
   return render(
     <AdditionalInfo
-      initialPriceWithDiscount={21}
       register={registerFunction}
-      errors={errors}
       control={controlFunction}
+      errors={props?.errors ?? {}}
+      {...props}
     />
   );
 };
@@ -83,12 +86,49 @@ describe("Test AdditionalInfo component", () => {
   });
 
   test("Should show error and have propriate error styles", () => {
-    renderAdditionalInfo(categoryError);
+    renderAdditionalInfo({ errors: categoryError });
 
     const categoryErrorElement = screen.getByText("Category error");
     const categorySelect = screen.getByTestId("product-form-category-select");
 
     expect(categoryErrorElement).toBeInTheDocument();
     expect(categorySelect.closest(".Mui-error")).toBeTruthy();
+  });
+
+  test("Should show remove discount button", () => {
+    renderAdditionalInfo({ showRemoveDiscountBtn: true });
+
+    const discountRemovalBtn = screen.getByTestId(
+      "product-form-discount-remove"
+    );
+
+    expect(discountRemovalBtn).toBeInTheDocument();
+  });
+
+  test("Should not show remove discount button", () => {
+    renderAdditionalInfo();
+
+    const discountRemovalBtn = screen.queryByTestId(
+      "product-form-discount-remove"
+    );
+
+    expect(discountRemovalBtn).not.toBeInTheDocument();
+  });
+
+  test("Should call passed onRemoveDiscount", () => {
+    const mockOnRemoveDiscount = jest.fn();
+
+    renderAdditionalInfo({
+      showRemoveDiscountBtn: true,
+      onRemoveDiscount: mockOnRemoveDiscount
+    });
+
+    const discountRemovalBtn = screen.getByTestId(
+      "product-form-discount-remove"
+    );
+
+    discountRemovalBtn.click();
+
+    expect(mockOnRemoveDiscount).toHaveBeenCalled();
   });
 });

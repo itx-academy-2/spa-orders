@@ -2,7 +2,9 @@ import useSnackbar from "@/hooks/use-snackbar/useSnackbar";
 import { useUpdateProductMutation } from "@/store/api/productsApi";
 import { UpdateProductBody } from "@/types/product.types";
 
-const useUpdateProduct = () => {
+import { UseUpdateProductOptions } from "./useUpdateProduct.types";
+
+const useUpdateProduct = (options?: UseUpdateProductOptions) => {
   const [updateProduct, requestState] = useUpdateProductMutation();
 
   const { openSnackbarWithTimeout } = useSnackbar();
@@ -15,11 +17,15 @@ const useUpdateProduct = () => {
         variant: "success",
         messageTranslationKey: "productForm.updation.success"
       });
+
+      if (options?.onSuccess) options.onSuccess();
     } catch (e: unknown) {
       openSnackbarWithTimeout({
         variant: "error",
         messageTranslationKey: "productForm.updation.fail"
       });
+
+      if (options?.onError) options.onError();
     }
   };
 

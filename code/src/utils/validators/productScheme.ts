@@ -81,7 +81,12 @@ const productScheme = z.object({
         message:
           "At least one translation must have non-empty name and description"
       }
-    )
+    ),
+  discount: z
+    .number({ message: "Invalid discount" })
+    .min(0, { message: "Discount must be bigger than 0" })
+    .max(100000000, { message: "Discount must be less than 100 mln" })
+    .optional()
 });
 
 export default productScheme;
