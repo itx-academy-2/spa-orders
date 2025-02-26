@@ -96,10 +96,10 @@ describe("Test CreateAdditionalInfo component", () => {
 
     renderCreateAdditionalInfo(errorsWithMessages);
 
-    // Assert that the helper text messages are rendered
-    expect(
-      screen.getByText("Price must be a positive number")
-    ).toBeInTheDocument();
+    const priceText = screen.getByText("Price must be a positive number");
+
+    expect(priceText).toBeInTheDocument();
+
     expect(screen.getByText("Quantity is required")).toBeInTheDocument();
   });
 });
