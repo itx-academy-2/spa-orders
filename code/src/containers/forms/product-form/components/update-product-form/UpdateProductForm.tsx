@@ -62,7 +62,7 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
 
     if (confirmResult) {
       removeProductDiscount({
-        discount: null,
+        discount: undefined,
         productId: product.id
       });
     }

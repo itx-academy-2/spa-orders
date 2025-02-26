@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { defaultValues } from "@/containers/forms/product-form/ProductForm.constants";
 import { ProductFormValues } from "@/containers/forms/product-form/ProductForm.types";
-import AdditionalInfo from "@/containers/forms/product-form/components/additional-info/AdditionalInfo";
+import CreateAdditionalInfo from "@/containers/forms/product-form/components/create-additional-info/CreateAdditionalInfo";
 import ImagePreview from "@/containers/forms/product-form/components/image/Image";
 import MainInfo from "@/containers/forms/product-form/components/main-info/MainInfo";
 import useCreateProduct from "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct";
@@ -40,11 +40,10 @@ const CreateProductForm = () => {
     <AppBox component="form" onSubmit={handleSubmit(onSubmit)}>
       <AppBox className="product-form">
         <ImagePreview control={control} register={register} errors={errors} />
-        <AdditionalInfo
-          control={control}
+        <CreateAdditionalInfo
           register={register}
+          control={control}
           errors={errors}
-          showRemoveDiscountBtn={false}
         />
         <AppBox className="product-form__main-info-section">
           <MainInfo register={register} errors={errors} />

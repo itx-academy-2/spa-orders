@@ -21,6 +21,8 @@ const getRequestBodyFromValues = (
       return { ...acc, status: values.status ? "VISIBLE" : "HIDDEN" };
     } else if (key === "category") {
       return { ...acc, tagIds: [values.category] };
+    } else if (key === "discount") {
+      return { ...acc, discount: values.discount };
     }
 
     return { ...acc, [key]: values[key] };

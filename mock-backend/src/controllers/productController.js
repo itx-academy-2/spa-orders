@@ -64,12 +64,34 @@ const getAllManagerProducts = (req, res) => {
   return res.json(response);
 };
 
-const createProduct = (req, res) => {
-  res.status(201).json({ id: "new-product-id" });
-};
-
 const getProductByIdForManager = (req, res) => {
   return res.json(managerProduct);
+};
+
+const createProduct = (req, res) => {
+  const { image, price, discount = 0, status, quantity, category, productTranslations, } = req.body;
+
+  if (price === undefined || price < 0) {
+    return res.status(400).json({ status: 400, message: "Price is required and must be non-negative" });
+  }
+
+  const priceWithDiscount = price - (price * discount) / 100;
+
+  const newProduct = {
+    id: Math.floor(Math.random() * 1000) + 1,
+    image,
+    price,
+    discount,
+    status,
+    quantity,
+    category,
+    productTranslations,
+    priceWithDiscount
+  };
+
+  products.push(newProduct);
+
+  res.status(201).json({ id: newProduct.id });
 };
 
 const searchProducts = (req, res) => {

@@ -4,6 +4,7 @@ import getRequestBodyFromValues from "@/containers/forms/product-form/utils/get-
 const testValues: ProductFormValues = {
   status: true,
   price: 15,
+  discount: 10,
   quantity: 10,
   category: 1,
   image: "http://example-image.com",
@@ -16,6 +17,7 @@ const testValues: ProductFormValues = {
 const expectedBody = {
   status: "VISIBLE",
   price: 15,
+  discount: 10,
   quantity: 10,
   tagIds: [1],
   image: "http://example-image.com",
@@ -38,7 +40,7 @@ describe("Test getRequestBodyFromValues", () => {
   test("Should return request body from values with different status", () => {
     const result = getRequestBodyFromValues({ ...testValues, status: false });
 
-    expect(result).toEqual({ ...expectedBody, status: "HIDDEN" });
+    expect(result).toEqual({ ...expectedBody, status: "HIDDEN", discount: 10 });
   });
 
   test("Should work correctly if only name in translations is filled", () => {

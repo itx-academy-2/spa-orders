@@ -195,7 +195,7 @@ describe("Test UpdateProductForm", () => {
 
     expect(mockUpdateProduct).toHaveBeenCalledWith({
       productId: testData.id,
-      discount: null
+      discount: undefined
     });
   });
 

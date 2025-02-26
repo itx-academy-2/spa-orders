@@ -69,6 +69,7 @@ describe("Test CreateProductForm", () => {
       "textarea"
     );
     const statusInput = getTagIn("product-form-status-checkbox");
+    const discountInput = getTagIn("product-form-discount-input");
     const submitButton = screen.getByText("productForm.create.submit");
 
     await act(async () => fireEvent.click(statusInput));
@@ -82,9 +83,15 @@ describe("Test CreateProductForm", () => {
     await typeIntoInput(imgUrlInput, "https://example.com");
     await userEvent.type(priceInput, "100");
     await userEvent.type(quantityInput, "100");
+    await userEvent.type(discountInput, "10");
 
     await act(async () => fireEvent.click(submitButton));
 
-    expect(mockCreateProduct).toHaveBeenCalledWith(expectedBody);
+    const expectedBodyWithDiscount = {
+      ...expectedBody,
+      discount: 10
+    };
+
+    expect(mockCreateProduct).toHaveBeenCalledWith(expectedBodyWithDiscount);
   });
 });
