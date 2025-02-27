@@ -61,13 +61,16 @@ const expectedChangedProductBody = {
   productId: "1",
   status: "VISIBLE",
   price: 100,
+  discount: 10,
   quantity: 100,
-  tagIds: [3]
+  tagIds: [3],
+  image: "https://example.com"
 };
 
 let imgUrlInput: HTMLInputElement;
 let priceInput: HTMLInputElement;
 let quantityInput: HTMLInputElement;
+let discountInput: HTMLInputElement;
 let categorySelect: HTMLSpanElement;
 let nameInput: HTMLInputElement;
 let descriptionInput: HTMLTextAreaElement;
@@ -85,6 +88,7 @@ const render = (
   imgUrlInput = getTagIn("product-form-image-input");
   priceInput = getTagIn("product-form-price-input");
   quantityInput = getTagIn("product-form-quantity-input");
+  discountInput = getTagIn("product-form-discount-input");
   categorySelect = screen.getByLabelText("product.category");
   nameInput = getTagIn(`product-form-name-input`);
   descriptionInput = getTagIn(`product-form-description-input`, "textarea");
@@ -170,6 +174,7 @@ describe("Test UpdateProductForm", () => {
     await selectCategory();
     await userEvent.type(priceInput, "100");
     await userEvent.type(quantityInput, "100");
+    await userEvent.type(discountInput, "10");
 
     await submit();
 
@@ -195,7 +200,8 @@ describe("Test UpdateProductForm", () => {
 
     expect(mockUpdateProduct).toHaveBeenCalledWith({
       productId: testData.id,
-      discount: undefined
+      discount: undefined,
+      image: "https://example.com"
     });
   });
 

@@ -26,6 +26,9 @@ const expectedBody = {
   ]
 };
 
+const zeroDiscount = { discount: 0 };
+const expectedZeroDiscountRes = { discount: null };
+
 const bodyWithEmptyDescription: Pick<ProductFormValues, "productTranslations"> =
   {
     productTranslations: [{ name: "test", description: "", languageCode: "en" }]
@@ -47,5 +50,11 @@ describe("Test getRequestBodyFromValues", () => {
     const result = getRequestBodyFromValues(bodyWithEmptyDescription);
 
     expect(result).toEqual(bodyWithEmptyDescription);
+  });
+
+  test("Should return discount null if it is 0", () => {
+    const result = getRequestBodyFromValues(zeroDiscount);
+
+    expect(result).toEqual(expectedZeroDiscountRes);
   });
 });

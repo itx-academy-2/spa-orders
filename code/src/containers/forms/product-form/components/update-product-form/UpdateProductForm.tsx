@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 
@@ -19,6 +20,7 @@ import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import { ProductBody } from "@/types/product.types";
 import productScheme from "@/utils/validators/productScheme";
 
 import "@/containers/forms/product-form/ProductForm.scss";
@@ -30,11 +32,19 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     control,
     setValue,
     getValues,
+    watch,
     formState: { errors, dirtyFields, isDirty }
   } = useForm<ProductFormValues>({
     defaultValues: getDefaultValues(product),
     resolver: zodResolver(productScheme)
   });
+
+  const price = watch("price") || 0;
+  const discount = watch("discount") || 0;
+
+  useEffect(() => {
+    setValue("priceWithDiscount", price - (price * discount) / 100);
+  }, [price, discount]);
 
   const [updateProduct, { isLoading }] = useUpdateProduct();
   const [removeProductDiscount] = useUpdateProduct({
@@ -48,9 +58,13 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     if (!isDirty) return;
 
     const filteredFields = filterDirtyFields(values, dirtyFields);
-    const body = getRequestBodyFromValues(filteredFields);
+    const body = getRequestBodyFromValues<Partial<ProductBody>>(filteredFields);
 
-    await updateProduct({ ...body, productId: product.id });
+    await updateProduct({
+      image: product.image,
+      ...body,
+      productId: product.id
+    });
   };
 
   const { formatMessage } = useIntl();
@@ -63,7 +77,8 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     if (confirmResult) {
       removeProductDiscount({
         discount: undefined,
-        productId: product.id
+        productId: product.id,
+        image: product.image
       });
     }
   };
