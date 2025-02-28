@@ -56,7 +56,7 @@ const productScheme = z.object({
   discount: z
     .number({ message: "Invalid discount" })
     .min(0, { message: "Discount must be bigger than 0" })
-    .max(100000000, { message: "Discount must be less than 100 mln" })
+    .max(100, { message: "Discount must be less than 100" })
     .optional(),
   status: z.boolean(),
   quantity: z

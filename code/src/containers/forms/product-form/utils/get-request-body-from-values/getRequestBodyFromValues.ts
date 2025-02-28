@@ -22,7 +22,14 @@ const getRequestBodyFromValues = <T = ProductBody>(
     } else if (key === "category") {
       return { ...acc, tagIds: [values.category] };
     } else if (key === "discount") {
-      return { ...acc, discount: values.discount || null };
+      if (
+        values.discount !== undefined &&
+        values.discount !== null &&
+        values.discount > 0
+      ) {
+        return { ...acc, discount: values.discount };
+      }
+      return acc;
     }
 
     return { ...acc, [key]: values[key] };

@@ -23,13 +23,14 @@ const CreateProductForm = () => {
     handleSubmit,
     register,
     control,
+    setValue,
     formState: { errors }
   } = useForm<ProductFormValues>({
     defaultValues: defaultValues,
     resolver: zodResolver(productScheme)
   });
 
-  const [createProduct, { isLoading }] = useCreateProduct();
+  const [createProduct, , { isLoading }] = useCreateProduct();
 
   const onSubmit = async (values: ProductFormValues) => {
     const body = getRequestBodyFromValues(values);
@@ -44,6 +45,7 @@ const CreateProductForm = () => {
           register={register}
           control={control}
           errors={errors}
+          setValue={setValue}
         />
         <AppBox className="product-form__main-info-section">
           <MainInfo register={register} errors={errors} />

@@ -32,6 +32,11 @@ jest.mock(
   })
 );
 
+jest.mock("@/store/api/productsApi", () => ({
+  useCreateProductMutation: jest.fn(() => [jest.fn(), {}]),
+  useGetDiscountedProductsCountQuery: jest.fn(() => ({ data: 0 }))
+}));
+
 const testData: FullManagerProduct = {
   id: "1",
   createdAt: "2021-10-10T10:10:10.000Z",
@@ -214,6 +219,6 @@ describe("Test UpdateProductForm", () => {
 
     fireEvent.click(discountRemovalBtn);
 
-    expect(mockUpdateProduct).not.toHaveBeenCalledWith();
+    expect(mockUpdateProduct).not.toHaveBeenCalled();
   });
 });

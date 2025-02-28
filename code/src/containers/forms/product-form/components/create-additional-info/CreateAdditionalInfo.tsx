@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller, useWatch } from "react-hook-form";
 
 import { MenuProps } from "@mui/material/Menu";
 
 import { productCategories } from "@/containers/forms/product-form/ProductForm.constants";
 import { ProductFormAdditionalInfoSectionProps } from "@/containers/forms/product-form/ProductForm.types";
+import useCreateProduct from "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct";
 
 import AppBox from "@/components/app-box/AppBox";
 import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
@@ -16,7 +17,8 @@ import AppTypography from "@/components/app-typography/AppTypography";
 const CreateAdditionalInfo = ({
   register,
   errors,
-  control
+  control,
+  setValue
 }: ProductFormAdditionalInfoSectionProps) => {
   const categoryItems = productCategories.map(({ id, label }) => (
     <AppMenuItem value={id} key={id} data-cy={`product-form-category-${id}`}>
@@ -33,6 +35,18 @@ const CreateAdditionalInfo = ({
   const finalPrice = useMemo(() => {
     return price - (price * discount) / 100;
   }, [price, discount]);
+
+  const [, discountedProductsCount] = useCreateProduct();
+
+  const disabledDiscount =
+    typeof discountedProductsCount === "number" &&
+    discountedProductsCount === 10;
+
+  useEffect(() => {
+    if (disabledDiscount && setValue) {
+      setValue("discount", 0);
+    }
+  }, [disabledDiscount, setValue]);
 
   return (
     <AppBox className="product-form__container product-form__additional-info-section">
@@ -70,16 +84,28 @@ const CreateAdditionalInfo = ({
           />
         </AppBox>
         <AppBox className="product-form__quantity-price-container">
-          <AppInput
-            className="product-form__discount"
-            fullWidth
-            labelTranslationKey="productForm.discountPercentage.label"
-            inputProps={{ min: 0, step: "any" }}
-            type="number"
-            data-testid="product-form-discount-input"
-            {...register("discount", {
-              valueAsNumber: true
-            })}
+          <Controller
+            name="discount"
+            control={control}
+            render={({ field: { onChange, value, ...fieldProps } }) => (
+              <AppInput
+                {...fieldProps}
+                className="product-form__discount"
+                fullWidth
+                labelTranslationKey="productForm.discountPercentage.label"
+                inputProps={{
+                  min: 0,
+                  step: "any"
+                }}
+                type="number"
+                data-testid="product-form-discount-input"
+                disabled={disabledDiscount}
+                value={disabledDiscount && value === 0 ? "" : value ?? ""}
+                onChange={(e) =>
+                  onChange(e.target.value ? Number(e.target.value) : 0)
+                }
+              />
+            )}
           />
           <AppInput
             fullWidth

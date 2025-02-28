@@ -32,6 +32,12 @@ export const productsApi = appApi.injectEndpoints({
       }),
       providesTags: [rtkQueryTags.PRODUCTS]
     }),
+    getDiscountedProductsCount: build.query<number, void>({
+      query: () => ({
+        url: URLS.products.getDiscountCountForManager
+      }),
+      providesTags: [rtkQueryTags.PRODUCTS]
+    }),
     getUserProductById: build.query<
       GetUserProductByIdResponse,
       GetUserProductByIdParams
@@ -123,5 +129,6 @@ export const {
   useGetManagerProductQuery,
   useGetUserProductsBySearchQuery,
   useUpdateProductMutation,
-  useGetSalesProductsQuery
+  useGetSalesProductsQuery,
+  useGetDiscountedProductsCountQuery
 } = productsApi;

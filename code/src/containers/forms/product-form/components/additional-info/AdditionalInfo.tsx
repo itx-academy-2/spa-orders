@@ -9,6 +9,7 @@ import {
   ProductFormAdditionalInfoSectionProps,
   ProductFormControllerRenderFunctionProps
 } from "@/containers/forms/product-form/ProductForm.types";
+import useCreateProduct from "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct";
 
 import AppBox from "@/components/app-box/AppBox";
 import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
@@ -26,6 +27,12 @@ const AdditionalInfo = ({
   showRemoveDiscountBtn,
   onRemoveDiscount
 }: ProductFormAdditionalInfoSectionProps) => {
+  const [, discountedProductsCount] = useCreateProduct();
+
+  const disabledDiscount =
+    typeof discountedProductsCount === "number" &&
+    discountedProductsCount === 10;
+
   const categoryErrorElement = errors.category && (
     <AppFormHelperText className="product-form__category-select-helper" error>
       {errors.category.message}
@@ -70,7 +77,7 @@ const AdditionalInfo = ({
   const checkboxControllerRenderFunction = ({
     field: { onChange, ...props }
   }: ProductFormControllerRenderFunctionProps) => {
-    const handelChange = (_: SyntheticEvent, checked: boolean) => {
+    const handleChange = (_: SyntheticEvent, checked: boolean) => {
       onChange(checked);
     };
 
@@ -82,7 +89,7 @@ const AdditionalInfo = ({
         labelClassName="product-form__visibility-checkbox-label"
         data-testid="product-form-status-checkbox"
         checked={Boolean(props.value)}
-        onChange={handelChange}
+        onChange={handleChange}
         {...props}
       />
     );
@@ -125,16 +132,25 @@ const AdditionalInfo = ({
         </AppBox>
         <AppBox className="product-form__quantity-price-container">
           <AppBox className="product-form__discount-container">
-            <AppInput
-              className="product-form__discount"
-              fullWidth
-              labelTranslationKey="productForm.discountPercentage.label"
-              inputProps={{ min: 0, step: "any", max: 100 }}
-              type="number"
-              data-testid="product-form-discount-input"
-              {...register("discount", {
-                setValueAs: (v) => (v === "" ? undefined : parseInt(v, 10))
-              })}
+            <Controller
+              name="discount"
+              control={control}
+              render={({ field: { onChange, value, ...fieldProps } }) => (
+                <AppInput
+                  {...fieldProps}
+                  className="product-form__discount"
+                  fullWidth
+                  labelTranslationKey="productForm.discountPercentage.label"
+                  inputProps={{ min: 0, step: "any", max: 100 }}
+                  type="number"
+                  data-testid="product-form-discount-input"
+                  disabled={disabledDiscount}
+                  value={disabledDiscount && value === 0 ? "" : value ?? ""}
+                  onChange={(e) =>
+                    onChange(e.target.value ? Number(e.target.value) : 0)
+                  }
+                />
+              )}
             />
             {showRemoveDiscountBtn && (
               <AppIconButton
@@ -149,9 +165,7 @@ const AdditionalInfo = ({
           <AppInput
             fullWidth
             labelTranslationKey="productForm.finalPrice.label"
-            inputProps={{
-              min: 0
-            }}
+            inputProps={{ min: 0 }}
             type="number"
             data-testid="product-form-discounted-price-input"
             disabled

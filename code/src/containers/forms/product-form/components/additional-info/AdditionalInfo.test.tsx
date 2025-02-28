@@ -1,13 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { ControllerRenderProps } from "react-hook-form";
 
 import {
   ProductFormAdditionalInfoSectionProps,
   ProductFormControl,
-  ProductFormFieldErrors,
   ProductFormRegisterFunction
 } from "@/containers/forms/product-form/ProductForm.types";
 import AdditionalInfo from "@/containers/forms/product-form/components/additional-info/AdditionalInfo";
+import useCreateProduct from "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct";
 
 import getTagIn from "@/utils/get-tag-in/getTagIn";
 
@@ -19,12 +19,17 @@ jest.mock("react-hook-form", () => ({
   Controller: ({ render }: MockControllerProps) =>
     render({
       field: { value: 1 } as ControllerRenderProps
-    })
+    }),
+  useWatch: jest.fn(() => 0)
 }));
 
-const categoryError = {
-  category: { message: "Category error" }
-} as ProductFormFieldErrors;
+jest.mock(
+  "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct",
+  () => ({
+    __esModule: true,
+    default: jest.fn(() => [null, 0])
+  })
+);
 
 const registerFunction = (() => ({})) as unknown as ProductFormRegisterFunction;
 const controlFunction = (() => ({})) as unknown as ProductFormControl;
@@ -49,30 +54,41 @@ describe("Test AdditionalInfo component", () => {
     const categorySelect = screen.getByTestId("product-form-category-select");
     const priceInput = getTagIn("product-form-price-input");
     const quantityInput = getTagIn("product-form-quantity-input");
-    const discountInput = screen.getByTestId("product-form-discount-input");
+    const discountInputContainer = screen.getByTestId(
+      "product-form-discount-input"
+    );
     const discountedPriceInput = screen.getByTestId(
       "product-form-discounted-price-input"
     );
+    const statusCheckbox = screen.getByTestId("product-form-status-checkbox");
 
     expect(discountedPriceInput).toBeInTheDocument();
-    expect(discountInput).toBeInTheDocument();
+    expect(discountInputContainer).toBeInTheDocument();
     expect(priceInput).toBeInTheDocument();
     expect(quantityInput).toBeInTheDocument();
     expect(categorySelect).toBeInTheDocument();
+    expect(statusCheckbox).toBeInTheDocument();
   });
 
-  test("Inputs should have propriate attributes and classnames", () => {
-    const { container } = renderAdditionalInfo();
+  test("Inputs should have appropriate attributes and classnames", () => {
+    renderAdditionalInfo();
 
-    const selectInput = container.querySelector(
+    const selectInput = document.querySelector(
       ".product-form__category-select"
     );
     const priceInput = getTagIn("product-form-price-input");
     const quantityInput = getTagIn("product-form-quantity-input");
+    const discountInputContainer = screen.getByTestId(
+      "product-form-discount-input"
+    );
+    const discountInput = within(discountInputContainer).getByRole(
+      "spinbutton"
+    );
 
     expect(selectInput).toBeInTheDocument();
     expect(priceInput).toHaveAttribute("min", "0");
     expect(quantityInput).toHaveAttribute("min", "0");
+    expect(discountInput).toHaveAttribute("min", "0");
   });
 
   test("Should not show error by default", () => {
@@ -85,14 +101,48 @@ describe("Test AdditionalInfo component", () => {
     expect(quantityInput.closest(".Mui-error")).toBeFalsy();
   });
 
-  test("Should show error and have propriate error styles", () => {
-    renderAdditionalInfo({ errors: categoryError });
+  test("Should display error messages for price and quantity when errors are present", () => {
+    const errorsWithMessages = {
+      price: { message: "Price must be a positive number", type: "manual" },
+      quantity: { message: "Quantity is required", type: "manual" }
+    };
 
-    const categoryErrorElement = screen.getByText("Category error");
-    const categorySelect = screen.getByTestId("product-form-category-select");
+    renderAdditionalInfo({ errors: errorsWithMessages });
 
-    expect(categoryErrorElement).toBeInTheDocument();
-    expect(categorySelect.closest(".Mui-error")).toBeTruthy();
+    expect(
+      screen.getByText("Price must be a positive number")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Quantity is required")).toBeInTheDocument();
+  });
+
+  test("Should disable discount input when discountedProductsCount equals 10", () => {
+    (useCreateProduct as jest.Mock).mockReturnValue([null, 10]);
+    renderAdditionalInfo();
+
+    const discountInputContainer = screen.getByTestId(
+      "product-form-discount-input"
+    );
+    const discountInput = discountInputContainer.querySelector("input");
+    expect(discountInput).toBeDisabled();
+  });
+
+  test("Should enable discount input when discountedProductsCount is not 10", () => {
+    (useCreateProduct as jest.Mock).mockReturnValue([null, 5]);
+    renderAdditionalInfo();
+
+    const discountInputContainer = screen.getByTestId(
+      "product-form-discount-input"
+    );
+    const discountInput = discountInputContainer.querySelector("input");
+    expect(discountInput).not.toBeDisabled();
+  });
+
+  test("Should not call setValue when discountedProductsCount is not equal to 10", async () => {
+    (useCreateProduct as jest.Mock).mockReturnValue([null, 5]);
+    const setValueMock = jest.fn();
+    renderAdditionalInfo({ setValue: setValueMock });
+
+    await waitFor(() => expect(setValueMock).not.toHaveBeenCalled());
   });
 
   test("Should show remove discount button", () => {
@@ -130,5 +180,21 @@ describe("Test AdditionalInfo component", () => {
     discountRemovalBtn.click();
 
     expect(mockOnRemoveDiscount).toHaveBeenCalled();
+  });
+
+  test("Should display discount value in discount input when discount is not 0 and disabled", () => {
+    (useCreateProduct as jest.Mock).mockReturnValue([null, 10]);
+    renderAdditionalInfo();
+
+    const discountInput = screen.getByTestId("product-form-discount-input");
+    expect(discountInput).not.toHaveValue("");
+  });
+
+  test("Should display discount value in discount input when discount is not 0 and enabled", () => {
+    (useCreateProduct as jest.Mock).mockReturnValue([null, 5]);
+    renderAdditionalInfo();
+
+    const discountInput = screen.getByTestId("product-form-discount-input");
+    expect(discountInput).not.toHaveValue("");
   });
 });

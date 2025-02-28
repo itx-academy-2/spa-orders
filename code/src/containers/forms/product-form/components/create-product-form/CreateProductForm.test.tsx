@@ -14,7 +14,7 @@ jest.mock(
   "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct",
   () => ({
     __esModule: true,
-    default: () => [mockCreateProduct, { isLoading: false }]
+    default: () => [mockCreateProduct, null, { isLoading: false }]
   })
 );
 
@@ -63,9 +63,9 @@ describe("Test CreateProductForm", () => {
     const priceInput = getTagIn("product-form-price-input");
     const quantityInput = getTagIn("product-form-quantity-input");
     const categorySelect = screen.getByLabelText("product.category");
-    const nameInput = getTagIn(`product-form-name-input`);
+    const nameInput = getTagIn("product-form-name-input");
     const descriptionInput = getTagIn(
-      `product-form-description-input`,
+      "product-form-description-input",
       "textarea"
     );
     const statusInput = getTagIn("product-form-status-checkbox");
