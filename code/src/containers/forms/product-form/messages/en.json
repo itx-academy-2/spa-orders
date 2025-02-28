@@ -14,5 +14,6 @@
   "productForm.updation.fail": "Failed to update product",
   "productForm.creation.validationError": "The provided data is invalid, please check it and try again",
   "productForm.creation.translationError": "At least one of the translations is required",
-  "productForm.discountRemoval.confirmation": "Are you sure you want to remove the discount on this item?"
+  "productForm.discountRemoval.confirmation": "Are you sure you want to remove the discount on this item?",
+  "productForm.discountedProductLimit.label": "You already have 10 products on sale. Please remove the discount from one to add it to another."
 }

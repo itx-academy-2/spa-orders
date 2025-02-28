@@ -12,6 +12,7 @@ import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
 import AppInput from "@/components/app-input/AppInput";
 import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
 import AppSelect from "@/components/app-select/AppSelect";
+import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 const CreateAdditionalInfo = ({
@@ -87,25 +88,33 @@ const CreateAdditionalInfo = ({
           <Controller
             name="discount"
             control={control}
-            render={({ field: { onChange, value, ...fieldProps } }) => (
-              <AppInput
-                {...fieldProps}
-                className="product-form__discount"
-                fullWidth
-                labelTranslationKey="productForm.discountPercentage.label"
-                inputProps={{
-                  min: 0,
-                  step: "any"
-                }}
-                type="number"
-                data-testid="product-form-discount-input"
-                disabled={disabledDiscount}
-                value={disabledDiscount && value === 0 ? "" : value ?? ""}
-                onChange={(e) =>
-                  onChange(e.target.value ? Number(e.target.value) : 0)
-                }
-              />
-            )}
+            render={({ field: { onChange, value, ...fieldProps } }) => {
+              const tooltipTitle = disabledDiscount
+                ? "productForm.discountedProductLimit.label"
+                : undefined;
+
+              return (
+                <AppTooltip titleTranslationKey={tooltipTitle}>
+                  <AppInput
+                    {...fieldProps}
+                    className="product-form__discount"
+                    fullWidth
+                    labelTranslationKey="productForm.discountPercentage.label"
+                    inputProps={{
+                      min: 0,
+                      step: "any"
+                    }}
+                    type="number"
+                    data-testid="product-form-discount-input"
+                    disabled={disabledDiscount}
+                    value={disabledDiscount && value === 0 ? "" : value ?? ""}
+                    onChange={(e) =>
+                      onChange(e.target.value ? Number(e.target.value) : 0)
+                    }
+                  />
+                </AppTooltip>
+              );
+            }}
           />
           <AppInput
             fullWidth
