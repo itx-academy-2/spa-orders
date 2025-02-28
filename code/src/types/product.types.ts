@@ -88,6 +88,7 @@ export type ProductBody = {
   image: string;
   price: number;
   quantity: number;
+  discount: number;
   productTranslations: ProductTranslation[];
 };
 
@@ -122,6 +123,7 @@ export type FullManagerProduct = Omit<
   tags: ManagerProductTag[];
   productTranslations: ProductTranslation[];
   image: string;
+  discount: number | null;
 };
 
 export type GetManagerProductByIdParams = {

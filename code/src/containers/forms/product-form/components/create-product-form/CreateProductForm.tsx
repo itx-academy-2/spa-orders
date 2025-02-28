@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { defaultValues } from "@/containers/forms/product-form/ProductForm.constants";
 import { ProductFormValues } from "@/containers/forms/product-form/ProductForm.types";
-import AdditionalInfo from "@/containers/forms/product-form/components/additional-info/AdditionalInfo";
+import CreateAdditionalInfo from "@/containers/forms/product-form/components/create-additional-info/CreateAdditionalInfo";
 import ImagePreview from "@/containers/forms/product-form/components/image/Image";
 import MainInfo from "@/containers/forms/product-form/components/main-info/MainInfo";
 import useCreateProduct from "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct";
@@ -23,13 +23,14 @@ const CreateProductForm = () => {
     handleSubmit,
     register,
     control,
+    setValue,
     formState: { errors }
   } = useForm<ProductFormValues>({
     defaultValues: defaultValues,
     resolver: zodResolver(productScheme)
   });
 
-  const [createProduct, { isLoading }] = useCreateProduct();
+  const [createProduct, , { isLoading }] = useCreateProduct();
 
   const onSubmit = async (values: ProductFormValues) => {
     const body = getRequestBodyFromValues(values);
@@ -40,7 +41,12 @@ const CreateProductForm = () => {
     <AppBox component="form" onSubmit={handleSubmit(onSubmit)}>
       <AppBox className="product-form">
         <ImagePreview control={control} register={register} errors={errors} />
-        <AdditionalInfo control={control} register={register} errors={errors} />
+        <CreateAdditionalInfo
+          register={register}
+          control={control}
+          errors={errors}
+          setValue={setValue}
+        />
         <AppBox className="product-form__main-info-section">
           <MainInfo register={register} errors={errors} />
           <AppButton

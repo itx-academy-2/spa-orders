@@ -4,21 +4,38 @@ import userEvent from "@testing-library/user-event";
 
 import UpdateProductForm from "@/containers/forms/product-form/components/update-product-form/UpdateProductForm";
 
-import { FullManagerProduct } from "@/types/product.types";
+import { FullManagerProduct, UpdateProductBody } from "@/types/product.types";
 import getTagIn from "@/utils/get-tag-in/getTagIn";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
 
+import { UseUpdateProductOptions } from "../../hooks/use-update-product/useUpdateProduct.types";
+
 const mockUnwrap = jest.fn();
-const mockUpdateProduct = jest.fn(() => ({ unwrap: mockUnwrap }));
+const mockUpdateProduct: (arg: UpdateProductBody) => void = jest.fn(() => ({
+  unwrap: mockUnwrap
+}));
 
 jest.mock(
   "@/containers/forms/product-form/hooks/use-update-product/useUpdateProduct",
   () => ({
     __esModule: true,
-    default: () => [mockUpdateProduct, { isLoading: false }]
+    default: (args?: UseUpdateProductOptions) => {
+      return [
+        (body: UpdateProductBody) => {
+          args?.onSuccess && args.onSuccess();
+          return mockUpdateProduct(body);
+        },
+        { isLoading: false }
+      ];
+    }
   })
 );
+
+jest.mock("@/store/api/productsApi", () => ({
+  useCreateProductMutation: jest.fn(() => [jest.fn(), {}]),
+  useGetDiscountedProductsCountQuery: jest.fn(() => ({ data: 0 }))
+}));
 
 const testData: FullManagerProduct = {
   id: "1",
@@ -49,25 +66,34 @@ const expectedChangedProductBody = {
   productId: "1",
   status: "VISIBLE",
   price: 100,
+  discount: 10,
   quantity: 100,
-  tagIds: [3]
+  tagIds: [3],
+  image: "https://example.com"
 };
 
 let imgUrlInput: HTMLInputElement;
 let priceInput: HTMLInputElement;
 let quantityInput: HTMLInputElement;
+let discountInput: HTMLInputElement;
 let categorySelect: HTMLSpanElement;
 let nameInput: HTMLInputElement;
 let descriptionInput: HTMLTextAreaElement;
 let submitButton: HTMLButtonElement;
 let statusInput: HTMLInputElement;
 
-const render = (data: FullManagerProduct = testData) => {
+const render = (
+  data: FullManagerProduct = testData,
+  confirmResult: boolean = true
+) => {
+  jest.spyOn(window, "confirm").mockReturnValue(confirmResult);
+
   const result = renderWithProviders(<UpdateProductForm product={data} />);
 
   imgUrlInput = getTagIn("product-form-image-input");
   priceInput = getTagIn("product-form-price-input");
   quantityInput = getTagIn("product-form-quantity-input");
+  discountInput = getTagIn("product-form-discount-input");
   categorySelect = screen.getByLabelText("product.category");
   nameInput = getTagIn(`product-form-name-input`);
   descriptionInput = getTagIn(`product-form-description-input`, "textarea");
@@ -153,6 +179,7 @@ describe("Test UpdateProductForm", () => {
     await selectCategory();
     await userEvent.type(priceInput, "100");
     await userEvent.type(quantityInput, "100");
+    await userEvent.type(discountInput, "10");
 
     await submit();
 
@@ -163,6 +190,34 @@ describe("Test UpdateProductForm", () => {
     render();
 
     await submit();
+
+    expect(mockUpdateProduct).not.toHaveBeenCalled();
+  });
+
+  test("Should send request to remove discount", () => {
+    render({ ...testData, discount: 10 });
+
+    const discountRemovalBtn = screen.getByTestId(
+      "product-form-discount-remove"
+    );
+
+    fireEvent.click(discountRemovalBtn);
+
+    expect(mockUpdateProduct).toHaveBeenCalledWith({
+      productId: testData.id,
+      discount: undefined,
+      image: "https://example.com"
+    });
+  });
+
+  test("Should not send request to remove discount when user cancels it", () => {
+    render({ ...testData, discount: 10 }, false);
+
+    const discountRemovalBtn = screen.getByTestId(
+      "product-form-discount-remove"
+    );
+
+    fireEvent.click(discountRemovalBtn);
 
     expect(mockUpdateProduct).not.toHaveBeenCalled();
   });

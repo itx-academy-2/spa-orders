@@ -30,6 +30,7 @@ export const defaultValues: ProductFormValues = {
   image: "",
   quantity: undefined,
   price: undefined,
+  discount: undefined,
   category: "",
   productTranslations: supportedLocales.map((item) => ({
     name: "",

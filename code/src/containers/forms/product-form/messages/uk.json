@@ -13,5 +13,7 @@
   "productForm.creation.fail": "Не вдалося створити продукт",
   "productForm.updation.fail": "Не вдалося оновити продукт",
   "productForm.creation.validationError": "Вказані дані недійсні, перевірте їх і спробуйте ще раз",
-  "productForm.creation.translationError": "Принаймні один з перекладів є обов'язковим"
+  "productForm.creation.translationError": "Принаймні один з перекладів є обов'язковим",
+  "productForm.discountRemoval.confirmation": "Ви впевнені, що хочете скасувати знижку на цей товар?",
+  "productForm.discountedProductLimit.label": "У вас вже є 10 продуктів зі знижкою. Будь ласка, видаліть знижку з одного, щоб додати її до іншого."
 }

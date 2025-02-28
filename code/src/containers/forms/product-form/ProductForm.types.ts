@@ -3,7 +3,8 @@ import {
   ControllerRenderProps,
   FieldErrors,
   UseFormRegister,
-  UseFormRegisterReturn
+  UseFormRegisterReturn,
+  UseFormSetValue
 } from "react-hook-form";
 
 import { AppInputProps } from "@/components/app-input/AppInput.types";
@@ -56,7 +57,9 @@ export type ProductFormMainInfoSectionProps = ProductFormSectionProps;
 
 export type ProductFormAdditionalInfoSectionProps =
   ProductFormSectionExtendedProps & {
-    initialPriceWithDiscount?: number;
+    showRemoveDiscountBtn?: boolean;
+    onRemoveDiscount?: () => void;
+    setValue?: UseFormSetValue<ProductFormValues>;
   };
 
 export type ProductFormControllerRenderFunctionProps = {

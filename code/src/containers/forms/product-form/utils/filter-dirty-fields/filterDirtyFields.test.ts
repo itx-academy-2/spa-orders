@@ -6,6 +6,7 @@ import filterDirtyFields from "@/containers/forms/product-form/utils/filter-dirt
 const testValues: ProductFormValues = {
   status: true,
   price: 15,
+  discount: 20,
   quantity: 10,
   category: 1,
   image: "http://example-image.com",

@@ -76,4 +76,36 @@ describe("Test useUpdateProduct hook", () => {
       errorSnackbarConfig
     );
   });
+
+  test("Should call onError", async () => {
+    mockUnwrap.mockImplementationOnce(() => {
+      throw new Error("Error");
+    });
+
+    const mockOnError = jest.fn();
+
+    const { result } = renderHook(() =>
+      useUpdateProduct({ onError: mockOnError })
+    );
+
+    const [onSubmit] = result.current;
+
+    await onSubmit(testProductBody);
+
+    expect(mockOnError).toHaveBeenCalled();
+  });
+
+  test("Should call onSuccess", async () => {
+    const mockOnSuccess = jest.fn();
+
+    const { result } = renderHook(() =>
+      useUpdateProduct({ onSuccess: mockOnSuccess })
+    );
+
+    const [onSubmit] = result.current;
+
+    await onSubmit(testProductBody);
+
+    expect(mockOnSuccess).toHaveBeenCalled();
+  });
 });

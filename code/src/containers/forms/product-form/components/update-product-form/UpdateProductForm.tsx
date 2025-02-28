@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useIntl } from "react-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -18,6 +20,7 @@ import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import { ProductBody } from "@/types/product.types";
 import productScheme from "@/utils/validators/productScheme";
 
 import "@/containers/forms/product-form/ProductForm.scss";
@@ -27,21 +30,57 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     handleSubmit,
     register,
     control,
+    setValue,
+    getValues,
+    watch,
     formState: { errors, dirtyFields, isDirty }
   } = useForm<ProductFormValues>({
     defaultValues: getDefaultValues(product),
     resolver: zodResolver(productScheme)
   });
 
+  const price = watch("price") || 0;
+  const discount = watch("discount") || 0;
+
+  useEffect(() => {
+    setValue("priceWithDiscount", price - (price * discount) / 100);
+  }, [price, discount]);
+
   const [updateProduct, { isLoading }] = useUpdateProduct();
+  const [removeProductDiscount] = useUpdateProduct({
+    onSuccess: () => {
+      setValue("discount", 0);
+      setValue("priceWithDiscount", getValues().price);
+    }
+  });
 
   const onSubmit = async (values: ProductFormValues) => {
     if (!isDirty) return;
 
     const filteredFields = filterDirtyFields(values, dirtyFields);
-    const body = getRequestBodyFromValues(filteredFields);
+    const body = getRequestBodyFromValues<Partial<ProductBody>>(filteredFields);
 
-    await updateProduct({ ...body, productId: product.id });
+    await updateProduct({
+      image: product.image,
+      ...body,
+      productId: product.id
+    });
+  };
+
+  const { formatMessage } = useIntl();
+
+  const handleRemoveDiscount = () => {
+    const confirmResult = confirm(
+      formatMessage({ id: "productForm.discountRemoval.confirmation" })
+    );
+
+    if (confirmResult) {
+      removeProductDiscount({
+        discount: undefined,
+        productId: product.id,
+        image: product.image
+      });
+    }
   };
 
   return (
@@ -52,7 +91,8 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
           control={control}
           register={register}
           errors={errors}
-          initialPriceWithDiscount={product.priceWithDiscount ?? product.price}
+          onRemoveDiscount={handleRemoveDiscount}
+          showRemoveDiscountBtn={Boolean(product.discount)}
         />
         <AppBox className="product-form__main-info-section">
           <MainInfo register={register} errors={errors} />
