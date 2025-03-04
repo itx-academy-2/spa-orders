@@ -9,6 +9,8 @@ import {
   GetManagerProductByIdResponse,
   GetManagerProductsParams,
   GetManagerProductsResponse,
+  GetSaleProductsParams,
+  GetSaleProductsResponse,
   GetUserProductByIdParams,
   GetUserProductByIdResponse,
   GetUserProductsBySearchQueryParams,
@@ -108,8 +110,8 @@ export const productsApi = appApi.injectEndpoints({
       invalidatesTags: [rtkQueryTags.ADMIN_PRODUCTS, rtkQueryTags.PRODUCTS]
     }),
     getSalesProducts: build.query<
-      GetUserProductsResponse,
-      GetUserProductsParams
+      GetSaleProductsResponse,
+      GetSaleProductsParams
     >({
       query: (params) => ({
         url: URLS.sales.getSaleProducts,

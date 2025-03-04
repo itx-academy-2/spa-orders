@@ -1,3 +1,10 @@
 {
-  "salesPage.label": "{count, plural, one {# товар на розпродажі} few {# товари на розпродажі} many {# товарів на розпродажі} other {# товару на розпродажі}}"
+  "salesPage.label": "{count, plural, one {# товар на розпродажі} few {# товари на розпродажі} many {# товарів на розпродажі} other {# товару на розпродажі}}",
+  "salesFilter.category": "Категорія",
+  "salesFilter.discount": "Розмір знижки",
+  "salesFilter.price": "Ціна",
+  "salesFilter.clear": "Очистити фільтри",
+  "salesFilter.title": "Фільтри",
+  "salesFilter.apply": "Застосувати",
+  "salesFilter.titleWithCount": "Фільтри ({count})"
 }

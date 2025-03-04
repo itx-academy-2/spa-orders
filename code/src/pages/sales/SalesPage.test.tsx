@@ -12,7 +12,9 @@ const mockSales = [
   { id: 3, name: "Sale Product 3", price: 150 }
 ];
 
-const mockData = { content: mockSales, totalElements: 3, totalPages: 1 };
+const mockData = {
+  pageProducts: { content: mockSales, totalElements: 3, totalPages: 1 }
+};
 
 type MockResponseType = {
   isLoading?: boolean;
@@ -78,7 +80,9 @@ describe("SalesPage", () => {
   });
 
   test("renders the sales count as 0 when content is empty", () => {
-    renderAndMock({ data: { content: [], totalElements: 0, totalPages: 1 } });
+    renderAndMock({
+      data: { pageProducts: { content: [], totalElements: 0, totalPages: 1 } }
+    });
     const salesCount = screen.getByText("salesPage.label/count:0");
     expect(salesCount).toBeInTheDocument();
   });
@@ -111,7 +115,9 @@ describe("SalesPage", () => {
   });
 
   test("Should render pagination block if there are more than one total pages", () => {
-    renderAndMock({ data: { ...mockData, totalPages: 3 } });
+    renderAndMock({
+      data: { pageProducts: { ...mockData.pageProducts, totalPages: 3 } }
+    });
 
     const paginationBlock = screen.getByTestId("pagination-block");
 

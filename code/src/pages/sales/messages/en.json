@@ -1,3 +1,10 @@
 {
-  "salesPage.label": "{count, plural, one {# for sale} other {# for sale}}"
+  "salesPage.label": "{count, plural, one {# for sale} other {# for sale}}",
+  "salesFilter.category": "Category",
+  "salesFilter.discount": "Discount",
+  "salesFilter.price": "Price",
+  "salesFilter.clear": "Clear filters",
+  "salesFilter.title": "Filters",
+  "salesFilter.apply": "Apply",
+  "salesFilter.titleWithCount": "Filters ({count})"
 }

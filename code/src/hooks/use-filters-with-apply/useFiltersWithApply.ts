@@ -11,11 +11,14 @@ import {
   UpdateFilterByKey
 } from "@/hooks/use-filters-with-apply/useFiltersWithApply.types";
 
-const useFiltersWithApply = <Filters extends Record<string, unknown>>(
+const useFiltersWithApply = <Filters extends object = Record<string, unknown>>(
   defaultFilters: Filters
 ) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const defaultFiltersRef = useRef(defaultFilters);
+
+  const [defaultFiltersRef, setDefaultFiltersRef] = useState({
+    current: defaultFilters
+  });
 
   const { defaultActiveFilters, defaultFiltersFromParams } = useMemo(
     () => parseFiltersFromParams(defaultFiltersRef.current, searchParams),
@@ -23,7 +26,18 @@ const useFiltersWithApply = <Filters extends Record<string, unknown>>(
   );
 
   const activeFiltersRef = useRef(defaultActiveFilters);
+
   const [localFilters, setLocalFilters] = useState(defaultFiltersFromParams);
+
+  const setDefaultFilters = (defaultFilters: Filters) => {
+    const { defaultFiltersFromParams } = parseFiltersFromParams(
+      defaultFilters,
+      searchParams
+    );
+
+    setDefaultFiltersRef({ current: defaultFilters });
+    setLocalFilters(defaultFiltersFromParams);
+  };
 
   const updateFilterByKey: UpdateFilterByKey<Filters> = (key, value) => {
     setLocalFilters((prevFilters) => ({
@@ -62,7 +76,7 @@ const useFiltersWithApply = <Filters extends Record<string, unknown>>(
     const params = new URLSearchParams(searchParams);
 
     for (const [filterKey, filterValue] of Object.entries(localFilters)) {
-      if (checkFilterActive(filterKey)) {
+      if (checkFilterActive(filterKey as keyof Filters)) {
         params.set(filterKey, serializeToQueryString(filterValue));
       } else {
         params.delete(filterKey);
@@ -96,12 +110,14 @@ const useFiltersWithApply = <Filters extends Record<string, unknown>>(
     filters: localFilters,
     appliedFilters,
     activeFiltersCount,
+    defaultFilters: defaultFiltersRef.current,
     actions: {
       checkFilterActive,
       updateFilterByKey,
       resetFilterByKey,
       resetFilters,
-      applyFilters
+      applyFilters,
+      setDefaultFilters
     }
   } as const;
 };
