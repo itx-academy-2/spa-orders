@@ -14,10 +14,8 @@ import AppDrawer from "@/components/app-drawer/AppDrawer";
 import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
 
-import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import { sortSaleOptions } from "@/pages/sales/SalesPage.constants";
-import { useGetSalesProductsQuery } from "@/store/api/productsApi";
 
 import "@/pages/sales/SalesPage.scss";
 
@@ -25,12 +23,10 @@ import SalesFilterDrawer from "./components/sales-filter-drawer/SalesFilterDrawe
 import useSalesFilter from "./hooks/useSalesFilter";
 
 const SalesPage = () => {
-  const { locale } = useLocaleContext();
   const { page } = usePagination();
   const [searchParams, setSearchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
 
-  // Label for the filters button – showing the applied filters count (1 in this example)
   const filtersLabel = (
     <AppTypography
       translationKey="salesFilter.titleWithCount"
@@ -44,29 +40,17 @@ const SalesPage = () => {
     activeFiltersCount,
     filterActions,
     filters,
-    defaultFilters
-  } = useSalesFilter();
-
-  const {
-    data: salesResponse,
+    defaultFilters,
+    totalElements: salesCount,
     isLoading,
     isError
-  } = useGetSalesProductsQuery({
-    lang: locale,
-    size: 3,
-    page: page - 1,
-    sort: sortOption ?? undefined
-  });
+  } = useSalesFilter({ sort: sortOption ?? undefined });
 
   const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
 
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
-  // const salesList = salesResponse?.pageProducts?.content ?? [];
-  const salesCount = salesResponse?.pageProducts?.totalElements ?? 0;
-
-  // Changed from using AppTypography for the default label to plain text for testing.
   const defaultDropdownText = "Sort";
 
   const handleSortChange = (value: string) => {
@@ -80,12 +64,12 @@ const SalesPage = () => {
   };
 
   useEffect(() => {
-    if (salesResponse && page > totalPages) {
+    if (sales && page > totalPages) {
       const params = new URLSearchParams(searchParams);
       params.set("page", totalPages.toString());
       setSearchParams(params);
     }
-  }, [salesResponse, page, searchParams, setSearchParams, totalPages]);
+  }, [sales, page, searchParams, setSearchParams, totalPages]);
 
   return (
     <>
@@ -121,13 +105,19 @@ const SalesPage = () => {
           </AppBox>
           <ProductsContainer
             className="spa-sales-page__grid"
-            products={sales ?? []} // resolve here
+            products={sales ?? []}
             loadingItemsCount={3}
             isLoading={isLoading}
             isError={isError}
             maxColumns={3}
           />
-          <PaginationBlock page={page} totalPages={totalPages} />
+          {totalPages > 1 && (
+            <PaginationBlock
+              data-testid="pagination-block"
+              page={page}
+              totalPages={totalPages}
+            />
+          )}
         </AppBox>
       </PageWrapper>
       {sales && (

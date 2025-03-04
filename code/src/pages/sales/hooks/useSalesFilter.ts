@@ -7,7 +7,11 @@ import { useGetSalesProductsQuery } from "@/store/api/productsApi";
 
 import { defaultSalesPageFilters } from "../SalesPage.constants";
 
-const useSalesFilter = () => {
+type UseSalesFilterExtraParams = {
+  sort?: string;
+};
+
+const useSalesFilter = (extraParams?: UseSalesFilterExtraParams) => {
   const { locale } = useLocaleContext();
 
   const { page } = usePagination();
@@ -36,7 +40,8 @@ const useSalesFilter = () => {
     maximumPriceWithDiscount: appliedFilters.priceWithDiscount?.end,
     maximumDiscount: appliedFilters.discountPercentage?.end,
     minimumDiscount: appliedFilters.discountPercentage?.start,
-    tags
+    tags,
+    sort: extraParams?.sort
   });
 
   useEffect(() => {

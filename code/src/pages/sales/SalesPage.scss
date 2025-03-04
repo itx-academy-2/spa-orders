@@ -32,11 +32,12 @@
     justify-content: space-between;
     align-items: center;
   }
-}
-.spa-sales-page__actions {
-  display: flex;
-  justify-content: flex-end; // Align items to the right
-  align-items: center;
-  gap: spacing(2); // Space between the filters button and sort dropdown
-  padding: spacing(2); // Optional padding if needed
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: spacing(2);
+    padding: spacing(2);
+  }
 }
