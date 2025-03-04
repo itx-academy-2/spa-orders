@@ -44,6 +44,8 @@ const SalesPage = () => {
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
+  const defaultDropdownText = "productsDefault.label";
+
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
     if (value) {
@@ -92,6 +94,7 @@ const SalesPage = () => {
               <AppDropdown
                 options={sortSaleOptions}
                 onSelect={handleSortChange}
+                defaultLabel={defaultDropdownText}
               />
               <AppButton variant="dark" onClick={handleOpenFilterDrawer}>
                 {titleTypography}

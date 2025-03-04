@@ -64,11 +64,6 @@ jest.mock("@/hooks/use-pagination/usePagination", () => ({
   default: jest.fn()
 }));
 
-jest.mock("@/pages/sales/hooks/useSalesFilter", () => ({
-  __esModule: true,
-  default: jest.fn()
-}));
-
 const mockSet = jest.fn();
 const mockDelete = jest.fn();
 
@@ -166,19 +161,28 @@ describe("SalesPage handleSortChange", () => {
 
   test("should set the sort parameter when a sort option is selected", () => {
     renderAndMock();
-    const dropdown = screen.getByText("Sort");
+    const dropdown = screen.getByText("productsDefault.label");
+
     fireEvent.click(dropdown);
+
     const sortOption = screen.getByText("Newest");
+
     fireEvent.click(sortOption);
+
     expect(mockSet).toHaveBeenCalledWith("sort", "sale.createdAt,desc");
   });
 
-  test("should delete the sort parameter when the default sort is selected", () => {
+  test("should delete the sort parameter when the default sort option is selected", () => {
     renderAndMock();
-    const dropdown = screen.getByText("Sort");
+
+    const dropdown = screen.getByText("productsDefault.label");
+
     fireEvent.click(dropdown);
+
     const defaultOption = screen.getByText("Oldest");
+
     fireEvent.click(defaultOption);
+
     expect(mockDelete).toHaveBeenCalledWith("sort");
   });
 });
