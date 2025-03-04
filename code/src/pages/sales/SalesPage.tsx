@@ -27,13 +27,6 @@ const SalesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
 
-  const filtersLabel = (
-    <AppTypography
-      translationKey="salesFilter.titleWithCount"
-      translationProps={{ values: { count: 1 } }}
-    />
-  );
-
   const {
     products: sales,
     totalPages = 0,
@@ -63,6 +56,21 @@ const SalesPage = () => {
     setSearchParams(params);
   };
 
+  const titleTypography =
+    activeFiltersCount > 0 ? (
+      <AppTypography
+        translationKey="salesFilter.titleWithCount"
+        data-cy="applied-filters-count"
+        translationProps={{
+          values: {
+            count: activeFiltersCount
+          }
+        }}
+      />
+    ) : (
+      <AppTypography translationKey="salesFilter.title" />
+    );
+
   useEffect(() => {
     if (sales && page > totalPages) {
       const params = new URLSearchParams(searchParams);
@@ -89,7 +97,7 @@ const SalesPage = () => {
                 defaultLabel={defaultDropdownText}
               />
               <AppButton variant="dark" onClick={handleOpenFilterDrawer}>
-                {filtersLabel}
+                {titleTypography}
                 <FilterListIcon />
               </AppButton>
             </AppBox>
