@@ -1,0 +1,54 @@
+@import "@design-system";
+
+.sales-filters {
+  width: 365px;
+  display: flex;
+  flex-direction: column;
+  height: $screen-height;
+
+  &__header {
+    padding-block: spacing(4);
+    background-color: $black;
+    color: $white;
+    text-align: center;
+    position: relative;
+  }
+
+  &__clear-filters-tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: spacing(4);
+
+    .MuiTouchRipple-child {
+      color: $white;
+    }
+
+    .spa-icon-button {
+      padding: spacing(1);
+    }
+
+    svg {
+      color: $white;
+    }
+  }
+
+  &__items {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    padding: spacing(5);
+    border-top: 1px solid $light;
+  }
+
+  &__delivery-method-image {
+    @include box(22px);
+  }
+
+  &__date-period-select {
+    padding-block: spacing(2);
+    padding-inline: spacing(4) spacing(8) !important; //to override MUI styles
+  }
+}
