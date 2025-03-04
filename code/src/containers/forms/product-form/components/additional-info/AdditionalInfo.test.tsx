@@ -197,4 +197,31 @@ describe("Test AdditionalInfo component", () => {
     const discountInput = screen.getByTestId("product-form-discount-input");
     expect(discountInput).not.toHaveValue("");
   });
+
+  test("Should display category error message when errors.category is present", () => {
+    const categoryErrorMessage = "Category is required";
+    renderAdditionalInfo({
+      errors: {
+        category: { message: categoryErrorMessage, type: "manual" }
+      }
+    });
+
+    expect(screen.getByText(categoryErrorMessage)).toBeInTheDocument();
+
+    const categorySelect = screen.getByTestId("product-form-category-select");
+
+    expect(categorySelect.closest(".Mui-error")).toBeTruthy();
+  });
+
+  test("Should NOT display category error message when errors.category is not defined", () => {
+    renderAdditionalInfo();
+
+    const errorText = screen.queryByText("Category is required");
+
+    expect(errorText).not.toBeInTheDocument();
+
+    const categorySelect = screen.getByTestId("product-form-category-select");
+
+    expect(categorySelect.closest(".Mui-error")).toBeFalsy();
+  });
 });

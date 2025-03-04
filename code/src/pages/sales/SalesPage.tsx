@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import FilterListIcon from "@mui/icons-material/FilterList";
 
@@ -10,7 +11,13 @@ import ProductsContainer from "@/containers/products-container/ProductsContainer
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppDrawer from "@/components/app-drawer/AppDrawer";
+import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
+
+import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import usePagination from "@/hooks/use-pagination/usePagination";
+import { sortSaleOptions } from "@/pages/sales/SalesPage.constants";
+import { useGetSalesProductsQuery } from "@/store/api/productsApi";
 
 import "@/pages/sales/SalesPage.scss";
 
@@ -18,40 +25,67 @@ import SalesFilterDrawer from "./components/sales-filter-drawer/SalesFilterDrawe
 import useSalesFilter from "./hooks/useSalesFilter";
 
 const SalesPage = () => {
+  const { locale } = useLocaleContext();
+  const { page } = usePagination();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sortOption = searchParams.get("sort");
+
+  // Label for the filters button – showing the applied filters count (1 in this example)
+  const filtersLabel = (
+    <AppTypography
+      translationKey="salesFilter.titleWithCount"
+      translationProps={{ values: { count: 1 } }}
+    />
+  );
+
   const {
     products: sales,
-    totalPages,
-    isLoading,
-    page,
+    totalPages = 0,
     activeFiltersCount,
     filterActions,
     filters,
-    isError,
-    totalElements,
     defaultFilters
   } = useSalesFilter();
+
+  const {
+    data: salesResponse,
+    isLoading,
+    isError
+  } = useGetSalesProductsQuery({
+    lang: locale,
+    size: 3,
+    page: page - 1,
+    sort: sortOption ?? undefined
+  });
 
   const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
 
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
-  const titleTypography =
-    activeFiltersCount > 0 ? (
-      <AppTypography
-        translationKey="salesFilter.titleWithCount"
-        data-cy="applied-filters-count"
-        translationProps={{
-          values: {
-            count: activeFiltersCount
-          }
-        }}
-      />
-    ) : (
-      <AppTypography translationKey="salesFilter.title" />
-    );
+  // const salesList = salesResponse?.pageProducts?.content ?? [];
+  const salesCount = salesResponse?.pageProducts?.totalElements ?? 0;
 
-  const salesCount = totalElements ?? 0;
+  // Changed from using AppTypography for the default label to plain text for testing.
+  const defaultDropdownText = "Sort";
+
+  const handleSortChange = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set("sort", value);
+    } else {
+      params.delete("sort");
+    }
+    setSearchParams(params);
+  };
+
+  useEffect(() => {
+    if (salesResponse && page > totalPages) {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", totalPages.toString());
+      setSearchParams(params);
+    }
+  }, [salesResponse, page, searchParams, setSearchParams, totalPages]);
 
   return (
     <>
@@ -64,15 +98,17 @@ const SalesPage = () => {
               translationKey="productsAll.sales"
               component="h1"
             />
-            <AppButton
-              variant="dark"
-              onClick={handleOpenFilterDrawer}
-              data-testid="filter-button"
-              data-cy="filter-button"
-            >
-              {titleTypography}
-              <FilterListIcon />
-            </AppButton>
+            <AppBox className="spa-sales-page__actions">
+              <AppDropdown
+                options={sortSaleOptions}
+                onSelect={handleSortChange}
+                defaultLabel={defaultDropdownText}
+              />
+              <AppButton variant="dark" onClick={handleOpenFilterDrawer}>
+                {filtersLabel}
+                <FilterListIcon />
+              </AppButton>
+            </AppBox>
           </AppBox>
           <AppBox className="spa-sales-page__info">
             <AppTypography className="spa-sales-page__count" component="span">
@@ -85,7 +121,7 @@ const SalesPage = () => {
           </AppBox>
           <ProductsContainer
             className="spa-sales-page__grid"
-            products={sales ?? []}
+            products={sales ?? []} // resolve here
             loadingItemsCount={3}
             isLoading={isLoading}
             isError={isError}

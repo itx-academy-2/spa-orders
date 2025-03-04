@@ -6,5 +6,12 @@
   "salesFilter.clear": "Очистити фільтри",
   "salesFilter.title": "Фільтри",
   "salesFilter.apply": "Застосувати",
-  "salesFilter.titleWithCount": "Фільтри ({count})"
+  "salesFilter.titleWithCount": "Фільтри ({count})",
+  "productsSaleDefault.label": "Рекомендовані",
+  "sortSaleOptions.discountLowHigh": "Знижка (від низької до високої)",
+  "sortSaleOptions.discountHighLow": "Знижка (від високої до низької)",
+  "sortSaleOptions.priceLowHigh": "Ціна (від низької до високої)",
+  "sortSaleOptions.priceHighLow": "Ціна (від високої до низької)",
+  "sortSaleOptions.nameAZ": "Ім'я від А до Я",
+  "sortSaleOptions.nameZA": "Ім'я від Я до А"
 }

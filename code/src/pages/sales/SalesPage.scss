@@ -10,6 +10,7 @@
   &__info {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-top: spacing(5);
     width: 100%;
   }
@@ -31,4 +32,11 @@
     justify-content: space-between;
     align-items: center;
   }
+}
+.spa-sales-page__actions {
+  display: flex;
+  justify-content: flex-end; // Align items to the right
+  align-items: center;
+  gap: spacing(2); // Space between the filters button and sort dropdown
+  padding: spacing(2); // Optional padding if needed
 }

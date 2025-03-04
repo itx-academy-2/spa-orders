@@ -6,5 +6,12 @@
   "salesFilter.clear": "Clear filters",
   "salesFilter.title": "Filters",
   "salesFilter.apply": "Apply",
-  "salesFilter.titleWithCount": "Filters ({count})"
+  "salesFilter.titleWithCount": "Filters ({count})",
+  "productsSaleDefault.label": "Recommended",
+  "sortSaleOptions.discountLowHigh": "Discount (low to high)",
+  "sortSaleOptions.discountHighLow": "Discount (high to low)",
+  "sortSaleOptions.priceLowHigh": "Price (low to high)",
+  "sortSaleOptions.priceHighLow": "Price (high to low)",
+  "sortSaleOptions.nameAZ": "Name A-Z",
+  "sortSaleOptions.nameZA": "Name Z-A"
 }
