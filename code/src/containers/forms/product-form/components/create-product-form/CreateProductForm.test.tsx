@@ -14,7 +14,7 @@ jest.mock(
   "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct",
   () => ({
     __esModule: true,
-    default: () => [mockCreateProduct, { isLoading: false }]
+    default: () => [mockCreateProduct, null, { isLoading: false }]
   })
 );
 
@@ -63,12 +63,13 @@ describe("Test CreateProductForm", () => {
     const priceInput = getTagIn("product-form-price-input");
     const quantityInput = getTagIn("product-form-quantity-input");
     const categorySelect = screen.getByLabelText("product.category");
-    const nameInput = getTagIn(`product-form-name-input`);
+    const nameInput = getTagIn("product-form-name-input");
     const descriptionInput = getTagIn(
-      `product-form-description-input`,
+      "product-form-description-input",
       "textarea"
     );
     const statusInput = getTagIn("product-form-status-checkbox");
+    const discountInput = getTagIn("product-form-discount-input");
     const submitButton = screen.getByText("productForm.create.submit");
 
     await act(async () => fireEvent.click(statusInput));
@@ -82,9 +83,15 @@ describe("Test CreateProductForm", () => {
     await typeIntoInput(imgUrlInput, "https://example.com");
     await userEvent.type(priceInput, "100");
     await userEvent.type(quantityInput, "100");
+    await userEvent.type(discountInput, "10");
 
     await act(async () => fireEvent.click(submitButton));
 
-    expect(mockCreateProduct).toHaveBeenCalledWith(expectedBody);
+    const expectedBodyWithDiscount = {
+      ...expectedBody,
+      discount: 10
+    };
+
+    expect(mockCreateProduct).toHaveBeenCalledWith(expectedBodyWithDiscount);
   });
 });

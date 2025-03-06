@@ -21,8 +21,7 @@ export type ProductCategory = {
 export const productCategories: ProductCategory[] = [
   { label: "productsAll.mobile", id: 1 },
   { label: "productsAll.tablet", id: 2 },
-  { label: "productsAll.computer", id: 3 },
-  { label: "productsAll.sales", id: 4 }
+  { label: "productsAll.computer", id: 3 }
 ];
 
 export const defaultValues: ProductFormValues = {
@@ -30,6 +29,7 @@ export const defaultValues: ProductFormValues = {
   image: "",
   quantity: undefined,
   price: undefined,
+  discount: undefined,
   category: "",
   productTranslations: supportedLocales.map((item) => ({
     name: "",

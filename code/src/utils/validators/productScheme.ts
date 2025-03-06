@@ -53,6 +53,11 @@ const productScheme = z.object({
     .number({ message: "Invalid price" })
     .min(0, { message: "Must be bigger than 0" })
     .max(100000000, { message: "Must be less than 100 mln" }),
+  discount: z
+    .number({ message: "Invalid discount" })
+    .min(0, { message: "Discount must be bigger than 0" })
+    .max(100, { message: "Discount must be less than 100" })
+    .optional(),
   status: z.boolean(),
   quantity: z
     .number({ message: "Invalid quantity" })

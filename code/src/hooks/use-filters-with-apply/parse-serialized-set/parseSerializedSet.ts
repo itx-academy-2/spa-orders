@@ -2,7 +2,7 @@ import deserializeFromQueryString from "@/hooks/use-filters-with-apply/deseriali
 
 // matches list of values, separated by comma and wrapped into brackets
 // Examples: {1,2,3}, {delivered,completed}, {}, {value}
-const serializedSetPattern = /^{((?:\w+(?:,\w+)*)?)}$/;
+const serializedSetPattern = /^{((?:[\w:]+(?:,[\w:]+)*)?)}$/;
 
 const parseSerializedSet = <Value>(value: string) => {
   const match = value.match(serializedSetPattern);

@@ -40,6 +40,14 @@ export type GetUserProductsResponse = {
   totalElements: number;
 };
 
+export type GetSaleProductsResponse = {
+  maximumPriceWithDiscount: number;
+  minimumPriceWithDiscount: number;
+  maximumDiscount: number;
+  minimumDiscount: number;
+  pageProducts: GetUserProductsResponse;
+};
+
 export type GetUserProductsParams = Lang & {
   tags?: string;
   page?: number;
@@ -47,6 +55,15 @@ export type GetUserProductsParams = Lang & {
   sort?: string;
   discount?: number;
 };
+
+export type GetSaleProductsParams = Lang &
+  Omit<GetUserProductsParams, "tags"> & {
+    tags?: string[];
+    minimumDiscount?: number;
+    maximumDiscount?: number;
+    minimumPriceWithDiscount?: number;
+    maximumPriceWithDiscount?: number;
+  };
 
 export type GetUserProductByIdResponse = Pick<
   Product,
@@ -88,6 +105,7 @@ export type ProductBody = {
   image: string;
   price: number;
   quantity: number;
+  discount: number;
   productTranslations: ProductTranslation[];
 };
 
@@ -122,6 +140,7 @@ export type FullManagerProduct = Omit<
   tags: ManagerProductTag[];
   productTranslations: ProductTranslation[];
   image: string;
+  discount: number | null;
 };
 
 export type GetManagerProductByIdParams = {

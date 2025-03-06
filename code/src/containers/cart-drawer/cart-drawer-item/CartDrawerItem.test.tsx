@@ -21,7 +21,7 @@ const mockCartItemWithDiscount: CartItem = {
   image: "some image",
   calculatedPrice: 90,
   discount: 10,
-  priceWithDiscount: 100
+  productPriceWithDiscount: 100
 };
 
 describe("Test CartDrawerItem", () => {

@@ -50,14 +50,16 @@ const localCartSlice = createSlice({
   reducers: {
     addToLocalCart: (state, action: PayloadAction<CartItem>) => {
       const actualPrice =
-        action.payload.priceWithDiscount || action.payload.calculatedPrice;
+        action.payload.productPriceWithDiscount ||
+        action.payload.calculatedPrice;
 
       state.totalPrice += actualPrice;
       state.items = [...state.items, action.payload];
     },
     removeFromLocalCart: (state, action: PayloadAction<CartItem>) => {
       const actualPrice =
-        action.payload.priceWithDiscount || action.payload.calculatedPrice;
+        action.payload.productPriceWithDiscount ||
+        action.payload.calculatedPrice;
 
       state.items = state.items.filter(
         (item) => item.productId !== action.payload.productId

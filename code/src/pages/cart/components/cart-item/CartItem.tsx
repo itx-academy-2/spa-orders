@@ -47,7 +47,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
   };
 
   const handleDecreaseQuantity = () => {
-    setQuantity((prevState) => (prevState > 1 ? prevState - 1 : prevState));
+    setQuantity((prevState) => prevState - 1);
   };
 
   const handleQuantityInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
       setQuantity(0);
     } else {
       const numberValue = parseInt(value, 10);
-      if (!isNaN(numberValue) && numberValue >= 1) {
+      if (!isNaN(numberValue) && numberValue > 0) {
         setQuantity(numberValue);
       }
     }
@@ -71,15 +71,11 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
 
   const disableMinusQuantity = quantity === 1 && "disabled";
 
-  const hasDiscount =
-    item.productPriceWithDiscount &&
-    item.productPriceWithDiscount < item.productPrice;
+  const hasDiscount = !!item.productPriceWithDiscount;
 
   const totalPrice = formatPrice(
     quantity *
-      (hasDiscount
-        ? item.productPriceWithDiscount ?? item.productPrice
-        : item.productPrice)
+      (hasDiscount ? item.productPriceWithDiscount! : item.productPrice)
   );
 
   return (
@@ -90,6 +86,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
           badgeContent={`-${item.discount}%`}
           variant="danger"
           size="small"
+          data-testid="cart-item-discount-badge"
         >
           <AppBox
             component="img"
@@ -103,6 +100,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
           component="img"
           src={item.image}
           className="spa-cart-item__image"
+          data-testid="cart-item-img"
         />
       )}
       <AppBox className="spa-cart-item__details">
@@ -120,7 +118,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
                 {formatPrice(item.productPrice)}
               </AppTypography>
               <AppTypography className="spa-cart-item__price-discounted">
-                {formatPrice(item.productPriceWithDiscount ?? 0)}
+                {formatPrice(item.productPriceWithDiscount!)}
               </AppTypography>
             </>
           ) : (
@@ -141,6 +139,7 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
         </AppBox>
         <input
           value={quantity || ""}
+          data-real-quantity={quantity}
           className="spa-cart-item__quantity-input"
           onChange={handleQuantityInputChange}
           onBlur={handleBlur}

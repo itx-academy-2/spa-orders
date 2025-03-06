@@ -2,9 +2,9 @@ import { ProductFormValues } from "@/containers/forms/product-form/ProductForm.t
 
 import { ProductBody } from "@/types/product.types";
 
-const getRequestBodyFromValues = (
+const getRequestBodyFromValues = <T = ProductBody>(
   values: Partial<ProductFormValues>
-): ProductBody => {
+): T => {
   const valuesKeys = Object.keys(values) as (keyof ProductFormValues)[];
 
   const result = valuesKeys.reduce((acc, key) => {
@@ -21,12 +21,21 @@ const getRequestBodyFromValues = (
       return { ...acc, status: values.status ? "VISIBLE" : "HIDDEN" };
     } else if (key === "category") {
       return { ...acc, tagIds: [values.category] };
+    } else if (key === "discount") {
+      if (
+        values.discount !== undefined &&
+        values.discount !== null &&
+        values.discount > 0
+      ) {
+        return { ...acc, discount: values.discount };
+      }
+      return acc;
     }
 
     return { ...acc, [key]: values[key] };
   }, {}) as ProductBody;
 
-  return result;
+  return result as T;
 };
 
 export default getRequestBodyFromValues;

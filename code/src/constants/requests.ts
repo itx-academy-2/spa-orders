@@ -30,6 +30,7 @@ export const URLS = {
     getForUserById: ({ productId, lang }: GetUserProductByIdParams) =>
       `/v1/products/${productId}?lang=${lang}`,
     getForManager: `/v1/management/products`,
+    getDiscountCountForManager: "/v1/management/products/discounted/count",
     post: "/v1/management/products",
     put: "/v1/products",
     patch: ({ productId }: Pick<UpdateProductBody, "productId">) =>

@@ -22,7 +22,8 @@ jest.mock("@/hooks/use-snackbar/useSnackbar", () => ({
 }));
 
 jest.mock("@/store/api/productsApi", () => ({
-  useCreateProductMutation: () => [mockCreateProduct, {}]
+  useCreateProductMutation: () => [mockCreateProduct, {}],
+  useGetDiscountedProductsCountQuery: () => ({ data: 0 })
 }));
 
 const successSnackbarConfig = {
@@ -40,6 +41,7 @@ const testProductData: ProductBody = {
   image: "https://example.com",
   quantity: 10,
   price: 100,
+  discount: 10,
   tagIds: [1],
   productTranslations: [
     {
@@ -51,10 +53,12 @@ const testProductData: ProductBody = {
 };
 
 describe("Test useCreateProduct hook", () => {
-  test("Should return two values", () => {
+  test("Should return three values", () => {
     const { result } = renderHook(() => useCreateProduct());
-    const [createProduct, requestState] = result.current;
+    const [createProduct, discountedProductsCount, requestState] =
+      result.current;
 
+    expect(discountedProductsCount).toBe(0);
     expect(requestState).toBeTruthy();
     expect(createProduct).toBeTruthy();
   });
@@ -68,11 +72,11 @@ describe("Test useCreateProduct hook", () => {
     expect(mockCreateProduct).toHaveBeenCalledWith(testProductData);
   });
 
-  test("Should call open snackbar with success message and redirect if success", () => {
+  test("Should call open snackbar with success message and redirect if success", async () => {
     const { result } = renderHook(() => useCreateProduct());
 
     const [createProduct] = result.current;
-    createProduct(testProductData);
+    await createProduct(testProductData);
 
     expect(mockOpenSnackbar).toHaveBeenCalledWith(successSnackbarConfig);
 
@@ -82,7 +86,7 @@ describe("Test useCreateProduct hook", () => {
   });
 
   test("Should call open snackbar with error message if error", async () => {
-    mockUnwrap.mockRejectedValue({});
+    mockUnwrap.mockRejectedValueOnce({});
 
     const { result } = renderHook(() => useCreateProduct());
 

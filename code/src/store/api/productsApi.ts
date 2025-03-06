@@ -9,6 +9,8 @@ import {
   GetManagerProductByIdResponse,
   GetManagerProductsParams,
   GetManagerProductsResponse,
+  GetSaleProductsParams,
+  GetSaleProductsResponse,
   GetUserProductByIdParams,
   GetUserProductByIdResponse,
   GetUserProductsBySearchQueryParams,
@@ -29,6 +31,12 @@ export const productsApi = appApi.injectEndpoints({
       query: (params) => ({
         url: URLS.products.getForUser,
         params: params ?? {}
+      }),
+      providesTags: [rtkQueryTags.PRODUCTS]
+    }),
+    getDiscountedProductsCount: build.query<number, void>({
+      query: () => ({
+        url: URLS.products.getDiscountCountForManager
       }),
       providesTags: [rtkQueryTags.PRODUCTS]
     }),
@@ -102,8 +110,8 @@ export const productsApi = appApi.injectEndpoints({
       invalidatesTags: [rtkQueryTags.ADMIN_PRODUCTS, rtkQueryTags.PRODUCTS]
     }),
     getSalesProducts: build.query<
-      GetUserProductsResponse,
-      GetUserProductsParams
+      GetSaleProductsResponse,
+      GetSaleProductsParams
     >({
       query: (params) => ({
         url: URLS.sales.getSaleProducts,
@@ -123,5 +131,6 @@ export const {
   useGetManagerProductQuery,
   useGetUserProductsBySearchQuery,
   useUpdateProductMutation,
-  useGetSalesProductsQuery
+  useGetSalesProductsQuery,
+  useGetDiscountedProductsCountQuery
 } = productsApi;

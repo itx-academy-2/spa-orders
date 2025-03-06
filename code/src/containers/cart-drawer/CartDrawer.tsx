@@ -46,7 +46,7 @@ const CartDrawer = () => {
   };
 
   const cartItemsContent =
-    cartItemsList?.length > 0 ? (
+    cartItemsList.length > 0 ? (
       cartItemsList
     ) : (
       <AppBox className="cart-drawer__empty-label">
@@ -55,12 +55,8 @@ const CartDrawer = () => {
     );
 
   const totalDiscountedPrice =
-    cartItems?.items?.reduce((total, item) => {
-      const itemPrice =
-        item.priceWithDiscount ??
-        item.productPriceWithDiscount ??
-        item.calculatedPrice ??
-        0;
+    cartItems?.items.reduce((total, item) => {
+      const itemPrice = item.productPriceWithDiscount ?? item.calculatedPrice;
       return total + itemPrice;
     }, 0) ?? 0;
 

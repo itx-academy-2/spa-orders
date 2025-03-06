@@ -2,11 +2,17 @@ import { useNavigate } from "react-router-dom";
 
 import routes from "@/constants/routes";
 import useSnackbar from "@/hooks/use-snackbar/useSnackbar";
-import { useCreateProductMutation } from "@/store/api/productsApi";
+import {
+  useCreateProductMutation,
+  useGetDiscountedProductsCountQuery
+} from "@/store/api/productsApi";
 import { CreateProductBody } from "@/types/product.types";
 
 const useCreateProduct = () => {
   const [createProduct, requestState] = useCreateProductMutation();
+
+  const { data: discountedProductsCount } =
+    useGetDiscountedProductsCountQuery();
 
   const { openSnackbarWithTimeout } = useSnackbar();
 
@@ -30,7 +36,7 @@ const useCreateProduct = () => {
     }
   };
 
-  return [onSubmit, requestState] as const;
+  return [onSubmit, discountedProductsCount, requestState] as const;
 };
 
 export default useCreateProduct;
