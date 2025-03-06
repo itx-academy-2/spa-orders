@@ -155,9 +155,25 @@ describe("Test SalesFilterDrawer component", () => {
 
     fireEvent.click(computersCheckbox);
     fireEvent.click(mobilesCheckbox);
-    fireEvent.click(mobilesCheckbox);
 
     expect(mockUpdateFilterByKey).toHaveBeenCalledWith("tags", expectedTags);
+  });
+
+  test("Should correctly check unchecked checkbox", () => {
+    renderAndMock({
+      filters: { tags: new Set(["category:mobile", "category:tablet"]) }
+    });
+
+    const computersCheckbox = screen.getByTestId(
+      "sales-page-filter-computer-checkbox"
+    );
+
+    fireEvent.click(computersCheckbox);
+
+    expect(mockUpdateFilterByKey).toHaveBeenCalledWith(
+      "tags",
+      new Set([...expectedTags, "category:computer"])
+    );
   });
 
   test("Should reset filter", () => {
@@ -166,5 +182,7 @@ describe("Test SalesFilterDrawer component", () => {
     const resetFilterIcon = screen.getAllByTestId("FilterAltOffIcon")[0];
 
     fireEvent.click(resetFilterIcon);
+
+    expect(mockResetFilterByKey).toHaveBeenCalledWith("tags");
   });
 });
