@@ -31,6 +31,7 @@ import dashboardOrdersPageMessages from "@/pages/dashboard/dashboard-orders/mess
 import dashboardProductMessages from "@/pages/dashboard/dashboard-product/messages";
 import dashboardProductsPageMessages from "@/pages/dashboard/dashboard-products/messages";
 import dashboardUpdateProductPageMessages from "@/pages/dashboard/dashboard-update-product/messages";
+import helpCenterPageMessages from "@/pages/help-center/messages";
 import notFoundMessages from "@/pages/not-found/messages";
 import orderPageMessages from "@/pages/orders/messages";
 import productDetailsMessages from "@/pages/product-details/messages";
@@ -77,7 +78,8 @@ const messages: MessagesType = {
     ...dashboardOrderDetailsPageMessages.en,
     ...productDetailsMessages.en,
     ...dashboardProductMessages.en,
-    ...salesPageMessages.en
+    ...salesPageMessages.en,
+    ...helpCenterPageMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -115,7 +117,8 @@ const messages: MessagesType = {
     ...dashboardOrderDetailsPageMessages.uk,
     ...productDetailsMessages.uk,
     ...dashboardProductMessages.uk,
-    ...salesPageMessages.uk
+    ...salesPageMessages.uk,
+    ...helpCenterPageMessages.uk
   }
 };
 

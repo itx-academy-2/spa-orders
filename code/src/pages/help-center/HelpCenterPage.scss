@@ -1,0 +1,16 @@
+@import "@design-system";
+
+.help-center-page {
+  display: flex;
+  flex-direction: column;
+  padding: spacing(10);
+  background-color: var(--help-center-background-color, $white);
+  gap: spacing(5);
+
+  &__title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--help-center-title-color, $black);
+    margin-bottom: spacing(5);
+  }
+}

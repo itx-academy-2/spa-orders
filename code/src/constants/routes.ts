@@ -10,6 +10,9 @@ const routes = {
   sales: {
     path: "/products/sales"
   },
+  helpCenter: {
+    path: "/help-center"
+  },
   productDetails: {
     path: (productId = ":productId") => `/products/${productId}`
   },
