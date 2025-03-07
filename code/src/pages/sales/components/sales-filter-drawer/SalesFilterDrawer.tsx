@@ -130,7 +130,7 @@ const SalesFilterDrawer = ({
         </FilterRecordAccordion>
         <FilterRecordAccordion
           isFilterActive={isDiscountPercentageFilterActive}
-          resetFilter={resetFilter("priceWithDiscount")}
+          resetFilter={resetFilter("discountPercentage")}
           sectionCaptionTranslationKey="salesFilter.discount"
         >
           <AppRangeSlider
