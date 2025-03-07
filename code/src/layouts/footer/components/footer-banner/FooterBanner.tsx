@@ -6,7 +6,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import "@/layouts/footer/components/footer-banner/FooterBanner.scss";
 
 const FooterBanner = () => {
-  const helpCenterUrl = "https://www.softserveinc.com/en-us";
+  const helpCenterUrl = "/help-center";
 
   return (
     <AppBox className="footer-banner">
@@ -23,8 +23,6 @@ const FooterBanner = () => {
           />
           <AppButton
             to={helpCenterUrl}
-            target="_blank"
-            rel="noopener noreferrer"
             variant="light"
             className="footer-banner__button"
           >
