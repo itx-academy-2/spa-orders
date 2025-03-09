@@ -1,6 +1,7 @@
-import { SyntheticEvent } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useIntl } from "react-intl";
 
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
@@ -29,6 +30,7 @@ const FilterRecordAccordion = ({
   className,
   resetFilter
 }: FilterRecordAccordionProps) => {
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const { formatMessage } = useIntl();
 
   const translatedFilterName = formatMessage({
@@ -39,6 +41,12 @@ const FilterRecordAccordion = ({
     event.stopPropagation();
     resetFilter();
   };
+
+  const handleToggleAccordion = () => {
+    setIsExpanded((prevState) => !prevState);
+  };
+
+  const expanded = isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />;
 
   const resetFilterButton = isFilterActive && (
     <AppTooltip
@@ -62,16 +70,21 @@ const FilterRecordAccordion = ({
   );
 
   const activeFilterIndicator = isFilterActive && (
-    <FiberManualRecordIcon className="filter-record-accordion--filter-active-icon" />
+    <FiberManualRecordIcon
+      className="filter-record-accordion--filter-active-icon"
+      data-testid="FiberManualRecordIcon"
+    />
   );
 
   return (
     <AppAccordionContainer
       className={cn("filter-record-accordion", className?.container)}
       defaultExpanded={defaultExpanded}
+      expanded={isExpanded}
     >
       <AppAccordionSummary
         className={cn("filter-record-accordion__summary", className?.summary)}
+        onClick={handleToggleAccordion}
       >
         <AppBox className="filter-record-accordion__summary-group">
           {activeFilterIndicator}
@@ -82,7 +95,7 @@ const FilterRecordAccordion = ({
         </AppBox>
         <AppBox className="filter-record-accordion__summary-group">
           {resetFilterButton}
-          <ExpandMoreIcon />
+          {expanded}
         </AppBox>
       </AppAccordionSummary>
       <AppAccordionDetails
