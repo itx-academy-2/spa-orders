@@ -1,8 +1,8 @@
+import { UseUpdateProductOptions } from "@/containers/forms/product-form/hooks/use-update-product/useUpdateProduct.types";
+
 import useSnackbar from "@/hooks/use-snackbar/useSnackbar";
 import { useUpdateProductMutation } from "@/store/api/productsApi";
 import { UpdateProductBody } from "@/types/product.types";
-
-import { UseUpdateProductOptions } from "./useUpdateProduct.types";
 
 const useUpdateProduct = (options?: UseUpdateProductOptions) => {
   const [updateProduct, requestState] = useUpdateProductMutation();
