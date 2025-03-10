@@ -6,6 +6,7 @@ import bestSellersMessages from "@/containers/best-sellers/messages";
 import callToActionSectionMessages from "@/containers/call-to-action/messages";
 import cartDrawerMessages from "@/containers/cart-drawer/message";
 import categorySectionMessages from "@/containers/category-section/messages";
+import confirDialogMessages from "@/containers/confirm-dialog/messages";
 import dashboardOrdersFilterMessages from "@/containers/dashboard-orders-filter-drawer/messages";
 import deliveryFormMessages from "@/containers/forms/delivery-form/messages";
 import productFormMessages from "@/containers/forms/product-form/messages";
@@ -77,7 +78,8 @@ const messages: MessagesType = {
     ...dashboardOrderDetailsPageMessages.en,
     ...productDetailsMessages.en,
     ...dashboardProductMessages.en,
-    ...salesPageMessages.en
+    ...salesPageMessages.en,
+    ...confirDialogMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -115,7 +117,8 @@ const messages: MessagesType = {
     ...dashboardOrderDetailsPageMessages.uk,
     ...productDetailsMessages.uk,
     ...dashboardProductMessages.uk,
-    ...salesPageMessages.uk
+    ...salesPageMessages.uk,
+    ...confirDialogMessages.uk
   }
 };
 

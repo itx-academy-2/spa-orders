@@ -8,6 +8,7 @@ import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingF
 
 import AppBox from "@/components/app-box/AppBox";
 
+import { ConfirmProvider } from "@/context/confirm/ConfirmContext";
 import { DrawerProvider } from "@/context/drawer/DrawerContext";
 import { ModalProvider } from "@/context/modal/ModalContext";
 
@@ -15,20 +16,22 @@ import "@/layouts/root-layout/RootLayout.scss";
 
 const RootLayout = () => {
   return (
-    <ModalProvider>
-      <DrawerProvider>
-        <AppBox className="root-layout">
-          <ScrollRestoration />
-          <Header />
-          <AppBox className="root-layout__content">
-            <Suspense fallback={<PageLoadingFallback />}>
-              <Outlet />
-            </Suspense>
+    <ConfirmProvider>
+      <ModalProvider>
+        <DrawerProvider>
+          <AppBox className="root-layout">
+            <ScrollRestoration />
+            <Header />
+            <AppBox className="root-layout__content">
+              <Suspense fallback={<PageLoadingFallback />}>
+                <Outlet />
+              </Suspense>
+            </AppBox>
+            <Footer />
           </AppBox>
-          <Footer />
-        </AppBox>
-      </DrawerProvider>
-    </ModalProvider>
+        </DrawerProvider>
+      </ModalProvider>
+    </ConfirmProvider>
   );
 };
 

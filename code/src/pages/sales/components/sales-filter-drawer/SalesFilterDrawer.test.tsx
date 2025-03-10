@@ -1,10 +1,9 @@
 import { fireEvent, screen } from "@testing-library/react";
 
+import { SalesPageFilters } from "@/pages/sales/SalesPage.types";
+import SalesFilterDrawer from "@/pages/sales/components/sales-filter-drawer/SalesFilterDrawer";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
-
-import { SalesPageFilters } from "../../SalesPage.types";
-import SalesFilterDrawer from "./SalesFilterDrawer";
 
 const mockApplyFilters = jest.fn();
 const mockCheckFilterActive = jest.fn(() => true);

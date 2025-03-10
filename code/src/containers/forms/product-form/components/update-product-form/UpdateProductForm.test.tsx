@@ -3,13 +3,12 @@ import { act, fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import UpdateProductForm from "@/containers/forms/product-form/components/update-product-form/UpdateProductForm";
+import { UseUpdateProductOptions } from "@/containers/forms/product-form/hooks/use-update-product/useUpdateProduct.types";
 
 import { FullManagerProduct, UpdateProductBody } from "@/types/product.types";
 import getTagIn from "@/utils/get-tag-in/getTagIn";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
-
-import { UseUpdateProductOptions } from "../../hooks/use-update-product/useUpdateProduct.types";
 
 const mockUnwrap = jest.fn();
 const mockUpdateProduct: (arg: UpdateProductBody) => void = jest.fn(() => ({
@@ -31,6 +30,12 @@ jest.mock(
     }
   })
 );
+
+const mockOpenConfirm = jest.fn();
+
+jest.mock("@/context/confirm/ConfirmContext", () => ({
+  useConfirmContext: () => ({ openConfirm: mockOpenConfirm })
+}));
 
 jest.mock("@/store/api/productsApi", () => ({
   useCreateProductMutation: jest.fn(() => [jest.fn(), {}]),
@@ -86,9 +91,11 @@ const render = (
   data: FullManagerProduct = testData,
   confirmResult: boolean = true
 ) => {
-  jest.spyOn(window, "confirm").mockReturnValue(confirmResult);
-
   const result = renderWithProviders(<UpdateProductForm product={data} />);
+
+  if (confirmResult) {
+    mockOpenConfirm.mockImplementation(({ onConfirm }) => onConfirm());
+  }
 
   imgUrlInput = getTagIn("product-form-image-input");
   priceInput = getTagIn("product-form-price-input");
@@ -114,6 +121,34 @@ const selectCategory = async () => {
 describe("Test UpdateProductForm", () => {
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  test("Should not send request to remove discount when user cancels it", () => {
+    render({ ...testData, discount: 10 }, false);
+
+    const discountRemovalBtn = screen.getByTestId(
+      "product-form-discount-remove"
+    );
+
+    fireEvent.click(discountRemovalBtn);
+
+    expect(mockUpdateProduct).not.toHaveBeenCalled();
+  });
+
+  test("Should send request to remove discount", () => {
+    render({ ...testData, discount: 10 });
+
+    const discountRemovalBtn = screen.getByTestId(
+      "product-form-discount-remove"
+    );
+
+    fireEvent.click(discountRemovalBtn);
+
+    expect(mockUpdateProduct).toHaveBeenCalledWith({
+      productId: testData.id,
+      discount: undefined,
+      image: "https://example.com"
+    });
   });
 
   test("Should be rendered correctly", () => {
@@ -190,34 +225,6 @@ describe("Test UpdateProductForm", () => {
     render();
 
     await submit();
-
-    expect(mockUpdateProduct).not.toHaveBeenCalled();
-  });
-
-  test("Should send request to remove discount", () => {
-    render({ ...testData, discount: 10 });
-
-    const discountRemovalBtn = screen.getByTestId(
-      "product-form-discount-remove"
-    );
-
-    fireEvent.click(discountRemovalBtn);
-
-    expect(mockUpdateProduct).toHaveBeenCalledWith({
-      productId: testData.id,
-      discount: undefined,
-      image: "https://example.com"
-    });
-  });
-
-  test("Should not send request to remove discount when user cancels it", () => {
-    render({ ...testData, discount: 10 }, false);
-
-    const discountRemovalBtn = screen.getByTestId(
-      "product-form-discount-remove"
-    );
-
-    fireEvent.click(discountRemovalBtn);
 
     expect(mockUpdateProduct).not.toHaveBeenCalled();
   });

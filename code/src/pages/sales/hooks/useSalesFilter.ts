@@ -3,9 +3,8 @@ import { useEffect } from "react";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import useFiltersWithApply from "@/hooks/use-filters-with-apply/useFiltersWithApply";
 import usePagination from "@/hooks/use-pagination/usePagination";
+import { defaultSalesPageFilters } from "@/pages/sales/SalesPage.constants";
 import { useGetSalesProductsQuery } from "@/store/api/productsApi";
-
-import { defaultSalesPageFilters } from "../SalesPage.constants";
 
 type UseSalesFilterExtraParams = {
   sort?: string;
