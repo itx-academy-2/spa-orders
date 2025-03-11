@@ -34,6 +34,10 @@ const CreateAdditionalInfo = ({
   const discount = useWatch({ control, name: "discount" }) || 0;
 
   const finalPrice = useMemo(() => {
+    if (discount > 100) {
+      return "";
+    }
+
     return price - (price * discount) / 100;
   }, [price, discount]);
 
@@ -100,10 +104,7 @@ const CreateAdditionalInfo = ({
                     className="product-form__discount"
                     fullWidth
                     labelTranslationKey="productForm.discountPercentage.label"
-                    inputProps={{
-                      min: 0,
-                      step: "any"
-                    }}
+                    inputProps={{ min: 0, step: "any", max: 100 }}
                     type="number"
                     data-testid="product-form-discount-input"
                     disabled={disabledDiscount}
