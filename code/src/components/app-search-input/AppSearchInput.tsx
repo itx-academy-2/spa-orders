@@ -23,13 +23,16 @@ const AppSearchInput = ({
         value={value}
         {...props}
       />
-      <AppIconButton aria-label="clear" onClick={onClear}>
-        <ClearIcon fontSize="small" />
-      </AppIconButton>
+      {Boolean(value) && (
+        <AppIconButton aria-label="clear" onClick={onClear}>
+          <ClearIcon fontSize="small" />
+        </AppIconButton>
+      )}
       <AppIconButton
         aria-label="search"
         onClick={onSearch}
         className="spa-search-input-field__search-icon"
+        disabled={props.disabled}
       >
         <SearchIcon />
       </AppIconButton>
