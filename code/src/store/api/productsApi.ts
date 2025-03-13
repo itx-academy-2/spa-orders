@@ -5,6 +5,7 @@ import { appApi } from "@/store/api/appApi";
 import {
   CreateProductBody,
   FullManagerProduct,
+  GetBestsellerProductsResponse,
   GetManagerProductByIdParams,
   GetManagerProductByIdResponse,
   GetManagerProductsParams,
@@ -118,6 +119,16 @@ export const productsApi = appApi.injectEndpoints({
         params: params ?? {}
       }),
       providesTags: [rtkQueryTags.SALES]
+    }),
+    getBestsellerProducts: build.query<
+      GetBestsellerProductsResponse,
+      GetUserProductsParams
+    >({
+      query: (params) => ({
+        url: URLS.products.getBestsellersProducts,
+        params: params ?? {}
+      }),
+      providesTags: [rtkQueryTags.BESTSELLERS]
     })
   })
 });
@@ -132,5 +143,6 @@ export const {
   useGetUserProductsBySearchQuery,
   useUpdateProductMutation,
   useGetSalesProductsQuery,
-  useGetDiscountedProductsCountQuery
+  useGetDiscountedProductsCountQuery,
+  useGetBestsellerProductsQuery
 } = productsApi;

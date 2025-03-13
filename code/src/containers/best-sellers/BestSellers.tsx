@@ -1,6 +1,6 @@
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
-import ProductsContainer from "@/containers/products-container/ProductsContainer";
+import BestSellerContainer from "@/containers/best-sellers/components/bestseller-container/BestSellerContainer";
 
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
@@ -8,17 +8,17 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import routes from "@/constants/routes";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
-import { useGetUserProductsQuery } from "@/store/api/productsApi";
+import { useGetBestsellerProductsQuery } from "@/store/api/productsApi";
 
 import "@/containers/best-sellers/BestSellers.scss";
 
 const BestSellers = () => {
   const { locale } = useLocaleContext();
   const {
-    data: productsResponse,
+    data: bestsellersData,
     isLoading,
     isError
-  } = useGetUserProductsQuery({
+  } = useGetBestsellerProductsQuery({
     page: 0,
     size: 5,
     lang: locale,
@@ -32,10 +32,10 @@ const BestSellers = () => {
         translationKey="bestSellers.header"
         variant="h3"
       />
-      <ProductsContainer
+      <BestSellerContainer
         isLoading={isLoading}
         isError={isError}
-        products={productsResponse?.content ?? []}
+        products={bestsellersData?.content ?? []}
       />
       <AppBox className="spa-best-sellers__button">
         <AppButton

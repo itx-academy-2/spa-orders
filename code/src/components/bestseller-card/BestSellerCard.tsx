@@ -14,26 +14,18 @@ import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/use
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 
-import "@/components/product-sale-card/SaleProductCard.scss";
+import "@/components/product-card/ProductCard.scss";
 
-const SaleProductCard = ({ product }: ProductCardProps) => {
+const BestSellerCard = ({ product }: ProductCardProps) => {
   const { isProductInCart, addToCartOrOpenDrawer } =
     useAddToCartOrOpenDrawer(product);
 
-  const {
-    id,
-    name,
-    image,
-    price,
-    priceWithDiscount,
-    discount,
-    description,
-    percentageOfTotalOrders
-  } = product;
-
-  const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
+  const { id, name, image, price, description, percentageOfTotalOrders } =
+    product;
 
   const [imgSrc, setImgSrc] = useState(image);
+
+  const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 
   const handleImageError = () => {
     setImgSrc(fallbackImage);
@@ -46,10 +38,9 @@ const SaleProductCard = ({ product }: ProductCardProps) => {
   return (
     <AppBox
       data-testid="product-card"
-      className="spa-product-card spa-sale-product-card"
+      className="spa-product-card"
       data-cy="product-card"
     >
-      <AppBox className="spa-sale-product-card__label">-{discount}%</AppBox>
       <AppLink
         className="spa-product-card__link-wrapper"
         to={routePaths.productDetails.path(id)}
@@ -92,7 +83,7 @@ const SaleProductCard = ({ product }: ProductCardProps) => {
             />
           </AppBox>
         )}
-        <AppBox>
+        <AppBox className="spa-product-card__header">
           <AppTypography
             variant="caption"
             className="spa-product-card__product-name"
@@ -102,14 +93,9 @@ const SaleProductCard = ({ product }: ProductCardProps) => {
         </AppBox>
       </AppLink>
       <AppBox className="spa-product-card__footer">
-        <AppBox className="spa-sale-product-card__price-container">
-          <AppTypography className="spa-sale-product-card__original-price">
-            {formatPrice(price)}
-          </AppTypography>
-          <AppTypography className="spa-product-card__footer-price spa-sale-product-card__price">
-            {formatPrice(priceWithDiscount ?? 0)}
-          </AppTypography>
-        </AppBox>
+        <AppTypography className="spa-product-card__footer-price">
+          {formatPrice(price)}
+        </AppTypography>
         <AppIconButton
           data-cy="add-to-cart-button"
           onClick={addToCartOrOpenDrawer}
@@ -127,4 +113,4 @@ const SaleProductCard = ({ product }: ProductCardProps) => {
   );
 };
 
-export default SaleProductCard;
+export default BestSellerCard;
