@@ -96,15 +96,35 @@ const ProductDetailsContainer = ({
 
   const productWithId = { ...product, id: productId };
 
+  const percentageOfOrders = Math.round(product.percentageOfTotalOrders || 0);
+
   return (
     <AppBox className="product-details">
       <AppBox className="product-details__image-wrapper">
+        <AppBox component="img" src={product.image} alt={product.name} />
         {product.discount! > 0 && (
           <AppBox className="product-details__image-label">
             -{product.discount}%
           </AppBox>
         )}
-        <AppBox component="img" src={product.image} alt={product.name} />
+        {Boolean(percentageOfOrders) && (
+          <AppBox
+            className="product-details__bestseller-label-container"
+            data-testid="product-details-bestseller-label"
+          >
+            <AppBox className="product-details__bestseller-label">
+              <AppTypography
+                translationKey="bestsellers.title"
+                variant="caption"
+                translationProps={{
+                  values: {
+                    count: percentageOfOrders
+                  }
+                }}
+              />
+            </AppBox>
+          </AppBox>
+        )}
       </AppBox>
       <AppBox className="product-details__summary">
         {categoryBadge}

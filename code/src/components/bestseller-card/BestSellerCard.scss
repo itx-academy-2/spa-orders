@@ -1,0 +1,83 @@
+@import "@design-system";
+
+.spa-product-card {
+  padding: spacing(2);
+  display: flex;
+  flex-direction: column;
+  gap: spacing(2);
+  border: 2px solid var(--spa-products-container-border-color, $light);
+  position: relative;
+  overflow: hidden;
+
+  &__link-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(3);
+    flex-grow: 1;
+  }
+
+  &__img {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+
+    &:hover .spa-product-card__description {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  &__img-name {
+    @include box(100%);
+    object-fit: cover;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__product-name {
+    @include text-truncate(2);
+    overflow: hidden;
+  }
+
+  &__description {
+    @include transition((all, "medium"));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    inset: 0;
+    background: var(--spa-hover-product-background-color, $light-alpha);
+    color: var(--spa-hover-product-text-color, $white);
+    padding: spacing(4) spacing(3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%);
+    backdrop-filter: blur(spacing(2));
+
+    &-text {
+      @include line-clamp(10);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: spacing(3);
+    border-top: 1px solid var(--spa-products-container-border-color, $light);
+  }
+
+  &__cart-button {
+    @include box(40px, 40px);
+    color: var(--spa-best-sellers-cart-color, $gray);
+  }
+
+  &__cart-button--active {
+    color: var(--spa-best-sellers-cart-active-color, $purple);
+  }
+}

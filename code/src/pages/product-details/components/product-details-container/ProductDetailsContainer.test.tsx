@@ -6,10 +6,15 @@ import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyN
 import ProductDetailsContainer from "@/pages/product-details/components/product-details-container/ProductDetailsContainer";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
 import { RTKQueryMockState } from "@/types/common";
+import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
-const mockProduct = {
+type MockProduct = Product & { quantity: number };
+
+const mockProduct: MockProduct = {
+  id: "1",
+  status: "AVAILABLE",
   image:
     "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
   quantity: 10,
@@ -18,7 +23,8 @@ const mockProduct = {
   name: "Mobile Phone Apple iPhone 14 Pro 128GB Space Gray",
   description:
     'Screen: 6.1" Super Retina XDR, 2532x1170 / A16 Bionic chip / Main Triple Camera: 48 MP + 12 MP + 12 MP, Front Camera: 12 MP / RAM 6 GB / 128 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM and eSIM) / iOS 16 / 3200 mAh',
-  discount: 20
+  discount: 20,
+  percentageOfTotalOrders: null
 };
 
 const locale = "en";
@@ -198,5 +204,23 @@ describe("ProductDetailsContainer", () => {
 
     const discountLabel = screen.queryByText(/-%/);
     expect(discountLabel).not.toBeInTheDocument();
+  });
+
+  test("Should not show best sellers if percentage is null", () => {
+    renderAndMock({ data: mockProduct });
+
+    const bestsellersLabel = screen.queryByTestId(
+      "product-details-bestseller-label"
+    );
+    expect(bestsellersLabel).not.toBeInTheDocument();
+  });
+
+  test("Should show best sellers if percentage exists", () => {
+    renderAndMock({ data: { ...mockProduct, percentageOfTotalOrders: 10 } });
+
+    const bestsellersLabel = screen.getByTestId(
+      "product-details-bestseller-label"
+    );
+    expect(bestsellersLabel).toBeInTheDocument();
   });
 });

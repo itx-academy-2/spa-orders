@@ -19,9 +19,12 @@ import "@/components/product-card/ProductCard.scss";
 const ProductCard = ({ product }: ProductCardProps) => {
   const { isProductInCart, addToCartOrOpenDrawer } =
     useAddToCartOrOpenDrawer(product);
-  const { id, name, image, price, description } = product;
+  const { id, name, image, price, description, percentageOfTotalOrders } =
+    product;
 
   const [imgSrc, setImgSrc] = useState(image);
+
+  const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 
   const handleImageError = () => {
     setImgSrc(fallbackImage);
@@ -59,6 +62,26 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </AppTypography>
           </AppBox>
         </AppBox>
+        {roundedPercentage > 0 && (
+          <AppBox
+            style={{
+              padding: "5px",
+              border: "3px solid blue",
+              borderRadius: "20px",
+              color: "blue"
+            }}
+            className="spa-product-card__best-sellers"
+          >
+            <AppTypography
+              translationKey="bestsellers.title"
+              translationProps={{
+                values: {
+                  count: roundedPercentage
+                }
+              }}
+            />
+          </AppBox>
+        )}
         <AppBox>
           <AppTypography
             variant="caption"

@@ -1,13 +1,14 @@
 import { screen } from "@testing-library/react";
 
 import BestSellers from "@/containers/best-sellers/BestSellers";
-import { ProductsContainerProps } from "@/containers/products-container/ProductsContainer.types";
 
-import { useGetUserProductsQuery } from "@/store/api/productsApi";
+import { useGetBestsellerProductsQuery } from "@/store/api/productsApi";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
+import { ProductsContainerProps } from "../products-container/ProductsContainer.types";
+
 jest.mock("@/store/api/productsApi", () => ({
-  useGetUserProductsQuery: jest.fn()
+  useGetBestsellerProductsQuery: jest.fn()
 }));
 
 const mockProductsResponse = {
@@ -17,21 +18,24 @@ const mockProductsResponse = {
   ]
 };
 
-jest.mock("@/containers/products-container/ProductsContainer", () => ({
-  __esModule: true,
-  default: ({ isLoading, isError, products }: ProductsContainerProps) => (
-    <div data-testid="products-container">
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error!</div>}
-      {products.length > 0 && <div>Products List</div>}
-    </div>
-  )
-}));
+jest.mock(
+  "@/containers/best-sellers/components/bestseller-container/BestSellerContainer",
+  () => ({
+    __esModule: true,
+    default: ({ isLoading, isError, products }: ProductsContainerProps) => (
+      <div data-testid="products-container">
+        {isLoading && <div>Loading...</div>}
+        {isError && <div>Error!</div>}
+        {products.length > 0 && <div>Products List</div>}
+      </div>
+    )
+  })
+);
 
 const renderAndMock = (
-  mockData: Partial<ReturnType<typeof useGetUserProductsQuery>> = {}
+  mockData: Partial<ReturnType<typeof useGetBestsellerProductsQuery>> = {}
 ) => {
-  (useGetUserProductsQuery as jest.Mock).mockReturnValue({
+  (useGetBestsellerProductsQuery as jest.Mock).mockReturnValue({
     data: mockData.data || null,
     isLoading: mockData.isLoading || false,
     isError: mockData.isError || false
@@ -52,14 +56,15 @@ describe("BestSellers", () => {
   test("should pass the correct size to the query and render ProductsContainer with correct props", () => {
     renderAndMock({ data: mockProductsResponse });
 
-    expect(useGetUserProductsQuery).toHaveBeenCalledWith({
+    expect(useGetBestsellerProductsQuery).toHaveBeenCalledWith({
       page: 0,
       size: 5,
       lang: "en",
       tags: ""
     });
-    const productsContainer = screen.getByTestId("products-container");
-    expect(productsContainer).toBeInTheDocument();
+    const bestSellerContainer = screen.getByTestId("products-container");
+    expect(bestSellerContainer).toBeInTheDocument();
+
     const productsList = screen.getByText("Products List");
     expect(productsList).toBeInTheDocument();
   });
