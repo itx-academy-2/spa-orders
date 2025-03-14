@@ -14,7 +14,7 @@ export type Product = {
   price: number;
   discount?: number;
   priceWithDiscount?: number | null;
-  percentageOfTotalOrders?: number;
+  percentageOfTotalOrders?: number | null;
 };
 
 export type ManagerProductStatus = "VISIBLE" | "HIDDEN";
@@ -75,6 +75,7 @@ export type GetUserProductByIdResponse = Pick<
   | "description"
   | "discount"
   | "priceWithDiscount"
+  | "percentageOfTotalOrders"
 > & {
   quantity: number;
 };
