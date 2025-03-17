@@ -5,6 +5,11 @@
     display: flex;
     justify-content: space-between;
     gap: spacing(5);
+    flex-direction: column;
+
+    @include breakpoint("md") {
+      flex-direction: row;
+    }
   }
 
   &__items,
@@ -16,7 +21,9 @@
   }
 
   &__items {
-    width: 825px;
+    @include breakpoint("md") {
+      flex: 2 1 825px;
+    }
 
     &--label {
       margin-bottom: spacing(5);
