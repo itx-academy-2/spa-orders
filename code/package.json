@@ -1,6 +1,6 @@
 {
   "name": "spa-orders",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "",
   "scripts": {
     "start": "webpack serve --config ./config/webpack.development.config.js --mode development",
