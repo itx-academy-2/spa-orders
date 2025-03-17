@@ -96,6 +96,20 @@
     text-align: center;
   }
 
+  &__bestseller {
+    padding: 4px;
+    border: 2px solid blue;
+    border-radius: 15px;
+    color: blue;
+    max-width: 305px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: spacing(2);
+  }
+
   &__delete-block {
     cursor: pointer;
     display: flex;

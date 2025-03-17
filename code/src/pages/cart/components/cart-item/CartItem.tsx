@@ -73,6 +73,10 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
 
   const hasDiscount = !!item.productPriceWithDiscount;
 
+  const ordersPercentage = item.percentageOfTotalOrders;
+
+  const roundedPercentage = Math.round(ordersPercentage || 0);
+
   const totalPrice = formatPrice(
     quantity *
       (hasDiscount ? item.productPriceWithDiscount! : item.productPrice)
@@ -127,6 +131,19 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
             </AppTypography>
           )}
         </AppBox>
+        {roundedPercentage > 0 && (
+          <AppBox className="spa-cart-item__bestseller">
+            <AppTypography
+              variant="body"
+              translationKey="bestsellers.title"
+              translationProps={{
+                values: {
+                  count: roundedPercentage
+                }
+              }}
+            />
+          </AppBox>
+        )}
       </AppBox>
       <AppBox className="spa-cart-item__quantity-selector">
         <AppBox
