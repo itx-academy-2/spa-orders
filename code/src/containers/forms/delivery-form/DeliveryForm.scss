@@ -3,10 +3,10 @@
 .delivery-form {
   display: flex;
   flex-direction: column;
+  flex: 3 1 490px;
   gap: spacing(4);
 
   &__body {
-    width: 490px;
     background: var(--spa-devivery-form-bg, $white);
     padding: spacing(5) spacing(4);
     border-radius: spacing(1);
@@ -27,8 +27,14 @@
     }
 
     &-title {
-      border-bottom: 1px solid var(--spa-devivery-form-divider-color, $gray-light);
+      border-bottom: 1px solid
+        var(--spa-devivery-form-divider-color, $gray-light);
       padding-bottom: spacing(3);
+      font-size: 24px;
+
+      @include breakpoint("lg") {
+        font-size: 30px;
+      }
     }
 
     &-item {
@@ -43,11 +49,10 @@
       gap: spacing(3);
       align-items: center;
       padding-block: spacing(3);
-
     }
 
     &-image {
-      @include box(25px)
+      @include box(25px);
     }
   }
 }
