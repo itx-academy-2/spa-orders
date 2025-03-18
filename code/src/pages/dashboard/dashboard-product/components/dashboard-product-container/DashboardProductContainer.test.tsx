@@ -31,6 +31,7 @@ const managerProduct: GetManagerProductByIdResponse = {
     "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
   createdAt: "2024-07-29T20:20:02.404Z",
   quantity: 10,
+  percentageOfTotalOrders: null,
   price: 999.99,
   priceWithDiscount: 3,
   discount: 3,
@@ -198,5 +199,24 @@ describe("DashboardProductContainer", () => {
 
     const dashes = screen.getAllByText("-");
     expect(dashes).toHaveLength(2);
+  });
+
+  test("Should render bestseller label", () => {
+    mockAndRender({
+      ...defaultParams,
+      data: { ...managerProduct, percentageOfTotalOrders: 25 }
+    });
+
+    const label = screen.getByTestId("dashboard-product-bestseller-label");
+
+    expect(label).toBeInTheDocument();
+  });
+
+  test("Should not render bestseller label", () => {
+    mockAndRender(responseWithoutDiscount);
+
+    const label = screen.queryByTestId("dashboard-product-bestseller-label");
+
+    expect(label).not.toBeInTheDocument();
   });
 });

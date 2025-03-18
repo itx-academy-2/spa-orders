@@ -44,6 +44,7 @@ jest.mock("@/store/api/productsApi", () => ({
 
 const testData: FullManagerProduct = {
   id: "1",
+  percentageOfTotalOrders: null,
   createdAt: "2021-10-10T10:10:10.000Z",
   status: "HIDDEN",
   image: "https://example.com",

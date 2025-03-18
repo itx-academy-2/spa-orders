@@ -28,6 +28,7 @@ export type ManagerProduct = {
   price: number;
   createdAt: string;
   status: ManagerProductStatus;
+  percentageOfTotalOrders: number | null;
   tags: string[];
   discount: number | null;
   priceWithDiscount: number | null;
@@ -128,6 +129,7 @@ export type GetManagerProductByIdResponse = {
   image: string;
   createdAt: string;
   quantity: number;
+  percentageOfTotalOrders: number | null;
   price: number;
   discount: number | null;
   priceWithDiscount: number | null;

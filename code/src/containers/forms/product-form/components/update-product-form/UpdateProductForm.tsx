@@ -91,6 +91,7 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
         <AdditionalInfo
           control={control}
           register={register}
+          percentageOfTotalOrders={product.percentageOfTotalOrders}
           errors={errors}
           onRemoveDiscount={handleRemoveDiscount}
           showRemoveDiscountBtn={Boolean(product.discount)}
