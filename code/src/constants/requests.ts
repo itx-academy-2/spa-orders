@@ -74,5 +74,10 @@ export const URLS = {
   users: {
     getForAdmin: (params: GetUsersForAdminParams) =>
       createUrlPath("/v1/management/users", undefined, params)
+  },
+  articles: {
+    getArticlesTitle: "/v1/articles/details",
+    getArticleById: (articleId: number, lang: string) =>
+      `/v1/articles/${articleId}?lang=${lang}`
   }
 } as const;
