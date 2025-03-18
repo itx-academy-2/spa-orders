@@ -1,10 +1,9 @@
 import { fireEvent, screen } from "@testing-library/react";
 
+import { SalesPageFilters } from "@/pages/sales/SalesPage.types";
+import SalesFilterDrawer from "@/pages/sales/components/sales-filter-drawer/SalesFilterDrawer";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
-
-import { SalesPageFilters } from "../../SalesPage.types";
-import SalesFilterDrawer from "./SalesFilterDrawer";
 
 const mockApplyFilters = jest.fn();
 const mockCheckFilterActive = jest.fn(() => true);
@@ -155,9 +154,25 @@ describe("Test SalesFilterDrawer component", () => {
 
     fireEvent.click(computersCheckbox);
     fireEvent.click(mobilesCheckbox);
-    fireEvent.click(mobilesCheckbox);
 
     expect(mockUpdateFilterByKey).toHaveBeenCalledWith("tags", expectedTags);
+  });
+
+  test("Should correctly check unchecked checkbox", () => {
+    renderAndMock({
+      filters: { tags: new Set(["category:mobile", "category:tablet"]) }
+    });
+
+    const computersCheckbox = screen.getByTestId(
+      "sales-page-filter-computer-checkbox"
+    );
+
+    fireEvent.click(computersCheckbox);
+
+    expect(mockUpdateFilterByKey).toHaveBeenCalledWith(
+      "tags",
+      new Set([...expectedTags, "category:computer"])
+    );
   });
 
   test("Should reset filter", () => {
@@ -166,5 +181,7 @@ describe("Test SalesFilterDrawer component", () => {
     const resetFilterIcon = screen.getAllByTestId("FilterAltOffIcon")[0];
 
     fireEvent.click(resetFilterIcon);
+
+    expect(mockResetFilterByKey).toHaveBeenCalledWith("tags");
   });
 });

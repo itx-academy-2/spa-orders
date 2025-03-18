@@ -2,12 +2,16 @@
 
 .spa-cart-page {
   &__order-summary {
-    width: 490px;
-
     &--label {
       margin-bottom: spacing(5);
-      border-bottom: 1px solid var(--spa-order-summary-border-color, $gray-light);
+      border-bottom: 1px solid
+        var(--spa-order-summary-border-color, $gray-light);
       padding-bottom: spacing(3);
+      font-size: 24px;
+
+      @include breakpoint("lg") {
+        font-size: 30px;
+      }
     }
 
     .spa-order-summary {
@@ -19,11 +23,13 @@
       &__row {
         display: flex;
         justify-content: space-between;
+        align-items: center;
       }
 
       &__total-line {
         padding-top: spacing(7);
-        border-top: 1px solid var(--spa-order-summary-line-border-color, $gray-light);
+        border-top: 1px solid
+          var(--spa-order-summary-line-border-color, $gray-light);
       }
 
       &__underline-text {

@@ -14,6 +14,7 @@ export type Product = {
   price: number;
   discount?: number;
   priceWithDiscount?: number | null;
+  percentageOfTotalOrders?: number | null;
 };
 
 export type ManagerProductStatus = "VISIBLE" | "HIDDEN";
@@ -27,6 +28,7 @@ export type ManagerProduct = {
   price: number;
   createdAt: string;
   status: ManagerProductStatus;
+  percentageOfTotalOrders: number | null;
   tags: string[];
   discount: number | null;
   priceWithDiscount: number | null;
@@ -74,6 +76,7 @@ export type GetUserProductByIdResponse = Pick<
   | "description"
   | "discount"
   | "priceWithDiscount"
+  | "percentageOfTotalOrders"
 > & {
   quantity: number;
 };
@@ -126,6 +129,7 @@ export type GetManagerProductByIdResponse = {
   image: string;
   createdAt: string;
   quantity: number;
+  percentageOfTotalOrders: number | null;
   price: number;
   discount: number | null;
   priceWithDiscount: number | null;
@@ -146,3 +150,19 @@ export type FullManagerProduct = Omit<
 export type GetManagerProductByIdParams = {
   productId: string;
 };
+
+export interface BestsellerProduct extends Product {
+  percentageOfTotalOrders: number;
+}
+
+export interface GetBestsellerProductsResponse {
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  size: number;
+  empty: boolean;
+  content: BestsellerProduct[];
+}

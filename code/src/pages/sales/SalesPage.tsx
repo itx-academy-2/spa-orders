@@ -16,11 +16,10 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import usePagination from "@/hooks/use-pagination/usePagination";
 import { sortSaleOptions } from "@/pages/sales/SalesPage.constants";
+import SalesFilterDrawer from "@/pages/sales/components/sales-filter-drawer/SalesFilterDrawer";
+import useSalesFilter from "@/pages/sales/hooks/useSalesFilter";
 
 import "@/pages/sales/SalesPage.scss";
-
-import SalesFilterDrawer from "./components/sales-filter-drawer/SalesFilterDrawer";
-import useSalesFilter from "./hooks/useSalesFilter";
 
 const SalesPage = () => {
   const { page } = usePagination();

@@ -73,6 +73,10 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
 
   const hasDiscount = !!item.productPriceWithDiscount;
 
+  const ordersPercentage = item.percentageOfTotalOrders;
+
+  const roundedPercentage = Math.round(ordersPercentage || 0);
+
   const totalPrice = formatPrice(
     quantity *
       (hasDiscount ? item.productPriceWithDiscount! : item.productPrice)
@@ -127,54 +131,74 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
             </AppTypography>
           )}
         </AppBox>
+        {roundedPercentage > 0 && (
+          <AppBox className="spa-cart-item__bestseller">
+            <AppTypography
+              variant="body"
+              translationKey="bestsellers.title"
+              translationProps={{
+                values: {
+                  count: roundedPercentage
+                }
+              }}
+            />
+          </AppBox>
+        )}
       </AppBox>
-      <AppBox className="spa-cart-item__quantity-selector">
-        <AppBox
-          className={cn("spa-cart-item__quantity-block", disableMinusQuantity)}
-          onClick={handleDecreaseQuantity}
-          data-cy="decrease-quantity-button"
-          data-testid="decrease-quantity-button"
-        >
-          <RemoveCircleOutlineIcon />
-        </AppBox>
-        <input
-          value={quantity || ""}
-          data-real-quantity={quantity}
-          className="spa-cart-item__quantity-input"
-          onChange={handleQuantityInputChange}
-          onBlur={handleBlur}
-          data-cy="cart-item-quantity"
-          maxLength={6}
-        />
-        <AppBox
-          className="spa-cart-item__quantity-block"
-          onClick={handleIncreaseQuantity}
-          data-cy="increase-quantity-button"
-          data-testid="increase-quantity-button"
-        >
-          <AddCircleOutlineIcon />
-        </AppBox>
-      </AppBox>
-      <AppBox className="spa-cart-item__price">
-        <AppTooltip titleTranslationKey={totalPrice}>
-          <AppTypography
-            className={
-              hasDiscount
-                ? "spa-cart-item__price-discounted-total"
-                : "spa-cart-item__price-value"
-            }
+      <AppBox className="spa-cart-item__quantity-price">
+        <AppBox className="spa-cart-item__quantity-selector">
+          <AppBox
+            className={cn(
+              "spa-cart-item__quantity-block",
+              disableMinusQuantity
+            )}
+            onClick={handleDecreaseQuantity}
+            data-cy="decrease-quantity-button"
+            data-testid="decrease-quantity-button"
           >
-            {totalPrice}
-          </AppTypography>
-        </AppTooltip>
-      </AppBox>
-      <AppBox
-        className="spa-cart-item__delete-block"
-        onClick={handleRemoveCartItem}
-        data-cy="remove-cart-item-button"
-        data-testid="remove-cart-item-button"
-      >
-        <DeleteIcon />
+            <RemoveCircleOutlineIcon />
+          </AppBox>
+          <input
+            value={quantity || ""}
+            className="spa-cart-item__quantity-input"
+            data-real-quantity={quantity}
+            onChange={handleQuantityInputChange}
+            onBlur={handleBlur}
+            data-cy="cart-item-quantity"
+            maxLength={6}
+          />
+          <AppBox
+            className="spa-cart-item__quantity-block"
+            onClick={handleIncreaseQuantity}
+            data-cy="increase-quantity-button"
+            data-testid="increase-quantity-button"
+          >
+            <AddCircleOutlineIcon />
+          </AppBox>
+        </AppBox>
+        <AppBox className="spa-cart-item__price-delete-icon">
+          <AppBox className="spa-cart-item__price">
+            <AppTooltip titleTranslationKey={totalPrice}>
+              <AppTypography
+                className={
+                  hasDiscount
+                    ? "spa-cart-item__price-discounted-total"
+                    : "spa-cart-item__price-value"
+                }
+              >
+                {totalPrice}
+              </AppTypography>
+            </AppTooltip>
+          </AppBox>
+          <AppBox
+            className="spa-cart-item__delete-block"
+            onClick={handleRemoveCartItem}
+            data-cy="remove-cart-item-button"
+            data-testid="remove-cart-item-button"
+          >
+            <DeleteIcon />
+          </AppBox>
+        </AppBox>
       </AppBox>
     </AppBox>
   );

@@ -14,6 +14,7 @@
   "productForm.updation.fail": "Не вдалося оновити продукт",
   "productForm.creation.validationError": "Вказані дані недійсні, перевірте їх і спробуйте ще раз",
   "productForm.creation.translationError": "Принаймні один з перекладів є обов'язковим",
-  "productForm.discountRemoval.confirmation": "Ви впевнені, що хочете скасувати знижку на цей товар?",
+  "productForm.discountRemoval.confirmation.mainText": "Ви впевнені, що хочете скасувати знижку на цей товар?",
+  "productForm.discountRemoval.confirmation.secondaryText": "Знижка буде скасована для майбутніх замовлень. Це не вплине на замовлення, які вже обробляються.",
   "productForm.discountedProductLimit.label": "У вас вже є 10 продуктів зі знижкою. Будь ласка, видаліть знижку з одного, щоб додати її до іншого."
 }

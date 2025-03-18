@@ -1,6 +1,6 @@
 import { FormattedMessage } from "react-intl";
 
-import { SalesPageFilters } from "./SalesPage.types";
+import { SalesPageFilters } from "@/pages/sales/SalesPage.types";
 
 export const defaultSalesPageFilters: SalesPageFilters = {
   tags: new Set(["category:computer", "category:mobile", "category:tablet"]),

@@ -25,8 +25,7 @@
 
   &__title {
     @include text-truncate(3);
-
-    font-size: var(--cart-item-title-size, $fs-sm);
+    font-size: var(--cart-item-title-size, 12px);
     margin-bottom: spacing(2);
     padding-right: spacing(8);
     overflow: hidden;
@@ -34,8 +33,9 @@
 
   &__price-container {
     display: flex;
-    gap: spacing(4);
+    gap: spacing(1);
     align-items: center;
+    flex-wrap: nowrap;
   }
 
   &__price {
@@ -71,5 +71,22 @@
 
   &:last-child {
     border-bottom: none;
+  }
+
+  &__bestseller {
+    &-box {
+      padding: 4px;
+      border: 2px solid blue;
+      border-radius: 15px;
+      color: blue;
+      max-width: 190px;
+      font-size: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      margin-top: spacing(2);
+    }
   }
 }

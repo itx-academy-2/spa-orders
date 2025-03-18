@@ -42,6 +42,7 @@ const renderAdditionalInfo = (
       register={registerFunction}
       control={controlFunction}
       errors={props?.errors ?? {}}
+      percentageOfTotalOrders={null}
       {...props}
     />
   );
@@ -223,5 +224,21 @@ describe("Test AdditionalInfo component", () => {
     const categorySelect = screen.getByTestId("product-form-category-select");
 
     expect(categorySelect.closest(".Mui-error")).toBeFalsy();
+  });
+
+  test("Should not render best seller label if it is null", () => {
+    renderAdditionalInfo();
+
+    const label = screen.queryByTestId("product-form-bestseller-label");
+
+    expect(label).not.toBeInTheDocument();
+  });
+
+  test("Should render best seller label", () => {
+    renderAdditionalInfo({ percentageOfTotalOrders: 25 });
+
+    const label = screen.getByTestId("product-form-bestseller-label");
+
+    expect(label).toBeInTheDocument();
   });
 });
