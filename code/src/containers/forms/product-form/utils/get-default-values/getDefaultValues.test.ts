@@ -10,6 +10,7 @@ const product: FullManagerProduct = {
   createdAt: "2024-07-29T20:20:02.404Z",
   quantity: 10,
   price: 999.99,
+  percentageOfTotalOrders: null,
   priceWithDiscount: null,
   discount: null,
   tags: [

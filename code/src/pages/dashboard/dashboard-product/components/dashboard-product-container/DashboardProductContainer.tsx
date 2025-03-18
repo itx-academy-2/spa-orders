@@ -100,6 +100,8 @@ const DashboardProductContainer = ({
     <AppTypography>-</AppTypography>
   );
 
+  const percentageOfOrders = Math.round(product.percentageOfTotalOrders || 0);
+
   return (
     <DashboardTabContainer>
       <AppBox className="dashboard-products-tab__toolbar">
@@ -195,6 +197,21 @@ const DashboardProductContainer = ({
                 />
                 {displayedCategory}
               </AppBox>
+              {Boolean(percentageOfOrders) && (
+                <AppBox
+                  className="dashboard-product__bestseller-label"
+                  data-testid="dashboard-product-bestseller-label"
+                >
+                  <AppTypography
+                    translationKey="bestsellers.title"
+                    translationProps={{
+                      values: {
+                        count: percentageOfOrders
+                      }
+                    }}
+                  />
+                </AppBox>
+              )}
             </AppBox>
           </AppBox>
           <AppBox className="dashboard-product__main-info-section">

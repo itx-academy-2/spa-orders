@@ -4,6 +4,7 @@ export const rtkQueryTags = {
   ADMIN_ORDERS: "ADMIN_ORDERS",
   ADMIN_PRODUCTS: "ADMIN_PRODUCTS",
   PRODUCTS: "PRODUCTS",
+  BESTSELLERS: "BESTSELLERS",
   SALES: "SALES"
 } as const;
 

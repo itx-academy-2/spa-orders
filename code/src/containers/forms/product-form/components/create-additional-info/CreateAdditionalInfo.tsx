@@ -4,7 +4,7 @@ import { Controller, useWatch } from "react-hook-form";
 import { MenuProps } from "@mui/material/Menu";
 
 import { productCategories } from "@/containers/forms/product-form/ProductForm.constants";
-import { ProductFormAdditionalInfoSectionProps } from "@/containers/forms/product-form/ProductForm.types";
+import { ProductFormCreateAdditionalInfoSectionProps } from "@/containers/forms/product-form/ProductForm.types";
 import useCreateProduct from "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct";
 
 import AppBox from "@/components/app-box/AppBox";
@@ -20,7 +20,7 @@ const CreateAdditionalInfo = ({
   errors,
   control,
   setValue
-}: ProductFormAdditionalInfoSectionProps) => {
+}: ProductFormCreateAdditionalInfoSectionProps) => {
   const categoryItems = productCategories.map(({ id, label }) => (
     <AppMenuItem value={id} key={id} data-cy={`product-form-category-${id}`}>
       <AppTypography

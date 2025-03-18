@@ -21,6 +21,7 @@ import productsTableMessages from "@/containers/tables/products-table/messages";
 import usersTableMessages from "@/containers/tables/users-table/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
+import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
 
 import commonMessages from "@/constants/common-messages";
@@ -79,7 +80,8 @@ const messages: MessagesType = {
     ...productDetailsMessages.en,
     ...dashboardProductMessages.en,
     ...salesPageMessages.en,
-    ...confirDialogMessages.en
+    ...confirDialogMessages.en,
+    ...bestSellerContainerMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -118,7 +120,8 @@ const messages: MessagesType = {
     ...productDetailsMessages.uk,
     ...dashboardProductMessages.uk,
     ...salesPageMessages.uk,
-    ...confirDialogMessages.uk
+    ...confirDialogMessages.uk,
+    ...bestSellerContainerMessages.uk
   }
 };
 

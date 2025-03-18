@@ -11,6 +11,13 @@ $gridGapHalf: calc($gridGap / 2);
   grid-gap: $gridGap;
   margin-bottom: spacing(5);
 
+  &__bestseller-label {
+    padding: spacing(3) spacing(2) 0;
+    border-radius: spacing(5);
+    color: blue;
+    text-align: center;
+  }
+
   &__header {
     background-color: var(--new-product-form-head-bg-color, $light-alpha);
     padding: spacing(5) spacing(8);

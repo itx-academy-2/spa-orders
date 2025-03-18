@@ -1,0 +1,30 @@
+@import "@design-system";
+
+.products-container {
+  display: grid;
+  justify-content: space-between;
+  gap: spacing(6);
+
+  // To generate classes that restrict number of columns
+  @for $i from 1 through 5 {
+    &__#{$i}-cols {
+      @for $j from 1 through length($breakpointsArray) {
+        @if $j <= $i {
+          @include breakpoint(nth($breakpointsArray, $j)) {
+            grid-template-columns: repeat($j, 1fr);
+          }
+        }
+      }
+    }
+  }
+
+  &_error {
+    padding: spacing(40) 0;
+    display: block;
+  }
+
+  &__error-label {
+    font-size: var(--spa-h5-font-size, $fs-base);
+    text-align: center;
+  }
+}
