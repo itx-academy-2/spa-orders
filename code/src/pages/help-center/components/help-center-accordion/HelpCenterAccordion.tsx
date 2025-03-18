@@ -15,13 +15,19 @@ import { HelpCenterAccordionProps } from "@/pages/help-center/components/help-ce
 import "@/pages/help-center/components/help-center-accordion/HelpCenterAccordion.styles.scss";
 
 const HelpCenterAccordion = ({
+  expanded,
+  onChange,
   title,
   description
 }: HelpCenterAccordionProps) => {
   const desc = marked.parse(description) as string;
 
   return (
-    <AppAccordionContainer data-testid="help-center-accordion">
+    <AppAccordionContainer
+      data-testid="help-center-accordion"
+      expanded={expanded}
+      onChange={onChange}
+    >
       <AppAccordionSummary
         data-testid="help-center-accordion-summary"
         expandIcon={<ExpandMoreIcon />}
