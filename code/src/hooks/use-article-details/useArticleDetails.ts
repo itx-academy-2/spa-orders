@@ -1,3 +1,5 @@
+import { useIntl } from "react-intl";
+
 import { useGetArticleByIdQuery } from "@/store/api/articlesApi";
 
 export const useArticleDetails = (
@@ -12,8 +14,13 @@ export const useArticleDetails = (
     { skip }
   );
 
+  const { formatMessage } = useIntl();
+
   return {
     description:
-      data?.content || (isFetching ? "Loading..." : "No content available")
+      data?.content ||
+      (isFetching
+        ? formatMessage({ id: "loading.label" })
+        : "No content available")
   };
 };
