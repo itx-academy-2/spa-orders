@@ -1,0 +1,9 @@
+@import "@design-system";
+
+.confirm-dialog {
+  padding: spacing(4) spacing(6);
+
+  &__title {
+    margin-bottom: spacing(2);
+  }
+}

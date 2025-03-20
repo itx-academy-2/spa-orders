@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useIntl } from "react-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -20,6 +19,7 @@ import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import { useConfirmContext } from "@/context/confirm/ConfirmContext";
 import { ProductBody } from "@/types/product.types";
 import productScheme from "@/utils/validators/productScheme";
 
@@ -67,20 +67,21 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
     });
   };
 
-  const { formatMessage } = useIntl();
+  const { openConfirm } = useConfirmContext();
 
   const handleRemoveDiscount = () => {
-    const confirmResult = confirm(
-      formatMessage({ id: "productForm.discountRemoval.confirmation" })
-    );
-
-    if (confirmResult) {
-      removeProductDiscount({
-        discount: undefined,
-        productId: product.id,
-        image: product.image
-      });
-    }
+    openConfirm({
+      mainText: "productForm.discountRemoval.confirmation.mainText",
+      secondaryText: "productForm.discountRemoval.confirmation.secondaryText",
+      confirmButtonVariant: "danger",
+      onConfirm: () => {
+        removeProductDiscount({
+          discount: undefined,
+          productId: product.id,
+          image: product.image
+        });
+      }
+    });
   };
 
   return (
@@ -90,6 +91,7 @@ const UpdateProductForm = ({ product }: UpdateProductFormProps) => {
         <AdditionalInfo
           control={control}
           register={register}
+          percentageOfTotalOrders={product.percentageOfTotalOrders}
           errors={errors}
           onRemoveDiscount={handleRemoveDiscount}
           showRemoveDiscountBtn={Boolean(product.discount)}

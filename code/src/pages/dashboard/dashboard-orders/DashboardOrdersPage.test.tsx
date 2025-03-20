@@ -165,19 +165,21 @@ describe("DashboardOrdersPage", () => {
   });
 
   test("clears search by email filter correctly", () => {
-    renderAndMock();
+    renderAndMock({ searchFilters: { accountEmail: "user" } });
     const searchInput = screen.getByPlaceholderText(
       /dashboardTabs.orders.search/
     );
-    typeIntoInput(searchInput, "user");
-    expect(mockUpdateFilterByKey).toHaveBeenCalledWith("accountEmail", "user");
 
-    const clearButton = screen.getByTestId("ClearIcon");
+    expect(searchInput).toHaveValue("user");
+
+    const clearButton = screen.getByRole("button", { name: /clear/i });
 
     fireEvent.click(clearButton);
+
     waitFor(() => {
       expect(searchInput).toHaveValue("");
     });
+
     expect(mockResetFilterByKey).toHaveBeenCalledWith("accountEmail");
     expect(mockApplyFilters).toHaveBeenCalled();
   });

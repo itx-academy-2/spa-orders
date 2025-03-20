@@ -4,7 +4,7 @@ import { Controller, useWatch } from "react-hook-form";
 import { MenuProps } from "@mui/material/Menu";
 
 import { productCategories } from "@/containers/forms/product-form/ProductForm.constants";
-import { ProductFormAdditionalInfoSectionProps } from "@/containers/forms/product-form/ProductForm.types";
+import { ProductFormCreateAdditionalInfoSectionProps } from "@/containers/forms/product-form/ProductForm.types";
 import useCreateProduct from "@/containers/forms/product-form/hooks/use-create-product/useCreateProduct";
 
 import AppBox from "@/components/app-box/AppBox";
@@ -20,7 +20,7 @@ const CreateAdditionalInfo = ({
   errors,
   control,
   setValue
-}: ProductFormAdditionalInfoSectionProps) => {
+}: ProductFormCreateAdditionalInfoSectionProps) => {
   const categoryItems = productCategories.map(({ id, label }) => (
     <AppMenuItem value={id} key={id} data-cy={`product-form-category-${id}`}>
       <AppTypography
@@ -34,6 +34,10 @@ const CreateAdditionalInfo = ({
   const discount = useWatch({ control, name: "discount" }) || 0;
 
   const finalPrice = useMemo(() => {
+    if (discount > 100) {
+      return "";
+    }
+
     return price - (price * discount) / 100;
   }, [price, discount]);
 
@@ -100,10 +104,7 @@ const CreateAdditionalInfo = ({
                     className="product-form__discount"
                     fullWidth
                     labelTranslationKey="productForm.discountPercentage.label"
-                    inputProps={{
-                      min: 0,
-                      step: "any"
-                    }}
+                    inputProps={{ min: 0, step: "any", max: 100 }}
                     type="number"
                     data-testid="product-form-discount-input"
                     disabled={disabledDiscount}

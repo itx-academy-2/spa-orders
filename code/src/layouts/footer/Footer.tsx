@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 import {
   customerSupportFooterItems,
   locationFooterItems,
@@ -11,9 +13,15 @@ import AppContainer from "@/components/app-container/AppContainer";
 import AppLink from "@/components/app-link/AppLink";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import routePaths from "@/constants/routes";
+
 import "@/layouts/footer/Footer.scss";
 
 const Footer = () => {
+  const { pathname } = useLocation();
+
+  const isHelpCenterPage = pathname === routePaths.helpCenter.path;
+
   const locationItems = locationFooterItems.map((item) => (
     <AppBox component="li" className="footer__list-item" key={item.label}>
       <AppTypography
@@ -55,7 +63,7 @@ const Footer = () => {
 
   return (
     <AppBox component="footer" data-cy="footer">
-      <FooterBanner />
+      {!isHelpCenterPage && <FooterBanner />}
       <AppBox className="footer">
         <AppContainer maxWidth="lg">
           <AppBox className="footer__container">

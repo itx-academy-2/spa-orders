@@ -1,6 +1,9 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
-import { ControllerRenderProps } from "react-hook-form";
-import { UseFormSetValue } from "react-hook-form";
+import {
+  ControllerRenderProps,
+  UseFormSetValue,
+  useWatch
+} from "react-hook-form";
 
 import {
   ProductFormControl,
@@ -181,4 +184,42 @@ test("Should display discount value in discount input when discount is not 0 and
 
   const discountInput = screen.getByTestId("product-form-discount-input");
   expect(discountInput).not.toHaveValue("");
+});
+
+describe("Final price calculation", () => {
+  beforeEach(() => {
+    (useWatch as jest.Mock).mockReset();
+  });
+
+  test("Should display empty final price when discount > 100", () => {
+    (useWatch as jest.Mock).mockImplementation(({ name }: { name: string }) => {
+      if (name === "price") return 100;
+      if (name === "discount") return 150;
+      return 0;
+    });
+
+    renderCreateAdditionalInfo();
+
+    const finalPriceInput = within(
+      screen.getByTestId("product-form-discounted-price-input")
+    ).getByRole("spinbutton");
+
+    expect((finalPriceInput as HTMLInputElement).value ?? "").toBe("");
+  });
+
+  test("Should calculate final price correctly when discount <= 100", () => {
+    (useWatch as jest.Mock).mockImplementation(({ name }: { name: string }) => {
+      if (name === "price") return 200;
+      if (name === "discount") return 20;
+      return 0;
+    });
+
+    renderCreateAdditionalInfo();
+
+    const finalPriceInput = within(
+      screen.getByTestId("product-form-discounted-price-input")
+    ).getByRole("spinbutton");
+
+    expect(finalPriceInput).toHaveValue(160);
+  });
 });

@@ -1,6 +1,6 @@
 import { renderHook } from "@testing-library/react";
 
-import useSalesFilter from "./useSalesFilter";
+import useSalesFilter from "@/pages/sales/hooks/useSalesFilter";
 
 const mockSales = [
   { id: 1, name: "Sale Product 1", price: 50 },

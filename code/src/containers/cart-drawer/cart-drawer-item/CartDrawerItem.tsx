@@ -21,6 +21,10 @@ const CartDrawerItem = ({
 
   const hasDiscount = props.discount && props.discount > 0;
 
+  const ordersPercentage = props.percentageOfTotalOrders;
+
+  const roundedPercentage = Math.round(ordersPercentage || 0);
+
   return (
     <AppBox className="cart-item">
       {hasDiscount ? (
@@ -67,6 +71,19 @@ const CartDrawerItem = ({
             </AppTypography>
           )}
         </Box>
+        {roundedPercentage > 0 && (
+          <AppBox className="cart-item__bestseller-box">
+            <AppTypography
+              style={{ fontSize: "12px" }}
+              translationKey="bestsellers.title"
+              translationProps={{
+                values: {
+                  count: roundedPercentage
+                }
+              }}
+            />
+          </AppBox>
+        )}
       </AppBox>
       <AppIconButton
         color="default"

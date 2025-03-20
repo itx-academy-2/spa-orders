@@ -57,6 +57,14 @@ export type ProductFormMainInfoSectionProps = ProductFormSectionProps;
 
 export type ProductFormAdditionalInfoSectionProps =
   ProductFormSectionExtendedProps & {
+    percentageOfTotalOrders: number | null;
+    showRemoveDiscountBtn?: boolean;
+    onRemoveDiscount?: () => void;
+    setValue?: UseFormSetValue<ProductFormValues>;
+  };
+
+export type ProductFormCreateAdditionalInfoSectionProps =
+  ProductFormSectionExtendedProps & {
     showRemoveDiscountBtn?: boolean;
     onRemoveDiscount?: () => void;
     setValue?: UseFormSetValue<ProductFormValues>;

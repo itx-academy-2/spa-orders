@@ -1,4 +1,4 @@
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 
 import { FilterRecordAccordionProps } from "@/containers/dashboard-orders-filter-drawer/components/filter-record-accordion/FilterAccordion.types";
 import FilterRecordAccordion from "@/containers/dashboard-orders-filter-drawer/components/filter-record-accordion/FilterRecordAccordion";
@@ -11,13 +11,15 @@ const textWithFilterName = `dashboardTabs.orders.filters.clearFilterTooltip/filt
 const filterButtonTestId = `reset-filter-button-${sectionCaptionTranslationKey}`;
 
 const renderFilterRecordAccordion = ({
-  isFilterActive
+  isFilterActive,
+  defaultExpanded
 }: Partial<FilterRecordAccordionProps> = {}) => {
   return renderWithProviders(
     <FilterRecordAccordion
       sectionCaptionTranslationKey={sectionCaptionTranslationKey}
       resetFilter={mockResetFilter}
       isFilterActive={isFilterActive}
+      defaultExpanded={defaultExpanded}
     >
       <div>Children</div>
     </FilterRecordAccordion>
@@ -25,6 +27,10 @@ const renderFilterRecordAccordion = ({
 };
 
 describe("FilterRecordAccordion", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test("does not expand when defaultExpanded is set to false", () => {
     renderFilterRecordAccordion({ defaultExpanded: false });
 
@@ -52,6 +58,16 @@ describe("FilterRecordAccordion", () => {
       const filterIndicatorIcon = screen.queryByTestId("FiberManualRecordIcon");
       expect(filterIndicatorIcon).not.toBeInTheDocument();
     });
+
+    test("renders children content", () => {
+      const childrenContent = screen.getByText("Children");
+      expect(childrenContent).toBeInTheDocument();
+    });
+
+    test("renders section caption", () => {
+      const sectionCaption = screen.getByText(sectionCaptionTranslationKey);
+      expect(sectionCaption).toBeInTheDocument();
+    });
   });
 
   describe("with isFilterActive equals true", () => {
@@ -77,6 +93,37 @@ describe("FilterRecordAccordion", () => {
       fireEvent.click(resetFilterButton);
 
       expect(mockResetFilter).toHaveBeenCalled();
+    });
+  });
+
+  describe("FilterRecordAccordion toggle tests", () => {
+    test("toggles accordion expansion on summary click", () => {
+      renderFilterRecordAccordion({ defaultExpanded: true });
+
+      const accordionContentWrapper = screen.getByTestId(
+        "accordion-content-wrapper"
+      );
+
+      expect(
+        within(accordionContentWrapper).getByText("Children")
+      ).toBeVisible();
+
+      const summaryElement = screen.getByRole("button", {
+        name: /translation.key/i
+      });
+
+      fireEvent.click(summaryElement);
+
+      let collapseWrapper =
+        accordionContentWrapper.closest(".MuiCollapse-root");
+
+      expect(collapseWrapper).toHaveStyle({ minHeight: "0px" });
+
+      fireEvent.click(summaryElement);
+
+      collapseWrapper = accordionContentWrapper.closest(".MuiCollapse-root");
+
+      expect(collapseWrapper).toHaveStyle({ visibility: "visible" });
     });
   });
 });

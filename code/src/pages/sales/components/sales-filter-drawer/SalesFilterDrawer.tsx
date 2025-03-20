@@ -14,11 +14,10 @@ import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import { FilterActions } from "@/hooks/use-filters-with-apply/useFiltersWithApply.types";
+import { categoryProbableFilters } from "@/pages/sales/SalesPage.constants";
+import { SalesPageFilters } from "@/pages/sales/SalesPage.types";
 
-import "./SalesFilterDrawer.styles.scss";
-
-import { categoryProbableFilters } from "../../SalesPage.constants";
-import { SalesPageFilters } from "../../SalesPage.types";
+import "@/pages/sales/components/sales-filter-drawer/SalesFilterDrawer.styles.scss";
 
 type SalesPageFilterDrawerProps = {
   activeFiltersCount: number;
@@ -130,7 +129,7 @@ const SalesFilterDrawer = ({
         </FilterRecordAccordion>
         <FilterRecordAccordion
           isFilterActive={isDiscountPercentageFilterActive}
-          resetFilter={resetFilter("priceWithDiscount")}
+          resetFilter={resetFilter("discountPercentage")}
           sectionCaptionTranslationKey="salesFilter.discount"
         >
           <AppRangeSlider

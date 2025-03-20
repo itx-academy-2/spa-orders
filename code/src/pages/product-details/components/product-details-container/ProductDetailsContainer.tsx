@@ -96,18 +96,45 @@ const ProductDetailsContainer = ({
 
   const productWithId = { ...product, id: productId };
 
+  const percentageOfOrders = Math.round(product.percentageOfTotalOrders || 0);
+
+  const bestsellerBadge = Boolean(percentageOfOrders) && (
+    <AppBadge
+      data-testid="product-details-bestseller-label"
+      slotProps={{
+        badge: {
+          className: "product-details__bestseller-label"
+        }
+      }}
+      badgeContent={
+        <AppTypography
+          variant="caption-small"
+          translationKey="bestsellers.title"
+          translationProps={{
+            values: {
+              count: percentageOfOrders
+            }
+          }}
+        />
+      }
+    />
+  );
+
   return (
     <AppBox className="product-details">
       <AppBox className="product-details__image-wrapper">
+        <AppBox component="img" src={product.image} alt={product.name} />
         {product.discount! > 0 && (
           <AppBox className="product-details__image-label">
             -{product.discount}%
           </AppBox>
         )}
-        <AppBox component="img" src={product.image} alt={product.name} />
       </AppBox>
       <AppBox className="product-details__summary">
-        {categoryBadge}
+        <AppBox style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          {categoryBadge}
+          {bestsellerBadge}
+        </AppBox>
         <AppTypography variant="h3" component="h1">
           {product.name}
         </AppTypography>

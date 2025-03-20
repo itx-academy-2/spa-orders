@@ -48,5 +48,6 @@
   "product.quantity": "Quantity",
   "product.priceWithDiscount": "Price with discount",
   "product.originalPrice": "Price",
-  "product.discountPercentage": "Discount percentage"
+  "product.discountPercentage": "Discount percentage",
+  "loading.label": "Loading..."
 }

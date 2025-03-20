@@ -26,6 +26,7 @@ export const URLS = {
     signIn: "/auth/sign-in"
   },
   products: {
+    getBestsellersProducts: "/v1/products/bestsellers",
     getForUser: "/v1/products",
     getForUserById: ({ productId, lang }: GetUserProductByIdParams) =>
       `/v1/products/${productId}?lang=${lang}`,
@@ -73,5 +74,10 @@ export const URLS = {
   users: {
     getForAdmin: (params: GetUsersForAdminParams) =>
       createUrlPath("/v1/management/users", undefined, params)
+  },
+  articles: {
+    getArticlesTitle: "/v1/articles/details",
+    getArticleById: (articleId: number, lang: string) =>
+      `/v1/articles/${articleId}?lang=${lang}`
   }
 } as const;

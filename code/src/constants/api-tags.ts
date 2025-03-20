@@ -4,7 +4,9 @@ export const rtkQueryTags = {
   ADMIN_ORDERS: "ADMIN_ORDERS",
   ADMIN_PRODUCTS: "ADMIN_PRODUCTS",
   PRODUCTS: "PRODUCTS",
-  SALES: "SALES"
+  BESTSELLERS: "BESTSELLERS",
+  SALES: "SALES",
+  ARTICLES: "ARTICLES"
 } as const;
 
 export const rtkQueryTagsArray = Object.values(rtkQueryTags);

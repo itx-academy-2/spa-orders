@@ -26,6 +26,7 @@ const AdditionalInfo = ({
   errors,
   control,
   showRemoveDiscountBtn,
+  percentageOfTotalOrders,
   onRemoveDiscount
 }: ProductFormAdditionalInfoSectionProps) => {
   const [, discountedProductsCount] = useCreateProduct();
@@ -95,6 +96,8 @@ const AdditionalInfo = ({
       />
     );
   };
+
+  const percentageOfOrders = Math.round(percentageOfTotalOrders || 0);
 
   return (
     <AppBox className="product-form__container product-form__additional-info-section">
@@ -195,6 +198,21 @@ const AdditionalInfo = ({
           control={control}
           render={checkboxControllerRenderFunction}
         />
+        {Boolean(percentageOfTotalOrders) && (
+          <AppBox
+            className="product-form__bestseller-label"
+            data-testid="product-form-bestseller-label"
+          >
+            <AppTypography
+              translationKey="bestsellers.title"
+              translationProps={{
+                values: {
+                  count: percentageOfOrders
+                }
+              }}
+            />
+          </AppBox>
+        )}
       </AppBox>
     </AppBox>
   );

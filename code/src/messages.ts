@@ -6,6 +6,7 @@ import bestSellersMessages from "@/containers/best-sellers/messages";
 import callToActionSectionMessages from "@/containers/call-to-action/messages";
 import cartDrawerMessages from "@/containers/cart-drawer/message";
 import categorySectionMessages from "@/containers/category-section/messages";
+import confirDialogMessages from "@/containers/confirm-dialog/messages";
 import dashboardOrdersFilterMessages from "@/containers/dashboard-orders-filter-drawer/messages";
 import deliveryFormMessages from "@/containers/forms/delivery-form/messages";
 import productFormMessages from "@/containers/forms/product-form/messages";
@@ -20,6 +21,7 @@ import productsTableMessages from "@/containers/tables/products-table/messages";
 import usersTableMessages from "@/containers/tables/users-table/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
+import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
 
 import commonMessages from "@/constants/common-messages";
@@ -31,6 +33,7 @@ import dashboardOrdersPageMessages from "@/pages/dashboard/dashboard-orders/mess
 import dashboardProductMessages from "@/pages/dashboard/dashboard-product/messages";
 import dashboardProductsPageMessages from "@/pages/dashboard/dashboard-products/messages";
 import dashboardUpdateProductPageMessages from "@/pages/dashboard/dashboard-update-product/messages";
+import helpCenterPageMessages from "@/pages/help-center/messages";
 import notFoundMessages from "@/pages/not-found/messages";
 import orderPageMessages from "@/pages/orders/messages";
 import productDetailsMessages from "@/pages/product-details/messages";
@@ -77,7 +80,10 @@ const messages: MessagesType = {
     ...dashboardOrderDetailsPageMessages.en,
     ...productDetailsMessages.en,
     ...dashboardProductMessages.en,
-    ...salesPageMessages.en
+    ...salesPageMessages.en,
+    ...confirDialogMessages.en,
+    ...bestSellerContainerMessages.en,
+    ...helpCenterPageMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -115,7 +121,10 @@ const messages: MessagesType = {
     ...dashboardOrderDetailsPageMessages.uk,
     ...productDetailsMessages.uk,
     ...dashboardProductMessages.uk,
-    ...salesPageMessages.uk
+    ...salesPageMessages.uk,
+    ...confirDialogMessages.uk,
+    ...bestSellerContainerMessages.uk,
+    ...helpCenterPageMessages.uk
   }
 };
 
