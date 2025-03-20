@@ -1,3 +1,5 @@
+import { Lang, Pageable } from "./common";
+
 export interface Article {
   id: number;
   title: string;
@@ -20,3 +22,5 @@ export interface ArticlesResponse {
   empty: boolean;
   content: Article[];
 }
+
+export type GetArticlesParams = Partial<Pageable & Lang>;

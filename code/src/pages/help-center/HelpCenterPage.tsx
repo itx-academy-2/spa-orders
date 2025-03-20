@@ -16,7 +16,10 @@ const HelpCenterPage = () => {
   const { formatMessage } = useIntl();
   const { locale } = useLocaleContext();
 
-  const { data: articlesData } = useGetArticlesTitleQuery({ lang: locale });
+  const { data: articlesData } = useGetArticlesTitleQuery({
+    lang: locale,
+    size: 30
+  });
 
   const content = articlesData?.content;
 

@@ -2,12 +2,15 @@ import { rtkQueryTags } from "@/constants/api-tags";
 import { httpMethods } from "@/constants/methods";
 import { URLS } from "@/constants/requests";
 import { appApi } from "@/store/api/appApi";
-import { ArticleDetails, ArticlesResponse } from "@/types/article.types";
-import { Lang } from "@/types/common";
+import {
+  ArticleDetails,
+  ArticlesResponse,
+  GetArticlesParams
+} from "@/types/article.types";
 
 const articlesApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
-    getArticlesTitle: builder.query<ArticlesResponse, Lang>({
+    getArticlesTitle: builder.query<ArticlesResponse, GetArticlesParams>({
       query: (params) => ({
         url: URLS.articles.getArticlesTitle,
         params, // continues to use params directly

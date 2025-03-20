@@ -29,7 +29,7 @@ describe("useArticleDetails Hook", () => {
     expect(result.current.description).toBe("No content available");
   });
 
-  test("should return 'Loading...' when isExpanded = true and isFetching = true", () => {
+  test("should return loading message when isExpanded = true and isFetching = true", () => {
     mockUseGetArticleByIdQuery.mockReturnValue({
       isFetching: true,
       refetch: jest.fn()
@@ -37,7 +37,7 @@ describe("useArticleDetails Hook", () => {
 
     const { result } = renderHook(() => useArticleDetails(123, "en", true));
 
-    expect(result.current.description).toBe("Loading...");
+    expect(result.current.description).toBe("loading.label");
   });
 
   test("should return the data.content if present and isExpanded = true", () => {

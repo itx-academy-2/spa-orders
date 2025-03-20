@@ -26,7 +26,11 @@ const BestSellers = () => {
   });
 
   return (
-    <PageWrapper className="spa-best-sellers" data-cy="best-sellers">
+    <PageWrapper
+      id="bestsellers-section"
+      className="spa-best-sellers"
+      data-cy="best-sellers"
+    >
       <AppTypography
         className="spa-best-sellers__header"
         translationKey="bestSellers.header"

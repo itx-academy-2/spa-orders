@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
 import BestSellers from "@/containers/best-sellers/BestSellers";
@@ -7,6 +9,17 @@ import IntroBanner from "@/containers/intro-banner/IntroBanner";
 import Subintro from "@/containers/subintro/Subintro";
 
 const HomePage = () => {
+  useEffect(() => {
+    const url = window.location.href;
+    const id = url.split("#")[1];
+
+    const targetEl = document.getElementById(id);
+
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return (
     <>
       <IntroBanner />
