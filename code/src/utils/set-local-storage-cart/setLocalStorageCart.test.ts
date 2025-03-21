@@ -11,7 +11,7 @@ describe("Test setLocalStorageCart", () => {
   });
 
   test("Should set local storage cart", () => {
-    const mockCart = { items: [], totalPrice: 0 };
+    const mockCart = { items: [], totalPrice: 0, totalPriceWithDiscount: 0 };
 
     setLocalStorageCart(mockCart);
 

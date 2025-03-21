@@ -27,14 +27,13 @@ const CartDrawer = () => {
 
   if (isError) return <AppTypography translationKey="error.label" />;
 
-  const cartItemsList =
-    cartItems?.items.map((item: CartItem) => (
-      <CartDrawerItem
-        key={item.productId}
-        onRemove={handleRemoveItem}
-        {...item}
-      />
-    )) ?? [];
+  const cartItemsList = cartItems.items.map((item: CartItem) => (
+    <CartDrawerItem
+      key={item.productId}
+      onRemove={handleRemoveItem}
+      {...item}
+    />
+  ));
 
   const handleOpenCartPage = () => {
     if (user) {
@@ -54,14 +53,8 @@ const CartDrawer = () => {
       </AppBox>
     );
 
-  const totalDiscountedPrice =
-    cartItems?.items.reduce((total, item) => {
-      const itemPrice = item.productPriceWithDiscount ?? item.calculatedPrice;
-      return total + itemPrice;
-    }, 0) ?? 0;
-
   const translationCartDrawerProps = {
-    values: { price: formatPrice(totalDiscountedPrice) }
+    values: { price: formatPrice(cartItems.totalPriceWithDiscount) }
   };
 
   return (
