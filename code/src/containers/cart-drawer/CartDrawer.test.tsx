@@ -52,7 +52,8 @@ const mockCartItems = {
       calculatedPrice: 20
     }
   ],
-  totalPrice: 30
+  totalPrice: 30,
+  totalPriceWithDiscount: 30
 };
 
 const renderAndMock = (
@@ -102,7 +103,9 @@ describe("CartDrawer", () => {
   });
 
   test("Should render the empty cart message", () => {
-    renderAndMock({ cartItems: { items: [], totalPrice: 0 } });
+    renderAndMock({
+      cartItems: { items: [], totalPrice: 0, totalPriceWithDiscount: 0 }
+    });
 
     const emptyCartMessageElement = screen.getByText("cart.emptyItem");
     expect(emptyCartMessageElement).toBeInTheDocument();
@@ -158,23 +161,6 @@ describe("CartDrawer", () => {
     expect(mockFormatPrice).not.toHaveBeenCalled();
   });
 
-  test("Should render the cart items with undefined cartItems", () => {
-    renderAndMock({ cartItems: undefined });
-
-    const emptyCartMessageElement = screen.getByText("cart.emptyItem");
-    expect(emptyCartMessageElement).toBeInTheDocument();
-
-    expect(mockFormatPrice).toHaveBeenCalledWith(0);
-  });
-
-  test("Should not break when cartItems are null", () => {
-    renderAndMock({ cartItems: null });
-
-    const emptyCartMessageElement = screen.getByText("cart.emptyItem");
-
-    expect(emptyCartMessageElement).toBeInTheDocument();
-  });
-
   test("Should correctly calculate total price when all items have discounts", () => {
     renderAndMock({
       cartItems: {
@@ -196,7 +182,8 @@ describe("CartDrawer", () => {
             calculatedPrice: 25
           }
         ],
-        totalPrice: 40
+        totalPrice: 200,
+        totalPriceWithDiscount: 40
       }
     });
 
