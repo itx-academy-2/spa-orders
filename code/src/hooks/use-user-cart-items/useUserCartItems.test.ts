@@ -51,7 +51,8 @@ const product = { productId: "1", productPrice: 200, quantity: 1 } as CartItem;
 
 const emptyCartData: CartType = {
   items: [],
-  totalPrice: 0
+  totalPrice: 0,
+  totalPriceWithDiscount: 0
 };
 
 const calculateTotalDiscountedPrice = (items: CartItem[]) =>
@@ -60,7 +61,11 @@ const calculateTotalDiscountedPrice = (items: CartItem[]) =>
     return total + item.quantity * itemPrice;
   }, 0);
 
-const fullCart: CartType = { items: cartItems, totalPrice: 400 };
+const fullCart: CartType = {
+  items: cartItems,
+  totalPrice: 400,
+  totalPriceWithDiscount: 400
+};
 
 const defaultProps = {
   data: emptyCartData,
@@ -242,7 +247,9 @@ describe("useUserCartItems", () => {
 
     rerender();
 
-    expect(result.current.optimisticTotalPrice).toBe(totalDiscountedPrice);
+    expect(result.current.optimisticTotalPriceWithDiscount).toBe(
+      totalDiscountedPrice
+    );
   });
 
   test("Should return right total discounted price", () => {
@@ -250,7 +257,9 @@ describe("useUserCartItems", () => {
 
     const { result } = renderWithMockParams({ data: fullCart });
 
-    expect(result.current.totalDiscountedPrice).toBe(totalDiscountedPrice);
+    expect(result.current.optimisticTotalPriceWithDiscount).toBe(
+      totalDiscountedPrice
+    );
   });
 
   test("Should not react on quantity change if there is no user", () => {

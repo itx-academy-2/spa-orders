@@ -12,6 +12,9 @@ const useUserCartItems = () => {
   const user = useUserDetailsSelector();
   const { openSnackbarWithTimeout } = useSnackbar();
 
+  const [optimisticPriceWithDiscount, setOptimisticPriceWithDiscount] =
+    useState(0);
+
   const {
     data: cartItems,
     isError,
@@ -28,6 +31,7 @@ const useUserCartItems = () => {
 
   useEffect(() => {
     setOptimisticTotalPrice(cartItems.totalPrice);
+    setOptimisticPriceWithDiscount(cartItems.totalPriceWithDiscount);
   }, [cartItems]);
 
   const handleRemoveItem = (product: CartItem) => {
@@ -40,11 +44,19 @@ const useUserCartItems = () => {
   ) => {
     if (user) {
       const oldQuantity = product.quantity;
-      const unitPrice =
-        product.productPriceWithDiscount ?? product.productPrice;
-      const priceDifference = unitPrice * (newQuantity - oldQuantity);
+      const priceDifference =
+        product.productPrice * (newQuantity - oldQuantity);
 
       setOptimisticTotalPrice((prevState) => prevState + priceDifference);
+
+      const productPriceWithDiscount =
+        product.productPriceWithDiscount ?? product.productPrice;
+      const priceDifferenceWithDiscount =
+        productPriceWithDiscount * (newQuantity - oldQuantity);
+
+      setOptimisticPriceWithDiscount(
+        (prevState) => prevState + priceDifferenceWithDiscount
+      );
 
       try {
         await updateQuantity({
@@ -58,14 +70,12 @@ const useUserCartItems = () => {
           variant: "error"
         });
         setOptimisticTotalPrice((prevState) => prevState - priceDifference);
+        setOptimisticPriceWithDiscount(
+          (prevState) => prevState - priceDifferenceWithDiscount
+        );
       }
     }
   };
-
-  const totalDiscountedPrice = cartItems.items.reduce((total, item) => {
-    const itemPrice = item.productPriceWithDiscount ?? item.productPrice;
-    return total + item.quantity * itemPrice;
-  }, 0);
 
   return {
     user,
@@ -77,7 +87,7 @@ const useUserCartItems = () => {
     isUpdating,
     updateError,
     optimisticTotalPrice,
-    totalDiscountedPrice
+    optimisticTotalPriceWithDiscount: optimisticPriceWithDiscount
   };
 };
 

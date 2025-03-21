@@ -37,6 +37,7 @@ export type CartItem = {
 export type CartType = {
   items: CartItem[];
   totalPrice: number;
+  totalPriceWithDiscount: number;
 };
 
 export type CartItemProps = {
