@@ -1,0 +1,9 @@
+{
+  "dashboardTabs.metrics.week": "Week",
+  "dashboardTabs.metrics.discount": "Discount filter",
+  "dashboardTabs.metrics.priceWithDiscount": "Price discount",
+  "dashboardTabs.metrics.category": "Category",
+  "dashboardTabs.metrics.discountSubtitle": "By discount",
+  "dashboardTabs.metrics.priceDiscountSubtitle": "By discount price",
+  "dashboardTabs.metrics.categorySubtitle": "By Category"
+}

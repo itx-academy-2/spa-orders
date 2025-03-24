@@ -1,0 +1,9 @@
+{
+  "dashboardTabs.metrics.week": "Тиждень",
+  "dashboardTabs.metrics.discount": "Фільтр знижок",
+  "dashboardTabs.metrics.priceWithDiscount": "За ціною по знижкам",
+  "dashboardTabs.metrics.category": "За категоріями",
+  "dashboardTabs.metrics.discountSubtitle": "За знижкою",
+  "dashboardTabs.metrics.priceDiscountSubtitle": "За ціною зі знижкою",
+  "dashboardTabs.metrics.categorySubtitle": "За категорією"
+}
