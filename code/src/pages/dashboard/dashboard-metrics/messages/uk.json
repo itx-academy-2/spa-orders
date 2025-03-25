@@ -1,9 +1,10 @@
 {
-  "dashboardTabs.metrics.week": "Тиждень",
-  "dashboardTabs.metrics.discount": "Фільтр знижок",
-  "dashboardTabs.metrics.priceWithDiscount": "За ціною по знижкам",
-  "dashboardTabs.metrics.category": "За категоріями",
-  "dashboardTabs.metrics.discountSubtitle": "За знижкою",
-  "dashboardTabs.metrics.priceDiscountSubtitle": "За ціною зі знижкою",
-  "dashboardTabs.metrics.categorySubtitle": "За категорією"
+  "dashboardTabs.metrics.weeks": "Тижні",
+  "dashboardTabs.metrics.weekLabel": "Тиждень -{ index }",
+  "dashboardTabs.metrics.thisWeek": "Цей тиждень",
+  "dashboardTabs.metrics.discount": "Використання фільтра за знижками",
+  "dashboardTabs.metrics.priceWithDiscount": "Використання фільтра за ціною",
+  "dashboardTabs.metrics.category": "Використання фільтра за категоріями",
+  "dashboardTabs.metrics.usageTooltip": "Використання:",
+  "dashboardTabs.metrics.usage": "Використання"
 }

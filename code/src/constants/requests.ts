@@ -79,5 +79,8 @@ export const URLS = {
     getArticlesTitle: "/v1/articles/details",
     getArticleById: (articleId: number, lang: string) =>
       `/v1/articles/${articleId}?lang=${lang}`
+  },
+  metrics: {
+    getMetrics: "/v1/filter-analytics/products-on-sale/weekly"
   }
 } as const;

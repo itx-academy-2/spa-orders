@@ -1,15 +1,18 @@
 import { Bar } from "react-chartjs-2";
+import { useIntl } from "react-intl";
 
 import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
+  ChartOptions,
   Legend,
   LinearScale,
   Title,
-  Tooltip,
-  TooltipItem
+  Tooltip
 } from "chart.js";
+
+import { getChartOptions } from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.constants";
 
 ChartJS.register(
   CategoryScale,
@@ -20,22 +23,21 @@ ChartJS.register(
   Legend
 );
 
-type DashboardMetricsChartProps = {
-  data: number[];
-  labels: string[];
-  title: string;
+export type DashboardMetricsChartProps = {
+  data: (number | null)[];
+  labels: string[][];
 };
 
 const DashboardMetricsChart = ({
   data,
-  labels,
-  title
+  labels
 }: DashboardMetricsChartProps) => {
+  const { formatMessage } = useIntl();
+
   const chartData = {
     labels,
     datasets: [
       {
-        label: title,
         data,
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -44,16 +46,14 @@ const DashboardMetricsChart = ({
     ]
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem: TooltipItem<"bar">) => `${tooltipItem.raw}`
-        }
-      }
-    }
-  };
+  const options: ChartOptions<"bar"> = getChartOptions(
+    {
+      tooltipTitleCallback: (tooltipItem) => tooltipItem[0].label.split(",")[1],
+      tooltipLabelCallback: (tooltipItem) =>
+        `${formatMessage({ id: "dashboardTabs.metrics.usageTooltip" })} ${tooltipItem.raw}`
+    },
+    formatMessage
+  );
 
   return <Bar data={chartData} options={options} />;
 };

@@ -1,9 +1,10 @@
 {
-  "dashboardTabs.metrics.week": "Week",
-  "dashboardTabs.metrics.discount": "Discount filter",
-  "dashboardTabs.metrics.priceWithDiscount": "Price discount",
-  "dashboardTabs.metrics.category": "Category",
-  "dashboardTabs.metrics.discountSubtitle": "By discount",
-  "dashboardTabs.metrics.priceDiscountSubtitle": "By discount price",
-  "dashboardTabs.metrics.categorySubtitle": "By Category"
+  "dashboardTabs.metrics.weeks": "Weeks",
+  "dashboardTabs.metrics.weekLabel": "Week -{ index }",
+  "dashboardTabs.metrics.thisWeek": "This week",
+  "dashboardTabs.metrics.discount": "Discount filter usage",
+  "dashboardTabs.metrics.priceWithDiscount": "Price filter usage",
+  "dashboardTabs.metrics.category": "Category filter usage",
+  "dashboardTabs.metrics.usageTooltip": "Usage:",
+  "dashboardTabs.metrics.usage": "Usage"
 }

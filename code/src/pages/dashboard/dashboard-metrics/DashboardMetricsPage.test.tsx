@@ -1,54 +1,179 @@
+// import { render, screen } from "@testing-library/react";
 import { render, screen } from "@testing-library/react";
-import { IntlProvider } from "react-intl";
 
-import DashboardMetricsPage from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage";
+import { MetricData, MetricValue } from "@/types/metric.types";
 
-if (typeof global.ResizeObserver === "undefined") {
-  global.ResizeObserver = class {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  };
-}
+import DashboardMetricsPage from "./DashboardMetricsPage";
+import { metricTypesMap } from "./DashboardMetricsPage.constants";
+import { DashboardMetricsChartProps } from "./components/dashboard-metrics-chart/DashboardMetricsChart";
 
-const messages = {
-  "dashboardTabs.metrics.discount": "Discount",
-  "dashboardTabs.metrics.discountSubtitle": "Discount Subtitle",
-  "dashboardTabs.metrics.priceWithDiscount": "Price With Discount",
-  "dashboardTabs.metrics.priceDiscountSubtitle": "Price Discount Subtitle",
-  "dashboardTabs.metrics.category": "Category",
-  "dashboardTabs.metrics.categorySubtitle": "Category Subtitle",
-  "dashboardTabs.metrics.week": "Week"
-};
+const mockDashboardMetricsChart = jest.fn((props) => (
+  <div data-testid="DashboardMetricsChart" {...props} />
+));
 
-describe("DashboardMetricsPage", () => {
-  test("renders all sections with correct headings", () => {
-    render(
-      <IntlProvider locale="en" messages={messages}>
-        <DashboardMetricsPage />
-      </IntlProvider>
-    );
+jest.mock(
+  "@/pages/dashboard/dashboard-metrics/components/dashboard-metrics-chart/DashboardMetricsChart",
+  () => ({
+    __esModule: true,
+    default: (props: DashboardMetricsChartProps) =>
+      mockDashboardMetricsChart(props)
+  })
+);
 
-    expect(
-      screen.getByText("dashboardTabs.metrics.discount")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("dashboardTabs.metrics.priceWithDiscount")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("dashboardTabs.metrics.category")
-    ).toBeInTheDocument();
+jest.mock("@/store/api/metricsApi", () => ({
+  useGetMetricsQuery: () => mockUseGetMetricsQuery()
+}));
+
+jest.mock(
+  "@/pages/dashboard/dashboard-metrics/utils/get-chart-labels/get-chart-labels",
+  () => ({
+    __esModule: true,
+    default: (metrics: MetricValue[]) => metrics.map((item, index) => index)
+  })
+);
+
+const defaultMetricData: MetricData[] = [
+  {
+    filterName: metricTypesMap.CATEGORY_USAGE_METRIC,
+    sumOfAllCounts: 24,
+    metrics: [
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      }
+    ]
+  },
+  {
+    filterName: metricTypesMap.MINIMUM_DISCOUNT_USAGE_METRIC,
+    sumOfAllCounts: 24,
+    metrics: [
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      }
+    ]
+  },
+  {
+    filterName: metricTypesMap.MINIMUM_PRICE_WITH_DISCOUNT_USAGE_METRIC,
+    sumOfAllCounts: 24,
+    metrics: [
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      },
+      {
+        startDate: [1, 2, 2024],
+        endDate: [1, 2, 2024],
+        count: 10
+      }
+    ]
+  }
+];
+
+const mockUseGetMetricsQuery = jest.fn(() => ({
+  data: { filterMetrics: defaultMetricData },
+  isLoading: false
+}));
+
+const expectLabelsArray = new Array(3).fill([0, 1, 2, 3, 4]);
+
+const expectedData = defaultMetricData.map((item) =>
+  item.metrics.map((item) => item.count)
+);
+
+const renderWrapper = (
+  filterMetrics: MetricData[] = defaultMetricData,
+  isLoading: boolean = false
+) => {
+  mockUseGetMetricsQuery.mockReturnValue({
+    data: { filterMetrics },
+    isLoading
   });
 
-  test("renders three charts", () => {
-    const { container } = render(
-      <IntlProvider locale="en" messages={messages}>
-        <DashboardMetricsPage />
-      </IntlProvider>
+  render(<DashboardMetricsPage />);
+};
+
+describe("Test DashboardMetricsPage component", () => {
+  test("renders all sections with correct headings", () => {
+    renderWrapper();
+
+    const discountText = screen.getByText("dashboardTabs.metrics.discount");
+    const priceWithDiscountText = screen.getByText(
+      "dashboardTabs.metrics.priceWithDiscount"
     );
+    const categoryText = screen.getByText("dashboardTabs.metrics.category");
 
-    const canvases = container.querySelectorAll("canvas");
+    expect(discountText).toBeInTheDocument();
+    expect(priceWithDiscountText).toBeInTheDocument();
+    expect(categoryText).toBeInTheDocument();
+  });
 
-    expect(canvases.length).toBe(3);
+  test("Should pass right props to chart", () => {
+    renderWrapper();
+
+    expectedData.forEach((_, index) => {
+      expect(mockDashboardMetricsChart).toHaveBeenCalledWith({
+        labels: expectLabelsArray[index],
+        data: expectedData[index]
+      });
+    });
   });
 });

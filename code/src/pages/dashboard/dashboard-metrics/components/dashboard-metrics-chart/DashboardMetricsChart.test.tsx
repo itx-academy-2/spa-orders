@@ -1,85 +1,55 @@
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { ChartProps } from "react-chartjs-2";
 
+import { getChartOptions } from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.constants";
 import DashboardMetricsChart from "@/pages/dashboard/dashboard-metrics/components/dashboard-metrics-chart/DashboardMetricsChart";
-import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
-interface TooltipCallbacks {
-  label: (tooltipItem: { raw: unknown }) => string;
-}
+let capturedProps: ChartProps<"bar">;
 
-interface TooltipOptions {
-  callbacks: TooltipCallbacks;
-}
+jest.mock("react-chartjs-2", () => ({
+  Bar: (props: ChartProps<"bar">) => {
+    capturedProps = props;
+    return <div data-testid="chart-props" />;
+  }
+}));
 
-interface PluginOptions {
-  tooltip: TooltipOptions;
-}
+const formatMessage = ({ id }: { id: string }) => id;
 
-interface ChartOptions {
-  responsive: boolean;
-  plugins: PluginOptions;
-}
-
-interface Dataset {
-  label: string;
-  data: number[];
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-}
-
-interface ChartData {
-  labels: string[];
-  datasets: Dataset[];
-}
-
-interface BarProps {
-  data: ChartData;
-  options: ChartOptions;
-}
-
-let capturedProps: BarProps | null = null;
-
-jest.mock("react-chartjs-2", () => {
-  return {
-    Bar: (props: BarProps) => {
-      capturedProps = props;
-      return <div data-testid="chart-props" />;
-    }
-  };
-});
+jest.mock("react-intl", () => ({
+  useIntl: () => ({ formatMessage })
+}));
 
 const sampleData = [10, 20, 30, 40, 50];
-const sampleLabels = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];
-const sampleTitle = "Sample Chart";
+const sampleLabels = [
+  ["Week 1", "March 1 - March 1"],
+  ["Week 2", "March 2 - March 2"],
+  ["Week 3", "March 3 - March 3"],
+  ["Week 4", "March 4 - March 4"],
+  ["Week 5", "March 5 - March 5"]
+];
+
+const expectedOptions = getChartOptions(
+  {
+    tooltipTitleCallback: (tooltipItem) => tooltipItem[0].label.split(",")[1],
+    tooltipLabelCallback: (tooltipItem) =>
+      `dashboardTabs.metrics.usageTooltip ${tooltipItem.raw}`
+  },
+  formatMessage
+);
 
 describe("DashboardMetricsChart", () => {
   beforeEach(() => {
-    renderWithProviders(
-      <DashboardMetricsChart
-        data={sampleData}
-        labels={sampleLabels}
-        title={sampleTitle}
-      />
-    );
+    render(<DashboardMetricsChart data={sampleData} labels={sampleLabels} />);
   });
 
   test("renders a dummy element (our mock) with chart props", () => {
     const chartPropsDiv = screen.getByTestId("chart-props");
-
     expect(chartPropsDiv).toBeInTheDocument();
   });
 
-  test("passes options to the Bar component", () => {
-    expect(capturedProps).not.toBeNull();
-  });
-
   test("tooltip label callback returns the correct value", () => {
-    const tooltipItem = { raw: 25 };
-
-    const tooltipLabel =
-      capturedProps!.options.plugins.tooltip.callbacks.label(tooltipItem);
-
-    expect(tooltipLabel).toBe("25");
+    expect(JSON.stringify(capturedProps.options)).toBe(
+      JSON.stringify(expectedOptions)
+    );
   });
 });

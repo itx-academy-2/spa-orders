@@ -54,7 +54,11 @@ const CartDrawer = () => {
     );
 
   const translationCartDrawerProps = {
-    values: { price: formatPrice(cartItems.totalPriceWithDiscount) }
+    values: {
+      price: formatPrice(
+        cartItems.totalPriceWithDiscount || cartItems.totalPrice
+      )
+    }
   };
 
   return (

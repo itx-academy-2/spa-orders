@@ -5,65 +5,46 @@ import DashboardTabContainer from "@/layouts/dashboard-layout/components/dashboa
 import AppBox from "@/components/app-box/AppBox";
 import AppTypography from "@/components/app-typography/AppTypography";
 
-import { getMockData } from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.constants";
+import {
+  metricTypesToDisplay,
+  metricTypesTranslationsMap
+} from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.constants";
 import DashboardMetricsChart from "@/pages/dashboard/dashboard-metrics/components/dashboard-metrics-chart/DashboardMetricsChart";
+import getChartLabels from "@/pages/dashboard/dashboard-metrics/utils/get-chart-labels/get-chart-labels";
+import { useGetMetricsQuery } from "@/store/api/metricsApi";
 
 import "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.scss";
 
 const DashboardMetricsPage = () => {
-  const { formatMessage } = useIntl();
-  const mockData = getMockData(formatMessage);
+  const formatter = useIntl();
+
+  const { data } = useGetMetricsQuery({ amount: 5 });
+
+  if (!data) return <p>Loading...</p>; // TOOD: Implement skeleton
+
+  const metricsDataToDisplay = data.filterMetrics.filter(({ filterName }) =>
+    metricTypesToDisplay.includes(filterName)
+  );
 
   return (
     <DashboardTabContainer>
-      <AppBox className="dashboard-metrics__box">
-        <AppBox className="dashboard-metrics__toolbar">
-          <AppTypography
-            component="h1"
-            variant="h3"
-            translationKey="dashboardTabs.metrics.discount"
-          />
-        </AppBox>
-        <DashboardMetricsChart
-          data={mockData.discountFilter}
-          labels={mockData.weeks}
-          title={formatMessage({
-            id: "dashboardTabs.metrics.discountSubtitle"
-          })}
-        />
-      </AppBox>
-      <AppBox className="dashboard-metrics__box">
-        <AppBox className="dashboard-metrics__toolbar">
-          <AppTypography
-            component="h1"
-            variant="h3"
-            translationKey="dashboardTabs.metrics.priceWithDiscount"
-          />
-        </AppBox>
-        <DashboardMetricsChart
-          data={mockData.priceWithDiscountFilter}
-          labels={mockData.weeks}
-          title={formatMessage({
-            id: "dashboardTabs.metrics.priceDiscountSubtitle"
-          })}
-        />
-      </AppBox>
-      <AppBox className="dashboard-metrics__box">
-        <AppBox className="dashboard-metrics__toolbar">
-          <AppTypography
-            component="h1"
-            variant="h3"
-            translationKey="dashboardTabs.metrics.category"
-          />
-        </AppBox>
-        <DashboardMetricsChart
-          data={mockData.filterByCategory}
-          labels={mockData.weeks}
-          title={formatMessage({
-            id: "dashboardTabs.metrics.categorySubtitle"
-          })}
-        />
-      </AppBox>
+      {metricsDataToDisplay.map((item) => {
+        const data = item.metrics.map((item) => item.count);
+        const labels = getChartLabels(item.metrics, formatter);
+
+        return (
+          <AppBox className="dashboard-metrics__box" key={item.filterName}>
+            <AppBox className="dashboard-metrics__toolbar">
+              <AppTypography
+                component="h1"
+                variant="h3"
+                translationKey={metricTypesTranslationsMap[item.filterName]}
+              />
+            </AppBox>
+            <DashboardMetricsChart data={data} labels={labels} />
+          </AppBox>
+        );
+      })}
     </DashboardTabContainer>
   );
 };
