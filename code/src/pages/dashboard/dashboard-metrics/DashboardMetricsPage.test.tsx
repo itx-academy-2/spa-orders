@@ -1,11 +1,12 @@
-// import { render, screen } from "@testing-library/react";
 import { render, screen } from "@testing-library/react";
 
+import DashboardMetricsPage from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage";
+import {
+  metricTypesMap,
+  metricTypesTranslationsMap
+} from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.constants";
+import { DashboardMetricsChartProps } from "@/pages/dashboard/dashboard-metrics/components/dashboard-metrics-chart/DashboardMetricsChart";
 import { MetricData, MetricValue } from "@/types/metric.types";
-
-import DashboardMetricsPage from "./DashboardMetricsPage";
-import { metricTypesMap } from "./DashboardMetricsPage.constants";
-import { DashboardMetricsChartProps } from "./components/dashboard-metrics-chart/DashboardMetricsChart";
 
 const mockDashboardMetricsChart = jest.fn((props) => (
   <div data-testid="DashboardMetricsChart" {...props} />
@@ -139,6 +140,12 @@ const expectedData = defaultMetricData.map((item) =>
   item.metrics.map((item) => item.count)
 );
 
+const metricTypesToDisplay = [
+  metricTypesMap.CATEGORY_USAGE_METRIC,
+  metricTypesMap.MINIMUM_DISCOUNT_USAGE_METRIC,
+  metricTypesMap.MINIMUM_PRICE_WITH_DISCOUNT_USAGE_METRIC
+];
+
 const renderWrapper = (
   filterMetrics: MetricData[] = defaultMetricData,
   isLoading: boolean = false
@@ -174,6 +181,36 @@ describe("Test DashboardMetricsPage component", () => {
         labels: expectLabelsArray[index],
         data: expectedData[index]
       });
+    });
+  });
+
+  test("renders loading skeletons when data is not available", () => {
+    renderWrapper([], true);
+
+    const skeletons = screen.getAllByTestId("DashboardMetricsSkeleton");
+
+    expect(skeletons).toHaveLength(metricTypesToDisplay.length);
+  });
+
+  test("filters and displays only the metrics specified in metricTypesToDisplay", () => {
+    renderWrapper();
+
+    metricTypesToDisplay.forEach((metricType) => {
+      const heading = screen.getByText(metricTypesTranslationsMap[metricType]);
+
+      expect(heading).toBeInTheDocument();
+    });
+
+    const unexpectedMetricTypes = defaultMetricData
+      .map((metric) => metric.filterName)
+      .filter((metricType) => !metricTypesToDisplay.includes(metricType));
+
+    unexpectedMetricTypes.forEach((metricType) => {
+      const heading = screen.queryByText(
+        metricTypesTranslationsMap[metricType]
+      );
+
+      expect(heading).not.toBeInTheDocument();
     });
   });
 });

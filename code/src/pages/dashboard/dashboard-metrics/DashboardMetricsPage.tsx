@@ -10,6 +10,7 @@ import {
   metricTypesTranslationsMap
 } from "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.constants";
 import DashboardMetricsChart from "@/pages/dashboard/dashboard-metrics/components/dashboard-metrics-chart/DashboardMetricsChart";
+import DashboardMetricsSkeleton from "@/pages/dashboard/dashboard-metrics/components/dashboard-metrics-skeleton/DashboardMetricsSkeleton";
 import getChartLabels from "@/pages/dashboard/dashboard-metrics/utils/get-chart-labels/get-chart-labels";
 import { useGetMetricsQuery } from "@/store/api/metricsApi";
 
@@ -18,9 +19,21 @@ import "@/pages/dashboard/dashboard-metrics/DashboardMetricsPage.scss";
 const DashboardMetricsPage = () => {
   const formatter = useIntl();
 
-  const { data } = useGetMetricsQuery({ amount: 5 });
+  const { data, isLoading } = useGetMetricsQuery({ amount: 5 });
 
-  if (!data) return <p>Loading...</p>; // TOOD: Implement skeleton
+  if (isLoading) {
+    return (
+      <DashboardTabContainer>
+        {metricTypesToDisplay.map((metricType) => (
+          <DashboardMetricsSkeleton key={metricType} />
+        ))}
+      </DashboardTabContainer>
+    );
+  }
+
+  if (!data) {
+    return "Error to get Metrics data!";
+  }
 
   const metricsDataToDisplay = data.filterMetrics.filter(({ filterName }) =>
     metricTypesToDisplay.includes(filterName)
