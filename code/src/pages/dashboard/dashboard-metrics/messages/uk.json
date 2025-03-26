@@ -1,0 +1,10 @@
+{
+  "dashboardTabs.metrics.weeks": "Тижні",
+  "dashboardTabs.metrics.weekLabel": "Тиждень -{ index }",
+  "dashboardTabs.metrics.thisWeek": "Цей тиждень",
+  "dashboardTabs.metrics.discount": "Використання фільтра за знижками",
+  "dashboardTabs.metrics.priceWithDiscount": "Використання фільтра за ціною",
+  "dashboardTabs.metrics.category": "Використання фільтра за категоріями",
+  "dashboardTabs.metrics.usageTooltip": "Використання:",
+  "dashboardTabs.metrics.usage": "Використання"
+}
