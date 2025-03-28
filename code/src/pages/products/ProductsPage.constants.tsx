@@ -6,6 +6,10 @@ export const sortOptions = [
     label: <FormattedMessage id="productsDefault.label" />
   },
   {
+    value: "percentageOfTotalOrders,desc",
+    label: <FormattedMessage id="sortOptions.bestsellers" />
+  },
+  {
     value: "product.createdAt,desc",
     label: <FormattedMessage id="sortOptions.newest" />
   },

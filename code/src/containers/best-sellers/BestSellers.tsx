@@ -43,7 +43,7 @@ const BestSellers = () => {
       />
       <AppBox className="spa-best-sellers__button">
         <AppButton
-          to={routes.products.path}
+          to={`${routes.products.path}?sort=percentageOfTotalOrders,desc`}
           size="extra-large"
           data-cy="best-sellers-button"
         >
