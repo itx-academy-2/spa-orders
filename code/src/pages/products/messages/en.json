@@ -11,6 +11,7 @@
   "productsItems.category.sales": "{count, plural, one {# sale} other {# sales}}",
   "productsDefault.label": "Recommended",
   "sortOptions.newest": "Newest",
+  "sortOptions.bestsellers": "Bestsellers",
   "sortOptions.priceLowHigh": "Price (low to high)",
   "sortOptions.priceHighLow": "Price (high to low)",
   "sortOptions.nameAZ": "Name A-Z",
