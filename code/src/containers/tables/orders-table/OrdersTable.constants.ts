@@ -7,7 +7,7 @@ export const tableColumns = [
   "ordersTable.columns.createdAt",
   "ordersTable.columns.deliveryMethod",
   "ordersTable.columns.totalPrice",
-  "ordersTable.columns.totalPriceWithDiscount",
+  "ordersTable.columns.totalPriceBeforeDiscount",
   "ordersTable.columns.isPaid",
   "ordersTable.columns.details"
 ];

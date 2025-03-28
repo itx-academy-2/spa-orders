@@ -182,6 +182,10 @@ const OrdersTableBody = ({
     ? isPaidFieldForAdminRole
     : isPaidFieldForManagerRole;
 
+  const totalPriceCondition = totalWithDiscount
+    ? formatPrice(totalWithDiscount)
+    : formatPrice(total);
+
   return (
     <>
       <AppTableCell>{orderReceiver}</AppTableCell>
@@ -189,12 +193,12 @@ const OrdersTableBody = ({
       <AppTableCell>{statusBlock}</AppTableCell>
       <AppTableCell>{formatDate(createdAt)}</AppTableCell>
       <AppTableCell>{deliveryMethod}</AppTableCell>
-      <AppTableCell>{formatPrice(total)}</AppTableCell>
       <AppTableCell
         className={cn(totalWithDiscount && "spa-order-table__discounted-price")}
       >
-        {totalWithDiscount ? formatPrice(totalWithDiscount) : "-"}
+        {totalPriceCondition}
       </AppTableCell>
+      <AppTableCell>{formatPrice(total)}</AppTableCell>
       <AppTableCell>{isPaidField}</AppTableCell>
       <AppTableCell>
         <AppLink to={routes.dashboard.orderDetails.path(id)}>
