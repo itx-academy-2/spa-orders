@@ -184,7 +184,7 @@ const OrdersTableBody = ({
 
   const totalPriceCondition = totalWithDiscount
     ? formatPrice(totalWithDiscount)
-    : formatPrice(total);
+    : "-";
 
   return (
     <>
