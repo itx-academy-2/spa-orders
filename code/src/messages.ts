@@ -28,6 +28,7 @@ import commonMessages from "@/constants/common-messages";
 import { Locale } from "@/context/i18n/I18nProvider";
 import cartPageMessages from "@/pages/cart/messages";
 import dashboardOrderDetailsPageMessages from "@/pages/dashboard-order-details/messages";
+import dashboardMetricsPageMessages from "@/pages/dashboard/dashboard-metrics/messages";
 import dashboardNewProductPageMessages from "@/pages/dashboard/dashboard-new-product/messages";
 import dashboardOrdersPageMessages from "@/pages/dashboard/dashboard-orders/messages";
 import dashboardProductMessages from "@/pages/dashboard/dashboard-product/messages";
@@ -83,7 +84,8 @@ const messages: MessagesType = {
     ...salesPageMessages.en,
     ...confirDialogMessages.en,
     ...bestSellerContainerMessages.en,
-    ...helpCenterPageMessages.en
+    ...helpCenterPageMessages.en,
+    ...dashboardMetricsPageMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -124,7 +126,8 @@ const messages: MessagesType = {
     ...salesPageMessages.uk,
     ...confirDialogMessages.uk,
     ...bestSellerContainerMessages.uk,
-    ...helpCenterPageMessages.uk
+    ...helpCenterPageMessages.uk,
+    ...dashboardMetricsPageMessages.uk
   }
 };
 

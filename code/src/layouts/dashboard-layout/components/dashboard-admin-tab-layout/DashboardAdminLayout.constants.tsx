@@ -1,3 +1,4 @@
+import AssessmentIcon from "@mui/icons-material/Assessment";
 import PeopleIcon from "@mui/icons-material/People";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
@@ -14,5 +15,10 @@ export const dashboardAdminTabs: DashboardTab[] = [
     labelTranslationKey: "dashboardTabs.orders.label",
     name: DASHBOARD_TAB_NAMES.ORDERS,
     icon: <ReceiptLongIcon />
+  },
+  {
+    labelTranslationKey: "dashboardTabs.metrics.label",
+    name: DASHBOARD_TAB_NAMES.METRICS,
+    icon: <AssessmentIcon />
   }
 ];

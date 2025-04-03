@@ -85,6 +85,9 @@ describe("BestSellers", () => {
     renderAndMock();
 
     const button = screen.getByRole("link", { name: /bestSellers.button/i });
-    expect(button).toHaveAttribute("href", "/products");
+    expect(button).toHaveAttribute(
+      "href",
+      "/products?sort=percentageOfTotalOrders,desc"
+    );
   });
 });

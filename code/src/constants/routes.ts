@@ -36,6 +36,9 @@ const routes = {
     orders: {
       path: "/dashboard/orders"
     },
+    metrics: {
+      path: "/dashboard/metrics"
+    },
     products: {
       path: "/dashboard/products",
       new: {

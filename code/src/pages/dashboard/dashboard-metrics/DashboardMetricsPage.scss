@@ -1,0 +1,14 @@
+@import "@design-system";
+
+.dashboard-metrics {
+  &__box {
+    margin-bottom: spacing(6);
+  }
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: spacing(8);
+  }
+}

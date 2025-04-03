@@ -1,0 +1,10 @@
+{
+  "dashboardTabs.metrics.weeks": "Weeks",
+  "dashboardTabs.metrics.weekLabel": "Week -{ index }",
+  "dashboardTabs.metrics.thisWeek": "This week",
+  "dashboardTabs.metrics.discount": "Discount filter usage",
+  "dashboardTabs.metrics.priceWithDiscount": "Price filter usage",
+  "dashboardTabs.metrics.category": "Category filter usage",
+  "dashboardTabs.metrics.usageTooltip": "Usage:",
+  "dashboardTabs.metrics.usage": "Usage"
+}
