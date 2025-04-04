@@ -43,9 +43,9 @@ const SalesPage = () => {
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
-  const defaultDropdownText = (
-    <AppTypography translationKey="productsDefault.label" />
-  );
+  const defaultDropdownText = sortSaleOptions.find(
+    (item) => item.value === sortOption
+  )?.label || <AppTypography translationKey="productsDefault.label" />;
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(searchParams);

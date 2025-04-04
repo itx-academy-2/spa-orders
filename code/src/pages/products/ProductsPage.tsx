@@ -48,9 +48,9 @@ const ProductsPage = () => {
 
   const pagesCount = productsResponse?.totalPages ?? 1;
 
-  const defaultDropdownText = (
-    <AppTypography translationKey="productsDefault.label" />
-  );
+  const defaultDropdownText = sortOptions.find(
+    (item) => item.value === sortOption
+  )?.label || <AppTypography translationKey="productsDefault.label" />;
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
@@ -99,6 +99,7 @@ const ProductsPage = () => {
             />
           </AppTypography>
           <AppDropdown
+            key={sortOption}
             options={sortOptions}
             onSelect={handleSortChange}
             defaultLabel={defaultDropdownText}
