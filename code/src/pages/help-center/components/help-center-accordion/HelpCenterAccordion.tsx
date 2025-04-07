@@ -10,6 +10,7 @@ import {
 import AppBox from "@/components/app-box/AppBox";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import HelpCenterAccordionItemSkeleton from "@/pages/help-center/components/help-cener-accordion-item/components/HelpCenterAccordionItemSkeleton";
 import { HelpCenterAccordionProps } from "@/pages/help-center/components/help-center-accordion/HelpCenterAccordion.types";
 
 import "@/pages/help-center/components/help-center-accordion/HelpCenterAccordion.styles.scss";
@@ -18,9 +19,19 @@ const HelpCenterAccordion = ({
   expanded,
   onChange,
   title,
-  description
+  description,
+  isLoading
 }: HelpCenterAccordionProps) => {
-  const desc = marked.parse(description) as string;
+  const desc = !isLoading ? marked.parse(description) : "";
+
+  const accordionDetails = isLoading ? (
+    <HelpCenterAccordionItemSkeleton />
+  ) : (
+    <AppBox
+      className="markdown-body help-center-accordion__description"
+      dangerouslySetInnerHTML={{ __html: desc }}
+    />
+  );
 
   return (
     <AppAccordionContainer
@@ -40,10 +51,7 @@ const HelpCenterAccordion = ({
         </AppTypography>
       </AppAccordionSummary>
       <AppAccordionDetails data-testid="help-center-accordion-details">
-        <AppBox
-          className="markdown-body help-center-accordion__description"
-          dangerouslySetInnerHTML={{ __html: desc }}
-        />
+        {accordionDetails}
       </AppAccordionDetails>
     </AppAccordionContainer>
   );

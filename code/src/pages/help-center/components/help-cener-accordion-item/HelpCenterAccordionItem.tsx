@@ -12,7 +12,11 @@ const HelpCenterAccordionItem = ({
 }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const { description } = useArticleDetails(article.id, lang, expanded);
+  const { description, isLoading } = useArticleDetails(
+    article.id,
+    lang,
+    expanded
+  );
 
   const handleAccordionChange = (
     event: SyntheticEvent,
@@ -27,6 +31,7 @@ const HelpCenterAccordionItem = ({
       onChange={handleAccordionChange}
       title={article.title}
       description={description}
+      isLoading={isLoading}
     />
   );
 };

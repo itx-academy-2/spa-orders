@@ -8,6 +8,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import HelpCenterAccordionItem from "@/pages/help-center/components/help-cener-accordion-item/HelpCenterAccordionItem";
+import HelpCenterArticlesSkeleton from "@/pages/help-center/components/help-center-skeleton/HelpCenterSkeleton";
 import { useGetArticlesTitleQuery } from "@/store/api/articlesApi";
 
 import "@/pages/help-center/HelpCenterPage.scss";
@@ -16,12 +17,25 @@ const HelpCenterPage = () => {
   const { formatMessage } = useIntl();
   const { locale } = useLocaleContext();
 
-  const { data: articlesData } = useGetArticlesTitleQuery({
-    lang: locale,
-    size: 30
-  });
+  const { data: articlesData, isLoading: articleLoading } =
+    useGetArticlesTitleQuery({
+      lang: locale,
+      size: 30
+    });
 
   const content = articlesData?.content;
+
+  const articlesContent = articleLoading ? (
+    <HelpCenterArticlesSkeleton />
+  ) : (
+    content?.map((article) => (
+      <HelpCenterAccordionItem
+        key={article.id}
+        article={article}
+        lang={locale}
+      />
+    ))
+  );
 
   return (
     <PageWrapper>
@@ -43,13 +57,7 @@ const HelpCenterPage = () => {
           </AppBox>
         </AppBox>
         <AppBox className="help-center-page__articles">
-          {content?.map((article) => (
-            <HelpCenterAccordionItem
-              key={article.id}
-              article={article}
-              lang={locale}
-            />
-          ))}
+          {articlesContent}
         </AppBox>
       </AppBox>
     </PageWrapper>

@@ -5,4 +5,5 @@ export type HelpCenterAccordionProps = {
   onChange: (event: SyntheticEvent, newExpanded: boolean) => void;
   title: string;
   description: string;
+  isLoading: boolean;
 };
