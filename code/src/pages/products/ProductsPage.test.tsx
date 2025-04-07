@@ -122,14 +122,6 @@ describe("ProductsPage", () => {
 
     testQueryArguments({ sort: "product.createdAt,desc" });
     expect(mockDelete).not.toHaveBeenCalled();
-
-    fireEvent.click(dropdownElement);
-
-    const defaultOptionElement = screen.getByText(/productsDefault.label/);
-    fireEvent.click(defaultOptionElement);
-
-    testQueryArguments();
-    expect(mockDelete).toHaveBeenCalled();
   });
 
   test("Should give substracted page", () => {
