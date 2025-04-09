@@ -42,6 +42,37 @@
     flex-direction: column;
     gap: spacing(4);
   }
+
+  &__chat-suggestion {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: spacing(8) 0;
+  }
+
+  &__suggestion {
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &-text {
+      color: #aa77a4;
+      font-size: $fs-lg;
+      font-weight: 600;
+      margin-bottom: spacing(10);
+    }
+
+    &-card {
+      aspect-ratio: 265 / 418;
+      width: 265px;
+    }
+  }
+
+  &__chat {
+    flex: 0 0 50%;
+  }
 }
 
 .markdown-body {

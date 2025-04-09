@@ -6,6 +6,7 @@ import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 import AppBox from "@/components/app-box/AppBox";
 import AppSearchInput from "@/components/app-search-input/AppSearchInput";
 import AppTypography from "@/components/app-typography/AppTypography";
+import BestSellerCard from "@/components/bestseller-card/BestSellerCard";
 import HelpCenterSearchInputDropdown from "@/components/help-center-search-dropdown/help-center-search-input-dropdown/HelpCenterSearchInputDropdown";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
@@ -16,6 +17,7 @@ import {
   useGetArticlesTitleQuery,
   useSearchArticlesQuery
 } from "@/store/api/articlesApi";
+import { Product } from "@/types/product.types";
 
 import "@/pages/help-center/HelpCenterPage.scss";
 
@@ -134,6 +136,21 @@ const HelpCenterPage = () => {
     return null;
   };
 
+  const mockProduct: Product = {
+    id: "123",
+    name: "Mobile Phone Samsung Galaxy A55 5G 8/256GB Lilac",
+    description:
+      'Screen: 6.6" Super AMOLED, 2340x1080 / Samsung Exynos 1480 (4 x 2.75 GHz + 4 x 2.0 GHz) / Main Triple Camera: 50 MP + 12 MP + 5 MP, Front Camera: 32 MP / RAM 8 GB / 256 GB internal storage + microSD (up to 1 TB) / 3G / LTE / 5G / GPS / A-GPS / GLONASS / BDS / Dual SIM support (Nano-SIM) / Android 14 / 5000 mAh',
+    status: "AVAILABLE",
+    tags: ["category:mobile"],
+    image:
+      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
+    price: 500,
+    discount: 50,
+    priceWithDiscount: 250,
+    percentageOfTotalOrders: 33
+  };
+
   return (
     <PageWrapper>
       <AppBox className="help-center-page" data-testid="help-center-page">
@@ -159,6 +176,22 @@ const HelpCenterPage = () => {
                 {renderSearchDropdown()}
               </AppBox>
             )}
+          </AppBox>
+        </AppBox>
+        <AppBox className="help-center-page__chat-suggestion">
+          <AppBox className="help-center-page__chat"></AppBox>
+          <AppBox className="help-center-page__suggestion">
+            <AppTypography
+              translationKey="helpCenter.suggestion.title"
+              className="help-center-page__suggestion-text"
+              data-testid="help-center-suggestion-title"
+            />
+            <AppBox
+              className="help-center-page__suggestion-card"
+              data-testid="help-center-suggestion-card"
+            >
+              <BestSellerCard product={mockProduct} />
+            </AppBox>
           </AppBox>
         </AppBox>
         <AppBox className="help-center-page__articles">

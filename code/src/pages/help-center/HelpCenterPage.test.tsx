@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ChangeEvent, ReactNode } from "react";
 
 import HelpCenterPage from "@/pages/help-center/HelpCenterPage";
+import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 jest.mock("react-intl", () => ({
   useIntl: () => ({
@@ -309,5 +310,21 @@ describe("HelpCenterPage", () => {
     });
 
     jest.useRealTimers();
+  });
+
+  test("Should render suggestion card", () => {
+    renderWithProviders(<HelpCenterPage />);
+
+    const suggestionCard = screen.getByTestId("help-center-suggestion-card");
+
+    expect(suggestionCard).toBeInTheDocument();
+  });
+
+  test("Should render suggestion title", () => {
+    renderWithProviders(<HelpCenterPage />);
+
+    const suggestionTitle = screen.getByTestId("help-center-suggestion-title");
+
+    expect(suggestionTitle).toBeInTheDocument();
   });
 });
