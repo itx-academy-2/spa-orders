@@ -1,4 +1,5 @@
 {
   "helpCenter.title": "Довідковий центр",
-  "helpCenter.searchbar.placeholder": "Чим ми можемо вам допомогти сьогодні?"
+  "helpCenter.searchbar.placeholder": "Чим ми можемо вам допомогти сьогодні?",
+  "helpCenter.noResults": "Результатів не знайдено"
 }

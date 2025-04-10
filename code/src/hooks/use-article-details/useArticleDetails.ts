@@ -21,6 +21,7 @@ export const useArticleDetails = (
       data?.content ||
       (isFetching
         ? formatMessage({ id: "loading.label" })
-        : "No content available")
+        : "No content available"),
+    isLoading: isFetching
   };
 };

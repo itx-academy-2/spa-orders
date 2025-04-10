@@ -1,24 +1,41 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 
 import { useArticleDetails } from "@/hooks/use-article-details/useArticleDetails";
 import HelpCenterAccordion from "@/pages/help-center/components/help-center-accordion/HelpCenterAccordion";
 
-const HelpCenterAccordionItem = ({
-  article,
-  lang
-}: {
+interface HelpCenterAccordionItemProps {
   article: { id: number; title: string };
   lang: string;
-}) => {
-  const [expanded, setExpanded] = useState(false);
+  expanded?: boolean;
+  onToggle?: (expanded: boolean) => void;
+}
 
-  const { description } = useArticleDetails(article.id, lang, expanded);
+const HelpCenterAccordionItem = ({
+  article,
+  lang,
+  expanded: expandedProp,
+  onToggle
+}: HelpCenterAccordionItemProps) => {
+  const [expanded, setExpanded] = useState(expandedProp ?? false);
+
+  useEffect(() => {
+    if (expandedProp !== undefined) {
+      setExpanded(expandedProp);
+    }
+  }, [expandedProp]);
+
+  const { description, isLoading } = useArticleDetails(
+    article.id,
+    lang,
+    expanded
+  );
 
   const handleAccordionChange = (
     event: SyntheticEvent,
     newExpanded: boolean
   ) => {
     setExpanded(newExpanded);
+    onToggle?.(newExpanded);
   };
 
   return (
@@ -27,6 +44,7 @@ const HelpCenterAccordionItem = ({
       onChange={handleAccordionChange}
       title={article.title}
       description={description}
+      isLoading={isLoading}
     />
   );
 };

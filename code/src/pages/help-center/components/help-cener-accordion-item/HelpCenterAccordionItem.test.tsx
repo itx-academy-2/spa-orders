@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import React from "react";
+import { SyntheticEvent } from "react";
 
 import { useArticleDetails } from "@/hooks/use-article-details/useArticleDetails";
 
@@ -20,7 +20,7 @@ jest.mock(
   () => {
     const MockHelpCenterAccordion = (props: {
       expanded: boolean;
-      onChange: (e: React.SyntheticEvent, newExpanded: boolean) => void;
+      onChange: (e: SyntheticEvent, newExpanded: boolean) => void;
       title: string;
       description: string;
     }) => {

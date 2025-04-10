@@ -8,12 +8,17 @@ import {
   GetArticlesParams
 } from "@/types/article.types";
 
+export type MinimalArticleTitle = {
+  id: number;
+  title: string;
+};
+
 const articlesApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     getArticlesTitle: builder.query<ArticlesResponse, GetArticlesParams>({
       query: (params) => ({
         url: URLS.articles.getArticlesTitle,
-        params, // continues to use params directly
+        params,
         method: httpMethods.get
       }),
       providesTags: [rtkQueryTags.ARTICLES]
@@ -27,6 +32,42 @@ const articlesApi = appApi.injectEndpoints({
         method: httpMethods.get
       }),
       providesTags: [rtkQueryTags.ARTICLES]
+    }),
+    searchArticles: builder.query<
+      ArticlesResponse,
+      { query?: string; lang?: string; page?: number; size?: number }
+    >({
+      query: ({ query = "", lang = "uk", page = 0, size = 10 }) => {
+        const params: Record<string, string | number> = { lang, page, size };
+
+        if (query.trim()) {
+          params.query = query.trim();
+        }
+
+        return {
+          url: URLS.articles.getArticlesBySearch,
+          params
+        };
+      },
+      providesTags: [rtkQueryTags.ARTICLES]
+    }),
+    getArticlesIdTitle: builder.query<
+      MinimalArticleTitle[],
+      { query?: string; lang?: string }
+    >({
+      query: ({ query = "", lang = "en" }) => {
+        const params: Record<string, string> = { lang };
+
+        if (query.trim()) {
+          params.query = query.trim();
+        }
+
+        return {
+          url: URLS.articles.getArticlesByTitle,
+          params
+        };
+      },
+      providesTags: [rtkQueryTags.ARTICLES]
     })
   })
 });
@@ -34,7 +75,9 @@ const articlesApi = appApi.injectEndpoints({
 export const {
   useGetArticlesTitleQuery,
   useGetArticleByIdQuery,
-  useLazyGetArticleByIdQuery
+  useLazyGetArticleByIdQuery,
+  useSearchArticlesQuery,
+  useGetArticlesIdTitleQuery
 } = articlesApi;
 
 export default articlesApi;
