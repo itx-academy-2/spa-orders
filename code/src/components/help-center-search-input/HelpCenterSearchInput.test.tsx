@@ -27,9 +27,9 @@ jest.mock("@/hooks/use-on-click-outside/useOnClickOutside", () => ({
 jest.mock(
   "@/components/help-center-search-dropdown/help-center-search-dropdown-container/HelpCenterSearchDropdownContainer",
   () => {
-    const MockDropdown = () => <div data-testid="search-dropdown" />;
-    MockDropdown.displayName = "MockDropdown";
-    return MockDropdown;
+    const MockDropdownContainer = () => <div data-testid="search-dropdown" />;
+    MockDropdownContainer.displayName = "MockDropdownContainer";
+    return MockDropdownContainer;
   }
 );
 
@@ -57,7 +57,6 @@ test("updates input value on change", () => {
 
 test("does not render dropdown when query length is less than 3", () => {
   render(<HelpCenterSearchInput />);
-
   const inputElement = screen.getByPlaceholderText(
     "Search..."
   ) as HTMLInputElement;
@@ -69,7 +68,6 @@ test("does not render dropdown when query length is less than 3", () => {
 
 test("renders dropdown when query length is 3 or more", () => {
   render(<HelpCenterSearchInput />);
-
   const inputElement = screen.getByPlaceholderText(
     "Search..."
   ) as HTMLInputElement;
@@ -81,13 +79,11 @@ test("renders dropdown when query length is 3 or more", () => {
 
 test("clears input and closes dropdown on clear button click", () => {
   render(<HelpCenterSearchInput />);
-
   const inputElement = screen.getByPlaceholderText(
     "Search..."
   ) as HTMLInputElement;
 
   fireEvent.change(inputElement, { target: { value: "abc" } });
-
   expect(inputElement.value).toBe("abc");
 
   const buttons = screen.getAllByRole("button");
