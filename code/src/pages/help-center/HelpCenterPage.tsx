@@ -22,7 +22,6 @@ import {
   useGetArticlesTitleQuery,
   useSearchArticlesQuery
 } from "@/store/api/articlesApi";
-import { Product } from "@/types/product.types";
 
 import "@/pages/help-center/HelpCenterPage.scss";
 

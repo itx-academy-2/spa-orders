@@ -23,7 +23,7 @@ const useSuggestedProduct = () => {
       ) {
         return null;
       }
-      return visitsData.category;
+      return `category:${visitsData.category}`;
     }
     return null;
   };
