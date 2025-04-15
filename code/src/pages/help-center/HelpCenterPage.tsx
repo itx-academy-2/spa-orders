@@ -1,13 +1,18 @@
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 
+import SendIcon from "@mui/icons-material/Send";
+
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
 import AppBox from "@/components/app-box/AppBox";
+import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppSearchInput from "@/components/app-search-input/AppSearchInput";
 import AppTypography from "@/components/app-typography/AppTypography";
-import BestSellerCard from "@/components/bestseller-card/BestSellerCard";
 import HelpCenterSearchInputDropdown from "@/components/help-center-search-dropdown/help-center-search-input-dropdown/HelpCenterSearchInputDropdown";
+import ProductCard from "@/components/product-card/ProductCard";
+import SaleProductCard from "@/components/product-sale-card/SaleProductCard";
+import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import useDebouncedValue from "@/hooks/use-debounced-value/useDebouncedValue";
@@ -20,6 +25,8 @@ import {
 import { Product } from "@/types/product.types";
 
 import "@/pages/help-center/HelpCenterPage.scss";
+
+import useSuggestedProduct from "./hooks/use-suggested-product/useSuggestedProduct";
 
 const HelpCenterPage = () => {
   const { formatMessage } = useIntl();
@@ -135,21 +142,22 @@ const HelpCenterPage = () => {
     }
     return null;
   };
+  const suggestedProduct = useSuggestedProduct();
 
-  const mockProduct: Product = {
-    id: "123",
-    name: "Mobile Phone Samsung Galaxy A55 5G 8/256GB Lilac",
-    description:
-      'Screen: 6.6" Super AMOLED, 2340x1080 / Samsung Exynos 1480 (4 x 2.75 GHz + 4 x 2.0 GHz) / Main Triple Camera: 50 MP + 12 MP + 5 MP, Front Camera: 32 MP / RAM 8 GB / 256 GB internal storage + microSD (up to 1 TB) / 3G / LTE / 5G / GPS / A-GPS / GLONASS / BDS / Dual SIM support (Nano-SIM) / Android 14 / 5000 mAh',
-    status: "AVAILABLE",
-    tags: ["category:mobile"],
-    image:
-      "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
-    price: 500,
-    discount: 50,
-    priceWithDiscount: 250,
-    percentageOfTotalOrders: 33
-  };
+  const suggestedProductCard = suggestedProduct.data ? (
+    suggestedProduct.data.priceWithDiscount &&
+    suggestedProduct.data.discount ? (
+      <SaleProductCard
+        key={suggestedProduct.data.id}
+        product={suggestedProduct.data}
+      />
+    ) : (
+      <ProductCard
+        key={suggestedProduct.data.id}
+        product={suggestedProduct.data}
+      />
+    )
+  ) : null;
 
   return (
     <PageWrapper>
@@ -179,18 +187,58 @@ const HelpCenterPage = () => {
           </AppBox>
         </AppBox>
         <AppBox className="help-center-page__chat-suggestion">
-          <AppBox className="help-center-page__chat"></AppBox>
+          <AppBox
+            className="help-center-page__chat"
+            style={{ display: "none" }}
+          >
+            <AppBox className="help-center-page__chat-chat">
+              <AppBox className="help-center-page__chat-title-container">
+                <AppTypography
+                  translationKey="helpCenter.chat.title"
+                  className="help-center-page__chat-text"
+                  data-testid="help-center-suggestion-title"
+                />
+              </AppBox>
+              <AppBox className="help-center-page__chat-messages">
+                <AppBox className="help-center-page__chat-message">
+                  <AppTypography className="help-center-page__chat-message-text">
+                    A few product have a discount! Hurry up to buy it with that
+                    benefitial price.
+                  </AppTypography>
+                </AppBox>
+              </AppBox>
+              <AppBox className="help-center-page__chat-field">
+                <input
+                  className="help-center-page__chat-input"
+                  placeholder="Put here any additional requests"
+                />
+                <AppIconButton className="help-center-page__chat-send">
+                  <SendIcon />
+                </AppIconButton>
+              </AppBox>
+            </AppBox>
+          </AppBox>
           <AppBox className="help-center-page__suggestion">
-            <AppTypography
-              translationKey="helpCenter.suggestion.title"
-              className="help-center-page__suggestion-text"
-              data-testid="help-center-suggestion-title"
-            />
-            <AppBox
-              className="help-center-page__suggestion-card"
-              data-testid="help-center-suggestion-card"
-            >
-              <BestSellerCard product={mockProduct} />
+            <AppBox className="help-center-page__suggested-product">
+              <AppBox className="help-center-page__suggestion-text-container">
+                <AppTypography
+                  translationKey="helpCenter.suggestion.title"
+                  className="help-center-page__suggestion-text"
+                  data-testid="help-center-suggestion-title"
+                />
+              </AppBox>
+              <AppBox className="help-center-page__suggestion-card-container">
+                <AppBox
+                  className="help-center-page__suggestion-card"
+                  data-testid="help-center-suggestion-card"
+                >
+                  {suggestedProduct.isLoading ? (
+                    <ProductSkeleton />
+                  ) : (
+                    suggestedProductCard
+                  )}
+                </AppBox>
+              </AppBox>
             </AppBox>
           </AppBox>
         </AppBox>

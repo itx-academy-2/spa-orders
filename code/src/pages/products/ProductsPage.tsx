@@ -12,9 +12,11 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
+import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
 import { useGetUserProductsQuery } from "@/store/api/productsApi";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
+import isValidCategory from "@/utils/is-valid-category/isValidCategory";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
 import "@/pages/products/ProductsPage.scss";
@@ -27,6 +29,10 @@ const ProductsPage = () => {
   const sortOption = searchParams.get("sort");
 
   const categoryType = searchParams.get("category");
+
+  if (categoryType && isValidCategory(categoryType)) {
+    useTrackVisits("category", categoryType);
+  }
 
   const screenSize = useScreenSize();
 

@@ -11,6 +11,7 @@ import ProductDescription from "@/components/product-description/ProductDescript
 import { deliveryMethods as deliveryMethodsData } from "@/constants/deliveryMethods";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import useErrorPageRedirect from "@/hooks/use-error-page-redirect/useErrorPageRedirect";
+import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
 import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails.types";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
@@ -25,6 +26,8 @@ type ProductDetailsContainerProps = ProductDetailsPageParams;
 const ProductDetailsContainer = ({
   productId
 }: ProductDetailsContainerProps) => {
+  useTrackVisits("product", productId);
+
   const { renderRedirectComponent } = useErrorPageRedirect();
   const { locale } = useLocaleContext();
   const { formatMessage } = useIntl();

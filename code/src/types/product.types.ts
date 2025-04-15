@@ -69,6 +69,8 @@ export type GetSaleProductsParams = Lang &
 
 export type GetUserProductByIdResponse = Pick<
   Product,
+  | "status"
+  | "id"
   | "image"
   | "price"
   | "tags"
@@ -79,6 +81,13 @@ export type GetUserProductByIdResponse = Pick<
   | "percentageOfTotalOrders"
 > & {
   quantity: number;
+};
+
+export type GetSuggestedProductResponse = GetUserProductByIdResponse;
+
+export type GetSuggestedProductParams = {
+  tag: string;
+  lang: string;
 };
 
 export type GetUserProductByIdParams = Lang & {

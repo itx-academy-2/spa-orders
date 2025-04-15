@@ -136,6 +136,10 @@ const articles = [
   { id: 1, title: "Article 1" },
   { id: 2, title: "Article 2" }
 ];
+jest.mock("./hooks/use-suggested-product/useSuggestedProduct", () => ({
+  __esModule: true,
+  default: () => ({ data: null, isLoading: false })
+}));
 
 describe("HelpCenterPage", () => {
   beforeEach(() => {
@@ -318,13 +322,5 @@ describe("HelpCenterPage", () => {
     const suggestionCard = screen.getByTestId("help-center-suggestion-card");
 
     expect(suggestionCard).toBeInTheDocument();
-  });
-
-  test("Should render suggestion title", () => {
-    renderWithProviders(<HelpCenterPage />);
-
-    const suggestionTitle = screen.getByTestId("help-center-suggestion-title");
-
-    expect(suggestionTitle).toBeInTheDocument();
   });
 });

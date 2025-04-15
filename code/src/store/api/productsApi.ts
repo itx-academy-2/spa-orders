@@ -12,6 +12,8 @@ import {
   GetManagerProductsResponse,
   GetSaleProductsParams,
   GetSaleProductsResponse,
+  GetSuggestedProductParams,
+  GetSuggestedProductResponse,
   GetUserProductByIdParams,
   GetUserProductByIdResponse,
   GetUserProductsBySearchQueryParams,
@@ -129,6 +131,16 @@ export const productsApi = appApi.injectEndpoints({
         params: params ?? {}
       }),
       providesTags: [rtkQueryTags.BESTSELLERS]
+    }),
+    getSuggestedProduct: build.query<
+      GetSuggestedProductResponse,
+      GetSuggestedProductParams
+    >({
+      query: (params) => ({
+        url: URLS.products.getSuggestedProduct,
+        params: params
+      }),
+      providesTags: [rtkQueryTags.SUGGESTED_PRODUCT]
     })
   })
 });
@@ -144,5 +156,6 @@ export const {
   useUpdateProductMutation,
   useGetSalesProductsQuery,
   useGetDiscountedProductsCountQuery,
-  useGetBestsellerProductsQuery
+  useGetBestsellerProductsQuery,
+  useGetSuggestedProductQuery
 } = productsApi;
