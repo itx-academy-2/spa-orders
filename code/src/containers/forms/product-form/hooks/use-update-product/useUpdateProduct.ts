@@ -3,6 +3,7 @@ import { UseUpdateProductOptions } from "@/containers/forms/product-form/hooks/u
 import useSnackbar from "@/hooks/use-snackbar/useSnackbar";
 import { useUpdateProductMutation } from "@/store/api/productsApi";
 import { UpdateProductBody } from "@/types/product.types";
+import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 
 const useUpdateProduct = (options?: UseUpdateProductOptions) => {
   const [updateProduct, requestState] = useUpdateProductMutation();
@@ -20,6 +21,17 @@ const useUpdateProduct = (options?: UseUpdateProductOptions) => {
 
       if (options?.onSuccess) options.onSuccess();
     } catch (e: unknown) {
+      if (isErrorWithStatus(e) && e.status === 409) {
+        openSnackbarWithTimeout({
+          variant: "error",
+          messageTranslationKey: "productForm.concurrency.error"
+        });
+
+        if (options?.onError) options.onError();
+
+        return;
+      }
+
       openSnackbarWithTimeout({
         variant: "error",
         messageTranslationKey: "productForm.updation.fail"

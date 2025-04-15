@@ -12,6 +12,7 @@
   "productForm.updation.success": "Продукт успішно оновлено",
   "productForm.creation.fail": "Не вдалося створити продукт",
   "productForm.updation.fail": "Не вдалося оновити продукт",
+  "productForm.concurrency.error": "Інший користувач щойно оновив продукт. Будь ласка врахуйте його зміни і спробуйте знову.",
   "productForm.creation.validationError": "Вказані дані недійсні, перевірте їх і спробуйте ще раз",
   "productForm.creation.translationError": "Принаймні один з перекладів є обов'язковим",
   "productForm.discountRemoval.confirmation.mainText": "Ви впевнені, що хочете скасувати знижку на цей товар?",
