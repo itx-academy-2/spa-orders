@@ -1,12 +1,18 @@
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 
+import SendIcon from "@mui/icons-material/Send";
+
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
 import AppBox from "@/components/app-box/AppBox";
+import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppSearchInput from "@/components/app-search-input/AppSearchInput";
 import AppTypography from "@/components/app-typography/AppTypography";
 import HelpCenterSearchInputDropdown from "@/components/help-center-search-dropdown/help-center-search-input-dropdown/HelpCenterSearchInputDropdown";
+import ProductCard from "@/components/product-card/ProductCard";
+import SaleProductCard from "@/components/product-sale-card/SaleProductCard";
+import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import useDebouncedValue from "@/hooks/use-debounced-value/useDebouncedValue";
@@ -18,6 +24,8 @@ import {
 } from "@/store/api/articlesApi";
 
 import "@/pages/help-center/HelpCenterPage.scss";
+
+import useSuggestedProduct from "./hooks/use-suggested-product/useSuggestedProduct";
 
 const HelpCenterPage = () => {
   const { formatMessage } = useIntl();
@@ -133,6 +141,22 @@ const HelpCenterPage = () => {
     }
     return null;
   };
+  const suggestedProduct = useSuggestedProduct();
+
+  const suggestedProductCard = suggestedProduct.data ? (
+    suggestedProduct.data.priceWithDiscount &&
+    suggestedProduct.data.discount ? (
+      <SaleProductCard
+        key={suggestedProduct.data.id}
+        product={suggestedProduct.data}
+      />
+    ) : (
+      <ProductCard
+        key={suggestedProduct.data.id}
+        product={suggestedProduct.data}
+      />
+    )
+  ) : null;
 
   return (
     <PageWrapper>
@@ -159,6 +183,62 @@ const HelpCenterPage = () => {
                 {renderSearchDropdown()}
               </AppBox>
             )}
+          </AppBox>
+        </AppBox>
+        <AppBox className="help-center-page__chat-suggestion">
+          <AppBox
+            className="help-center-page__chat"
+            style={{ display: "none" }}
+          >
+            <AppBox className="help-center-page__chat-chat">
+              <AppBox className="help-center-page__chat-title-container">
+                <AppTypography
+                  translationKey="helpCenter.chat.title"
+                  className="help-center-page__chat-text"
+                  data-testid="help-center-suggestion-title"
+                />
+              </AppBox>
+              <AppBox className="help-center-page__chat-messages">
+                <AppBox className="help-center-page__chat-message">
+                  <AppTypography className="help-center-page__chat-message-text">
+                    A few product have a discount! Hurry up to buy it with that
+                    benefitial price.
+                  </AppTypography>
+                </AppBox>
+              </AppBox>
+              <AppBox className="help-center-page__chat-field">
+                <input
+                  className="help-center-page__chat-input"
+                  placeholder="Put here any additional requests"
+                />
+                <AppIconButton className="help-center-page__chat-send">
+                  <SendIcon />
+                </AppIconButton>
+              </AppBox>
+            </AppBox>
+          </AppBox>
+          <AppBox className="help-center-page__suggestion">
+            <AppBox className="help-center-page__suggested-product">
+              <AppBox className="help-center-page__suggestion-text-container">
+                <AppTypography
+                  translationKey="helpCenter.suggestion.title"
+                  className="help-center-page__suggestion-text"
+                  data-testid="help-center-suggestion-title"
+                />
+              </AppBox>
+              <AppBox className="help-center-page__suggestion-card-container">
+                <AppBox
+                  className="help-center-page__suggestion-card"
+                  data-testid="help-center-suggestion-card"
+                >
+                  {suggestedProduct.isLoading ? (
+                    <ProductSkeleton />
+                  ) : (
+                    suggestedProductCard
+                  )}
+                </AppBox>
+              </AppBox>
+            </AppBox>
           </AppBox>
         </AppBox>
         <AppBox className="help-center-page__articles">

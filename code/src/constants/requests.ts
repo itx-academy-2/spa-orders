@@ -26,6 +26,7 @@ export const URLS = {
     signIn: "/auth/sign-in"
   },
   products: {
+    getSuggestedProduct: "/v1/products/bestseller",
     getBestsellersProducts: "/v1/products/bestsellers",
     getForUser: "/v1/products",
     getForUserById: ({ productId, lang }: GetUserProductByIdParams) =>

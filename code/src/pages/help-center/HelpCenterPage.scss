@@ -42,6 +42,137 @@
     flex-direction: column;
     gap: spacing(4);
   }
+
+  &__chat-suggestion {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: spacing(8) 0;
+  }
+
+  &__suggested-product {
+    border: 2px solid #751fff;
+    max-width: 550px;
+    width: 100%;
+    border-radius: 15px;
+    background-color: #f8f8f8;
+  }
+
+  &__suggestion {
+    flex: 0 0 50%;
+
+    &-text {
+      color: #aa77a4;
+      font-size: $fs-lg;
+      font-weight: 600;
+      padding: 26px;
+      text-align: center;
+    }
+
+    &-card {
+      max-width: 320px;
+      width: 100%;
+
+      &-container {
+        height: 500px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  &__chat {
+    flex: 0 0 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-chat {
+      border: 2px solid #751fff;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 15px;
+      background-color: #f8f8f8;
+    }
+
+    &-text {
+      color: #aa77a4;
+      font-size: $fs-lg;
+      font-weight: 600;
+      padding: 26px;
+      text-align: center;
+    }
+
+    &-message {
+      padding: 16px;
+      border: 1px solid black;
+      background-color: white;
+      position: relative;
+      height: 24px;
+
+      &-text {
+        z-index: 1000;
+        position: absolute;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 20px;
+        transform: rotate(45deg);
+        border: 1px solid black;
+        background-color: white;
+        height: 40px;
+        width: 40px;
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 0px;
+        left: 10px;
+        border: 1px solid white;
+        background-color: white;
+        height: 40px;
+        width: 100px;
+        z-index: 10;
+      }
+    }
+
+    &-messages {
+      border-bottom: 2px solid #751fff;
+      height: 400px;
+      display: flex;
+      flex-direction: column-reverse;
+      padding: 28px 50px;
+    }
+
+    &-send {
+      color: #751fff;
+      pointer-events: none;
+    }
+
+    &-field {
+      padding: 10px 16px 10px 24px;
+      display: flex;
+      gap: 20px;
+    }
+
+    &-input {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      height: 40px;
+      color: black;
+      flex: 3 0 auto;
+      pointer-events: none;
+    }
+
+    &-title-container {
+      border-bottom: 2px solid #751fff;
+    }
+  }
 }
 
 .markdown-body {

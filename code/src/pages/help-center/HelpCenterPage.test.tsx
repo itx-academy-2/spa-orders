@@ -135,6 +135,10 @@ const articles = [
   { id: 1, title: "Article 1" },
   { id: 2, title: "Article 2" }
 ];
+jest.mock("./hooks/use-suggested-product/useSuggestedProduct", () => ({
+  __esModule: true,
+  default: () => ({ data: null, isLoading: false })
+}));
 
 describe("HelpCenterPage", () => {
   beforeEach(() => {

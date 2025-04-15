@@ -65,3 +65,9 @@ export type PageableResponse<Content> = {
   empty: boolean;
   content: Content;
 };
+
+export type PreviousVisitsData = {
+  product: string;
+  category: string;
+  lastVisitedType: "product" | "category";
+};
