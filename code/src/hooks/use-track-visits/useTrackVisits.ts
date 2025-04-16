@@ -2,9 +2,14 @@ import { useEffect } from "react";
 
 import { LOCAL_STORAGE_KEYS } from "@/constants/common";
 import getPreviousVisitsData from "@/utils/get-previous-visits-data/get-previous-visits-data";
+import isValidCategory from "@/utils/is-valid-category/isValidCategory";
 
 const useTrackVisits = (type: "product" | "category", id: string) => {
   useEffect(() => {
+    if (type === "category" && !isValidCategory(id)) {
+      return;
+    }
+
     const prevLocalStorageData = getPreviousVisitsData();
 
     const mergedVisits = {

@@ -10,15 +10,19 @@ const useSuggestedProduct = () => {
 
   const visitsData = getPreviousVisitsData();
 
-  const productById = useGetUserProductByIdQuery({
-    productId: visitsData.product,
-    lang: locale
-  });
+  const productById = useGetUserProductByIdQuery(
+    {
+      productId: visitsData.product,
+      lang: locale
+    },
+    { skip: !visitsData.product }
+  );
 
   const getCategoryType = () => {
-    if (!productById.data) return null;
+    if (!visitsData.category && !visitsData.category) return null;
     if (visitsData.lastVisitedType === "category") {
       if (
+        productById.data &&
         productById.data.tags.some((item) => item.includes(visitsData.category))
       ) {
         return null;
@@ -32,10 +36,13 @@ const useSuggestedProduct = () => {
 
   const lastVisistedCategoryData = useGetSuggestedProductQuery(
     { tag: categoryType!, lang: locale },
-    { skip: !productById.data || !categoryType }
+    { skip: !categoryType }
   );
 
-  return categoryType ? lastVisistedCategoryData : productById;
+  return {
+    data: categoryType ? lastVisistedCategoryData : productById,
+    userHasVisitsInfo: Boolean(visitsData.category || visitsData.product)
+  };
 };
 
 export default useSuggestedProduct;

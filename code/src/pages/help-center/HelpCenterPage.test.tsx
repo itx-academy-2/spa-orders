@@ -137,7 +137,10 @@ const articles = [
 ];
 jest.mock("./hooks/use-suggested-product/useSuggestedProduct", () => ({
   __esModule: true,
-  default: () => ({ data: null, isLoading: false })
+  default: () => ({
+    data: { data: null, isLoading: false },
+    userHasVisitsInfo: false
+  })
 }));
 
 describe("HelpCenterPage", () => {
