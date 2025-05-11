@@ -72,6 +72,7 @@ Allowed prefixes are:
 - `feature` - for new feature
 - `hotfix` - for urgent fixes
 - `bugfix` - for fixing existing functionality
+- `improvement` - for improvements
 - `tests` - for unit, mutation or e2e tests
 
 ### Before starting work on a task:
@@ -161,7 +162,10 @@ Do until conflicts are resolved for all files
       - `/types` - for global types (utility types, business model types etc)
       - `/utils` - for reusable functions
     - `/stryker-config` - place for storing incremental file (for mutation tests)
-  - `/e2e` - for integration tests
+  - `/e2e` - for end to end tests
+    - `/cypress/test_module` - general cypress folder
+      - `/cypress/features` - for feature files
+      - `/cypress/support/step_definitions` - for step definitions
   - `/mock-backend` - express playground to test backend features while real backend is in process of developing
 
 ## Styling
@@ -179,7 +183,7 @@ For example we want to create `Button` component. The following steps should be 
 3. Create scss file for component: `AppButton.scss`
 4. Import scss file into `AppButton.tsx` using import alias: `import "@/components/app-button/AppButton.scss";`
 5. Import all scss variables from design system: `@import "@design-system";`
-6. Create base css class, prefixed with `spa`: `.spa-button`:
+6. Create base css class, prefixed with `spa`: `.spa-button`. Use this only when creating wrappers around MUI components or other design system elements. Avoid using it in components that aren't part of the design system.
 
 ### Scss coding rules
 
@@ -328,7 +332,7 @@ import renderWithProviders from "@/utils/render-with-providers/renderWithProvide
 
 import "@/components/app-button/AppButton.scss";
 
-import "./AppSnackbar.constants"
+import "./AppSnackbar.constants";
 ```
 
 ## Testing
@@ -386,10 +390,12 @@ E2E tests are used to test the entire application flow. These tests are located 
 
 ## References
 
-- [Use-case diagram](https://app.diagrams.net/#G17iCThtH58keC83T8SUX5Lpo9Oiipvetp#%7B%22pageId%22%3A%22c0BYFkauXTc5PcYzelpT%22%7D)
-- [Domain model diagram](https://app.diagrams.net/#G1elOkc_kON3mlytmNawvccNE0cexzDkxE#%7B%22pageId%22%3A%22C5RBs43oDa-KdzZeNtuy%22%7D)
+- [Use-case diagram](https://app.diagrams.net/#G17iCThtH58keC83T8SUX5Lpo9Oiipvetp#%7B%22pageId%22%3A%22c0BYFkauXTc5PcYzelpT%22%7D) (outdated)
+- [Domain model diagram](https://app.diagrams.net/#G1elOkc_kON3mlytmNawvccNE0cexzDkxE#%7B%22pageId%22%3A%22C5RBs43oDa-KdzZeNtuy%22%7D) (outdated)
 - [Original mockup](https://www.wix.com/website-template/view/html/2860?originUrl=https%3A%2F%2Fwww.wix.com%2Fwebsite%2Ftemplates%3Fcriteria%3DComputer%2BStore&tpClick=view_button&esi=c608ee53-83a1-4243-a123-6eb16a1c98f6)
 - [Modified mockup](https://oliagrytsak1991.wixsite.com/my-site-2)
-- [Frontend deployment](http://idxacademy.xyz/)
-- [Backend deployment](http://api.idxacademy.xyz/retail)
-- [Swagger link](http://api.idxacademy.xyz/retail/swagger-ui/index.html)
+- [Frontend develop deployment](https://spa-gadget-store-dev.up.railway.app/)
+- [Backend develop deployment](https://gadget-store-dev.up.railway.app/)
+- [Frontend production deployment](https://spa-gadget-store-prod.up.railway.app/)
+- [Backend production deployment](https://gadget-store-prod.up.railway.app/)
+- [Swagger link](https://gadget-store-prod.up.railway.app/retail/swagger-ui/index.html)
