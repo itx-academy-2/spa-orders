@@ -5,7 +5,7 @@ const generateToken = (payload) => {
 
   if (payload.email.startsWith("admin")) {
     role = "ROLE_ADMIN";
-  } else if (payload.email.startsWith("shopmanager")) {
+  } else if (payload.email.startsWith("manager")) {
     role = "ROLE_MANAGER";
   }
 

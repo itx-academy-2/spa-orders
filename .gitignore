@@ -21,9 +21,13 @@ code/stryker.log
 e2e/cypress/test_module/.nyc_output
 e2e/cypress/test_module/coverage
 e2e/cypress/test_module/results
+e2e/cypress/test_module/downloads.html
 
 # Mock backend
 mock-backend/node_modules
 
 # Environment variables
-.env*
+.env
+.env.*
+**/.env
+**/.env.*
