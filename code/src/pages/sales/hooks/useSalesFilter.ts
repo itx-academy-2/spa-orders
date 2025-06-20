@@ -63,9 +63,9 @@ const useSalesFilter = (extraParams?: UseSalesFilterExtraParams) => {
     }
   }, [isLoading]);
 
-  const products = salesResponse?.pageProducts.content ?? [];
-  const totalPages = salesResponse?.pageProducts.totalPages;
-  const totalElements = salesResponse?.pageProducts.totalElements;
+  const products = salesResponse?.pageProducts?.content ?? [];
+  const totalPages = salesResponse?.pageProducts?.totalPages ?? 0;
+  const totalElements = salesResponse?.pageProducts?.totalElements ?? 0;
 
   return {
     filters,

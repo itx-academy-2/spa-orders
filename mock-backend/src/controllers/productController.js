@@ -43,7 +43,7 @@ const getProductById = (req, res) => {
     name: product.name,
     description: product.description,
     discount: product.discount,
-    priceWithDiscount: product.priceWithDiscount
+    priceWithDiscount: product.priceWithDiscount,
   };
 
   res.json(transformedProduct);
@@ -69,10 +69,23 @@ const getProductByIdForManager = (req, res) => {
 };
 
 const createProduct = (req, res) => {
-  const { image, price, discount = 0, status, quantity, category, productTranslations, } = req.body;
+  const {
+    image,
+    price,
+    discount = 0,
+    status,
+    quantity,
+    category,
+    productTranslations,
+  } = req.body;
 
   if (price === undefined || price < 0) {
-    return res.status(400).json({ status: 400, message: "Price is required and must be non-negative" });
+    return res
+      .status(400)
+      .json({
+        status: 400,
+        message: "Price is required and must be non-negative",
+      });
   }
 
   const priceWithDiscount = price - (price * discount) / 100;
@@ -86,7 +99,7 @@ const createProduct = (req, res) => {
     quantity,
     category,
     productTranslations,
-    priceWithDiscount
+    priceWithDiscount,
   };
 
   products.push(newProduct);
@@ -144,9 +157,11 @@ const getSalesProducts = (req, res) => {
   const slicedProducts = finalProducts.slice(skip, limit);
 
   const response = {
-    content: slicedProducts,
-    totalPages: Math.ceil(finalProducts.length / size),
-    totalElements: finalProducts.length,
+    pageProducts: {
+      content: slicedProducts,
+      totalPages: Math.ceil(finalProducts.length / size),
+      totalElements: finalProducts.length,
+    },
   };
 
   res.json(response);
