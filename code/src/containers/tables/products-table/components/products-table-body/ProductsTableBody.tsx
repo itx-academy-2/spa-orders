@@ -14,6 +14,7 @@ import cn from "@/utils/cn/cn";
 import formatDate from "@/utils/format-date/formatDate";
 import formatPrice from "@/utils/format-price/formatPrice";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
+import truncateWithEllipsis from "@/utils/truncate-with-ellipsis/truncateWithEllipsis";
 
 import "@/containers/tables/products-table/components/products-table-body/ProductsTableBody.scss";
 
@@ -56,7 +57,7 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
       data-cy="products-table-item"
     >
       <AppLink to={routes.dashboard.products.productDetails.path(id)}>
-        {name}
+        {truncateWithEllipsis(name)}
       </AppLink>
     </AppTypography>
   );
