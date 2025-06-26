@@ -8,6 +8,7 @@ import AppContainer from "@/components/app-container/AppContainer";
 import AppLink from "@/components/app-link/AppLink";
 import AppLoader from "@/components/app-loader/AppLoader";
 import AppLogo from "@/components/app-logo/AppLogo";
+import ThemeSwitcher from "@/components/theme-switcher/ThemeSwitcher";
 
 import {
   useIsAuthLoadingSelector,
@@ -37,6 +38,7 @@ const HeaderToolbar = () => {
           <HeaderSearchInput />
           <AppBox className="header__toolbar-action-icons">
             <LanguageSelect />
+            <ThemeSwitcher />
             {content}
           </AppBox>
         </AppBox>
