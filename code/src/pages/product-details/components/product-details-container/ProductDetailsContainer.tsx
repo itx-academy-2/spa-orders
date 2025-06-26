@@ -46,13 +46,8 @@ const ProductDetailsContainer = ({
 
   const isNotFoundOnServer = isErrorWithStatus(error) && error.status === 404;
 
-  if (isNotFoundOnServer) {
+  if (isNotFoundOnServer || !product || error ) {
     return renderRedirectComponent(productNotFoundRedirectConfig);
-  }
-
-  // @TODO: add error handling
-  if (!product || error) {
-    return <div>Error...</div>;
   }
 
   const categoryTag = getCategoryFromTags(product.tags);
