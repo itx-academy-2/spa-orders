@@ -22,6 +22,7 @@ export type ManagerProductStatus = "VISIBLE" | "HIDDEN";
 export type ManagerProduct = {
   id: string;
   name: string;
+  displayName?: string;
   description: string;
   imageLink: string;
   quantity: number;

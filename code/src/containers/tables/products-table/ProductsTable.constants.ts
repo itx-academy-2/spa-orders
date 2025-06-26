@@ -21,7 +21,8 @@ export const productStatuToTranslationKeyMap = {
 export const mockProducts: ManagerProduct[] = [
   {
     id: "8efbee82-8a0c-407a-a4c0-16bbad40a23e",
-    name: "Mobile Phone Apple iPhone",
+    name: "Mobile Phone Apple iPhone 14 Pro 128GB Space Gray",
+    displayName: "Mobile Phone Apple iPhone…",
     description:
       'Screen: 6.1" Super Retina XDR, 2532x1170 / A16 Bionic chip / Main Triple Camera: 48 MP + 12 MP + 12 MP, Front Camera: 12 MP / RAM 6 GB / 128 GB internal storage / 3G / LTE / 5G / GPS / GLONASS / Dual SIM support (Nano-SIM and eSIM) / iOS 16 / 3200 mAh',
     imageLink:
