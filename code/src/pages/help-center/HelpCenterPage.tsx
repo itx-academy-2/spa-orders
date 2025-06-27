@@ -14,6 +14,7 @@ import ProductCard from "@/components/product-card/ProductCard";
 import SaleProductCard from "@/components/product-sale-card/SaleProductCard";
 import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
 
+import noResultsImage from "@/assets/images/search/no-results.png";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import useDebouncedValue from "@/hooks/use-debounced-value/useDebouncedValue";
 import HelpCenterAccordionItem from "@/pages/help-center/components/help-cener-accordion-item/HelpCenterAccordionItem";
@@ -133,10 +134,22 @@ const HelpCenterPage = () => {
     }
     if (searchQuery) {
       return (
-        <AppTypography
-          className="help-center-page__no-results"
-          translationKey="helpCenter.noResults"
-        />
+        <AppBox
+          data-testid="help-center-search-input-no-results"
+          className="help-center-search-input-dropdown help-center-search-input-dropdown__no-results"
+        >
+          <AppTypography
+            component="p"
+            fontWeight="extra-bold"
+            translationKey="helpCenter.noResults"
+          />
+          <AppBox
+            className="help-center-search-input-dropdown__no-results-image"
+            component="img"
+            src={noResultsImage}
+            alt="no results image"
+          />
+        </AppBox>
       );
     }
     return null;

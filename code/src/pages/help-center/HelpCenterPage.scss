@@ -196,6 +196,19 @@
   padding: spacing(1) 0;
   z-index: 100;
   list-style: none;
+
+  &__no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: spacing(3);
+    padding: spacing(7) 0;
+
+    &-image {
+      @include box(100px);
+    }
+  }
 }
 
 .help-center-search-input-dropdown__item {
