@@ -9,6 +9,7 @@ import App from "@/App";
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 
 import { I18nProvider } from "@/context/i18n/I18nProvider";
+import { ThemeProvider } from "@/context/theme/ThemeContext";
 import { store } from "@/store/store";
 
 import "@/styles/global.scss";
@@ -20,9 +21,11 @@ root.render(
   <Provider store={store}>
     <StyledEngineProvider injectFirst>
       <I18nProvider>
-        <Suspense fallback={<PageLoadingFallback fullScreen />}>
-          <App />
-        </Suspense>
+        <ThemeProvider>
+          <Suspense fallback={<PageLoadingFallback fullScreen />}>
+            <App />
+          </Suspense>
+        </ThemeProvider>
       </I18nProvider>
     </StyledEngineProvider>
   </Provider>
