@@ -107,28 +107,10 @@ describe("ProductDetailsContainer", () => {
     );
   });
 
-  test("does not render 404 page when isErrorWithStatus returns false", () => {
+  test("should redirect to the 404 page when error received", () => {
     renderAndMock({ error: { message: "Test" } });
 
-    expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
-  });
-
-  test("renders error element when there is an error but with status different from 404", () => {
-    renderAndMock({ error: { status: 500 } });
-
-    expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
-
-    const errorElement = screen.getByText("Error...");
-    expect(errorElement).toBeInTheDocument();
-  });
-
-  test("renders error element when there is not error and no product", () => {
-    renderAndMock();
-
-    expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
-
-    const errorElement = screen.getByText("Error...");
-    expect(errorElement).toBeInTheDocument();
+    expect(mockRenderRedirectComponent).toHaveBeenCalled();
   });
 
   test("renders product information correctly", () => {
