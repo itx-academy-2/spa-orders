@@ -6,5 +6,6 @@
   "productDetailsPage.addingToCartButton": "Adding to cart...",
   "productDetailsPage.inStock": "In stock",
   "productDetailsPage.deliveryMethodsCaption": "Delivery methods",
-  "productDetailsPage.descriptionCaption": "Description"
+  "productDetailsPage.descriptionCaption": "Description",
+  "productDetailsPage.loadErrorMessage": "We encountered a problem while loading the product details.\nPlease try again later."
 }

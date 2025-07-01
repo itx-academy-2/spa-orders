@@ -107,10 +107,52 @@ describe("ProductDetailsContainer", () => {
     );
   });
 
-  test("should redirect to the 404 page when error received", () => {
-    renderAndMock({ error: { message: "Test" } });
+  test("should not redirect when error with message is received", () => {
+    renderAndMock({
+      data: mockProduct,
+      isLoading: false,
+      error: { message: "Test" }
+    });
 
-    expect(mockRenderRedirectComponent).toHaveBeenCalled();
+    expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
+  });
+
+  test("redirects to not found page when no product data is returned", () => {
+    renderAndMock({
+      data: null,
+      isLoading: false,
+      error: null
+    });
+
+    expect(mockRenderRedirectComponent).toHaveBeenCalledWith(
+      productNotFoundRedirectConfig
+    );
+  });
+
+  test("renders error message when error exists", () => {
+    renderAndMock({
+      data: mockProduct,
+      isLoading: false,
+      error: { message: "Something went wrong" }
+    });
+
+    const errorElement = screen.getByText(
+      /productDetailsPage.loadErrorMessage/i
+    );
+    expect(errorElement).toBeInTheDocument();
+    expect(errorElement.tagName).toBe("H3");
+  });
+
+  test("redirects to not found page when 400 error occurs", () => {
+    renderAndMock({
+      data: null,
+      error: { status: 400 },
+      isLoading: false
+    });
+
+    expect(mockRenderRedirectComponent).toHaveBeenCalledWith(
+      productNotFoundRedirectConfig
+    );
   });
 
   test("renders product information correctly", () => {
