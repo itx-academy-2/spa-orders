@@ -242,6 +242,29 @@ describe("HelpCenterPage", () => {
 
       expect(screen.getByTestId("search-input-dropdown")).toBeInTheDocument();
     });
+
+    test("should show No results found", async () => {
+      mockSearchArticlesQuery.mockReturnValue({ data: [], isLoading: false });
+
+      render(<HelpCenterPage />);
+
+      const searchInput = screen.getByTestId(
+        "help-center-search-input"
+      ) as HTMLInputElement;
+      const searchButton = screen.getByTestId("search-button");
+
+      fireEvent.change(searchInput, { target: { value: "some search" } });
+      fireEvent.click(searchButton);
+
+      const notFoundContent = screen.getByTestId(
+        "help-center-search-input-no-results"
+      ) as HTMLInputElement;
+
+      expect(notFoundContent).toBeInTheDocument();
+      expect(notFoundContent.firstChild).toHaveTextContent(
+        "helpCenter.noResults"
+      );
+    });
   });
 
   test("clears search input when clear button is clicked", () => {
