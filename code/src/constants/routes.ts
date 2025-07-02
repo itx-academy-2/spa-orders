@@ -31,6 +31,9 @@ const routes = {
   orders: {
     path: "/orders"
   },
+  userCabinet: {
+    path: '/user-cabinet'
+  },
   dashboard: {
     path: "/dashboard",
     orders: {

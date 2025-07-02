@@ -24,6 +24,10 @@
     color: var(--spa-cart-icon-color, $black);
   }
 
+  &-icon-dropdown {
+    margin-right: spacing(2);
+  }
+
   &-action {
     width: 100%;
     display: flex;

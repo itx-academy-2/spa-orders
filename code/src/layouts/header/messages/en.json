@@ -1,5 +1,8 @@
 {
   "header.searchInputPlaceholder": "Search...",
   "header.searchInputNoResults": "No results found",
-  "header.searchInputResults": "Search results:"
+  "header.searchInputResults": "Search results:",
+  "header.myProfile": "My profile",
+  "header.orders": "Orders",
+  "header.logout": "Logout"
 }
