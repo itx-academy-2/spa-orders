@@ -1,0 +1,21 @@
+@import "@design-system";
+
+.accountTitle {
+  margin-bottom: 0.75rem;
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: map-get($fw, extra-bold);
+    font-family: $inter;
+    margin: 0;
+    color: $black;
+  }
+
+  &__description {
+    font-size: map-get($fs, base);
+    font-weight: map-get($fw, regular);
+    font-family: $inter;
+    color: $gray-light;
+    margin: 0.25rem 0 0;
+  }
+}
