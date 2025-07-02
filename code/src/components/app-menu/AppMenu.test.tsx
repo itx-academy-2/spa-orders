@@ -11,7 +11,7 @@ jest.mock("@/components/app-menu-item/AppMenuItem", () => {
   const MockAppMenuItem = (props: AppMenuItemProps) => (
     <li onClick={props.onClick}>{props.children}</li>
   );
-  MockAppMenuItem.displaName = "MockAppMenuItem";
+  MockAppMenuItem.displayName = "MockAppMenuItem";
   return MockAppMenuItem;
 });
 
