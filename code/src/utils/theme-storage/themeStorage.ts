@@ -6,7 +6,7 @@ export const THEME_KEY = LOCAL_STORAGE_KEYS.theme;
 export const getStoredTheme = (): ThemeType | null => {
     try {
         const stored = localStorage.getItem(THEME_KEY)
-        if(stored === 'light' || stored === 'dark') {
+        if(stored === Theme.Light || stored === Theme.Dark) {
             return stored as ThemeType;
         }
         return null;
