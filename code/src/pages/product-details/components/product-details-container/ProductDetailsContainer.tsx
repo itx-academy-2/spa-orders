@@ -44,15 +44,20 @@ const ProductDetailsContainer = ({
     return <PageLoadingFallback />;
   }
 
-  const isNotFoundOnServer = isErrorWithStatus(error) && error.status === 404;
+  const isNotFoundOnServer =
+    isErrorWithStatus(error) && (error.status === 404 || error.status === 400);
 
-  if (isNotFoundOnServer) {
+  if (isNotFoundOnServer || !product) {
     return renderRedirectComponent(productNotFoundRedirectConfig);
   }
 
-  // @TODO: add error handling
-  if (!product || error) {
-    return <div>Error...</div>;
+  if (error) {
+    return (
+      <AppTypography
+        variant="h3"
+        translationKey="productDetailsPage.loadErrorMessage"
+      />
+    );
   }
 
   const categoryTag = getCategoryFromTags(product.tags);

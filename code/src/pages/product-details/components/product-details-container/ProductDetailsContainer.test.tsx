@@ -107,28 +107,52 @@ describe("ProductDetailsContainer", () => {
     );
   });
 
-  test("does not render 404 page when isErrorWithStatus returns false", () => {
-    renderAndMock({ error: { message: "Test" } });
+  test("should not redirect when error with message is received", () => {
+    renderAndMock({
+      data: mockProduct,
+      isLoading: false,
+      error: { message: "Test" }
+    });
 
     expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
   });
 
-  test("renders error element when there is an error but with status different from 404", () => {
-    renderAndMock({ error: { status: 500 } });
+  test("redirects to not found page when no product data is returned", () => {
+    renderAndMock({
+      data: null,
+      isLoading: false,
+      error: null
+    });
 
-    expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
-
-    const errorElement = screen.getByText("Error...");
-    expect(errorElement).toBeInTheDocument();
+    expect(mockRenderRedirectComponent).toHaveBeenCalledWith(
+      productNotFoundRedirectConfig
+    );
   });
 
-  test("renders error element when there is not error and no product", () => {
-    renderAndMock();
+  test("renders error message when error exists", () => {
+    renderAndMock({
+      data: mockProduct,
+      isLoading: false,
+      error: { message: "Something went wrong" }
+    });
 
-    expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
-
-    const errorElement = screen.getByText("Error...");
+    const errorElement = screen.getByText(
+      /productDetailsPage.loadErrorMessage/i
+    );
     expect(errorElement).toBeInTheDocument();
+    expect(errorElement.tagName).toBe("H3");
+  });
+
+  test("redirects to not found page when 400 error occurs", () => {
+    renderAndMock({
+      data: null,
+      error: { status: 400 },
+      isLoading: false
+    });
+
+    expect(mockRenderRedirectComponent).toHaveBeenCalledWith(
+      productNotFoundRedirectConfig
+    );
   });
 
   test("renders product information correctly", () => {

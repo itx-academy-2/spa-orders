@@ -6,5 +6,6 @@
   "productDetailsPage.addingToCartButton": "Додаємо до кошика...",
   "productDetailsPage.inStock": "На складі",
   "productDetailsPage.deliveryMethodsCaption": "Методи доставки",
-  "productDetailsPage.descriptionCaption": "Опис"
+  "productDetailsPage.descriptionCaption": "Опис",
+  "productDetailsPage.loadErrorMessage": "Під час завантаження інформації про товар виникла проблема.\nБудь ласка, спробуйте пізніше."
 }
