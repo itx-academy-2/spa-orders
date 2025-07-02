@@ -2,6 +2,10 @@ import { render, screen, act } from "@testing-library/react";
 
 import { ThemeProvider, useThemeContext } from "@/context/theme/ThemeContext";
 
+import { Theme } from '@/constants/theme';
+
+import * as themeStorage from '@/utils/theme-storage/themeStorage';
+
 const TestComponent = () => {
   const { theme, toggleTheme } = useThemeContext();
 
@@ -17,71 +21,25 @@ describe("ThemeContext", () => {
   beforeEach(() => {
     localStorage.clear();
     document.documentElement.removeAttribute("data-theme");
+    jest.restoreAllMocks();
   });
+  test("useEffect calls initializeTheme and sets theme correctly", () => {
+    jest.spyOn(themeStorage, "initializeTheme").mockReturnValue(Theme.Dark);
+    const setStoredThemeMock = jest.spyOn(themeStorage, "setStoredTheme").mockImplementation(() => {});
 
-  test("defaults to light theme if localStorage is empty and prefers-color-scheme is not dark", () => {
-    window.matchMedia = jest.fn().mockImplementation(query => {
-      return {
-        matches: false,
-        media: query,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      };
-    });
-
-    render(
+        render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
     );
 
-    expect(screen.getByTestId("theme").textContent).toBe("light");
-    expect(document.documentElement.getAttribute("data-theme")).toBe("light");
-    expect(localStorage.getItem("theme")).toBe("light");
+    expect(themeStorage.initializeTheme).toHaveBeenCalled();
+    expect(setStoredThemeMock).toHaveBeenCalledWith(Theme.Dark);
+    expect(document.documentElement.getAttribute("data-theme")).toBe(Theme.Dark);
+    expect(screen.getByTestId("theme").textContent).toBe(Theme.Dark);
   });
-
-  test("sets dark theme if prefers-color-scheme is dark", () => {
-    window.matchMedia = jest.fn().mockImplementation(query => {
-      return {
-        matches: query === "(prefers-color-scheme: dark)",
-        media: query,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      };
-    });
-
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    );
-
-    expect(screen.getByTestId("theme").textContent).toBe("dark");
-    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
-    expect(localStorage.getItem("theme")).toBe("dark");
-  });
-
-  test("loads theme from localStorage if it exists", () => {
-    localStorage.setItem("theme", "dark");
-
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    );
-
-    expect(screen.getByTestId("theme").textContent).toBe("dark");
-    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
-  });
-
   test("toggleTheme switches theme and updates localStorage and data-theme attribute", () => {
-    localStorage.setItem("theme", "light");
+    localStorage.setItem("theme", Theme.Light);
 
     render(
       <ThemeProvider>
@@ -92,25 +50,24 @@ describe("ThemeContext", () => {
     const themeSpan = screen.getByTestId("theme");
     const button = screen.getByRole("button", { name: /toggle/i });
 
-    expect(themeSpan.textContent).toBe("light");
+    expect(themeSpan.textContent).toBe(Theme.Light);
 
     act(() => {
       button.click();
     });
 
-    expect(themeSpan.textContent).toBe("dark");
-    expect(localStorage.getItem("theme")).toBe("dark");
-    expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+    expect(themeSpan.textContent).toBe(Theme.Dark);
+    expect(localStorage.getItem("theme")).toBe(Theme.Dark);
+    expect(document.documentElement.getAttribute("data-theme")).toBe(Theme.Dark);
 
     act(() => {
       button.click();
     });
 
-    expect(themeSpan.textContent).toBe("light");
-    expect(localStorage.getItem("theme")).toBe("light");
-    expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+    expect(themeSpan.textContent).toBe(Theme.Light);
+    expect(localStorage.getItem("theme")).toBe(Theme.Light);
+    expect(document.documentElement.getAttribute("data-theme")).toBe(Theme.Light);
   });
-
   test("useThemeContext throws error if used outside ThemeProvider", () => {
     const consoleError = jest.spyOn(console, "error").mockImplementation(() => {});
 

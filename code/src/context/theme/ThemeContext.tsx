@@ -6,38 +6,33 @@ import {
     ReactNode
 } from 'react';
 
-type Theme = 'light' | 'dark';
+import { Theme, ThemeType } from '@/constants/theme';
 
-interface ThemeContextType {
-    theme: Theme;
+import { setStoredTheme, initializeTheme } from '@/utils/theme-storage/themeStorage';
+
+type ThemeContextType = {
+    theme: ThemeType;
     toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [theme, setTheme] = useState<Theme>('light');
+    const [theme, setTheme] = useState<ThemeType>(Theme.Light);
 
     useEffect(() => {
-        const storedTheme = localStorage.getItem('theme') as Theme | null;
-        if (storedTheme) {
-            setTheme(storedTheme);
-            document.documentElement.setAttribute('data-theme', storedTheme);
-        } else {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const defaultTheme: Theme = prefersDark ? 'dark' : 'light';
-            setTheme(defaultTheme);
-            document.documentElement.setAttribute('data-theme', defaultTheme);
-            localStorage.setItem('theme', defaultTheme);
-        }
+        const theme = initializeTheme();
+        setTheme(theme);
+        document.documentElement.setAttribute('data-theme', theme);
+        setStoredTheme(theme);
     }, []);
 
 
     const toggleTheme = () => {
-        const newTheme: Theme = theme === 'light' ? 'dark' : 'light';
+        const newTheme: ThemeType = theme === Theme.Light ? Theme.Dark : Theme.Light;
         setTheme(newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+        setStoredTheme(newTheme);
     };
 
     return (
@@ -46,7 +41,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         </ThemeContext.Provider>
     );
 };
-
 
 export const useThemeContext = () => {
     const context = useContext(ThemeContext);
