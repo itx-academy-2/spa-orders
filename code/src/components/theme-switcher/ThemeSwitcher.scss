@@ -1,3 +1,5 @@
+@import "@design-system";
+
 .theme-switch-root {
   width: 62px;
   height: 34px;
@@ -9,10 +11,10 @@
   margin: 1px;
   padding: 0;
   transform: translateX(6px);
-  transition: transform 0.3s ease;
+  transition: transform $duration-fast ease;
 
   &.Mui-checked {
-    color: #fff;
+    color: $white;
     transform: translateX(22px);
 
     .theme-switch-thumb::before {
@@ -20,19 +22,19 @@
     }
 
     + .theme-switch-track {
-      background-color: #751fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: $purple;
+      box-shadow: $shadow-black;
     }
   }
 }
 
 .theme-switch-thumb {
-  background-color: #ffffff;
+  background-color: $white;
   width: 32px;
   height: 32px;
   position: relative;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
+  box-shadow: $shadow-black-alpha;
+  transition: background-color $duration-fast ease;
 
   &::before {
     content: "";
@@ -48,8 +50,8 @@
 }
 
 .theme-switch-track {
-  background-color: #b3b3b3;
+  background-color: $gray-light;
   border-radius: 10px;
   opacity: 1;
-  transition: background-color 0.3s ease;
+  transition: background-color $duration-fast ease;
 }
