@@ -4,6 +4,8 @@ import userEvent from "@testing-library/user-event";
 
 import HeaderAccountButton from "@/layouts/header/components/header-buttons/header-account-button/HeaderAccountButton";
 
+import { AppMenuProps, MenuItem } from "@/components/app-menu/AppMenu.types";
+
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 jest.mock(
@@ -16,10 +18,10 @@ jest.mock(
 );
 jest.mock("@/components/app-menu/AppMenu", () => ({
   __esModule: true,
-  default: ({ open, onClose, items }: any) =>
+  default: ({ open, onClose, items }: AppMenuProps) =>
     open ? (
       <div data-testid="menu">
-        {items.map((item: any, index: number) => (
+        {items.map((item: MenuItem, index: number) => (
           <div
             key={index}
             data-testid={`menu-item-${index}`}
