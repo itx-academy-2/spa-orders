@@ -10,7 +10,7 @@ When("I click account icon in header", () => {
   cy.get('[data-cy="header-account-button"]').click();
 });
 
-Then("I click logout from menu", () => {
+When("I click logout from menu", () => {
   cy.get('[data-cy="header.logout-item"]').click();
 });
 
