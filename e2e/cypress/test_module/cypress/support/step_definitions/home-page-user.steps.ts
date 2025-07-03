@@ -2,7 +2,7 @@
 
 import { When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-When("I can see orders button on a header", () => {
+When("I can see orders button on a header dropdown", () => {
   cy.get('[data-cy="header.orders-item"]').should("be.visible");
 });
 
