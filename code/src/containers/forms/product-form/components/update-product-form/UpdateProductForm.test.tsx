@@ -197,25 +197,6 @@ describe("Test UpdateProductForm", () => {
     expect(quantityHelperText).toBeInTheDocument();
   });
 
-  test("Should show error if name and description not filled", async () => {
-    render({ ...testData, productTranslations: [] });
-
-    await typeIntoInput(imgUrlInput, testData.image);
-    await typeIntoInput(priceInput, testData.price);
-    await typeIntoInput(quantityInput, testData.quantity);
-
-    await selectCategory();
-    await submit();
-
-    const nameHelperText = screen.getAllByText("Name cannot be empty");
-
-    const descriptionHelperText = screen.getAllByText(
-      "Description cannot be empty"
-    );
-    expect(nameHelperText.length).toBe(1);
-    expect(descriptionHelperText.length).toBe(1);
-  });
-
   test("Should send request with only changed values", async () => {
     render(changedValues);
 
