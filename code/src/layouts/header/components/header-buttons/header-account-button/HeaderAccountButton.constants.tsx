@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import type { useNavigate } from "react-router-dom";
 
 import type { SvgIconComponent } from "@mui/icons-material";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";

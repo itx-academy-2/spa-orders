@@ -27,7 +27,7 @@ const mockMenuItems: MenuItem[] = [
 ];
 
 describe("AppMenu", () => {
-  beforeEach(() => {
+  it("should render without crashing", () => {
     render(
       <AppMenu
         anchorEl={document.createElement("div")}
@@ -36,18 +36,38 @@ describe("AppMenu", () => {
         items={mockMenuItems}
       />
     );
-  });
-
-  it("should render without crashing", () => {
     const menu = screen.getByText("myProfile");
     expect(menu).toBeInTheDocument();
   });
 
   it("should call onClick and onClose handlers", async () => {
+    render(
+      <AppMenu
+        anchorEl={document.createElement("div")}
+        open={true}
+        onClose={mockedOnClose}
+        items={mockMenuItems}
+      />
+    );
     const menu = screen.getByText("myProfile");
 
     await userEvent.click(menu);
     expect(mockedOnClick).toHaveBeenCalled();
     expect(mockedOnClose).toHaveBeenCalled();
+  });
+
+  it('should show "No available options" when no items', () => {
+    render(
+      <AppMenu
+        anchorEl={document.createElement("div")}
+        open={true}
+        onClose={mockedOnClose}
+        items={[]}
+      />
+    );
+
+    const defaultResponse = screen.getByText("appMenu.noOptions");
+
+    expect(defaultResponse).toBeInTheDocument();
   });
 });
