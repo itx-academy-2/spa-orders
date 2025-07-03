@@ -58,6 +58,11 @@ const testData: FullManagerProduct = {
       name: "name",
       description: "description-description",
       languageCode: "en"
+    },
+    {
+      name: "назва",
+      description: "опис-опис-опис-опис-опис",
+      languageCode: "uk"
     }
   ]
 };
@@ -202,10 +207,13 @@ describe("Test UpdateProductForm", () => {
     await selectCategory();
     await submit();
 
-    const helperText = screen.getAllByText(
-      "At least one translation must have non-empty name and description"
+    const nameHelperText = screen.getAllByText("Name cannot be empty");
+
+    const descriptionHelperText = screen.getAllByText(
+      "Description cannot be empty"
     );
-    expect(helperText.length).toBe(2);
+    expect(nameHelperText.length).toBe(1);
+    expect(descriptionHelperText.length).toBe(1);
   });
 
   test("Should send request with only changed values", async () => {

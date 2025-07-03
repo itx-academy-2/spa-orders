@@ -33,17 +33,13 @@ const getProductLanguageFieldsError = (
 
 const productTranslationSchema = z.object({
   name: z
-    .string({ message: "Name cannot be empty" })
+    .string()
     .min(3, { message: "Name is too short" })
-    .max(200, { message: "Name is too long" })
-    .optional()
-    .or(z.literal("")),
+    .max(200, { message: "Name is too long" }),
   description: z
-    .string({ message: "Description cannot be empty" })
+    .string()
     .min(10, { message: "Description is too short" })
-    .max(1000, { message: "Description is too long" })
-    .optional()
-    .or(z.literal("")),
+    .max(1000, { message: "Description is too long" }),
   languageCode: z.string({ message: "Language code cannot be empty" })
 });
 
