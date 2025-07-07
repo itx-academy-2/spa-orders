@@ -1,0 +1,12 @@
+{
+  "personalInfo.title": "Змінити особисту інформацію",
+  "personalInfo.firstname": "Ім'я *",
+  "personalInfo.lastname": "Прізвище *",
+  "personalInfo.phone": "Номер телефону",
+  "personalInfo.button": "Зберегти",
+  "personalInfo.validation.firstName.tooShort": "Ім'я має містити не менше 2 символів",
+  "personalInfo.validation.firstName.tooLong": "Ім'я занадто довге",
+  "personalInfo.validation.lastName.tooShort": "Прізвище має містити не менше 2 символів",
+  "personalInfo.validation.lastName.tooLong": "Прізвище занадто довге",
+  "personalInfo.validation.phone": "Номер телефону має містити 10–13 цифр, опціонально '+' на початку"
+}
