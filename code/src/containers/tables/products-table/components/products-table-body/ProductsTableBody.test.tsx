@@ -30,7 +30,7 @@ describe("Test ProductsTable", () => {
   test("Should be rendered correctly", () => {
     renderWithProduct(mockProducts[0]);
     const imageElement = screen.getByRole("img");
-    const nameElement = screen.getByText(mockProducts[0].name);
+    const nameElement = screen.getByText(mockProducts[0].displayName!);
     const priceElement = screen.getByText(formatPrice(mockProducts[0].price));
     const statusElement = screen.getByText(
       productStatuToTranslationKeyMap[mockProducts[0].status]
