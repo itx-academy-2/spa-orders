@@ -2,10 +2,10 @@ import React from "react";
 
 import * as styles from "./AccountTitle.module.scss";
 
-interface AccountTitleProps {
+type AccountTitleProps = {
   title: string;
   description?: string;
-}
+};
 
 const AccountTitle: React.FC<AccountTitleProps> = ({ title, description }) => {
   return (
