@@ -15,7 +15,7 @@ describe("AccountTitle", () => {
     expect(screen.getByText("Manage your account")).toBeInTheDocument();
   });
 
-  it("should not render description when not provided", () => {
+  it("should render title and not render description when not provided", () => {
     render(<AccountTitle title="Customer Account" />);
 
     expect(screen.getByText("Customer Account")).toBeInTheDocument();
