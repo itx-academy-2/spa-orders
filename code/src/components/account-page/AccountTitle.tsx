@@ -2,6 +2,9 @@ import React from "react";
 
 import * as styles from "./AccountTitle.module.scss";
 
+import AppBox from "../app-box/AppBox";
+import AppTypography from "../app-typography/AppTypography";
+
 type AccountTitleProps = {
   title: string;
   description?: string;
@@ -9,12 +12,20 @@ type AccountTitleProps = {
 
 const AccountTitle: React.FC<AccountTitleProps> = ({ title, description }) => {
   return (
-    <div className={styles.accountTitle}>
-      <h1 className={styles.accountTitle__title}>{title}</h1>
+    <AppBox className={styles.accountTitle}>
+      <AppTypography variant="h1" className={styles.accountTitle__title}>
+        {title}
+      </AppTypography>
+
       {description && (
-        <p className={styles.accountTitle__description}>{description}</p>
+        <AppTypography
+          variant="body"
+          className={styles.accountTitle__description}
+        >
+          {description}
+        </AppTypography>
       )}
-    </div>
+    </AppBox>
   );
 };
 
