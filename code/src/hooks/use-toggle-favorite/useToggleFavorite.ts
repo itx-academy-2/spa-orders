@@ -5,7 +5,10 @@ import {
 } from "@/store/api/wishlistApi";
 
 const useToggleFavorite = () => {
-  const { data: wishlist = [] } = useGetWishlistQuery();
+  const {
+    data: wishlist = [],
+    isLoading
+   } = useGetWishlistQuery();
   const [addWishlist] = useAddWishlistMutation();
   const [removeWishlist] = useRemoveWishlistMutation();
 
@@ -20,7 +23,7 @@ const useToggleFavorite = () => {
   const isFavorite = (productId: string) =>
     wishlist.some((item) => item.id === productId);
 
-  return { toggle, isFavorite };
+  return { toggle, isFavorite, wishlist, isLoading };
 };
 
 export default useToggleFavorite;
