@@ -9,5 +9,5 @@ Feature: | Logout |
     Scenario: Success logout as user
         Given I authenticate to the system under role ROLE_USER
         When I click account icon in header
-        When I click logout from menu
+        And I click logout from menu
         Then I should be logged out
