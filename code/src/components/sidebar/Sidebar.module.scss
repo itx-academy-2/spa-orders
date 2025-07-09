@@ -1,0 +1,69 @@
+@import "@design-system";
+
+.sidebar {
+  width: 250px;
+  min-width: 250px;
+  background-color: $white;
+  border-right: 1px solid $light;
+  height: $screen-height;
+  overflow-y: auto;
+  box-shadow: $shadow-black-alpha;
+
+  @media (max-width: map-get($breakpoints, sm)) {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+  }
+}
+
+.menuList {
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid $light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.menuButton {
+  padding: calc(4 * $spacing-scale-factor) calc(6 * $spacing-scale-factor);
+  transition: all map-get($duration, fast) ease;
+  border-radius: 0;
+
+  &:hover {
+    background-color: $ghost-alpha-active;
+
+    .menuText {
+      color: $purple;
+    }
+  }
+
+  &.active {
+    background-color: $ghost-alpha;
+    border-right: 3px solid $purple;
+
+    .menuText {
+      color: $purple;
+      font-weight: map-get($fw, extra-bold);
+    }
+  }
+}
+
+.menuText {
+  font-family: $inter;
+  font-size: map-get($fs, sm);
+  font-weight: map-get($fw, regular);
+  color: $gray;
+  text-transform: map-get($tt, none);
+  transition: all map-get($duration, fast) ease;
+
+  &:hover {
+    color: $purple;
+  }
+}
