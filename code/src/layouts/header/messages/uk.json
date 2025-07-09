@@ -1,5 +1,8 @@
 {
   "header.searchInputPlaceholder": "Пошук...",
   "header.searchInputNoResults": "Результатів не знайдено",
-  "header.searchInputResults": "Результати пошуку:"
+  "header.searchInputResults": "Результати пошуку:",
+  "header.myProfile": "Мій профіль",
+  "header.orders": "Замовлення",
+  "header.logout": "Вийти"
 }

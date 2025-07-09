@@ -16,6 +16,11 @@ export type User = BaseUser & {
   email: string;
 };
 
+export type UserResponse = User & {
+  phone: string | null;
+  photo: string | null;
+};
+
 export type UserFromServer = BaseUser & {
   sub: string;
   scope: UserRole;

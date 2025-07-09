@@ -24,6 +24,26 @@
     color: var(--spa-cart-icon-color, $black);
   }
 
+  &-icon-dropdown {
+    margin-right: spacing(2);
+  }
+
+  &-profile-img-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   &-action {
     width: 100%;
     display: flex;

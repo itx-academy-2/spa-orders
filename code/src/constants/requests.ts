@@ -85,5 +85,8 @@ export const URLS = {
   },
   metrics: {
     getMetrics: "/v1/filter-analytics/products-on-sale/weekly"
+  },
+  userInfo: {
+    getUserInfo: "/v2/myInfo"
   }
 } as const;

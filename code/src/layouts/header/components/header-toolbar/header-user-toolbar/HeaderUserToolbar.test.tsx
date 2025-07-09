@@ -10,30 +10,21 @@ jest.mock(
   })
 );
 jest.mock(
-  "@/layouts/header/components/header-buttons/header-logout-button/HeaderLogoutButton",
+  "@/layouts/header/components/header-buttons/header-account-button/HeaderAccountButton",
   () => ({
     __esModule: true,
-    default: () => <div>Logout Button</div>
-  })
-);
-jest.mock(
-  "@/layouts/header/components/header-buttons/header-orders-button/HeaderOrdersButton",
-  () => ({
-    __esModule: true,
-    default: () => <div>Orders Button</div>
+    default: () => <div>Account Button</div>
   })
 );
 
 describe("Test HeaderUserToolbar", () => {
-  it("should render the cart button, orders button and logout button", () => {
+  it("should render the cart button and account button", () => {
     render(<HeaderUserToolbar />);
 
     const cartButton = screen.getByText("Cart Button");
-    const ordersButton = screen.getByText("Orders Button");
-    const logoutButton = screen.getByText("Logout Button");
+    const accountButton = screen.getByText("Account Button");
 
     expect(cartButton).toBeInTheDocument();
-    expect(logoutButton).toBeInTheDocument();
-    expect(ordersButton).toBeInTheDocument();
+    expect(accountButton).toBeInTheDocument();
   });
 });

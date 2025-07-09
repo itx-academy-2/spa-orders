@@ -37,6 +37,9 @@ const DashboardUpdateProductPage = lazy(
 const DashboardProductPage = lazy(
   () => import("@/pages/dashboard/dashboard-product/DashboardProductPage")
 );
+const UserCabinetPage = lazy(
+  () => import("@/pages/user-account/UserCabinetPage")
+);
 
 const protectedRoutes: RouteObject[] = [
   {
@@ -97,6 +100,15 @@ const protectedRoutes: RouteObject[] = [
       <ProtectedRoute
         element={<CartPage />}
         allowedRoles={[ROLES.ADMIN, ROLES.SHOP_MANAGER, ROLES.USER]}
+      />
+    )
+  },
+  {
+    path: routePaths.userCabinet.path,
+    element: (
+      <ProtectedRoute
+        element={<UserCabinetPage />}
+        allowedRoles={[ROLES.USER]}
       />
     )
   }
