@@ -1,15 +1,23 @@
 import { appApi } from "@/store/api/appApi";
-import { Product } from "@/types/product.types";
 import { URLS } from "@/constants/requests";
 import { httpMethods } from "@/constants/methods";
 import { rtkQueryTags } from "@/constants/api-tags";
 
+import {
+  GetUserProductsParams,
+  GetUserProductsResponse,
+} from "@/types/product.types";
+
 export const wishlistApi = appApi.injectEndpoints({
   endpoints: (build) => ({
-    getWishlist: build.query<Product[], void>({
-      query: () => ({
+    getWishlist: build.query<
+      GetUserProductsResponse,
+      GetUserProductsParams | void
+    >({
+      query: (params) => ({
         url: URLS.wishlist.get,
-        method: httpMethods.get
+        method: httpMethods.get,
+        params: params ?? {}
       }),
       providesTags: [rtkQueryTags.WISHLIST]
     }),

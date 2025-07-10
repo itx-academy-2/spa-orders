@@ -1,4 +1,12 @@
 {
     "myWishlist.title": "Мій список бажань",
-    "myWishlist.emptyMessage": "Ви ще не додали жодного товару до списку бажань."
+    "myWishlist.emptyMessage": "Ви ще не додали жодного товару до списку бажань.",
+    "myWishlist.productsCount": "{count, plural, one {# товар} other {# товари}}",
+    "productsDefault.label": "Рекомендовані",
+    "sortOptions.newest": "Нові",
+    "sortOptions.bestsellers": "Бестселлери",
+    "sortOptions.priceLowHigh": "Ціна (від низької до високої)",
+    "sortOptions.priceHighLow": "Ціна (від високої до низької)",
+    "sortOptions.nameAZ": "Ім'я від А до Я",
+    "sortOptions.nameZA": "Ім'я від Я до А"
 }

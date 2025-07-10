@@ -17,4 +17,24 @@
     align-items: center; 
     padding: 210px 0;
   }
+
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: spacing(5);
+    width: 100%;
+  }
+
+  &__count,
+  &__sort {
+    font-size: 1rem;
+    color: var(--spa-info-text-color, $gray);
+    display: flex;
+    gap: spacing(1);
+  }
+
+  &__sort {
+    cursor: pointer;
+  }
 }

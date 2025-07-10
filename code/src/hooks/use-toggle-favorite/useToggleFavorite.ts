@@ -6,9 +6,12 @@ import {
 
 const useToggleFavorite = () => {
   const {
-    data: wishlist = [],
+    data: wishlistData,
     isLoading
    } = useGetWishlistQuery();
+
+  const wishlist = wishlistData?.content ?? [];
+
   const [addWishlist] = useAddWishlistMutation();
   const [removeWishlist] = useRemoveWishlistMutation();
 
