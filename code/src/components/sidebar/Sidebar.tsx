@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   Box,
@@ -9,54 +10,66 @@ import {
   Typography
 } from "@mui/material";
 
+import routes from "@/constants/routes";
+
 import * as styles from "./Sidebar.module.scss";
 
 type MenuItem = {
   id: string;
   label: string;
-};
-
-type SidebarProps = {
-  className?: string;
-  onItemClick?: (item: MenuItem) => void;
+  path: string;
 };
 
 const menuItems: MenuItem[] = [
-  { id: "profile", label: "Profile" },
-  { id: "view-history", label: "View History" },
-  { id: "wishlist", label: "My Wishlist" },
-  { id: "addresses", label: "My Addresses" }
+  { id: "profile", label: "Profile", path: routes.userCabinet.profile.path },
+  {
+    id: "view-history",
+    label: "View History",
+    path: routes.userCabinet.viewHistory.path
+  },
+  {
+    id: "wishlist",
+    label: "My Wishlist",
+    path: routes.userCabinet.wishlist.path
+  },
+  {
+    id: "addresses",
+    label: "My Addresses",
+    path: routes.userCabinet.addresses.path
+  }
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({ className, onItemClick }) => {
-  const [activeItem, setActiveItem] = useState<string>("View History");
+type SidebarProps = {
+  className?: string;
+};
 
-  const handleItemClick = (item: MenuItem): void => {
-    setActiveItem(item.label);
-    onItemClick?.(item);
-  };
+const Sidebar: React.FC<SidebarProps> = ({ className }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <Box className={`${styles.sidebar} ${className || ""}`}>
       <List className={styles.menuList}>
-        {menuItems.map((item: MenuItem) => (
-          <ListItem key={item.id} className={styles.menuItem}>
-            <ListItemButton
-              className={`${styles.menuButton} ${
-                activeItem === item.label ? styles.active : ""
-              }`}
-              onClick={() => handleItemClick(item)}
-            >
-              <ListItemText
-                primary={
-                  <Typography className={styles.menuText}>
-                    {item.label}
-                  </Typography>
-                }
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {menuItems.map((item) => {
+          const isActive = location.pathname.includes(item.path);
+
+          return (
+            <ListItem key={item.id} className={styles.menuItem}>
+              <ListItemButton
+                className={`${styles.menuButton} ${isActive ? styles.active : ""}`}
+                onClick={() => navigate(item.path)}
+              >
+                <ListItemText
+                  primary={
+                    <Typography className={styles.menuText}>
+                      {item.label}
+                    </Typography>
+                  }
+                />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </List>
     </Box>
   );

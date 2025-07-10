@@ -32,7 +32,11 @@ const routes = {
     path: "/orders"
   },
   userCabinet: {
-    path: '/user-cabinet'
+    path: "/user-cabinet",
+    profile: { path: "/user-cabinet/profile" },
+    viewHistory: { path: "/user-cabinet/view-history" },
+    wishlist: { path: "/user-cabinet/wishlist" },
+    addresses: { path: "/user-cabinet/addresses" }
   },
   dashboard: {
     path: "/dashboard",

@@ -3,11 +3,11 @@
 .sidebar {
   width: 250px;
   min-width: 250px;
-  background-color: $white;
+  background-color: $transparent;
   border-right: 1px solid $light;
   height: $screen-height;
   overflow-y: auto;
-  box-shadow: $shadow-black-alpha;
+  padding: 0 0 0 20px;
 
   @media (max-width: map-get($breakpoints, sm)) {
     width: 100%;
