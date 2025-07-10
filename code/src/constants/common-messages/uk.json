@@ -50,5 +50,7 @@
   "product.originalPrice": "Ціна",
   "product.discountPercentage": "Розмір знижки",
   "loading.label": "Завантаження...",
-  "appMenu.noOptions": "Немає доступних опцій"
+  "appMenu.noOptions": "Немає доступних опцій",
+  "userCabinet.title": "Кабінет користувача",
+  "userCabinet.description": "Керуйте налаштуваннями свого облікового запису"
 }
