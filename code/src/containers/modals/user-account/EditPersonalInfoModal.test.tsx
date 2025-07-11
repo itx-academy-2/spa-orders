@@ -7,19 +7,15 @@ import { useUpdateUserInfoMutation } from "@/store/api/userProfileApi";
 
 import EditPersonalInfoModal from "./EditPersonalInfoModal";
 
-jest.mock("@/context/modal/ModalContext", () => ({
-  useModalContext: jest.fn()
-}));
 const mockUpdateUserInfo = jest.fn();
-jest.mock("@/store/api/userProfileApi");
 const mockCloseModal = jest.fn();
+
+jest.mock("@/context/modal/ModalContext");
+jest.mock("@/store/api/userProfileApi");
 (useModalContext as jest.Mock).mockReturnValue({
   closeModal: mockCloseModal
 });
-(useUpdateUserInfoMutation as jest.Mock).mockReturnValue([
-  mockUpdateUserInfo,
-  { isLoading: false, isSuccess: true }
-]);
+
 const mockValues = {
   firstName: "John",
   lastName: "Doe",
