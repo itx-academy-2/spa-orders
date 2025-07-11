@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 
@@ -12,6 +13,7 @@ import AppInput from "@/components/app-input/AppInput";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import { useModalContext } from "@/context/modal/ModalContext";
+import { useUpdateUserInfoMutation } from "@/store/api/userProfileApi";
 import {
   PersonalInfoValidationScheme,
   PersonalInfoValidatorType
@@ -31,6 +33,8 @@ const EditPersonalInfoModal = ({
 }: EditPersonalInfoModalProps) => {
   const { closeModal } = useModalContext();
   const { formatMessage } = useIntl();
+  const [updateUserInfo, { isLoading, isSuccess }] =
+    useUpdateUserInfoMutation();
 
   const {
     register,
@@ -44,7 +48,20 @@ const EditPersonalInfoModal = ({
       phone: phone || ""
     }
   });
-  const onSubmit = async (data: PersonalInfoValidatorType) => {};
+
+  useEffect(() => {
+    if (isSuccess) {
+      closeModal();
+    }
+  }, [isSuccess, closeModal]);
+
+  const onSubmit = async (data: PersonalInfoValidatorType) => {
+    updateUserInfo({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phone: data.phone || null
+    });
+  };
 
   return (
     <AppContainer
@@ -99,7 +116,12 @@ const EditPersonalInfoModal = ({
           type="tel"
         />
       </AppBox>
-      <AppButton size="large" type="submit" data-cy="save-personal-info-button">
+      <AppButton
+        isLoading={isLoading}
+        size="large"
+        type="submit"
+        data-cy="save-personal-info-button"
+      >
         <AppTypography
           variant="subtitle2"
           component="span"

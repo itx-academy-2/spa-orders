@@ -6,14 +6,14 @@ export const PersonalInfoValidationScheme = z.object({
     .min(2, { message: "personalInfo.validation.firstName.tooShort" })
     .max(50, { message: "personalInfo.validation.firstName.tooLong" })
     .regex(/^[a-zA-Zа-яА-ЯёЁіІїЇєЄ'’-]+$/, {
-      message: "Latin, Cyrillic, ', - allowed"
+      message: "personalInfo.validation.firstName.invalidCharacters"
     }),
   lastName: z
     .string()
     .min(2, { message: "personalInfo.validation.lastName.tooShort" })
     .max(50, { message: "personalInfo.validation.lastName.tooLong" })
     .regex(/^[a-zA-Zа-яА-ЯёЁіІїЇєЄ'’-]+$/, {
-      message: "Latin, Cyrillic, ', - allowed"
+      message: "personalInfo.validation.lastName.invalidCharacters"
     }),
   phone: z
     .string()
