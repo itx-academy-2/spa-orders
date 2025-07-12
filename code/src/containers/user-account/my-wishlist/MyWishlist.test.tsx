@@ -1,6 +1,5 @@
 import { screen } from "@testing-library/react";
-
-import * as ReactRouterDom from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import MyWishlist from "@/containers/user-account/my-wishlist/MyWishlist";
 import { mockProducts } from "@/containers/products-container/ProductContainer.constants";
@@ -10,14 +9,14 @@ import render from "@/utils/render-with-providers/renderWithProviders";
 import { ProductsContainerProps } from "@/containers/products-container/ProductsContainer.types";
 
 jest.mock("@/store/api/wishlistApi", () => ({
-  useGetWishlistQuery: jest.fn()
+  useGetWishlistQuery: jest.fn(),
 }));
 
 const mockUseGetWishlistQuery = useGetWishlistQuery as jest.Mock;
 
 jest.mock("@/context/i18n/I18nProvider", () => ({
   ...jest.requireActual("@/context/i18n/I18nProvider"),
-  useLocaleContext: jest.fn(() => ({ locale: "en" }))
+  useLocaleContext: jest.fn(() => ({ locale: "en" })),
 }));
 
 const mockData = { content: mockProducts, totalElements: mockProducts.length };
@@ -34,17 +33,21 @@ jest.mock("@/containers/products-container/ProductsContainer", () => ({
           </a>
         ))}
     </div>
-  )
+  ),
 }));
 
-jest.mock("@/context/i18n/I18nProvider", () => ({
-  ...jest.requireActual("@/context/i18n/I18nProvider"),
-  useLocaleContext: jest.fn(() => ({ locale: "en" }))
-}));
+jest.mock("react-router-dom", () => {
+  const actual = jest.requireActual("react-router-dom");
+  return {
+    ...actual,
+    useSearchParams: jest.fn(),
+  };
+});
 
+const mockedUseSearchParams = useSearchParams as jest.Mock;
 
 const renderAndMock = ({
-  mockResponse = {}
+  mockResponse = {},
 }: {
   mockResponse?: Partial<{ data?: typeof mockData; isLoading?: boolean }>;
 } = {}) => {
@@ -54,21 +57,11 @@ const renderAndMock = ({
     data:
       "data" in mockResponse && !mockResponse.data
         ? mockResponse.data
-        : { ...mockData, ...mockResponse.data }
+        : { ...mockData, ...mockResponse.data },
   });
 
   return render(<MyWishlist />);
 };
-
-jest.mock("react-router-dom", () => {
-  const actual = jest.requireActual("react-router-dom");
-  return {
-    ...actual,
-    useSearchParams: jest.fn()
-  };
-});
-
-const mockedUseSearchParams = ReactRouterDom.useSearchParams as jest.Mock;
 
 describe("MyWishlist", () => {
   beforeEach(() => {
@@ -128,7 +121,7 @@ describe("MyWishlist", () => {
 
     expect(mockUseGetWishlistQuery).toHaveBeenCalledWith({
       sort: "bestsellers,desc",
-      lang: "en"
+      lang: "en",
     });
   });
 });
