@@ -90,8 +90,8 @@ export const URLS = {
     getUserInfo: "/v2/my-info"
   },
   wishlist: {
-    get: "/v1/wishlist", // to change
-    post: (productId: string) => `/v1/wishlist/${productId}`, // to change
-    delete: (productId: string) => `/v1/wishlist/${productId}` // to change
+    get: "/v1/wishlist",
+    put: (productId: string) => `/v1/wishlist/${productId}`,
+    delete: (productId: string) => `/v1/wishlist/${productId}`
   }
 } as const;

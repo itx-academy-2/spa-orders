@@ -4,6 +4,7 @@ import ProductCard from "@/components/product-card/ProductCard";
 
 import routes from "@/constants/routes";
 import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer";
+import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
@@ -24,10 +25,25 @@ const mockAddToCartOrOpenDrawer = jest.fn();
 
 jest.mock("@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer");
 
-const renderAndMock = (isProductInCart: boolean) => {
+jest.mock("@/hooks/use-toggle-favorite/useToggleFavorite");
+
+const mockToggle = jest.fn();
+
+const renderAndMock = ({
+  isProductInCart,
+  isFavorite = false
+  }: {
+    isProductInCart: boolean;
+    isFavorite: boolean;
+  }) => {
   (useAddToCartOrOpenDrawer as jest.Mock).mockReturnValue({
     isProductInCart,
     addToCartOrOpenDrawer: mockAddToCartOrOpenDrawer
+  });
+
+  (useToggleFavorite as jest.Mock).mockReturnValue({
+    isFavorite: () => isFavorite,
+    toggle: mockToggle
   });
 
   return renderWithProviders(<ProductCard product={mockProduct} />);
@@ -42,7 +58,7 @@ describe("ProductCard", () => {
     let result: ReturnType<typeof renderAndMock>;
 
     beforeEach(() => {
-      result = renderAndMock(false);
+      result = renderAndMock({ isProductInCart: false, isFavorite: false });
     });
 
     test("should render product name", () => {
@@ -99,7 +115,7 @@ describe("ProductCard", () => {
   describe("when product is in cart", () => {
     let result: ReturnType<typeof renderAndMock>;
     beforeEach(() => {
-      result = renderAndMock(true);
+      result = renderAndMock({ isProductInCart: true, isFavorite: false });
     });
 
     test("should render icon with check mark", () => {
@@ -113,6 +129,31 @@ describe("ProductCard", () => {
         ".spa-product-card__cart-button--active"
       );
       expect(isProductActiveElement).toBeInTheDocument();
+    });
+  });
+
+  describe("favorite button behavior", () => {
+    test("should render unfilled heart icon when product is not favorite", () => {
+      renderAndMock({ isProductInCart: false, isFavorite: false });
+
+      const unfilledHeart = screen.getByTestId("FavoriteBorderIcon");
+      expect(unfilledHeart).toBeInTheDocument();
+    });
+
+    test("should render filled heart icon when product is favorite", () => {
+      renderAndMock({ isProductInCart: false, isFavorite: true });
+
+      const filledHeart = screen.getByTestId("FavoriteIcon");
+      expect(filledHeart).toBeInTheDocument();
+    });
+
+    test("should call toggle function on favorite button click", () => {
+      renderAndMock({ isProductInCart: false, isFavorite: false });
+
+      const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
+      fireEvent.click(favoriteButton);
+
+      expect(mockToggle).toHaveBeenCalledWith(mockProduct.id);
     });
   });
 });

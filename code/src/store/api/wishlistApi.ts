@@ -23,9 +23,8 @@ export const wishlistApi = appApi.injectEndpoints({
     }),
     addWishlist: build.mutation<void, string>({
       query: (productId) => ({
-        url: URLS.wishlist.post(productId),
-        method: httpMethods.post,
-        //body: { productId }
+        url: URLS.wishlist.put(productId),
+        method: httpMethods.put
       }),
       invalidatesTags: [rtkQueryTags.WISHLIST]
     }),
