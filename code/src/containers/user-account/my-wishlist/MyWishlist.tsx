@@ -7,7 +7,7 @@ import AppBox from "@/components/app-box/AppBox";
 import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
 
-import { useGetWishlistQuery } from "@/store/api/wishlistApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
 
@@ -23,7 +23,7 @@ const MyWishlist = () => {
   const {
     data: wishlist,
     isLoading,
-  } = useGetWishlistQuery({
+  } = useGetUserWishlistQuery({
     sort: sortOption ?? undefined,
     lang: locale
   });

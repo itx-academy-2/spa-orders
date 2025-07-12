@@ -4,15 +4,15 @@ import { useSearchParams } from "react-router-dom";
 import MyWishlist from "@/containers/user-account/my-wishlist/MyWishlist";
 import { mockProducts } from "@/containers/products-container/ProductContainer.constants";
 
-import { useGetWishlistQuery } from "@/store/api/wishlistApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import render from "@/utils/render-with-providers/renderWithProviders";
 import { ProductsContainerProps } from "@/containers/products-container/ProductsContainer.types";
 
 jest.mock("@/store/api/wishlistApi", () => ({
-  useGetWishlistQuery: jest.fn(),
+  useGetUserWishlistQuery: jest.fn(),
 }));
 
-const mockUseGetWishlistQuery = useGetWishlistQuery as jest.Mock;
+const mockUseGetUserWishlistQuery = useGetUserWishlistQuery as jest.Mock;
 
 jest.mock("@/context/i18n/I18nProvider", () => ({
   ...jest.requireActual("@/context/i18n/I18nProvider"),
@@ -51,7 +51,7 @@ const renderAndMock = ({
 }: {
   mockResponse?: Partial<{ data?: typeof mockData; isLoading?: boolean }>;
 } = {}) => {
-  mockUseGetWishlistQuery.mockReturnValue({
+  mockUseGetUserWishlistQuery.mockReturnValue({
     isLoading: false,
     ...mockResponse,
     data:
@@ -109,7 +109,7 @@ describe("MyWishlist", () => {
     });
   });
 
-  test("should call useGetWishlistQuery with sort and lang params", () => {
+  test("should call useGetUserWishlistQuery with sort and lang params", () => {
     const searchParams = new URLSearchParams();
     searchParams.set("sort", "bestsellers,desc");
 
@@ -119,7 +119,7 @@ describe("MyWishlist", () => {
 
     renderAndMock();
 
-    expect(mockUseGetWishlistQuery).toHaveBeenCalledWith({
+    expect(mockUseGetUserWishlistQuery).toHaveBeenCalledWith({
       sort: "bestsellers,desc",
       lang: "en",
     });

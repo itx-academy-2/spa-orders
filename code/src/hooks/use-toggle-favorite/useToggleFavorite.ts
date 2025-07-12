@@ -2,9 +2,9 @@ import { useSearchParams } from "react-router-dom";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import {
-  useGetWishlistQuery,
-  useAddWishlistMutation,
-  useRemoveWishlistMutation
+  useGetUserWishlistQuery,
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation
 } from "@/store/api/wishlistApi";
 
 
@@ -18,24 +18,24 @@ const useToggleFavorite = () => {
     data: wishlistData,
     isLoading,
     isError,
-  } = useGetWishlistQuery({
+  } = useGetUserWishlistQuery({
     lang: locale,
     sort
   });
 
   const wishlist = wishlistData?.content ?? [];
 
-  const [addWishlist] = useAddWishlistMutation();
-  const [removeWishlist] = useRemoveWishlistMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
 
   const isFavorite = (productId: string): boolean =>
     wishlist.some((item) => item.id === productId);
 
   const toggle = (productId: string) => {
     if (isFavorite(productId)) {
-      removeWishlist(productId);
+      removeFromWishlist(productId);
     } else {
-      addWishlist(productId);
+      addToWishlist(productId);
     }
   };
 

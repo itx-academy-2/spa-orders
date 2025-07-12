@@ -10,7 +10,7 @@ import {
 
 export const wishlistApi = appApi.injectEndpoints({
   endpoints: (build) => ({
-    getWishlist: build.query<
+    getUserWishlist: build.query<
       GetUserProductsResponse,
       GetUserProductsParams | void
     >({
@@ -21,14 +21,14 @@ export const wishlistApi = appApi.injectEndpoints({
       }),
       providesTags: [rtkQueryTags.WISHLIST]
     }),
-    addWishlist: build.mutation<void, string>({
+    addToWishlist: build.mutation<void, string>({
       query: (productId) => ({
         url: URLS.wishlist.put(productId),
         method: httpMethods.put
       }),
       invalidatesTags: [rtkQueryTags.WISHLIST]
     }),
-    removeWishlist: build.mutation<void, string>({
+    removeFromWishlist: build.mutation<void, string>({
       query: (productId) => ({
         url: URLS.wishlist.delete(productId),
         method: httpMethods.delete
@@ -39,7 +39,7 @@ export const wishlistApi = appApi.injectEndpoints({
 });
 
 export const {
-  useGetWishlistQuery,
-  useAddWishlistMutation,
-  useRemoveWishlistMutation
+  useGetUserWishlistQuery,
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation
 } = wishlistApi;

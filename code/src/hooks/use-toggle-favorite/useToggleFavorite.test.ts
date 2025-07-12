@@ -3,15 +3,15 @@ import { useSearchParams } from "react-router-dom";
 
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import {
-  useAddWishlistMutation,
-  useRemoveWishlistMutation,
-  useGetWishlistQuery,
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation,
+  useGetUserWishlistQuery,
 } from "@/store/api/wishlistApi";
 
 jest.mock("@/store/api/wishlistApi", () => ({
-  useGetWishlistQuery: jest.fn(),
-  useAddWishlistMutation: jest.fn(),
-  useRemoveWishlistMutation: jest.fn(),
+  useGetUserWishlistQuery: jest.fn(),
+  useAddToWishlistMutation: jest.fn(),
+  useRemoveFromWishlistMutation: jest.fn(),
 }));
 
 jest.mock("@/context/i18n/I18nProvider", () => ({
@@ -28,9 +28,9 @@ jest.mock("react-router-dom", () => {
 });
 
 const mockUseSearchParams = useSearchParams as jest.Mock;
-const mockUseGetWishlistQuery = useGetWishlistQuery as jest.Mock;
-const mockAddWishlist = jest.fn();
-const mockRemoveWishlist = jest.fn();
+const mockUseGetUserWishlistQuery = useGetUserWishlistQuery as jest.Mock;
+const mockAddToWishlist = jest.fn();
+const mockRemoveFromWishlist = jest.fn();
 
 describe("useToggleFavorite", () => {
   beforeEach(() => {
@@ -39,9 +39,9 @@ describe("useToggleFavorite", () => {
 
     mockUseSearchParams.mockReturnValue([params]);
 
-    (useAddWishlistMutation as jest.Mock).mockReturnValue([mockAddWishlist]);
-    (useRemoveWishlistMutation as jest.Mock).mockReturnValue([
-      mockRemoveWishlist,
+    (useAddToWishlistMutation as jest.Mock).mockReturnValue([mockAddToWishlist]);
+    (useRemoveFromWishlistMutation as jest.Mock).mockReturnValue([
+      mockRemoveFromWishlist,
     ]);
 
     jest.clearAllMocks();
@@ -53,7 +53,7 @@ describe("useToggleFavorite", () => {
   ];
 
   test("should return wishlist and flags correctly", () => {
-    mockUseGetWishlistQuery.mockReturnValue({
+    mockUseGetUserWishlistQuery.mockReturnValue({
       data: { content: mockWishlist },
       isLoading: false,
       isError: false,
@@ -67,7 +67,7 @@ describe("useToggleFavorite", () => {
   });
 
   test("isFavorite returns true for existing product", () => {
-    mockUseGetWishlistQuery.mockReturnValue({
+    mockUseGetUserWishlistQuery.mockReturnValue({
       data: { content: mockWishlist },
       isLoading: false,
       isError: false,
@@ -79,8 +79,8 @@ describe("useToggleFavorite", () => {
     expect(result.current.isFavorite("999")).toBe(false);
   });
 
-  test("toggle calls removeWishlist if product is favorite", () => {
-    mockUseGetWishlistQuery.mockReturnValue({
+  test("toggle calls removeFromWishlist if product is favorite", () => {
+    mockUseGetUserWishlistQuery.mockReturnValue({
       data: { content: mockWishlist },
       isLoading: false,
       isError: false,
@@ -92,12 +92,12 @@ describe("useToggleFavorite", () => {
       result.current.toggle("2");
     });
 
-    expect(mockRemoveWishlist).toHaveBeenCalledWith("2");
-    expect(mockAddWishlist).not.toHaveBeenCalled();
+    expect(mockRemoveFromWishlist).toHaveBeenCalledWith("2");
+    expect(mockAddToWishlist).not.toHaveBeenCalled();
   });
 
-  test("toggle calls addWishlist if product is not favorite", () => {
-    mockUseGetWishlistQuery.mockReturnValue({
+  test("toggle calls addToWishlist if product is not favorite", () => {
+    mockUseGetUserWishlistQuery.mockReturnValue({
       data: { content: mockWishlist },
       isLoading: false,
       isError: false,
@@ -109,12 +109,12 @@ describe("useToggleFavorite", () => {
       result.current.toggle("5");
     });
 
-    expect(mockAddWishlist).toHaveBeenCalledWith("5");
-    expect(mockRemoveWishlist).not.toHaveBeenCalled();
+    expect(mockAddToWishlist).toHaveBeenCalledWith("5");
+    expect(mockRemoveFromWishlist).not.toHaveBeenCalled();
   });
 
   test("works correctly with empty wishlist", () => {
-    mockUseGetWishlistQuery.mockReturnValue({
+    mockUseGetUserWishlistQuery.mockReturnValue({
       data: { content: [] },
       isLoading: false,
       isError: false,
@@ -128,11 +128,11 @@ describe("useToggleFavorite", () => {
       result.current.toggle("abc");
     });
 
-    expect(mockAddWishlist).toHaveBeenCalledWith("abc");
+    expect(mockAddToWishlist).toHaveBeenCalledWith("abc");
   });
 
-  test("calls useGetWishlistQuery with correct params", () => {
-    mockUseGetWishlistQuery.mockReturnValue({
+  test("calls useGetUserWishlistQuery with correct params", () => {
+    mockUseGetUserWishlistQuery.mockReturnValue({
       data: { content: [] },
       isLoading: false,
       isError: false,
@@ -140,7 +140,7 @@ describe("useToggleFavorite", () => {
 
     renderHook(() => useToggleFavorite());
 
-    expect(mockUseGetWishlistQuery).toHaveBeenCalledWith({
+    expect(mockUseGetUserWishlistQuery).toHaveBeenCalledWith({
       lang: "en",
       sort: "bestsellers,desc",
     });
