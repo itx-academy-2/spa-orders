@@ -76,6 +76,7 @@ const MyWishlist = () => {
           defaultLabel={defaultDropdownText}
           className="spa-my-wishlist__sort"
           data-cy="my-wishlist-dropdown"
+          data-testid="my-wishlist-dropdown"
         />
       </AppBox>
       {isEmpty && (
