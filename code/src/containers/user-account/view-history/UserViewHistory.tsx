@@ -140,7 +140,7 @@ const UserViewHistory = () => {
       {content()}
       <PaginationBlock
         page={page}
-        totalPages={viewHistoryResponse?.totalPages}
+        totalPages={pagesCount}
       />
     </AppBox>
   );
