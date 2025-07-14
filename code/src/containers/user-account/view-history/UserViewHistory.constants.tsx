@@ -10,3 +10,8 @@ export const sortOptions = [
     label: <FormattedMessage id="sortOptions.oldest" />
   }
 ];
+
+export const userViewHistoryPageNotFoundErrorConfig = {
+  errorType: "notFound",
+  errorMessageTranslationKey: "product.productNotFound"
+} as const;

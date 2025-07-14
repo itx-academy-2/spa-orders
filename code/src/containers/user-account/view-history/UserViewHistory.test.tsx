@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 
 import userEvent from "@testing-library/user-event";
 
+import { RedirectConfig } from "@/hooks/use-error-page-redirect/useErrorPageRedirect.types";
 import {
   useDeleteAllViewProductsMutation,
   useGetViewHistoryApiQuery
@@ -26,7 +27,11 @@ const deleteAllViewProductsMock = jest.fn();
 
 const mockSetSearchParams = jest.fn();
 const mockSearchParams = new URLSearchParams();
-
+const mockRedirect = ({
+  errorMessageTranslationKey
+}: Pick<RedirectConfig, "errorMessageTranslationKey">) => (
+  <div>{errorMessageTranslationKey}</div>
+);
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useSearchParams: () => [mockSearchParams, mockSetSearchParams]
@@ -37,6 +42,11 @@ jest.mock("@/store/api/viewHistoryApi");
 jest.mock("@/context/i18n/I18nProvider", () => ({
   ...jest.requireActual("@/context/i18n/I18nProvider"),
   useLocaleContext: jest.fn(() => ({ locale: "en" }))
+}));
+
+jest.mock("@/hooks/use-error-page-redirect/useErrorPageRedirect", () => ({
+  __esModule: true,
+  default: jest.fn(() => ({ renderRedirectComponent: mockRedirect }))
 }));
 
 jest.mock("@/containers/products-container/ProductsContainer", () => ({
@@ -65,10 +75,14 @@ jest.mock("@/containers/products-container/ProductsContainer", () => ({
 
 const renderAndMock = ({
   mockResponse = {},
-  isLoading = false
+  isLoading = false,
+  isError = false,
+  error
 }: {
   mockResponse?: Partial<ReturnType<typeof useGetViewHistoryApiQuery>>;
   isLoading?: boolean;
+  isError?: boolean;
+  error?: { status: number };
 } = {}) => {
   (useDeleteAllViewProductsMutation as jest.Mock).mockReturnValue([
     deleteAllViewProductsMock
@@ -76,15 +90,15 @@ const renderAndMock = ({
 
   (useGetViewHistoryApiQuery as jest.Mock).mockReturnValue({
     isLoading,
-    isError: false,
-    isSuccess: true,
-    data: mockResponse?.data ?? mockData
+    isError,
+    data: mockResponse?.data ?? mockData,
+    error: error ?? null
   });
 
   return renderWithProviders(<UserViewHistoryPage />);
 };
 
-describe("UserViewHistoryPage", () => {
+describe("UserViewHistory", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -136,5 +150,16 @@ describe("UserViewHistoryPage", () => {
 
     const updatedParams = mockSetSearchParams.mock.calls[0][0].toString();
     expect(updatedParams).toContain("sort=product.createdAt%2Casc");
+  });
+
+  it("should handle page not found error", () => {
+    renderAndMock({
+      error: { status: 404 },
+      isError: true
+    });
+
+    const errorMessage = screen.getByText("product.productNotFound");
+
+    expect(errorMessage).toBeInTheDocument();
   });
 });

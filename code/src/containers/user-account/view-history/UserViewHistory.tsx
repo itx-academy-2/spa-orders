@@ -1,11 +1,13 @@
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import SentimentDissatisfiedOutlinedIcon from "@mui/icons-material/SentimentDissatisfiedOutlined";
 
 import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
 import ProductsContainer from "@/containers/products-container/ProductsContainer";
-import { sortOptions } from "@/containers/user-account/view-history/UserViewHistory.constants";
+import {
+  sortOptions,
+  userViewHistoryPageNotFoundErrorConfig
+} from "@/containers/user-account/view-history/UserViewHistory.constants";
 
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
@@ -14,12 +16,14 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import useErrorPageRedirect from "@/hooks/use-error-page-redirect/useErrorPageRedirect";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import {
   useDeleteAllViewProductsMutation,
   useGetViewHistoryApiQuery
 } from "@/store/api/viewHistoryApi";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
+import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import repeatComponent from "@/utils/repeat-component/repeatComponent";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
@@ -32,12 +36,14 @@ const UserViewHistory = () => {
   const size = setProductsPerPageSize(screenSize.width);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
+  const { renderRedirectComponent } = useErrorPageRedirect();
 
   const [deleteAllViewProducts] = useDeleteAllViewProductsMutation();
   const {
     data: viewHistoryResponse,
     isLoading,
-    isError
+    isError,
+    error
   } = useGetViewHistoryApiQuery({
     page: page,
     size,
@@ -67,13 +73,6 @@ const UserViewHistory = () => {
     (item) => item.value === sortOption
   )?.label || <AppTypography translationKey="sortOptions.newest" />;
 
-  useEffect(() => {
-    if (page > pagesCount) {
-      searchParams.set("page", pagesCount.toString());
-      setSearchParams(searchParams);
-    }
-  }, [pagesCount, page, searchParams, setSearchParams]);
-
   const content = () => {
     if (isLoading) {
       return (
@@ -81,6 +80,10 @@ const UserViewHistory = () => {
           {repeatComponent(<ProductSkeleton />, 10)}
         </AppBox>
       );
+    }
+
+    if (isError && isErrorWithStatus(error) && error.status === 404) {
+      return renderRedirectComponent(userViewHistoryPageNotFoundErrorConfig);
     }
 
     if (viewHistoryResponse?.content.length === 0 && !isLoading) {
@@ -120,7 +123,7 @@ const UserViewHistory = () => {
             translationKey="userViewHistory.productsLabel"
             component="span"
             translationProps={{
-              values: { count: viewHistoryResponse?.content.length }
+              values: { count: viewHistoryResponse?.totalElements || 0 }
             }}
           />
         </AppTypography>
