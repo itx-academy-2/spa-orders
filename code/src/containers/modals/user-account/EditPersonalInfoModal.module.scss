@@ -1,0 +1,26 @@
+@import "@design-system";
+
+.personalInfoModal {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  padding: spacing(3);
+  width: min(560px, 100vw);
+  height: min(420px, 100vh);
+
+  &_inputWrapper {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: spacing(7);
+  }
+
+  &_closeIcon {
+    position: absolute;
+    top: spacing(2);
+    right: spacing(2);
+    cursor: pointer;
+  }
+}

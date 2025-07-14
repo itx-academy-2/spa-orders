@@ -1,4 +1,5 @@
 import { rtkQueryTags } from "@/constants/api-tags";
+import { httpMethods } from "@/constants/methods";
 import { URLS } from "@/constants/requests";
 import { appApi } from "@/store/api/appApi";
 import { UserResponse } from "@/types/user.types";
@@ -10,8 +11,20 @@ export const userProfileApi = appApi.injectEndpoints({
         url: URLS.userInfo.getUserInfo
       }),
       providesTags: [rtkQueryTags.USER_PROFILE]
+    }),
+    updateUserInfo: build.mutation<
+      UserResponse,
+      Pick<UserResponse, "firstName" | "lastName" | "phone">
+    >({
+      query: (body) => ({
+        url: URLS.userInfo.patchUserInfo,
+        method: httpMethods.patch,
+        body
+      }),
+      invalidatesTags: [rtkQueryTags.USER_PROFILE]
     })
   })
 });
 
-export const { useGetUserInfoQuery } = userProfileApi;
+export const { useGetUserInfoQuery, useUpdateUserInfoMutation } =
+  userProfileApi;
