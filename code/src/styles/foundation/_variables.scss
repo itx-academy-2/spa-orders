@@ -114,12 +114,6 @@ $breakpoints: (
 
 $spacing-scale-factor: 0.25rem;
 
-/*=============================================
-=                  SPACING                   =
-=============================================*/
-
-$spacing-scale-factor: 0.25rem;
-
 $spacing: (
   0: 0,
   1: $spacing-scale-factor,
@@ -140,8 +134,6 @@ $spacing: (
   56: $spacing-scale-factor * 56,
   64: $spacing-scale-factor * 64
 );
-
-/*=====  End of SPACING  ======*/
 
 /*=====  End of SPACING  ======*/
 
