@@ -1,31 +1,29 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 
-import { Box } from "@mui/material";
-
 import AccountTitle from "@/components/account-page/AccountTitle";
+import AppBox from "@/components/app-box/AppBox";
 import Sidebar from "@/components/sidebar/Sidebar";
 
 import * as styles from "./AccountLayout.module.scss";
 
 const AccountLayout = () => {
   return (
-    <Box className={styles.accountLayoutWrapper}>
-      <Box className={styles.header}>
+    <AppBox className={styles.accountLayoutWrapper}>
+      <AppBox className={styles.header}>
         <AccountTitle />
-        <Box className={styles.divider} />
-      </Box>
+        <AppBox className={styles.divider} />
+      </AppBox>
 
-      <Box className={styles.accountLayout}>
-        <Box className={styles.sidebarSection}>
+      <AppBox className={styles.accountLayout}>
+        <AppBox className={styles.sidebarSection}>
           <Sidebar />
-        </Box>
+        </AppBox>
 
-        <Box className={styles.contentSection}>
+        <AppBox className={styles.contentSection}>
           <Outlet />
-        </Box>
-      </Box>
-    </Box>
+        </AppBox>
+      </AppBox>
+    </AppBox>
   );
 };
 

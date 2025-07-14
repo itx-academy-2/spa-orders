@@ -1,8 +1,8 @@
 @import "@design-system";
 
 .accountTitle {
-  margin-bottom: 0.75rem;
-  padding: 0 0 0 40px;
+  margin-bottom: map-get($spacing, 3);
+  padding-left: map-get($spacing, 10);
 
   &__title {
     font-size: 1.75rem;
