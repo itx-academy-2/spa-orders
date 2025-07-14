@@ -16,7 +16,7 @@
 }
 
 .menuButton {
-  padding: calc(4 * $spacing-scale-factor) calc(6 * $spacing-scale-factor);
+  padding: spacing(4) spacing(6);
   transition: all map-get($duration, fast) ease;
   border-radius: 0;
 
