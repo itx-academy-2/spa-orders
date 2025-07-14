@@ -162,4 +162,15 @@ describe("UserViewHistory", () => {
 
     expect(errorMessage).toBeInTheDocument();
   });
+
+  it("should handle page not found error", () => {
+    renderAndMock({
+      error: { status: 404 },
+      isError: true
+    });
+
+    const errorMessage = screen.getByText("product.productNotFound");
+
+    expect(errorMessage).toBeInTheDocument();
+  });
 });
