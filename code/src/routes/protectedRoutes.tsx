@@ -48,9 +48,6 @@ const ProfilePage = lazy(
 const WishlistPage = lazy(
   () => import("@/pages/user-account/Wishlist/WishlistPage")
 );
-const ViewHistoryPage = lazy(
-  () => import("@/pages/user-account/ViewHistory/ViewHistoryPage")
-);
 const AddressesPage = lazy(
   () => import("@/pages/user-account/Addresses/AddressesPage")
 );
@@ -129,7 +126,7 @@ const protectedRoutes: RouteObject[] = [
       },
       {
         path: routePaths.userCabinet.viewHistory.path,
-        element: <ViewHistoryPage />
+        element: <UserViewHistoryPage />
       },
       {
         path: routePaths.userCabinet.wishlist.path,
