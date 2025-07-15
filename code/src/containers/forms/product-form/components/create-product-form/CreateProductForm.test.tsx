@@ -29,6 +29,11 @@ const expectedBody = {
       name: "name",
       description: "example description",
       languageCode: "en"
+    },
+    {
+      name: "назва",
+      description: "опис-опис-опис-опис-опис",
+      languageCode: "uk"
     }
   ]
 };
@@ -85,12 +90,23 @@ describe("Test CreateProductForm", () => {
     await userEvent.type(quantityInput, "100");
     await userEvent.type(discountInput, "10");
 
-    await act(async () => fireEvent.click(submitButton));
-
     const expectedBodyWithDiscount = {
       ...expectedBody,
       discount: 10
     };
+
+    const ukBtn = screen.getByText("language.full.uk");
+    await userEvent.click(ukBtn);
+
+    const nameInputUK = getTagIn("product-form-name-input");
+    const descriptionInputUK = getTagIn(
+      "product-form-description-input",
+      "textarea"
+    );
+    await typeIntoInput(nameInputUK, expectedBody.productTranslations[1].name);
+    await typeIntoInput(descriptionInputUK, expectedBody.productTranslations[1].description);
+
+    await act(async () => fireEvent.click(submitButton));
 
     expect(mockCreateProduct).toHaveBeenCalledWith(expectedBodyWithDiscount);
   });

@@ -14,6 +14,7 @@ import signInFormMessages from "@/containers/forms/sign-in-form/messages";
 import signupFormMessages from "@/containers/forms/sign-up-form/messages";
 import bannerMessages from "@/containers/intro-banner/messages";
 import authModalMessages from "@/containers/modals/auth/messages";
+import editPersonalInfoMessages from "@/containers/modals/user-account/messages";
 import orderItemMessages from "@/containers/order-item/messages";
 import subintroMessages from "@/containers/subintro/messages";
 import ordersTableMessages from "@/containers/tables/orders-table/messages";
@@ -87,6 +88,7 @@ const messages: MessagesType = {
     ...bestSellerContainerMessages.en,
     ...helpCenterPageMessages.en,
     ...dashboardMetricsPageMessages.en,
+    ...editPersonalInfoMessages.en,
     ...myWishlistMessages.en
   },
   uk: {
@@ -130,6 +132,7 @@ const messages: MessagesType = {
     ...bestSellerContainerMessages.uk,
     ...helpCenterPageMessages.uk,
     ...dashboardMetricsPageMessages.uk,
+    ...editPersonalInfoMessages.uk,
     ...myWishlistMessages.uk
   }
 };

@@ -1,0 +1,14 @@
+{
+  "personalInfo.title": "Change Personal Information",
+  "personalInfo.firstname": "First Name *",
+  "personalInfo.lastname": "Last Name *",
+  "personalInfo.phone": "Phone number",
+  "personalInfo.button": "Save",
+  "personalInfo.validation.firstName.tooShort": "First name must be at least 2 characters long",
+  "personalInfo.validation.firstName.tooLong": "First name is too long",
+  "personalInfo.validation.firstName.invalidCharacters": "The name can only contain letters, apostrophes, and hyphens.",
+  "personalInfo.validation.lastName.tooShort": "Last name must be at least 2 characters long",
+  "personalInfo.validation.lastName.tooLong": "Last name is too long",
+  "personalInfo.validation.lastName.invalidCharacters": "Last name can only contain letters, apostrophes, and hyphens",
+  "personalInfo.validation.phone": "Phone number must be 10–13 digits, optional '+' at start"
+}
