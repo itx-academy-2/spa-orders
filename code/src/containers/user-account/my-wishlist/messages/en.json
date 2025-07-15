@@ -1,0 +1,12 @@
+{
+    "myWishlist.title": "My Wishlist",
+    "myWishlist.emptyMessage": "You haven't added any products to your wishlist yet.",
+    "myWishlist.productsCount": "{count, plural, one {# product} other {# products}}",
+    "productsDefault.label": "Recommended",
+    "sortOptions.newest": "Newest",
+    "sortOptions.bestsellers": "Bestsellers",
+    "sortOptions.priceLowHigh": "Price (Low to High)",
+    "sortOptions.priceHighLow": "Price (High to Low)",
+    "sortOptions.nameAZ": "Name A-Z",
+    "sortOptions.nameZA": "Name Z-A"
+}

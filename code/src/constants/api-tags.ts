@@ -9,7 +9,8 @@ export const rtkQueryTags = {
   ARTICLES: "ARTICLES",
   SUGGESTED_PRODUCT: "SUGGESTED_PRODUCT",
   USER_PROFILE: "USER_PROFILE",
-  VIEW_HISTORY: "VIEW_HISTORY"
+  VIEW_HISTORY: "VIEW_HISTORY",
+  WISHLIST: "WISHLIST"
 } as const;
 
 export const rtkQueryTagsArray = Object.values(rtkQueryTags);

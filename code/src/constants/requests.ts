@@ -97,5 +97,10 @@ export const URLS = {
     delete: ({ productId }: { productId: string }) =>
       `/v1/my-view-history/${productId}`,
     deleteAll: "/v1/my-view-history"
+  },
+    wishlist: {
+    get: "/v1/wishlist",
+    put: (productId: string) => `/v1/wishlist/${productId}`,
+    delete: (productId: string) => `/v1/wishlist/${productId}`,
   }
 } as const;

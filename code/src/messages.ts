@@ -21,6 +21,7 @@ import ordersTableMessages from "@/containers/tables/orders-table/messages";
 import productsTableMessages from "@/containers/tables/products-table/messages";
 import usersTableMessages from "@/containers/tables/users-table/messages";
 import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
+import myWishlistMessages from "@/containers/user-account/my-wishlist/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
@@ -94,6 +95,7 @@ const messages: MessagesType = {
     ...editPersonalInfoMessages.en,
     ...userViewHistoryMessages.en,
     ...PersonalInformation.en,
+    ...myWishlistMessages.en,
   },
   uk: {
     ...commonMessages.uk,
@@ -140,6 +142,7 @@ const messages: MessagesType = {
     ...editPersonalInfoMessages.uk,
      ...userViewHistoryMessages.uk,
     ...PersonalInformation.uk,
+    ...myWishlistMessages.uk,
   }
 };
 

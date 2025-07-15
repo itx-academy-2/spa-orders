@@ -45,8 +45,8 @@ const DashboardProductPage = lazy(
 const Profile = lazy(
   () => import("@/containers/user-account/profile/Profile")
 );
-const WishlistPage = lazy(
-  () => import("@/pages/user-account/Wishlist/WishlistPage")
+const MyWishlist = lazy(
+  () => import("@/containers/user-account/my-wishlist/MyWishlist")
 );
 const AddressesPage = lazy(
   () => import("@/pages/user-account/Addresses/AddressesPage")
@@ -130,7 +130,7 @@ const protectedRoutes: RouteObject[] = [
       },
       {
         path: routePaths.userCabinet.wishlist.path,
-        element: <WishlistPage />
+        element: <MyWishlist />
       },
       {
         path: routePaths.userCabinet.addresses.path,

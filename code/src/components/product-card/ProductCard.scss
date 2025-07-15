@@ -39,10 +39,6 @@
     overflow: hidden;
   }
 
-  &__footer-price {
-    color: var(--spa-best-sellers-price-color, $purple);
-  }
-
   &__description {
     @include transition((all, "medium"));
 
@@ -67,19 +63,37 @@
 
   &__footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding-top: spacing(3);
     border-top: 1px solid var(--spa-products-container-border-color, $light);
   }
 
-  &__cart-button {
-    @include box(40px, 40px);
-
-    color: var(--spa-best-sellers-cart-color, $gray);
+  &__footer-price {
+    color: var(--spa-best-sellers-price-color, $purple);
   }
 
-  &__cart-button--active {
-    color: var(--spa-best-sellers-cart-active-color, $purple);
+  &__footer-buttons {
+    display: flex;
+    gap: spacing(1);
+    margin-left: auto;
+  }
+
+  &__favorite-button {
+    color: $gray;
+    display: flex;
+    align-self: center;
+    
+    &--active {
+      color: $purple;
+    }
+  }
+
+  &__cart-button {
+    @include box(40px, 40px);
+    color: var(--spa-best-sellers-cart-color, $gray);
+    
+    &--active {
+      color: var(--spa-best-sellers-cart-active-color, $purple);
+    }
   }
 }
