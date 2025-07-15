@@ -8,7 +8,8 @@ import routes from "@/constants/routes";
 
 import * as styles from "./Sidebar.module.scss";
 
-import SidebarMenu, { MenuItem } from "./sidebar-menu/SidebarMenu";
+import SidebarMenu from "./sidebar-menu/SidebarMenu";
+import { MenuItem } from "./sidebar-menu/types";
 
 const menuItems: MenuItem[] = [
   {

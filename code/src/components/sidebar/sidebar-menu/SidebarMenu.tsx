@@ -8,11 +8,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import * as styles from "./SidebarMenu.module.scss";
 
-export type MenuItem = {
-  id: string;
-  translationKey: string;
-  path: string;
-};
+import { MenuItem } from "./types";
 
 type SidebarMenuProps = {
   items: MenuItem[];
