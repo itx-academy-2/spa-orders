@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 
-import SidebarMenu, { MenuItem } from "../sidebar-menu/SidebarMenu";
+import SidebarMenu from "../sidebar-menu/SidebarMenu";
+import { MenuItem } from "../sidebar-menu/types";
 
-// Мокаємо useNavigate
 jest.mock("react-router-dom", () => {
   const originalModule = jest.requireActual("react-router-dom");
   return {
@@ -13,7 +13,6 @@ jest.mock("react-router-dom", () => {
   };
 });
 
-// Мокаємо AppTypography — повертаємо translationKey
 jest.mock("@/components/app-typography/AppTypography", () => ({
   __esModule: true,
   default: ({ translationKey }: { translationKey: string }) => (
