@@ -27,6 +27,7 @@ import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
 import sidebar from "@/components/sidebar/messages";
+import PersonalInformation from "@/components/profile-personal-information/messages";
 
 import commonMessages from "@/constants/common-messages";
 import { Locale } from "@/context/i18n/I18nProvider";
@@ -93,6 +94,7 @@ const messages: MessagesType = {
     ...sidebar.en,
     ...editPersonalInfoMessages.en,
     ...userViewHistoryMessages.en,
+    ...PersonalInformation.en,
     ...myWishlistMessages.en,
   },
   uk: {
@@ -138,7 +140,8 @@ const messages: MessagesType = {
     ...dashboardMetricsPageMessages.uk,
     ...sidebar.uk,
     ...editPersonalInfoMessages.uk,
-    ...userViewHistoryMessages.uk,
+     ...userViewHistoryMessages.uk,
+    ...PersonalInformation.uk,
     ...myWishlistMessages.uk,
   }
 };
