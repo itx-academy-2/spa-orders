@@ -4,7 +4,7 @@ import AppContainer from "@/components/app-container/AppContainer";
 import AppInput from "@/components/app-input/AppInput";
 import AppTypography from "@/components/app-typography/AppTypography";
 
-import EditPersonalInfoModal from "@containers/modals/user-account/EditPersonalInfoModal";
+import EditPersonalInfoModal from "@/containers/modals/user-account/EditPersonalInfoModal";
 
 import { useGetUserInfoQuery } from "@/store/api/userProfileApi";
 import { useModalContext } from "@/context/modal/ModalContext";
@@ -30,49 +30,50 @@ const PersonalInformation = () => {
     };
 
     return (
-        <AppContainer className="spa-personal-information__container">
+        <AppContainer className={styles.PersonalInformation}>
             <AppTypography
-                className="spa-personal-information__title"
+                className={styles.PersonalInformation_title}
                 translationKey="personalInformation.title"
+                variant="subtitle1"
+                fontWeight="semi-bold"
             />
-            <AppBox className="spa-personal-information__first-last-names-container">
+            <AppBox className={styles.PersonalInformation_firstLastNames}>
                 <AppInput
                     value={user.firstName}
                     labelTranslationKey="personalInformation.firstName.field"
+                    className={styles.PersonalInformation_firstLastNames__firstName}
                     disabled
-                    fullWidth
                     data-cy="personal-information-first-name"
                 />
                 <AppInput
                     value={user.lastName}
                     labelTranslationKey="personalInformation.lastName.field"
+                    className={styles.PersonalInformation_firstLastNames__lastName}
                     disabled
-                    fullWidth
                     data-cy="personal-information-last-name"
                 />
             </AppBox>
-            <AppBox className="spa-personal-information__phone-container">
+            <AppBox className={styles.PersonalInformation_phone}>
                 <AppInput
                     value={user?.phone || ""}
                     labelTranslationKey="personalInformation.phone.field"
+                    className={styles.PersonalInformation_phone__field}
                     disabled
-                    fullWidth
                     data-cy="personal-information-phone"
                 />
             </AppBox>
             <AppButton
-                size="large"
-                className="spa-personal-information__change-button"
-                fullWidth
+                className={styles.PersonalInformation_changeButton}
                 type="button"
+                size="small"
                 onClick={handleChangePersonalInformation}
                 data-cy="personal-information-change-button"
+                data-testid="personal-information-change-button"
                 >
                 <AppTypography
-                    variant="subtitle2"
+                    variant="caption"
                     component="span"
                     translationKey="personalInformation.changeButton"
-                    fontWeight="extra-bold"
                 />
             </AppButton>
         </AppContainer>
