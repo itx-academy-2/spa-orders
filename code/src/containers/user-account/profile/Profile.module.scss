@@ -5,4 +5,5 @@
     flex-direction: column;
     gap: spacing(10);
     background-color: var(--spa-personal-information-background-color, $white);
+    padding: spacing(10);
 }
