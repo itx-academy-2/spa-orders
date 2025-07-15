@@ -11,6 +11,6 @@ describe("Sidebar", () => {
       </MemoryRouter>
     );
 
-    expect(getByRole("button", { name: "Profile" })).toBeInTheDocument();
+    expect(getByRole("button", { name: "label.profile" })).toBeInTheDocument();
   });
 });
