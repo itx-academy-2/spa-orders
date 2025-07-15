@@ -23,6 +23,7 @@ import usersTableMessages from "@/containers/tables/users-table/messages";
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
+import sidebar from "@/components/sidebar/messages";
 
 import commonMessages from "@/constants/common-messages";
 import { Locale } from "@/context/i18n/I18nProvider";
@@ -85,7 +86,8 @@ const messages: MessagesType = {
     ...confirDialogMessages.en,
     ...bestSellerContainerMessages.en,
     ...helpCenterPageMessages.en,
-    ...dashboardMetricsPageMessages.en
+    ...dashboardMetricsPageMessages.en,
+    ...sidebar.en
   },
   uk: {
     ...commonMessages.uk,
@@ -127,7 +129,8 @@ const messages: MessagesType = {
     ...confirDialogMessages.uk,
     ...bestSellerContainerMessages.uk,
     ...helpCenterPageMessages.uk,
-    ...dashboardMetricsPageMessages.uk
+    ...dashboardMetricsPageMessages.uk,
+    ...sidebar.uk
   }
 };
 

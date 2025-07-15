@@ -16,13 +16,13 @@ describe("SidebarMenu", () => {
   const mockedUseNavigate = useNavigate as jest.Mock;
 
   const menuItems: MenuItem[] = [
-    { id: "profile", label: "Profile", path: "/user/profile" },
+    { id: "profile", translationKey: "Profile", path: "/user/profile" },
     {
       id: "view-history",
-      label: "View History",
+      translationKey: "View History",
       path: "/user-cabinet/view-history"
     },
-    { id: "wishlist", label: "My Wishlist", path: "/user/wishlist" }
+    { id: "wishlist", translationKey: "My Wishlist", path: "/user/wishlist" }
   ];
 
   beforeEach(() => {

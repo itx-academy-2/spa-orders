@@ -1,20 +1,16 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography
-} from "@mui/material";
+import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import cn from "clsx";
+
+import AppTypography from "@/components/app-typography/AppTypography";
 
 import * as styles from "./SidebarMenu.module.scss";
 
 export type MenuItem = {
   id: string;
-  label: string;
+  translationKey: string;
   path: string;
 };
 
@@ -41,9 +37,10 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ items }) => {
             >
               <ListItemText
                 primary={
-                  <Typography className={styles.menuText}>
-                    {item.label}
-                  </Typography>
+                  <AppTypography
+                    className={styles.menuText}
+                    translationKey={item.translationKey}
+                  />
                 }
               />
             </ListItemButton>

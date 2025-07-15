@@ -11,20 +11,24 @@ import * as styles from "./Sidebar.module.scss";
 import SidebarMenu, { MenuItem } from "./sidebar-menu/SidebarMenu";
 
 const menuItems: MenuItem[] = [
-  { id: "profile", label: "Profile", path: routes.userCabinet.profile.path },
+  {
+    id: "profile",
+    translationKey: "label.profile",
+    path: routes.userCabinet.profile.path
+  },
   {
     id: "view-history",
-    label: "View History",
+    translationKey: "label.history",
     path: routes.userCabinet.viewHistory.path
   },
   {
     id: "wishlist",
-    label: "My Wishlist",
+    translationKey: "label.wishlist",
     path: routes.userCabinet.wishlist.path
   },
   {
     id: "addresses",
-    label: "My Addresses",
+    translationKey: "label.addresses",
     path: routes.userCabinet.addresses.path
   }
 ];

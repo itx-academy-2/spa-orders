@@ -114,27 +114,6 @@ $breakpoints: (
 
 $spacing-scale-factor: 0.25rem;
 
-$spacing: (
-  0: 0,
-  1: $spacing-scale-factor,
-  2: $spacing-scale-factor * 2,
-  3: $spacing-scale-factor * 3,
-  4: $spacing-scale-factor * 4,
-  5: $spacing-scale-factor * 5,
-  6: $spacing-scale-factor * 6,
-  8: $spacing-scale-factor * 8,
-  10: $spacing-scale-factor * 10,
-  12: $spacing-scale-factor * 12,
-  16: $spacing-scale-factor * 16,
-  20: $spacing-scale-factor * 20,
-  24: $spacing-scale-factor * 24,
-  32: $spacing-scale-factor * 32,
-  40: $spacing-scale-factor * 40,
-  48: $spacing-scale-factor * 48,
-  56: $spacing-scale-factor * 56,
-  64: $spacing-scale-factor * 64
-);
-
 /*=====  End of SPACING  ======*/
 
 /*=============================================
