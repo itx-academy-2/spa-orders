@@ -4,6 +4,5 @@
     display: flex;
     flex-direction: column;
     gap: spacing(10);
-    padding: spacing(10);
-    background-color: var(--spa-personal-information-background-color, $light);
+    background-color: var(--spa-personal-information-background-color, $white);
 }
