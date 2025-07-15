@@ -1,0 +1,14 @@
+@import "@design-system";
+
+.cardWithDelete {
+  position: relative;
+
+  &__deleteButton {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    background-color: white;
+    border-radius: 50%;
+  }
+}

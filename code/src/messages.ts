@@ -20,6 +20,7 @@ import subintroMessages from "@/containers/subintro/messages";
 import ordersTableMessages from "@/containers/tables/orders-table/messages";
 import productsTableMessages from "@/containers/tables/products-table/messages";
 import usersTableMessages from "@/containers/tables/users-table/messages";
+import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
@@ -90,6 +91,7 @@ const messages: MessagesType = {
     ...dashboardMetricsPageMessages.en,
     ...sidebar.en,
     ...editPersonalInfoMessages.en,
+    ...userViewHistoryMessages.en,
   },
   uk: {
     ...commonMessages.uk,
@@ -134,6 +136,7 @@ const messages: MessagesType = {
     ...dashboardMetricsPageMessages.uk,
     ...sidebar.uk,
     ...editPersonalInfoMessages.uk,
+    ...userViewHistoryMessages.uk,
   }
 };
 

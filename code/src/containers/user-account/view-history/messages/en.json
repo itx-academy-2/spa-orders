@@ -1,0 +1,7 @@
+{
+  "userViewHistory.title": "View History",
+  "userViewHistory.clearAll": "Clear all",
+  "userViewHistory.noProducts": "No viewed products",
+  "sortOptions.oldest": "Oldest",
+  "userViewHistory.productsLabel": "{count, plural, one {# viewed product} other {# viewed products}}"
+}

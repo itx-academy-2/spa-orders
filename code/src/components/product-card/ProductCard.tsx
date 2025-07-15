@@ -16,7 +16,7 @@ import formatPrice from "@/utils/format-price/formatPrice";
 
 import "@/components/product-card/ProductCard.scss";
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, isViewHistory = false }: ProductCardProps) => {
   const { isProductInCart, addToCartOrOpenDrawer } =
     useAddToCartOrOpenDrawer(product);
   const { id, name, image, price, description, percentageOfTotalOrders } =
@@ -53,14 +53,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
             src={imgSrc}
             onError={handleImageError}
           />
-          <AppBox
-            className="spa-product-card__description"
-            data-cy="product-card-description"
-          >
-            <AppTypography className="spa-product-card__description-text">
-              {description}
-            </AppTypography>
-          </AppBox>
+          {!isViewHistory && (
+            <AppBox
+              className="spa-product-card__description"
+              data-cy="product-card-description"
+            >
+              <AppTypography className="spa-product-card__description-text">
+                {description}
+              </AppTypography>
+            </AppBox>
+          )}
         </AppBox>
         {roundedPercentage > 0 && (
           <AppBox
