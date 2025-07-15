@@ -8,6 +8,10 @@ import { ROLES } from "@/constants/common";
 import routePaths from "@/constants/routes";
 import ProtectedRoute from "@/routes/protected-route/ProtectedRoute";
 
+const UserViewHistoryPage = lazy(
+  () => import("@/containers/user-account/view-history/UserViewHistory")
+);
+
 const OrdersPage = lazy(() => import("@/pages/orders/OrdersPage"));
 const CartPage = lazy(() => import("@/pages/cart/CartPage"));
 const DashboardOrdersPage = lazy(
@@ -43,9 +47,6 @@ const Profile = lazy(
 );
 const WishlistPage = lazy(
   () => import("@/pages/user-account/Wishlist/WishlistPage")
-);
-const ViewHistoryPage = lazy(
-  () => import("@/pages/user-account/ViewHistory/ViewHistoryPage")
 );
 const AddressesPage = lazy(
   () => import("@/pages/user-account/Addresses/AddressesPage")
@@ -125,7 +126,7 @@ const protectedRoutes: RouteObject[] = [
       },
       {
         path: routePaths.userCabinet.viewHistory.path,
-        element: <ViewHistoryPage />
+        element: <UserViewHistoryPage />
       },
       {
         path: routePaths.userCabinet.wishlist.path,
