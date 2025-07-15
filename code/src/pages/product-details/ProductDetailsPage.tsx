@@ -24,7 +24,7 @@ const ProductDetailsPage = () => {
 
   useEffect(() => {
     addViewProduct(productId);
-  }, [productId, addViewProduct]);
+  }, [productId]);
 
   return (
     <PageWrapper>

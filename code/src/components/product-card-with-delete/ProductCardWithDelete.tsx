@@ -19,6 +19,8 @@ const ProductCardWithDelete = ({
         size="medium"
         className={styles.cardWithDelete__deleteButton}
         onClick={() => deleteViewProduct(productId)}
+        aria-label="Delete product from view history"
+        title="Delete product from view history"
       >
         <DeleteOutlineOutlinedIcon fontSize="small" />
       </AppIconButton>
