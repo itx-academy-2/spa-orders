@@ -89,5 +89,13 @@ export const URLS = {
   userInfo: {
     getUserInfo: "/v2/my-info",
     patchUserInfo: "/v2/my-info",
+  },
+  viewHistory: {
+    get: "/v1/my-view-history",
+    put: ({ productId }: { productId: string }) =>
+      `/v1/my-view-history/${productId}`,
+    delete: ({ productId }: { productId: string }) =>
+      `/v1/my-view-history/${productId}`,
+    deleteAll: "/v1/my-view-history"
   }
 } as const;

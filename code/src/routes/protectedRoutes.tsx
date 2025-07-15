@@ -8,6 +8,10 @@ import { ROLES } from "@/constants/common";
 import routePaths from "@/constants/routes";
 import ProtectedRoute from "@/routes/protected-route/ProtectedRoute";
 
+const UserViewHistoryPage = lazy(
+  () => import("@/containers/user-account/view-history/UserViewHistory")
+);
+
 const OrdersPage = lazy(() => import("@/pages/orders/OrdersPage"));
 const CartPage = lazy(() => import("@/pages/cart/CartPage"));
 const DashboardOrdersPage = lazy(

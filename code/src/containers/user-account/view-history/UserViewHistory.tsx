@@ -1,0 +1,146 @@
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+
+import SentimentDissatisfiedOutlinedIcon from "@mui/icons-material/SentimentDissatisfiedOutlined";
+
+import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
+import ProductsContainer from "@/containers/products-container/ProductsContainer";
+import { sortOptions } from "@/containers/user-account/view-history/UserViewHistory.constants";
+
+import AppBox from "@/components/app-box/AppBox";
+import AppButton from "@/components/app-button/AppButton";
+import AppDropdown from "@/components/app-dropdown/AppDropdown";
+import AppTypography from "@/components/app-typography/AppTypography";
+import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
+
+import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import usePagination from "@/hooks/use-pagination/usePagination";
+import {
+  useDeleteAllViewProductsMutation,
+  useGetViewHistoryApiQuery
+} from "@/store/api/viewHistoryApi";
+import useScreenSize from "@/utils/check-screen-size/useScreenSize";
+import repeatComponent from "@/utils/repeat-component/repeatComponent";
+import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
+
+import * as styles from "@/containers/user-account/view-history/UserViewHistory.module.scss";
+
+const UserViewHistory = () => {
+  const { page } = usePagination();
+  const screenSize = useScreenSize();
+  const { locale } = useLocaleContext();
+  const size = setProductsPerPageSize(screenSize.width);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const sortOption = searchParams.get("sort");
+
+  const [deleteAllViewProducts] = useDeleteAllViewProductsMutation();
+  const {
+    data: viewHistoryResponse,
+    isLoading,
+    isError
+  } = useGetViewHistoryApiQuery({
+    page: page,
+    size,
+    sort: sortOption ?? undefined,
+    lang: locale
+  });
+
+  const pagesCount = viewHistoryResponse?.totalPages ?? 1;
+
+  const onDeleteAll = () => {
+    deleteAllViewProducts();
+  };
+
+  const handleSortChange = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (value) {
+      params.set("sort", value);
+    } else {
+      params.delete("sort");
+    }
+
+    setSearchParams(params);
+  };
+
+  const defaultDropdownText = sortOptions.find(
+    (item) => item.value === sortOption
+  )?.label || <AppTypography translationKey="sortOptions.newest" />;
+
+  useEffect(() => {
+    if (page > pagesCount) {
+      searchParams.set("page", pagesCount.toString());
+      setSearchParams(searchParams);
+    }
+  }, [pagesCount, page, searchParams, setSearchParams]);
+
+  const content = () => {
+    if (isLoading) {
+      return (
+        <AppBox className={styles.viewHistory_loading}>
+          {repeatComponent(<ProductSkeleton />, 10)}
+        </AppBox>
+      );
+    }
+
+    if (viewHistoryResponse?.content.length === 0 && !isLoading) {
+      return (
+        <AppBox className={styles.viewHistory_fallback}>
+          <SentimentDissatisfiedOutlinedIcon fontSize="large" />
+          <AppTypography
+            variant="h3"
+            translationKey="userViewHistory.noProducts"
+          />
+        </AppBox>
+      );
+    }
+
+    return (
+      <ProductsContainer
+        products={viewHistoryResponse!.content}
+        isViewHistory
+      />
+    );
+  };
+
+  return (
+    <AppBox className={styles.viewHistory}>
+      <AppBox className={styles.viewHistory_header}>
+        <AppTypography variant="h3" translationKey="userViewHistory.title" />
+        <AppButton
+          className={styles.viewHistory_header__btn}
+          variant="outlined"
+          size="medium"
+          onClick={onDeleteAll}
+        >
+          <AppTypography translationKey="userViewHistory.clearAll" />
+        </AppButton>
+        <AppTypography component="span">
+          <AppTypography
+            translationKey="userViewHistory.productsLabel"
+            component="span"
+            translationProps={{
+              values: { count: viewHistoryResponse?.content.length }
+            }}
+          />
+        </AppTypography>
+        <AppDropdown
+          key={sortOption}
+          options={sortOptions}
+          onSelect={handleSortChange}
+          defaultLabel={defaultDropdownText}
+          className={styles.viewHistory_header__sort}
+          data-cy="products-dropdown"
+          data-testid="products-dropdown"
+        />
+      </AppBox>
+      {content()}
+      <PaginationBlock
+        page={page}
+        totalPages={viewHistoryResponse?.totalPages}
+      />
+    </AppBox>
+  );
+};
+
+export default UserViewHistory;

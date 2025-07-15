@@ -22,7 +22,15 @@ jest.mock("@/context/drawer/DrawerContext", () => ({
   ...jest.requireActual("@/context/drawer/DrawerContext"),
   useDrawerContext: jest.fn(() => ({ openDrawer: mockOpenDrawer }))
 }));
-
+jest.mock(
+  "@/components/product-card-with-delete/ProductCardWithDelete",
+  () => ({
+    __esModule: true,
+    default: ({ children }: { children: React.ReactNode }) => (
+      <div data-testid="product-card-with-delete">{children}</div>
+    )
+  })
+);
 jest.mock("@/components/product-card/ProductCard", () => ({
   __esModule: true,
   default: ({ product }: ProductCardProps) => (
@@ -156,5 +164,13 @@ describe("Test ProductsContainer", () => {
     const gridElement = screen.getByTestId("products-container");
 
     expect(gridElement).toHaveClass("products-container__4-cols");
+  });
+
+  test("Should render cards with delete wrapper", () => {
+    renderProductsContainer({ isViewHistory: true });
+
+    const cardsWithDelete = screen.queryAllByTestId("product-card-with-delete");
+
+    expect(cardsWithDelete.length).toBe(10);
   });
 });

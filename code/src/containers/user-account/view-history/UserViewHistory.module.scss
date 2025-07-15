@@ -1,0 +1,46 @@
+@import "@design-system";
+
+.viewHistory {
+  padding: spacing(10);
+  background-color: var(--spa-foreground-background-color, $white);
+  display: flex;
+  flex-direction: column;
+  gap: spacing(10);
+
+  &_header {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+    justify-items: center;
+
+    @include breakpoint("sm") {
+      grid-template-columns: 1fr 1fr;
+      justify-items: stretch;
+      align-items: center;
+    }
+
+    &__sort,
+    &__btn {
+      justify-self: center;
+
+      @include breakpoint("sm") {
+        justify-self: end;
+      }
+    }
+  }
+
+  &_fallback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: spacing(10);
+    gap: spacing(5);
+  }
+
+  &_loading {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 1rem;
+  }
+}

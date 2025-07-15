@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
@@ -8,16 +9,22 @@ import useErrorPageRedirect from "@/hooks/use-error-page-redirect/useErrorPageRe
 import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails.types";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import ProductDetailsContainer from "@/pages/product-details/components/product-details-container/ProductDetailsContainer";
+import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
 
 import "@/pages/product-details/ProductDetailsPage.scss";
 
 const ProductDetailsPage = () => {
   const { productId } = useParams<ProductDetailsPageParams>();
   const { renderRedirectComponent } = useErrorPageRedirect();
+  const [addViewProduct] = useUpdateViewedProductsMutation();
 
   if (!productId) {
     return renderRedirectComponent(productNotFoundRedirectConfig);
   }
+
+  useEffect(() => {
+    addViewProduct(productId);
+  }, [productId, addViewProduct]);
 
   return (
     <PageWrapper>
