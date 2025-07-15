@@ -24,6 +24,7 @@ import usersTableMessages from "@/containers/tables/users-table/messages";
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
+import sidebar from "@/components/sidebar/messages";
 import PersonalInformation from "@/components/profile-personal-information/messages";
 
 import commonMessages from "@/constants/common-messages";
@@ -88,8 +89,9 @@ const messages: MessagesType = {
     ...bestSellerContainerMessages.en,
     ...helpCenterPageMessages.en,
     ...dashboardMetricsPageMessages.en,
+    ...sidebar.en,
     ...editPersonalInfoMessages.en,
-    ...PersonalInformation.en
+    ...PersonalInformation.en,
   },
   uk: {
     ...commonMessages.uk,
@@ -132,8 +134,9 @@ const messages: MessagesType = {
     ...bestSellerContainerMessages.uk,
     ...helpCenterPageMessages.uk,
     ...dashboardMetricsPageMessages.uk,
+    ...sidebar.uk,
     ...editPersonalInfoMessages.uk,
-    ...PersonalInformation.uk
+    ...PersonalInformation.uk,
   }
 };
 
