@@ -2,6 +2,7 @@ import { ProductsContainerProps } from "@/containers/products-container/Products
 
 import AppBox from "@/components/app-box/AppBox";
 import AppTypography from "@/components/app-typography/AppTypography";
+import ProductCardWithDelete from "@/components/product-card-with-delete/ProductCardWithDelete";
 import ProductCard from "@/components/product-card/ProductCard";
 import SaleProductCard from "@/components/product-sale-card/SaleProductCard";
 import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
@@ -21,7 +22,8 @@ const ProductsContainer = ({
   isError = false,
   loadingItemsCount = 5,
   maxColumns = 5,
-  errorMessage = "errors.somethingWentWrong"
+  errorMessage = "errors.somethingWentWrong",
+  isViewHistory = false
 }: ProductsContainerProps) => {
   const { isLoading: isCartLoading } = useGetCart();
   const isAuthLoading = useIsAuthLoadingSelector();
@@ -41,13 +43,30 @@ const ProductsContainer = ({
     );
   }
 
-  const productCards = products.map((product: Product) =>
-    product.priceWithDiscount && product.discount ? (
-      <SaleProductCard key={product.id} product={product} />
+  const productCards = products.map((product: Product) => {
+    const productCard =
+      product.priceWithDiscount && product.discount ? (
+        <SaleProductCard
+          key={product.id}
+          product={product}
+          isViewHistory={isViewHistory}
+        />
+      ) : (
+        <ProductCard
+          key={product.id}
+          product={product}
+          isViewHistory={isViewHistory}
+        />
+      );
+
+    return isViewHistory ? (
+      <ProductCardWithDelete productId={product.id} key={product.id}>
+        {productCard}
+      </ProductCardWithDelete>
     ) : (
-      <ProductCard key={product.id} product={product} />
-    )
-  );
+      productCard
+    );
+  });
 
   const skeletonCards = repeatComponent(<ProductSkeleton />, loadingItemsCount);
 

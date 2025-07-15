@@ -88,11 +88,19 @@ export const URLS = {
   },
   userInfo: {
     getUserInfo: "/v2/my-info",
-    patchUserInfo: "/v2/my-info"
+    patchUserInfo: "/v2/my-info",
   },
-  wishlist: {
+  viewHistory: {
+    get: "/v1/my-view-history",
+    put: ({ productId }: { productId: string }) =>
+      `/v1/my-view-history/${productId}`,
+    delete: ({ productId }: { productId: string }) =>
+      `/v1/my-view-history/${productId}`,
+    deleteAll: "/v1/my-view-history"
+  },
+    wishlist: {
     get: "/v1/wishlist",
     put: (productId: string) => `/v1/wishlist/${productId}`,
-    delete: (productId: string) => `/v1/wishlist/${productId}`
+    delete: (productId: string) => `/v1/wishlist/${productId}`,
   }
 } as const;

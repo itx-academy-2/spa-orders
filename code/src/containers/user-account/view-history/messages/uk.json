@@ -1,0 +1,7 @@
+{
+  "userViewHistory.title": "Переглянути історію",
+  "userViewHistory.clearAll": "Очистити всі",
+  "userViewHistory.noProducts": "Немає переглянутого товарів",
+  "userViewHistory.productsLabel": "{count, plural, one {# переглянутий товар} other {# переглянутих товарів}}",
+  "sortOptions.oldest": "Старі"
+}

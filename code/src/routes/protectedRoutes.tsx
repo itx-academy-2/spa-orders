@@ -1,11 +1,16 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 
+import AccountLayout from "@/layouts/account-layout/AccountLayout";
 import DashboardLayout from "@/layouts/dashboard-layout/DashboardLayout";
 
 import { ROLES } from "@/constants/common";
 import routePaths from "@/constants/routes";
 import ProtectedRoute from "@/routes/protected-route/ProtectedRoute";
+
+const UserViewHistoryPage = lazy(
+  () => import("@/containers/user-account/view-history/UserViewHistory")
+);
 
 const OrdersPage = lazy(() => import("@/pages/orders/OrdersPage"));
 const CartPage = lazy(() => import("@/pages/cart/CartPage"));
@@ -37,8 +42,14 @@ const DashboardUpdateProductPage = lazy(
 const DashboardProductPage = lazy(
   () => import("@/pages/dashboard/dashboard-product/DashboardProductPage")
 );
-const UserCabinetPage = lazy(
-  () => import("@/pages/user-account/UserCabinetPage")
+const ProfilePage = lazy(
+  () => import("@/pages/user-account/Profile/ProfilePage")
+);
+const WishlistPage = lazy(
+  () => import("@/pages/user-account/Wishlist/WishlistPage")
+);
+const AddressesPage = lazy(
+  () => import("@/pages/user-account/Addresses/AddressesPage")
 );
 
 const protectedRoutes: RouteObject[] = [
@@ -106,11 +117,26 @@ const protectedRoutes: RouteObject[] = [
   {
     path: routePaths.userCabinet.path,
     element: (
-      <ProtectedRoute
-        element={<UserCabinetPage />}
-        allowedRoles={[ROLES.USER]}
-      />
-    )
+      <ProtectedRoute element={<AccountLayout />} allowedRoles={[ROLES.USER]} />
+    ),
+    children: [
+      {
+        path: routePaths.userCabinet.profile.path,
+        element: <ProfilePage />
+      },
+      {
+        path: routePaths.userCabinet.viewHistory.path,
+        element: <UserViewHistoryPage />
+      },
+      {
+        path: routePaths.userCabinet.wishlist.path,
+        element: <WishlistPage />
+      },
+      {
+        path: routePaths.userCabinet.addresses.path,
+        element: <AddressesPage />
+      }
+    ]
   }
 ];
 

@@ -1,0 +1,53 @@
+@import "@design-system";
+
+.menuList {
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid $light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.menuButton {
+  padding: spacing(4) spacing(6);
+  transition: all map-get($duration, fast) ease;
+  border-radius: 0;
+
+  &:hover {
+    background-color: $ghost-alpha-active;
+
+    .menuText {
+      color: $purple;
+    }
+  }
+
+  &.active {
+    background-color: $ghost-alpha;
+    border-right: 3px solid $purple;
+
+    .menuText {
+      color: $purple;
+      font-weight: map-get($fw, extra-bold);
+    }
+  }
+}
+
+.menuText {
+  font-family: $inter;
+  font-size: map-get($fs, sm);
+  font-weight: map-get($fw, regular);
+  color: $gray;
+  text-transform: map-get($tt, none);
+  transition: all map-get($duration, fast) ease;
+
+  &:hover {
+    color: $purple;
+  }
+}

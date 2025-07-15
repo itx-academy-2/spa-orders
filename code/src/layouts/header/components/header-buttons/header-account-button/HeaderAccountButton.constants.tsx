@@ -19,7 +19,7 @@ export const rawMenuItems: RawMenuItem[] = [
     id: 1,
     name: "header.myProfile",
     icon: AccountCircleRoundedIcon,
-    action: { type: "navigate", path: routes.userCabinet.path }
+    action: { type: "navigate", path: routes.userCabinet.profile.path }
   },
   {
     id: 2,
