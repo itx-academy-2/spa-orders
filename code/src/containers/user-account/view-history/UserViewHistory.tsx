@@ -45,7 +45,7 @@ const UserViewHistory = () => {
     isError,
     error
   } = useGetViewHistoryApiQuery({
-    page: page,
+    page: page - 1,
     size,
     sort: sortOption ?? undefined,
     lang: locale

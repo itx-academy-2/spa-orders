@@ -2,11 +2,11 @@ import { FormattedMessage } from "react-intl";
 
 export const sortOptions = [
   {
-    value: "product.createdAt,desc",
+    value: "viewedAt,DESC",
     label: <FormattedMessage id="sortOptions.newest" />
   },
   {
-    value: "product.createdAt,asc",
+    value: "viewedAt,ASC",
     label: <FormattedMessage id="sortOptions.oldest" />
   }
 ];

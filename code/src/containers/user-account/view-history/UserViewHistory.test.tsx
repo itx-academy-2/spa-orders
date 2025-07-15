@@ -149,7 +149,7 @@ describe("UserViewHistory", () => {
     );
 
     const updatedParams = mockSetSearchParams.mock.calls[0][0].toString();
-    expect(updatedParams).toContain("sort=product.createdAt%2Casc");
+    expect(updatedParams).toContain("sort=viewedAt%2CASC");
   });
 
   it("should handle page not found error", () => {
