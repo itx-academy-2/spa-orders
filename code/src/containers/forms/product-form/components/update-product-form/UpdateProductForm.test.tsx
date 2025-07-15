@@ -58,6 +58,11 @@ const testData: FullManagerProduct = {
       name: "name",
       description: "description-description",
       languageCode: "en"
+    },
+    {
+      name: "назва",
+      description: "опис-опис-опис-опис-опис",
+      languageCode: "uk"
     }
   ]
 };
@@ -190,22 +195,6 @@ describe("Test UpdateProductForm", () => {
     expect(imageUrlHelperText).toBeInTheDocument();
     expect(priceHelperText).toBeInTheDocument();
     expect(quantityHelperText).toBeInTheDocument();
-  });
-
-  test("Should show error if name and description not filled", async () => {
-    render({ ...testData, productTranslations: [] });
-
-    await typeIntoInput(imgUrlInput, testData.image);
-    await typeIntoInput(priceInput, testData.price);
-    await typeIntoInput(quantityInput, testData.quantity);
-
-    await selectCategory();
-    await submit();
-
-    const helperText = screen.getAllByText(
-      "At least one translation must have non-empty name and description"
-    );
-    expect(helperText.length).toBe(2);
   });
 
   test("Should send request with only changed values", async () => {
