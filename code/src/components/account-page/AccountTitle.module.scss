@@ -1,7 +1,8 @@
 @import "@design-system";
 
 .accountTitle {
-  margin-bottom: 0.75rem;
+  margin-bottom: spacing(3);
+  padding-left: spacing(10);
 
   &__title {
     font-size: 1.75rem;
@@ -16,6 +17,6 @@
     font-weight: map-get($fw, regular);
     font-family: $inter;
     color: $gray-light;
-    margin: 0.25rem 0 0;
+    margin: spacing(1);
   }
 }

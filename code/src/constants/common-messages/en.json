@@ -50,5 +50,7 @@
   "product.originalPrice": "Price",
   "product.discountPercentage": "Discount percentage",
   "loading.label": "Loading...",
-  "appMenu.noOptions": "No available options"
+  "appMenu.noOptions": "No available options",
+  "userCabinet.title": "Customer Account",
+  "userCabinet.description": "Manage your account settings"
 }
