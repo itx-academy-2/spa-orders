@@ -1,0 +1,7 @@
+{
+    "personalInformation.title": "Особиста інформація",
+    "personalInformation.firstName.field": "Ім'я *",
+    "personalInformation.lastName.field": "Прізвище *",
+    "personalInformation.phone.field": "Номер телефону",
+    "personalInformation.changeButton": "Змінити інформацію"
+}

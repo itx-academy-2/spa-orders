@@ -1,0 +1,43 @@
+@import "@design-system";
+
+.PersonalInformation {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(3);
+    margin: 0 spacing(10);
+    height: 100%;
+    margin-bottom: spacing(10);
+    
+    &_title {
+        margin: spacing(5) 0;
+        text-align: left;
+        padding-left: 0;
+    }
+
+    &_firstLastNames {
+        display: flex;
+        gap: spacing(7);
+
+        &__firstName {
+            width: 400px;
+            font-size: 12px;
+        }
+
+        &__lastName {
+            width: 400px;
+        }
+    }
+
+    &_phone {
+        margin-top: spacing(5);
+
+        &__field {
+            width: 400px;
+        }
+    }
+
+    &_changeButton {
+        margin-top: spacing(5);
+        width: 250px;
+    }
+}

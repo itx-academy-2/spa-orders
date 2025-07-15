@@ -42,8 +42,8 @@ const DashboardUpdateProductPage = lazy(
 const DashboardProductPage = lazy(
   () => import("@/pages/dashboard/dashboard-product/DashboardProductPage")
 );
-const ProfilePage = lazy(
-  () => import("@/pages/user-account/Profile/ProfilePage")
+const Profile = lazy(
+  () => import("@/containers/user-account/profile/Profile")
 );
 const WishlistPage = lazy(
   () => import("@/pages/user-account/Wishlist/WishlistPage")
@@ -122,7 +122,7 @@ const protectedRoutes: RouteObject[] = [
     children: [
       {
         path: routePaths.userCabinet.profile.path,
-        element: <ProfilePage />
+        element: <Profile />
       },
       {
         path: routePaths.userCabinet.viewHistory.path,
