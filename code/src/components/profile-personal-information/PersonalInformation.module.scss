@@ -4,14 +4,11 @@
     display: flex;
     flex-direction: column;
     gap: spacing(3);
-    margin: 0 spacing(10);
-    height: 100%;
     margin-bottom: spacing(10);
+    padding-left: 0;
     
     &_title {
-        margin: spacing(5) 0;
-        text-align: left;
-        padding-left: 0;
+        margin-bottom: spacing(5);
     }
 
     &_firstLastNames {
@@ -20,7 +17,6 @@
 
         &__firstName {
             width: 400px;
-            font-size: 12px;
         }
 
         &__lastName {
