@@ -13,6 +13,7 @@ export default function ThemeSwitcher() {
       className="theme-switch-root"
       onChange={toggleTheme}
       checked={theme === "dark"}
+      data-cy="theme-switcher"
       classes={{
         switchBase: "theme-switch-base",
         thumb: "theme-switch-thumb",
