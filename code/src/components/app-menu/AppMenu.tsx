@@ -4,6 +4,8 @@ import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
 import { AppMenuProps } from "@/components/app-menu/AppMenu.types";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import * as styles from "@/components/app-menu/AppMenu.module.scss";
+
 const AppMenu = ({ anchorEl, open, onClose, items }: AppMenuProps) => {
   const content =
     items.length > 0 ? (
@@ -15,6 +17,7 @@ const AppMenu = ({ anchorEl, open, onClose, items }: AppMenuProps) => {
             onClose();
           }}
           data-cy={`${name}-item`}
+          className={styles.spa_menu_item}
         >
           <Icon className="header__toolbar-icon-dropdown" fontSize="medium" />
           <AppTypography variant="subtitle2" translationKey={name} />
@@ -28,10 +31,14 @@ const AppMenu = ({ anchorEl, open, onClose, items }: AppMenuProps) => {
 
   return (
     <Menu
-      className="spa-menu"
       anchorEl={anchorEl}
       open={open}
       onClose={onClose}
+      slotProps={{
+        paper: {
+          className: styles.spa_menu
+        }
+      }}
     >
       {content}
     </Menu>

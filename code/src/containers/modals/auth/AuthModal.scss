@@ -7,9 +7,10 @@
   align-items: center;
   flex-direction: column;
   padding: spacing(2);
+  color: var(--color-text);
+  background-color: var(--color-surface);
 
   &__title {
-    color: var(--spa-auth-modal-title-color, $gray);
     margin-bottom: spacing(5);
   }
 
