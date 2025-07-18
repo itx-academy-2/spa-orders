@@ -42,6 +42,11 @@ const AppSelect = forwardRef(
           labelId={`spa-select-label-${labelId}`}
           id={`spa-select-${labelId}`}
           label={label}
+          MenuProps={{
+            PaperProps: {
+              className: "spa-select_container"
+            }
+          }}
           {...props}
         />
       </FormControl>

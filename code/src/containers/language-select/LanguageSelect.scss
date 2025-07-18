@@ -6,8 +6,6 @@
   padding-block: spacing(2);
   padding-inline: spacing(2) spacing(8) !important; //to override MUI styles
   align-items: center;
-  background-color: var(--color-surface);
-  color: var(--color-text);
 
   &__item {
     display: flex;
@@ -16,9 +14,15 @@
       @include box(25px);
       border-radius: 50%;
     }
+
+    &:hover {
+      background-color: var(--color-muted);
+    }
   }
 
   &__container {
     border-radius: spacing(10);
+    background-color: var(--color-surface);
+    color: var(--color-text);
   }
 }
