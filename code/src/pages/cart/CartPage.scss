@@ -6,6 +6,7 @@
     justify-content: space-between;
     gap: spacing(5);
     flex-direction: column;
+    color: var(--color-text);
 
     @include breakpoint("md") {
       flex-direction: row;
@@ -15,9 +16,9 @@
   &__items,
   &__order-summary {
     padding: spacing(5);
-    border: 1px solid var(--spa-order-summary-border-color, $white);
+    border: 1px solid var(--color-muted);
     border-radius: spacing(1);
-    background-color: var(--spa-order-summary-background-color, $white);
+    background-color: var(--color-surface);
   }
 
   &__items {

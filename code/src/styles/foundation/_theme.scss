@@ -1,0 +1,41 @@
+:root {
+  --color-bg: #{$light};
+  --color-surface: #{$white};
+  --color-text: #{$black};
+  --color-muted: #{$gray};
+  --color-primary: #{$blue};
+  --color-secondary: #{$purple};
+  --color-danger: #{$red};
+  --color-warning: #{$orange};
+  --color-success: #{$green};
+
+  --color-hover: rgba(0, 0, 0, 0.12);
+  --color-hover-active: rgba(0, 0, 0, 0.03);
+  --color-alpha-light: rgba(0, 0, 0, 0.5);
+  --color-alpha-dark: rgba(0, 0, 0, 0.7);
+
+  --color-scrollbar-track: #{$light};
+  --color-scrollbar-thumb: #{$gray-light};
+  --shadow: #{$shadow-black};
+}
+
+[data-theme="dark"] {
+  --color-bg: #1f1e1e;
+  --color-surface: #323232;
+  --color-text: #ffffff;
+  --color-muted-text: #b3b3b3;
+  --color-primary: #82b1ff;
+  --color-secondary: #8d50f5;
+  --color-danger: #ff6b6b;
+  --color-warning: #ffc107;
+  --color-success: #a5d6a7;
+
+  --color-hover: rgba(255, 255, 255, 0.08);
+  --color-hover-active: rgba(255, 255, 255, 0.04);
+  --color-alpha-light: rgba(255, 255, 255, 0.6);
+  --color-alpha-dark: rgba(255, 255, 255, 0.9);
+
+  --color-scrollbar-track: #2a2a2a;
+  --color-scrollbar-thumb: #4f4f4f;
+  --shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}

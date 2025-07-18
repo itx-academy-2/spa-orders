@@ -7,10 +7,14 @@
   }
 
   &__body {
-    background-color: var(--spa-order-table-body-bg-color, $white);
+    background-color: var(--color-surface);
+    color: var(--color-text);
 
+    * {
+      color: inherit;
+    }
     &:hover {
-      background-color: var(--spa-order-table-body-hover-bg-color, $light);
+      background-color: var(--color-muted);
     }
 
     &-status-select {

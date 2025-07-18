@@ -9,6 +9,8 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import { useGetUsersForAdminDashboardQuery } from "@/store/api/usersApi";
 
+import * as styles from "@/pages/dashboard/dashboard-users/DashboardUsersPage.module.scss";
+
 const DashboardUsersPage = () => {
   const { page } = usePagination();
   const { data, isLoading, isError } = useGetUsersForAdminDashboardQuery({
@@ -33,6 +35,7 @@ const DashboardUsersPage = () => {
         component="h1"
         variant="h3"
         translationKey="dashboardTabs.users.label"
+        className={styles.dashboard_title}
       />
       <UsersTable users={users} />
       <PaginationBlock page={page} totalPages={data?.totalPages} />

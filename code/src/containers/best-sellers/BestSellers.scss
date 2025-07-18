@@ -2,7 +2,8 @@
 
 .spa-best-sellers {
   padding: spacing(15) spacing(12);
-  background-color: var(--spa-foreground-background-color, $white);
+  background-color: var(--color-surface);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   gap: spacing(10);

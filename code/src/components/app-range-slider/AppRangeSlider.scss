@@ -5,6 +5,8 @@
   flex-direction: column;
   align-items: center;
   padding: 0;
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
   &__toolbar {
     display: flex;

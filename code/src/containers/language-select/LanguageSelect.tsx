@@ -40,7 +40,6 @@ const LanguageSelect = () => {
       }}
       defaultValue={locale}
       value={locale}
-      color="dark"
     >
       {localesItems}
     </AppSelect>

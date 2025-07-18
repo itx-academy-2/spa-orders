@@ -5,6 +5,8 @@
   border-radius: 0 !important; // to override mui styles
   border-bottom: 1px solid
     var(--filter-record-accordion-border-color, $ghost-alpha);
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
   &.Mui-expanded .filter-record-accordion__details {
     border-top: 1px solid

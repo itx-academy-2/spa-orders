@@ -6,11 +6,12 @@
   padding-block: spacing(2);
   padding-inline: spacing(2) spacing(8) !important; //to override MUI styles
   align-items: center;
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
   &__item {
     display: flex;
     gap: spacing(2);
-
     &-icon {
       @include box(25px);
       border-radius: 50%;

@@ -9,12 +9,23 @@
   padding: spacing(3);
   width: min(560px, 100vw);
   height: min(420px, 100vh);
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
   &_inputWrapper {
     width: 75%;
     display: flex;
     flex-direction: column;
     gap: spacing(7);
+  }
+
+  &_inputs {
+  // background-color: var(--color-muted);
+
+  color: var(red);
+    // &:focus {
+
+    // }
   }
 
   &_closeIcon {

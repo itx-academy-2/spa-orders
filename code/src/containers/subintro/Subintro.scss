@@ -4,7 +4,8 @@
   display: flex;
   justify-content: space-between;
   padding: 0 spacing(15);
-  background-color: var(--spa-wrapper-background-color, $white);
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
   &__element {
     display: flex;

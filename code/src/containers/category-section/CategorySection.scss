@@ -8,9 +8,12 @@
   flex-direction: column;
   padding-block: spacing(15);
   row-gap: spacing(10);
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
-  background-color: var(--spa-wrapper-background-color, $white);
-
+  &__label {
+    color: var(--color-text);
+  }
   &__element {
     display: flex;
     align-items: center;

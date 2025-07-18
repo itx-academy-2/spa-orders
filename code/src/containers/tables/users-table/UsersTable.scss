@@ -2,7 +2,11 @@
 
 .users-table {
   box-shadow: var(--users-table-shadow, $shadow-black);
+  color: var(--color-text);
 
+  * {
+    color: inherit;
+  }
   &__fallback {
     background-color: var(--products-fallback-bg-color, $white);
     height: 300px;

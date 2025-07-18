@@ -112,7 +112,7 @@ const UserViewHistory = () => {
         <AppTypography variant="h3" translationKey="userViewHistory.title" />
         <AppButton
           className={styles.viewHistory_header__btn}
-          variant="outlined"
+          variant="contained"
           size="medium"
           onClick={onDeleteAll}
         >

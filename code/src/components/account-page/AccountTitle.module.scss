@@ -9,14 +9,14 @@
     font-weight: map-get($fw, extra-bold);
     font-family: $inter;
     margin: 0;
-    color: $black;
+    color: var(--color-text);
   }
 
   &__description {
     font-size: map-get($fs, base);
     font-weight: map-get($fw, regular);
     font-family: $inter;
-    color: $gray-light;
+    color: var(--color-muted);
     margin: spacing(1);
   }
 }

@@ -1,6 +1,11 @@
 @import "@design-system";
 
 .spa-order-item {
+  &__container {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
   &__title {
     .MuiAccordionSummary-content {
       padding-inline: spacing(5);

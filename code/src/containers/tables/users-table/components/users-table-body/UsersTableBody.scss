@@ -2,9 +2,13 @@
 
 .users-table__body {
   @include transition((background-color));
-  background-color: var(--products-table-body-bg-color, $white);
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
+  * {
+    color: inherit;
+  }
   &:hover {
-    background-color: var(--products-table-body-hover-bg-color, $light);
+    background-color: var(--color-muted);
   }
 }

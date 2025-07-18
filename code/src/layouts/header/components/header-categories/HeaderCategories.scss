@@ -2,10 +2,11 @@
 
 .menu {
   padding: spacing(2) spacing(4);
-  background-color: var(--spa-menu-background-color, $light);
+  background-color: var(--color-bg);
 
   &__container {
     display: flex;
     column-gap: spacing(8);
+    color: var(--color-text);
   }
 }

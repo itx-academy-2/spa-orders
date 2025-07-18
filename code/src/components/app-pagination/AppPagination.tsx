@@ -9,6 +9,8 @@ import { AppPaginationProps } from "@/components/app-pagination/AppPagination.ty
 
 import usePagination from "@/hooks/use-pagination/usePagination";
 
+import * as styles from "@/components/app-pagination/AppPagination.module.scss";
+
 const AppPagination = (props: AppPaginationProps) => {
   const { page, setPage } = usePagination();
 
@@ -28,6 +30,7 @@ const AppPagination = (props: AppPaginationProps) => {
         data-cy="pagination"
         data-testid="pagination-button"
         data-page={itemProps.page}
+        className={styles.pagination_item}
         {...itemProps}
       />
     );

@@ -5,39 +5,35 @@
   justify-content: center;
   text-align: center;
   padding: spacing(8);
-  background-color: var(--spa-not-found-background-color, $light);
+  background-color: var(--color-bg);
   margin-bottom: spacing(2);
 
   &__content {
     max-width: spacing(200);
     padding: spacing(12);
-    background-color: var(--spa-not-found-content-background-color, $white);
+    background-color: var(--color-surface);
+    color: var(--color-text);
     border-radius: spacing(3);
     margin-bottom: spacing(2);
   }
 
   &__title {
-    color: var(--spa-not-found-title, $dark-alpha);
     margin-bottom: spacing(3);
   }
 
   &__subtitle {
-    color: var(--spa-not-found-content-background-color, $gray);
+    color: var(--color-muted);
     font-size: var(--spa-subtitle-font-size, $fs-xl);
     margin-bottom: spacing(5);
   }
 
   &__description {
     font-size: var(--spa-description-font-size, $fs-lg);
-    color: var(--spa-not-found-description, $gray);
+    color: var(--color-muted);
     margin-bottom: spacing(8);
   }
 
   &__link-text {
-    color: var(--spa-not-link-text-color, $white);
-
-    &:hover {
-      color: var(--spa-not-link-color, $dark-alpha);
-    }
+    color: var($white);
   }
 }

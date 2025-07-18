@@ -1,10 +1,21 @@
 @import "@design-system";
 
 .products-table {
-  box-shadow: var(--products-table-shadow, $shadow-black);
+  box-shadow: var(--shadow);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  &__body {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+
+    &:hover {
+      background-color: var(--color-muted);
+    }
+  }
 
   &__fallback {
-    background-color: var(--products-fallback-bg-color, $white);
+    background-color: var(--color-surface);
     height: 300px;
     display: flex;
     align-items: center;

@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     gap: spacing(1);
-    color: var(--spa-dropdown-selected-color, $black);
+    color: var(--color-text);
   }
 
   &__options {
@@ -25,7 +25,7 @@
     padding: spacing(2);
 
     &:hover {
-      background-color: var(--spa-dropdown-option-bg, $gray-light);
+      background-color: var(--color-scrollbar-thumb);
     }
   }
 }
