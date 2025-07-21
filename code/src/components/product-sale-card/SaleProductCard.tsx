@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import AppBox from "@/components/app-box/AppBox";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppLink from "@/components/app-link/AppLink";
@@ -11,6 +14,7 @@ import cartIconWithPlus from "@/assets/icons/cart-with-plus.svg";
 import fallbackImage from "@/assets/images/default-product-image.png";
 import routePaths from "@/constants/routes";
 import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer";
+import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 
@@ -37,9 +41,15 @@ const SaleProductCard = ({
   const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 
   const [imgSrc, setImgSrc] = useState(image);
+  const { toggle, isFavorite } = useToggleFavorite();
 
   const handleImageError = () => {
     setImgSrc(fallbackImage);
+  };
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggle(product.id);
   };
 
   const cartIconId = isProductInCart ? "cart-with-check" : "cart-with-plus";
@@ -115,18 +125,34 @@ const SaleProductCard = ({
             {formatPrice(priceWithDiscount ?? 0)}
           </AppTypography>
         </AppBox>
-        <AppIconButton
-          data-cy="add-to-cart-button"
-          onClick={addToCartOrOpenDrawer}
-          className={cn(
-            "spa-product-card__cart-button",
-            isProductInCart && "spa-product-card__cart-button--active"
-          )}
-        >
-          <svg>
-            <use data-testid="add-to-cart-icon" href={cartIconFullLink} />
-          </svg>
-        </AppIconButton>
+        <AppBox className="spa-product-card__footer-buttons">
+          <AppIconButton
+            data-cy="favorite-button"
+            onClick={handleFavoriteClick}
+            className={cn(
+              "spa-product-card__favorite-button",
+              isFavorite(product.id) && "spa-product-card__favorite-button--active"
+            )}
+          >
+            {isFavorite(product.id) ? (
+              <FavoriteIcon fontSize="small" />
+            ) : (
+              <FavoriteBorderIcon fontSize="small" />
+            )}
+          </AppIconButton>
+          <AppIconButton
+            data-cy="add-to-cart-button"
+            onClick={addToCartOrOpenDrawer}
+            className={cn(
+              "spa-product-card__cart-button",
+              isProductInCart && "spa-product-card__cart-button--active"
+            )}
+          >
+            <svg>
+              <use data-testid="add-to-cart-icon" href={cartIconFullLink} />
+            </svg>
+          </AppIconButton>
+        </AppBox>
       </AppBox>
     </AppBox>
   );
