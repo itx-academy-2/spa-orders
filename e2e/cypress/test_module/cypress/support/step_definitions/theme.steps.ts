@@ -4,7 +4,7 @@ Given("I visit the homepage", () => {
   cy.visit("/", {
     onBeforeLoad(win) {
       win.matchMedia = (query) => ({
-        matches: query === "(prefers-color-scheme: dark)" ? false : false,
+        matches: false,
         media: query,
         onchange: null,
         addListener: () => {},
