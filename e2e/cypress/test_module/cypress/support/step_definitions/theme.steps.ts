@@ -21,7 +21,7 @@ Then("I should see {string} theme", (theme: string) => {
   cy.get("html").should("have.attr", "data-theme", theme);
 });
 
-When("I toggles the theme switch", () => {
+When("I toggle the theme switch", () => {
   cy.get("[data-cy='theme-switcher']").click();
 });
 
