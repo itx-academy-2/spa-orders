@@ -17,7 +17,7 @@ const AppMenu = ({ anchorEl, open, onClose, items }: AppMenuProps) => {
             onClose();
           }}
           data-cy={`${name}-item`}
-          className={styles.spa_menu_item}
+          className={styles.spaMenu_item}
         >
           <Icon className="header__toolbar-icon-dropdown" fontSize="medium" />
           <AppTypography variant="subtitle2" translationKey={name} />
@@ -36,7 +36,7 @@ const AppMenu = ({ anchorEl, open, onClose, items }: AppMenuProps) => {
       onClose={onClose}
       slotProps={{
         paper: {
-          className: styles.spa_menu
+          className: styles.spaMenu
         }
       }}
     >

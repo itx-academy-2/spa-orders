@@ -18,7 +18,8 @@ const AppSelect = forwardRef(
       color = "contained",
       className,
       fullWidth = false,
-      ...props
+      MenuProps,
+      ...additionalProps
     }: AppSelectProps,
     ref
   ) => {
@@ -31,7 +32,7 @@ const AppSelect = forwardRef(
             className={cn("spa-select__label", `spa-select__label--${color}`)}
             id={`spa-select-label-${labelId}`}
             data-testid="spa-select-label"
-            error={props.error}
+            error={additionalProps.error}
           >
             <AppTypography translationKey={label} />
           </InputLabel>
@@ -44,10 +45,14 @@ const AppSelect = forwardRef(
           label={label}
           MenuProps={{
             PaperProps: {
-              className: "spa-select_container"
-            }
+              className: cn(
+                "spa-select_container",
+                MenuProps?.PaperProps?.className
+              )
+            },
+            ...MenuProps
           }}
-          {...props}
+          {...additionalProps}
         />
       </FormControl>
     );

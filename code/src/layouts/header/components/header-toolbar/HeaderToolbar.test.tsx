@@ -29,6 +29,7 @@ jest.mock("@/context/theme/ThemeContext", () => ({
 
 const mockedToggleTheme = jest.fn();
 const mockAndRender = (isLoading = false) => {
+  mockedToggleTheme.mockClear();
   (useIsAuthLoadingSelector as jest.Mock).mockReturnValue(isLoading);
   (useGetUserProductsBySearchQuery as jest.Mock).mockReturnValue({
     data: {

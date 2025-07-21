@@ -19,11 +19,11 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--color-text);
+    color: inherit;
   }
 
   &__title {
-    color: var(--color-text);
+    color: inherit;
     text-align: center;
   }
 

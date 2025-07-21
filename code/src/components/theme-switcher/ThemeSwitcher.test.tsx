@@ -17,20 +17,29 @@ describe("ThemeSwitcher", () => {
       theme: Theme.Light,
       toggleTheme: mockedToggleTheme
     });
-    render(<ThemeSwitcher />);
+  });
+
+  afterEach(() => {
+    mockedToggleTheme.mockClear();
   });
 
   it("should render the switch component", () => {
+    render(<ThemeSwitcher />);
+
     const switchElement = screen.getByRole("checkbox");
     expect(switchElement).toBeInTheDocument();
   });
 
   it("should not be checked by default", () => {
+    render(<ThemeSwitcher />);
+
     const switchElement = screen.getByRole("checkbox") as HTMLInputElement;
     expect(switchElement.checked).toBe(false);
   });
 
   it("should toggle checked state when clicked", () => {
+    render(<ThemeSwitcher />);
+
     const switchElement = screen.getByRole("checkbox") as HTMLInputElement;
 
     fireEvent.click(switchElement);

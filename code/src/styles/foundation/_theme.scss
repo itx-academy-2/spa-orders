@@ -8,6 +8,7 @@
   --color-danger: #{$red};
   --color-warning: #{$orange};
   --color-success: #{$green};
+  --color-on-secondary: #ffffff;
 
   --color-hover: rgba(0, 0, 0, 0.12);
   --color-hover-active: rgba(0, 0, 0, 0.03);
@@ -23,12 +24,13 @@
   --color-bg: #1f1e1e;
   --color-surface: #323232;
   --color-text: #ffffff;
-  --color-muted-text: #b3b3b3;
+  --color-muted: #b3b3b3;
   --color-primary: #82b1ff;
   --color-secondary: #8d50f5;
   --color-danger: #ff6b6b;
   --color-warning: #ffc107;
   --color-success: #a5d6a7;
+  --color-on-secondary: #000000;
 
   --color-hover: rgba(255, 255, 255, 0.08);
   --color-hover-active: rgba(255, 255, 255, 0.04);

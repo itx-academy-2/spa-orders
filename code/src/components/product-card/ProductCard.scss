@@ -41,7 +41,7 @@
   }
 
   &__footer-price {
-    color: var(--color-secondary, $purple);
+    color: var(--color-secondary);
   }
 
   &__description {
@@ -71,10 +71,6 @@
     align-items: center;
     padding-top: spacing(3);
     border-top: 1px solid var(--spa-products-container-border-color, $light);
-  }
-
-  &__footer-price {
-    color: var(--spa-best-sellers-price-color, $purple);
   }
 
   &__footer-buttons {
