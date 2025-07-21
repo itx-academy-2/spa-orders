@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 
 import HeaderToolbar from "@/layouts/header/components/header-toolbar/HeaderToolbar";
 
+import { useThemeContext } from "@/context/theme/ThemeContext";
 import { useGetUserProductsBySearchQuery } from "@/store/api/productsApi";
 import { useIsAuthLoadingSelector } from "@/store/slices/userSlice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
@@ -22,6 +23,11 @@ jest.mock("@/store/api/productsApi", () => ({
   useGetUserProductsBySearchQuery: jest.fn()
 }));
 
+jest.mock("@/context/theme/ThemeContext", () => ({
+  useThemeContext: jest.fn()
+}));
+
+const mockedToggleTheme = jest.fn();
 const mockAndRender = (isLoading = false) => {
   (useIsAuthLoadingSelector as jest.Mock).mockReturnValue(isLoading);
   (useGetUserProductsBySearchQuery as jest.Mock).mockReturnValue({
@@ -31,6 +37,10 @@ const mockAndRender = (isLoading = false) => {
     },
     isLoading: false,
     isError: false
+  });
+  (useThemeContext as jest.Mock).mockReturnValue({
+    theme: "light",
+    toggleTheme: mockedToggleTheme
   });
   renderWithProviders(<HeaderToolbar />);
 };
