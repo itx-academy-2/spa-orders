@@ -52,14 +52,14 @@ describe("ProductsDetailsPage", () => {
   });
 
   test("redirects to 404 page if productId is not provided", () => {
-    renderAndMock();
+    renderAndMock(undefined, false);
     expect(mockRenderRedirectComponent).toHaveBeenCalledWith(
       productNotFoundRedirectConfig
     );
   });
 
   test("renders product details container when product id is defined", () => {
-    renderAndMock("1");
+    renderAndMock("1", false);
     expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
 
     const productDetailsContainer = screen.getByText("ProductDetailsContainer");
@@ -69,5 +69,10 @@ describe("ProductsDetailsPage", () => {
   test("calls addViewProduct with productId when productId is defined", () => {
     renderAndMock("2", true);
     expect(addViewedProductMock).toHaveBeenCalledWith("2");
+  });
+
+  test("does not addViewProduct when user is not authenticated", () => {
+    renderAndMock("3", false);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
   });
 });

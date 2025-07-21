@@ -27,7 +27,7 @@ const ProductDetailsPage = () => {
     if (isAuthenticated) {
       addViewProduct(productId);
     }
-  }, [productId]);
+  }, [productId, isAuthenticated, addViewProduct]);
 
   return (
     <PageWrapper>
