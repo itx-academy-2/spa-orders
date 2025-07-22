@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 
 import userEvent from "@testing-library/user-event";
 
+import { useModalContext } from "@/context/modal/ModalContext";
 import { RedirectConfig } from "@/hooks/use-error-page-redirect/useErrorPageRedirect.types";
 import {
   useDeleteAllViewProductsMutation,
@@ -27,11 +28,25 @@ const deleteAllViewProductsMock = jest.fn();
 
 const mockSetSearchParams = jest.fn();
 const mockSearchParams = new URLSearchParams();
+const mockedModalOpen = jest.fn();
+const mockedModalClose = jest.fn();
+
 const mockRedirect = ({
   errorMessageTranslationKey
 }: Pick<RedirectConfig, "errorMessageTranslationKey">) => (
   <div>{errorMessageTranslationKey}</div>
 );
+jest.mock("@/containers/modals/confirm-modal/ConfirmModal", () => ({
+  __esModule: true,
+  default: () => {
+    return (
+      <div id="confirm-modal">
+        <button>cancel</button>
+        <button>save</button>
+      </div>
+    );
+  }
+}));
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useSearchParams: () => [mockSearchParams, mockSetSearchParams]
@@ -47,6 +62,11 @@ jest.mock("@/context/i18n/I18nProvider", () => ({
 jest.mock("@/hooks/use-error-page-redirect/useErrorPageRedirect", () => ({
   __esModule: true,
   default: jest.fn(() => ({ renderRedirectComponent: mockRedirect }))
+}));
+
+jest.mock("@/context/modal/ModalContext", () => ({
+  ...jest.requireActual("@/context/modal/ModalContext"),
+  useModalContext: jest.fn()
 }));
 
 jest.mock("@/containers/products-container/ProductsContainer", () => ({
@@ -87,7 +107,10 @@ const renderAndMock = ({
   (useDeleteAllViewProductsMutation as jest.Mock).mockReturnValue([
     deleteAllViewProductsMock
   ]);
-
+  (useModalContext as jest.Mock).mockReturnValue({
+    openModal: mockedModalOpen,
+    closeModal: mockedModalClose
+  });
   (useGetViewHistoryApiQuery as jest.Mock).mockReturnValue({
     isLoading,
     isError,
@@ -125,14 +148,14 @@ describe("UserViewHistory", () => {
     expect(skeletons.length).toBe(10);
   });
 
-  it("should call deleteAllViewProducts when button is clicked", async () => {
+  it("should call clearAll and open modal", async () => {
     renderAndMock();
 
     const deleteButton = screen.getByText("userViewHistory.clearAll");
 
     await userEvent.click(deleteButton);
 
-    expect(deleteAllViewProductsMock).toHaveBeenCalled();
+    expect(mockedModalOpen).toHaveBeenCalled();
   });
 
   it("should set sort param when handleSortChange is called", async () => {

@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 
 import SentimentDissatisfiedOutlinedIcon from "@mui/icons-material/SentimentDissatisfiedOutlined";
 
+import ConfirmModal from "@/containers/modals/confirm-modal/ConfirmModal";
 import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
 import ProductsContainer from "@/containers/products-container/ProductsContainer";
 import {
@@ -16,6 +17,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import { useModalContext } from "@/context/modal/ModalContext";
 import useErrorPageRedirect from "@/hooks/use-error-page-redirect/useErrorPageRedirect";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import {
@@ -37,6 +39,7 @@ const UserViewHistory = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
   const { renderRedirectComponent } = useErrorPageRedirect();
+  const { openModal, closeModal } = useModalContext();
 
   const [deleteAllViewProducts] = useDeleteAllViewProductsMutation();
   const {
@@ -54,7 +57,15 @@ const UserViewHistory = () => {
   const pagesCount = viewHistoryResponse?.totalPages ?? 1;
 
   const onDeleteAll = () => {
-    deleteAllViewProducts();
+    openModal(
+      <ConfirmModal
+        title="userViewHistory.confirmModal.title"
+        description="userViewHistory.confirmModal.description"
+        onCancel={closeModal}
+        onSave={deleteAllViewProducts}
+        textSave="userViewHistory.confirmModal.clearButton"
+      />
+    );
   };
 
   const handleSortChange = (value: string) => {
@@ -138,10 +149,7 @@ const UserViewHistory = () => {
         />
       </AppBox>
       {content()}
-      <PaginationBlock
-        page={page}
-        totalPages={pagesCount}
-      />
+      <PaginationBlock page={page} totalPages={pagesCount} />
     </AppBox>
   );
 };
