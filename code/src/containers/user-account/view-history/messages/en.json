@@ -3,7 +3,7 @@
   "userViewHistory.clearAll": "Clear all",
   "userViewHistory.noProducts": "No viewed products",
   "sortOptions.oldest": "Oldest",
-  "userViewHistory.userViewHistory.productsLabel": "{count, plural, one {# viewed product} other {# viewed products}}",
+  "userViewHistory.productsLabel": "{count, plural, one {# viewed product} other {# viewed products}}",
   "userViewHistory.confirmModal.title": "Clear all items?",
   "userViewHistory.confirmModal.description": "This action will remove all items. Are you sure you want to continue?",
   "userViewHistory.confirmModal.clearButton": "Clear"
