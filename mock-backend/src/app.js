@@ -6,6 +6,7 @@ const errorMiddleware = require("./middlewares/error");
 const orderRoutes = require("./routes/orderRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const userRoutes = require("./routes/userRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes");
 
 const app = express();
 app.use(
@@ -21,6 +22,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/v1", orderRoutes);
 app.use("/api/v1", cartRoutes);
 app.use("/api/v1", userRoutes);
+app.use("/api/v1", wishlistRoutes);
+
 app.use(errorMiddleware);
 
 module.exports = app;
