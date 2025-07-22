@@ -86,7 +86,7 @@ const MyWishlist = () => {
         />
       )}
       <ProductsContainer
-        className="spa-my-wishlist__grid"
+        className={styles.MyWishlist_productsGrid}
         products={productsList ?? []}
         isLoading={isLoading}
         loadingItemsCount={10}
