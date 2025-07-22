@@ -62,7 +62,12 @@ const SaleProductCard = ({
       className="spa-product-card spa-sale-product-card"
       data-cy="product-card"
     >
-      <AppBox className="spa-sale-product-card__label">-{discount}%</AppBox>
+      <AppBox
+        className="spa-sale-product-card__label"
+        data-testid="discount-label"
+        >
+        -{discount}%
+      </AppBox>
       <AppLink
         className="spa-product-card__link-wrapper"
         to={routePaths.productDetails.path(id)}
@@ -96,6 +101,7 @@ const SaleProductCard = ({
               color: "blue"
             }}
             className="spa-product-card__best-sellers"
+            data-testid="best-sellers"
           >
             <AppTypography
               translationKey="bestsellers.title"

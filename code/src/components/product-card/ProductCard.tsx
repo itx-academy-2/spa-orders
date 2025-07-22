@@ -84,6 +84,7 @@ const ProductCard = ({ product, isViewHistory = false }: ProductCardProps) => {
               color: "blue"
             }}
             className="spa-product-card__best-sellers"
+            data-testid="best-sellers"
           >
             <AppTypography
               translationKey="bestsellers.title"

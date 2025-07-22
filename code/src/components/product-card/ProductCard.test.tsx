@@ -31,10 +31,12 @@ const mockToggle = jest.fn();
 
 const renderAndMock = ({
   isProductInCart,
-  isFavorite = false
+  isFavorite = false,
+  product = mockProduct
   }: {
     isProductInCart: boolean;
-    isFavorite: boolean;
+    isFavorite?: boolean;
+    product?: Product;
   }) => {
   (useAddToCartOrOpenDrawer as jest.Mock).mockReturnValue({
     isProductInCart,
@@ -46,7 +48,7 @@ const renderAndMock = ({
     toggle: mockToggle
   });
 
-  return renderWithProviders(<ProductCard product={mockProduct} />);
+  return renderWithProviders(<ProductCard product={product} />);
 };
 
 describe("ProductCard", () => {
@@ -132,28 +134,98 @@ describe("ProductCard", () => {
     });
   });
 
-  describe("favorite button behavior", () => {
-    test("should render unfilled heart icon when product is not favorite", () => {
-      renderAndMock({ isProductInCart: false, isFavorite: false });
-
-      const unfilledHeart = screen.getByTestId("FavoriteBorderIcon");
-      expect(unfilledHeart).toBeInTheDocument();
+  describe("when product is favorite", () => {
+    let result: ReturnType<typeof renderAndMock>;
+  
+    beforeEach(() => {
+      result = renderAndMock({ isProductInCart: false, isFavorite: true });
     });
-
+  
     test("should render filled heart icon when product is favorite", () => {
-      renderAndMock({ isProductInCart: false, isFavorite: true });
-
       const filledHeart = screen.getByTestId("FavoriteIcon");
       expect(filledHeart).toBeInTheDocument();
     });
+    
+    test("should apply active class when product is favorite", () => {
+      const isProductFavoriteElementActive = result.container.querySelector(
+        ".spa-product-card__favorite-button--active"
+      );
+      expect(isProductFavoriteElementActive).toBeInTheDocument();
+    });
+  });
+  
+  describe("when product is not favorite", () => {
+    let result: ReturnType<typeof renderAndMock>;
+  
+    beforeEach(() => {
+      result = renderAndMock({ isProductInCart: false, isFavorite: false });
+    });
+  
+    test("should render unfilled heart icon when product is not favorite", () => {
+      const unfilledHeart = screen.getByTestId("FavoriteBorderIcon");
+      expect(unfilledHeart).toBeInTheDocument();
+    });
+    
+    test("should call toggle function on favorite button click", () => {
+      const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
+      fireEvent.click(favoriteButton);
+    
+      expect(mockToggle).toHaveBeenCalledWith(mockProduct.id);
+      });
+
+    test('should not apply active class when product is not favorite', () => {
+      const isProductActiveElement = result.container.querySelector(
+        ".spa-product-card__favorite-button--active"
+      );
+      expect(isProductActiveElement).not.toBeInTheDocument();
+    });
 
     test("should call toggle function on favorite button click", () => {
-      renderAndMock({ isProductInCart: false, isFavorite: false });
-
       const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
       fireEvent.click(favoriteButton);
 
       expect(mockToggle).toHaveBeenCalledWith(mockProduct.id);
+    });
+  });
+
+  describe("bestsellers block", () => {
+    test("should NOT render bestsellers block when percentageOfTotalOrders is undefined", () => {
+      const productWithoutPercentage = {
+        ...mockProduct,
+        percentageOfTotalOrders: undefined
+      };
+
+      renderAndMock({
+        isProductInCart: false,
+        product: productWithoutPercentage
+      });
+
+      expect(screen.queryByTestId("best-sellers")).not.toBeInTheDocument();
+    });
+
+    test("should NOT render bestsellers block when percentageOfTotalOrders is 0", () => {
+      const productWithZeroPercentage = {
+        ...mockProduct,
+        percentageOfTotalOrders: 0
+      };
+
+      renderAndMock({
+        isProductInCart: false,
+        product: productWithZeroPercentage
+      });
+
+      expect(screen.queryByTestId("best-sellers")).not.toBeInTheDocument();
+    });
+
+    test("should render bestsellers when percentageOfTotalOrders > 0", () => {
+      const product = {
+        ...mockProduct,
+        percentageOfTotalOrders: 20
+      };
+
+      renderAndMock({ isProductInCart: false, product });
+
+      expect(screen.getByTestId("best-sellers")).toBeInTheDocument();
     });
   });
 });
