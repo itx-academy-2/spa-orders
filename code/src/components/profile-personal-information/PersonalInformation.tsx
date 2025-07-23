@@ -1,5 +1,7 @@
 import EditPersonalInfoModal from "@/containers/modals/user-account/EditPersonalInfoModal";
 
+import EditPersonalInfoModal from "@/containers/modals/user-account/EditPersonalInfoModal";
+
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppContainer from "@/components/app-container/AppContainer";
@@ -7,24 +9,27 @@ import AppInput from "@/components/app-input/AppInput";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import { useModalContext } from "@/context/modal/ModalContext";
-import { useGetUserInfoQuery } from "@/store/api/userProfileApi";
 
 import * as styles from "@/components/profile-personal-information/PersonalInformation.module.scss";
 
-const PersonalInformation = () => {
-  const { data: user } = useGetUserInfoQuery();
+interface PersonalInformationProps {
+  firstName: string;
+  lastName: string;
+  phone: string;
+}
+const PersonalInformation = ({
+  firstName,
+  lastName,
+  phone
+}: PersonalInformationProps) => {
   const { openModal } = useModalContext();
 
-  if (!user) return null;
-
   const handleChangePersonalInformation = () => {
-    if (!user) return;
-
     openModal(
       <EditPersonalInfoModal
-        firstName={user.firstName}
-        lastName={user.lastName}
-        phone={user.phone}
+        firstName={firstName}
+        lastName={lastName}
+        phone={phone}
       />
     );
   };
@@ -39,14 +44,14 @@ const PersonalInformation = () => {
       />
       <AppBox className={styles.PersonalInformation_firstLastNames}>
         <AppInput
-          value={user.firstName}
+          value={firstName}
           labelTranslationKey="personalInformation.firstName.field"
           className={styles.PersonalInformation_firstLastNames__firstName}
           disabled
           data-cy="personal-information-first-name"
         />
         <AppInput
-          value={user.lastName}
+          value={lastName}
           labelTranslationKey="personalInformation.lastName.field"
           className={styles.PersonalInformation_firstLastNames__lastName}
           disabled
@@ -55,7 +60,7 @@ const PersonalInformation = () => {
       </AppBox>
       <AppBox className={styles.PersonalInformation_phone}>
         <AppInput
-          value={user?.phone || ""}
+          value={phone}
           labelTranslationKey="personalInformation.phone.field"
           className={styles.PersonalInformation_phone__field}
           disabled
