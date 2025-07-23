@@ -44,8 +44,20 @@ const mockUser = {
   email: "email@mail.com"
 };
 
-const renderAndMock = (data: mockedDataProps | null) => {
-  (useGetUserInfoQuery as jest.Mock).mockReturnValue({ data });
+const renderAndMock = ({
+  data,
+  isLoading = false,
+  isError = false
+}: {
+  data: mockedDataProps | null;
+  isLoading?: boolean;
+  isError?: boolean;
+}) => {
+  (useGetUserInfoQuery as jest.Mock).mockReturnValue({
+    data,
+    isLoading,
+    isError
+  });
 
   render(<Profile />);
 };
@@ -56,7 +68,7 @@ describe("Profile component", () => {
   });
 
   it("renders without crashing", () => {
-    renderAndMock(mockUser);
+    renderAndMock({ data: mockUser });
     const title = screen.getByText("profile.title");
     const container = screen.getByTestId("app-container");
 
@@ -65,26 +77,38 @@ describe("Profile component", () => {
   });
 
   it("renders PersonalInformation component", () => {
-    renderAndMock(mockUser);
+    renderAndMock({ data: mockUser });
     const personalInfo = screen.getByTestId("personal-information");
     expect(personalInfo).toBeInTheDocument();
     expect(personalInfo).toHaveTextContent("Mocked Personal Information");
   });
 
   it("should return null when there not such user", () => {
-    renderAndMock(null);
+    renderAndMock({ data: null });
     const personalInfo = screen.queryByTestId("personal-information");
 
     expect(personalInfo).not.toBeInTheDocument();
   });
 
   it("should send empty phone when phone is null", () => {
-    renderAndMock({ ...mockUser, phone: null });
+    renderAndMock({ data: { ...mockUser, phone: null } });
     const phoneInput = screen.queryByTestId("phone-input") as HTMLInputElement;
-
-    console.log(phoneInput);
 
     expect(phoneInput).toBeInTheDocument();
     expect(phoneInput.value).toBe("");
+  });
+
+  it("should show loder", () => {
+    renderAndMock({ data: mockUser, isLoading: true });
+    const loader = screen.getByRole("progressbar");
+
+    expect(loader).toBeInTheDocument();
+  });
+
+  it("should show loder", () => {
+    renderAndMock({ data: mockUser, isError: true });
+    const errorMessage = screen.getByText("profile.error.label");
+
+    expect(errorMessage).toBeInTheDocument();
   });
 });

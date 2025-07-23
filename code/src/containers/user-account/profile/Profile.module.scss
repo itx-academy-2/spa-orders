@@ -7,4 +7,11 @@
     background-color: var(--color-surface);
     color: var(--color-text);
     padding: spacing(10);
+
+  &__loader {
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
 }

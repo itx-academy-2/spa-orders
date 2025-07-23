@@ -2,11 +2,13 @@ import { render, screen } from "@testing-library/react";
 
 import EmailAndPassword from "@/components/profile-email-password/EmailAndPassword";
 
+import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+
 const mockedEmail = "email@mail.com";
 
 describe("EmailAndPassword", () => {
   beforeEach(() => {
-    render(<EmailAndPassword email={mockedEmail} />);
+    renderWithProviders(<EmailAndPassword email={mockedEmail} />);
   });
 
   it("should render EmailAndPassword section", () => {
