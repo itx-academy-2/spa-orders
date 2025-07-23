@@ -63,6 +63,23 @@
     display: flex;
     column-gap: 15px;
     align-items: center;
+    justify-content: space-between;
+  }
+
+  &__buy-favorite-buttons {
+    display: flex;
+    column-gap: spacing(2);
+    justify-content: flex-end;
+  }
+
+  &__favorite-button {
+    color: $gray;
+    display: flex;
+    align-self: center;
+    
+    &--active {
+      color: $purple;
+    }
   }
 
   &__delivery-method-container {

@@ -1,9 +1,13 @@
 import { useIntl } from "react-intl";
 
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 
 import AppBadge from "@/components/app-badge/AppBadge";
 import AppBox from "@/components/app-box/AppBox";
+import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 import PriceLabel from "@/components/price-label/PriceLabel";
 import ProductDescription from "@/components/product-description/ProductDescription";
@@ -12,12 +16,14 @@ import { deliveryMethods as deliveryMethodsData } from "@/constants/deliveryMeth
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import useErrorPageRedirect from "@/hooks/use-error-page-redirect/useErrorPageRedirect";
 import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
+import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails.types";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
+import cn from "@/utils/cn/cn";
 
 import "@/pages/product-details/components/product-details-container/ProductDetailsContainer.scss";
 
@@ -31,6 +37,7 @@ const ProductDetailsContainer = ({
   const { renderRedirectComponent } = useErrorPageRedirect();
   const { locale } = useLocaleContext();
   const { formatMessage } = useIntl();
+  const { toggle, isFavorite } = useToggleFavorite();
   const {
     data: product,
     isLoading,
@@ -128,6 +135,11 @@ const ProductDetailsContainer = ({
     />
   );
 
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggle(productId);
+  };
+
   return (
     <AppBox className="product-details">
       <AppBox className="product-details__image-wrapper">
@@ -159,7 +171,23 @@ const ProductDetailsContainer = ({
                 discountedPriceSize="h3"
                 discountedPriceWeight="bold"
               />
-              <BuyNowButton productWithId={productWithId} />
+              <AppBox className="product-details__buy-favorite-buttons">
+                <AppIconButton
+                  data-cy="favorite-button"
+                  onClick={handleFavoriteClick}
+                  className={cn(
+                    "product-details__favorite-button",
+                    isFavorite(productId) && "product-details__favorite-button--active"
+                  )}
+                >
+                {isFavorite(productId) ? (
+                  <FavoriteIcon fontSize="medium" />
+                ) : (
+                  <FavoriteBorderIcon fontSize="medium" />
+                )}
+                </AppIconButton>
+                <BuyNowButton productWithId={productWithId} />
+              </AppBox>
             </AppBox>
           </AppBox>
           <AppBox className="product-details__section">
