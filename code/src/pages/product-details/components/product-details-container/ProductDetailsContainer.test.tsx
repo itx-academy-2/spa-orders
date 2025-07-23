@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 
 import { deliveryMethods } from "@/constants/deliveryMethods";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
@@ -9,6 +9,7 @@ import { RTKQueryMockState } from "@/types/common";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 
 type MockProduct = Product & { quantity: number };
 
@@ -57,6 +58,8 @@ jest.mock(
   })
 );
 
+jest.mock("@/hooks/use-toggle-favorite/useToggleFavorite");
+
 type MockState = RTKQueryMockState<
   typeof mockProduct,
   Record<string, number | string> | null
@@ -75,12 +78,19 @@ const renderAndMock = (args?: MockState) => {
     ...defaultArgs,
     ...args
   });
-  renderWithProviders(<ProductDetailsContainer productId={productId} />);
+  return renderWithProviders(<ProductDetailsContainer productId={productId} />);
 };
+
+const toggleMock = jest.fn();
 
 describe("ProductDetailsContainer", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+
+    (useToggleFavorite as jest.Mock).mockReturnValue({
+      toggle: toggleMock,
+      isFavorite: () => false
+    });
   });
 
   test("calls useGetUserProductByIdQuery with correct arguments", () => {
@@ -246,5 +256,56 @@ describe("ProductDetailsContainer", () => {
       "product-details-bestseller-label"
     );
     expect(bestsellersLabel).toBeInTheDocument();
+  });
+
+  test("renders favorite button (border icon) when not favorite", () => {
+    renderAndMock({ data: mockProduct });
+
+    const favoriteIcon = screen.getByTestId("FavoriteBorderIcon");
+    expect(favoriteIcon).toBeInTheDocument();
+  });
+
+  test("renders favorite button (filled icon) when product is favorite", () => {
+    (useToggleFavorite as jest.Mock).mockReturnValue({
+      toggle: toggleMock,
+      isFavorite: () => true
+    });
+
+    renderAndMock({ data: mockProduct });
+
+    const favoriteIcon = screen.getByTestId("FavoriteIcon");
+    expect(favoriteIcon).toBeInTheDocument();
+  });
+
+  test("calls toggle function when favorite button is clicked", async () => {
+    renderAndMock({ data: mockProduct });
+
+    const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
+    fireEvent.click(favoriteButton);
+
+    expect(toggleMock).toHaveBeenCalledWith(productId);
+  });
+
+  test("should apply active class when product is favorite", () => {
+    (useToggleFavorite as jest.Mock).mockReturnValue({
+      toggle: toggleMock,
+      isFavorite: () => true
+    });
+
+    const result = renderAndMock({ data: mockProduct });
+
+    const isProductFavoriteElementActive = result.container.querySelector(
+      ".product-details__favorite-button--active"
+    );
+    expect(isProductFavoriteElementActive).toBeInTheDocument();
+  });
+
+  test("should not apply active class when product is not favorite", () => {
+    const result = renderAndMock({ data: mockProduct });
+
+    const isProductActiveElement = result.container.querySelector(
+      ".product-details__favorite-button--active"
+    );
+    expect(isProductActiveElement).not.toBeInTheDocument();
   });
 });
