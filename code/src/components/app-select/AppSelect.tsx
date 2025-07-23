@@ -46,7 +46,7 @@ const AppSelect = forwardRef(
           MenuProps={{
             PaperProps: {
               className: cn(
-                "spa-select_container",
+                "spa-select__container",
                 MenuProps?.PaperProps?.className
               )
             },

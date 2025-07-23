@@ -11,6 +11,18 @@ $spa-input-colors: (
 .spa-input {
   .MuiInputBase-input {
     padding: spacing(3) spacing(4);
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type="number"] {
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
   }
 
   .MuiFormLabel-root {
@@ -20,13 +32,31 @@ $spa-input-colors: (
   @each $variant, $color in $spa-input-colors {
     &--#{$variant} {
       .MuiOutlinedInput-root {
+        .MuiOutlinedInput-notchedOutline {
+          border-color: var(--color-muted);
+        }
         &.Mui-focused .MuiOutlinedInput-notchedOutline {
           border-color: $color !important; //To override the MUI styles
         }
-      }
+        input {
+          color: var(--color-text);
+        }
 
+        &.Mui-disabled {
+          .MuiOutlinedInput-notchedOutline {
+            border-color: var(--color-muted) !important;
+          }
+        }
+      }
+      .MuiInputLabel-root {
+        color: var(--color-muted);
+      }
       .MuiInputLabel-root.Mui-focused {
         color: $color !important; //To override the MUI styles
+      }
+
+      .MuiInputLabel-root.Mui-disabled {
+        color: var(--color-muted);
       }
     }
   }

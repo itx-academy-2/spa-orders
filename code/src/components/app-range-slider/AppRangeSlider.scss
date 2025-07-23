@@ -8,6 +8,10 @@
   background-color: var(--color-surface);
   color: var(--color-text);
 
+  * {
+    color: inherit;
+  }
+
   &__toolbar {
     display: flex;
     align-items: center;

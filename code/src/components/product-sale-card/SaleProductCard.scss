@@ -5,7 +5,7 @@
     position: absolute;
     top: spacing(2);
     left: spacing(2);
-    background-color: var(--spa-sale-label-bg-color, $red);
+    background-color: var(--color-danger);
     color: var(--spa-sale-label-text-color, $white);
     padding: spacing(1) 10px;
     border-radius: 15px;

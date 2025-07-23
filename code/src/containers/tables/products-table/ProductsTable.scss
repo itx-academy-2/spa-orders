@@ -9,8 +9,12 @@
     background-color: var(--color-surface);
     color: var(--color-text);
 
-    &:hover {
-      background-color: var(--color-muted);
+    td {
+      color: inherit;
+    }
+
+    tr:hover {
+      background-color: var(--color-hover);
     }
   }
 

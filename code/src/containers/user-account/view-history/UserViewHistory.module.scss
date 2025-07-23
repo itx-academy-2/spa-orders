@@ -20,7 +20,6 @@
       align-items: center;
     }
 
-    &__sort,
     &__btn {
       justify-self: center;
 
@@ -32,9 +31,13 @@
     &__sort {
       color: var(--color-text);
 
-      * {
+      div {
         color: inherit;
         background-color: inherit;
+      }
+
+      @include breakpoint("sm") {
+        justify-self: end;
       }
     }
   }

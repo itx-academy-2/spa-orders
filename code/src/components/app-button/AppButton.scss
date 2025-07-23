@@ -35,7 +35,7 @@
 
   &__contained {
     @include focus-style(var(--color-secondary));
-    @include hover-effect(var($transparent), var(--color-secondary));
+    @include hover-effect($transparent, var(--color-secondary));
 
     background-color: var(--color-secondary);
     color: var(--color-on-secondary);
