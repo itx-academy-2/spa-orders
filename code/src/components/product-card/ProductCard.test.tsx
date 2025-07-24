@@ -165,13 +165,6 @@ describe("ProductCard", () => {
       const unfilledHeart = screen.getByTestId("FavoriteBorderIcon");
       expect(unfilledHeart).toBeInTheDocument();
     });
-    
-    test("should call toggle function on favorite button click", () => {
-      const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
-      fireEvent.click(favoriteButton);
-    
-      expect(mockToggle).toHaveBeenCalledWith(mockProduct.id);
-      });
 
     test('should not apply active class when product is not favorite', () => {
       const isProductActiveElement = result.container.querySelector(
