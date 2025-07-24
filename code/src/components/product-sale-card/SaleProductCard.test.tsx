@@ -4,6 +4,7 @@ import SaleProductCard from "@/components/product-sale-card/SaleProductCard";
 
 import routes from "@/constants/routes";
 import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer";
+import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
@@ -11,6 +12,10 @@ import renderWithProviders from "@/utils/render-with-providers/renderWithProvide
 const mockAddToCartOrOpenDrawer = jest.fn();
 
 jest.mock("@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer");
+
+jest.mock("@/hooks/use-toggle-favorite/useToggleFavorite");
+
+const mockToggle = jest.fn();
 
 const mockProduct: Product = {
   id: "1",
@@ -21,13 +26,26 @@ const mockProduct: Product = {
   status: "AVAILABLE",
   tags: [],
   priceWithDiscount: 80,
-  discount: 20
+  discount: 30
 };
 
-const renderAndMock = (product: Product, isProductInCart: boolean) => {
+const renderAndMock = ({
+  isProductInCart,
+  isFavorite = false,
+  product = mockProduct
+  }: {
+    isProductInCart: boolean;
+    isFavorite?: boolean;
+    product?: Product;
+  }) => {
   (useAddToCartOrOpenDrawer as jest.Mock).mockReturnValue({
     isProductInCart,
     addToCartOrOpenDrawer: mockAddToCartOrOpenDrawer
+  });
+
+  (useToggleFavorite as jest.Mock).mockReturnValue({
+    isFavorite: () => isFavorite,
+    toggle: mockToggle
   });
 
   return renderWithProviders(<SaleProductCard product={product} />);
@@ -42,7 +60,7 @@ describe("SaleProductCard", () => {
     let result: ReturnType<typeof renderAndMock>;
 
     beforeEach(() => {
-      result = renderAndMock(mockProduct, false);
+      result = renderAndMock({ isProductInCart: false });
     });
 
     test("should render product name", () => {
@@ -68,7 +86,10 @@ describe("SaleProductCard", () => {
         priceWithDiscount: undefined
       };
 
-      renderAndMock(productWithoutDiscount, false);
+      renderAndMock({
+        isProductInCart: false,
+        product: productWithoutDiscount
+      });
 
       const discountedPrice = screen.getByText(formatPrice(0));
       expect(discountedPrice).toBeInTheDocument();
@@ -80,7 +101,10 @@ describe("SaleProductCard", () => {
         priceWithDiscount: null
       };
 
-      renderAndMock(productWithNullDiscount, false);
+      renderAndMock({
+        isProductInCart: false,
+        product: productWithNullDiscount
+      });
 
       const discountedPrice = screen.getByText(formatPrice(0));
       expect(discountedPrice).toBeInTheDocument();
@@ -131,7 +155,7 @@ describe("SaleProductCard", () => {
     let result: ReturnType<typeof renderAndMock>;
 
     beforeEach(() => {
-      result = renderAndMock(mockProduct, true);
+      result = renderAndMock({ isProductInCart: true });
     });
 
     test("should render icon with check mark", () => {
@@ -145,6 +169,140 @@ describe("SaleProductCard", () => {
         ".spa-product-card__cart-button--active"
       );
       expect(isProductActiveElement).toBeInTheDocument();
+    });
+  });
+
+  describe("when product is favorite", () => {
+    let result: ReturnType<typeof renderAndMock>;
+
+    beforeEach(() => {
+      result = renderAndMock({ isProductInCart: false, isFavorite: true });
+    });
+
+    test("should render filled heart icon when product is favorite", () => {
+      const filledHeart = screen.getByTestId("FavoriteIcon");
+      expect(filledHeart).toBeInTheDocument();
+    });
+  
+    test("should apply active class when product is favorite", () => {
+      const isProductFavoriteElementActive = result.container.querySelector(
+        ".spa-product-card__favorite-button--active"
+      );
+      expect(isProductFavoriteElementActive).toBeInTheDocument();
+    });
+  });
+
+  describe("when product is not favorite", () => {
+    let result: ReturnType<typeof renderAndMock>;
+
+    beforeEach(() => {
+      result = renderAndMock({ isProductInCart: false, isFavorite: false });
+    });
+
+    test("should render unfilled heart icon when product is not favorite", () => {
+      const unfilledHeart = screen.getByTestId("FavoriteBorderIcon");
+      expect(unfilledHeart).toBeInTheDocument();
+    });
+  
+
+    test("should call toggle function on favorite button click", () => {
+      const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
+      fireEvent.click(favoriteButton);
+  
+      expect(mockToggle).toHaveBeenCalledWith(mockProduct.id);
+    });
+    test('should not apply active class when product is not favorite', () => {
+      const isProductActiveElement = result.container.querySelector(
+        ".spa-product-card__favorite-button--active"
+      );
+      expect(isProductActiveElement).not.toBeInTheDocument();
+    });
+  });
+
+  describe("discount percentage display", () => {
+    test("should render discount label when discount percentage is greater than 0", () => {
+      const discountedProduct = {
+        ...mockProduct,
+        price: 100,
+        priceWithDiscount: 70
+      };
+
+      renderAndMock({
+        isProductInCart: false,
+        product: discountedProduct
+      });
+
+      expect(screen.getByTestId("discount-label")).toHaveTextContent("-30%");
+    });
+
+    test("should NOT render discount label when discount percentage is 0", () => {
+      const noDiscountProduct = {
+        ...mockProduct,
+        price: 100,
+        priceWithDiscount: 100
+      };
+
+      renderAndMock({
+        isProductInCart: false,
+        product: noDiscountProduct
+      });
+
+      expect(screen.queryByText(/-%/)).not.toBeInTheDocument();
+    });
+
+    test("should NOT render discount label when priceWithDiscount is missing", () => {
+      const undefinedDiscountProduct = {
+        ...mockProduct,
+        priceWithDiscount: undefined
+      };
+
+      renderAndMock({
+        isProductInCart: false,
+        product: undefinedDiscountProduct
+      });
+
+      expect(screen.queryByText(/-%/)).not.toBeInTheDocument();
+    });
+  });
+
+  describe("bestsellers block", () => {
+    test("should NOT render bestsellers block when percentageOfTotalOrders is undefined", () => {
+      const productWithoutPercentage = {
+        ...mockProduct,
+        percentageOfTotalOrders: undefined
+      };
+
+      renderAndMock({
+        isProductInCart: false,
+        product: productWithoutPercentage
+      });
+
+      expect(screen.queryByTestId("best-sellers")).not.toBeInTheDocument();
+    });
+
+    test("should NOT render bestsellers block when percentageOfTotalOrders is 0", () => {
+      const productWithZeroPercentage = {
+        ...mockProduct,
+        percentageOfTotalOrders: 0
+      };
+
+      renderAndMock({
+        isProductInCart: false,
+        product: productWithZeroPercentage
+      });
+
+      expect(screen.queryByTestId("best-sellers")).not.toBeInTheDocument();
+    });
+
+    test("should render bestsellers when percentageOfTotalOrders > 0", () => {
+      const product = {
+        ...mockProduct,
+        percentageOfTotalOrders: 20
+      };
+
+      renderAndMock({ isProductInCart: false, product });
+
+      expect(screen.getByTestId("best-sellers")).toBeInTheDocument();
     });
   });
 });
