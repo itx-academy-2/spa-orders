@@ -1,7 +1,5 @@
 import EditPersonalInfoModal from "@/containers/modals/user-account/EditPersonalInfoModal";
 
-import EditPersonalInfoModal from "@/containers/modals/user-account/EditPersonalInfoModal";
-
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppContainer from "@/components/app-container/AppContainer";

@@ -13,9 +13,6 @@
   &_firstLastNames {
     display: flex;
     gap: spacing(7);
-  &_firstLastNames {
-    display: flex;
-    gap: spacing(7);
 
     &__firstName {
       width: clamp(280px, 30vw, 500px);
@@ -28,11 +25,9 @@
 
   &_phone {
     margin-top: spacing(5);
-  &_phone {
-    margin-top: spacing(5);
 
     &__field {
-      width: 30vw;
+      width: clamp(280px, 30vw, 500px);
     }
   }
 
@@ -41,4 +36,3 @@
     width: clamp(180px, 15vw, 300px);
   }
 }
-

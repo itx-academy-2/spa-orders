@@ -1,12 +1,16 @@
 @import "@design-system";
 
 .Profile {
-    display: flex;
-    flex-direction: column;
-    gap: spacing(10);
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    padding: spacing(10);
+  display: flex;
+  flex-direction: column;
+  gap: spacing(10);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  padding: spacing(10);
+
+  &__divider {
+    border: 1px solid $light;
+  }
 
   &__loader {
     transform: translate(-50%, -50%);
