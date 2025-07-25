@@ -2,7 +2,8 @@
 
 .viewHistory {
   padding: spacing(10);
-  background-color: var(--spa-foreground-background-color, $white);
+  background-color: var(--color-surface);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   gap: spacing(10);
@@ -19,9 +20,21 @@
       align-items: center;
     }
 
-    &__sort,
     &__btn {
       justify-self: center;
+
+      @include breakpoint("sm") {
+        justify-self: end;
+      }
+    }
+
+    &__sort {
+      color: var(--color-text);
+
+      div {
+        color: inherit;
+        background-color: inherit;
+      }
 
       @include breakpoint("sm") {
         justify-self: end;

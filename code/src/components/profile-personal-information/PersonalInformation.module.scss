@@ -1,39 +1,40 @@
 @import "@design-system";
 
 .PersonalInformation {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(3);
+  margin-bottom: spacing(10);
+  padding-left: 0;
+  color: var(--color-text);
+
+  &_title {
+    margin-bottom: spacing(5);
+  }
+
+  &_firstLastNames {
     display: flex;
-    flex-direction: column;
-    gap: spacing(3);
-    margin-bottom: spacing(10);
-    padding-left: 0;
-    
-    &_title {
-        margin-bottom: spacing(5);
+    gap: spacing(7);
+
+    &__firstName {
+      width: 400px;
     }
 
-    &_firstLastNames {
-        display: flex;
-        gap: spacing(7);
-
-        &__firstName {
-            width: 400px;
-        }
-
-        &__lastName {
-            width: 400px;
-        }
+    &__lastName {
+      width: 400px;
     }
+  }
 
-    &_phone {
-        margin-top: spacing(5);
+  &_phone {
+    margin-top: spacing(5);
 
-        &__field {
-            width: 400px;
-        }
+    &__field {
+      width: 400px;
     }
+  }
 
-    &_changeButton {
-        margin-top: spacing(5);
-        width: 250px;
-    }
+  &_changeButton {
+    margin-top: spacing(5);
+    width: 250px;
+  }
 }

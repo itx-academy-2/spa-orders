@@ -31,4 +31,9 @@ $spa-select-colors: (
 
 .spa-select {
   @include generate-spa-select-styles($spa-select-colors);
+
+  &__container {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+  }
 }

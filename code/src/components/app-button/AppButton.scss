@@ -34,15 +34,12 @@
   text-transform: $tt-none;
 
   &__contained {
-    @include focus-style(var(--spa-button-contained-focus-color, $purple));
-    @include hover-effect(
-      var(--spa-button-contained--bg-hover-color, $transparent),
-      var(--spa-button-contained--text-hover-color, $purple)
-    );
+    @include focus-style(var(--color-secondary));
+    @include hover-effect($transparent, var(--color-secondary));
 
-    background-color: var(--spa-button-contained-bg-color, $purple);
-    color: var(--spa-button-contained-color, $white);
-    border-color: var(--spa-button-contained-border-color, $purple);
+    background-color: var(--color-secondary);
+    color: var(--color-on-secondary);
+    border-color: var(--color-secondary);
   }
 
   &__outlined {

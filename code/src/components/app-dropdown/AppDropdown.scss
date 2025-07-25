@@ -8,15 +8,15 @@
     display: flex;
     align-items: center;
     gap: spacing(1);
-    color: var(--spa-dropdown-selected-color, $black);
+    color: var(--color-text);
   }
 
   &__options {
     @include layer("popover");
     position: absolute;
     top: calc(100% + spacing(1));
-    background-color: var(--spa-dropdown-options-bg-color, $white);
-    border: 1px solid var(--spa-dropdown-options-border, $gray);
+    background-color: var(--color-text);
+    border: 1px solid var(--color-muted);
     border-radius: spacing(1);
     width: 100%;
   }
@@ -25,7 +25,7 @@
     padding: spacing(2);
 
     &:hover {
-      background-color: var(--spa-dropdown-option-bg, $gray-light);
+      background-color: var(--color-scrollbar-thumb);
     }
   }
 }

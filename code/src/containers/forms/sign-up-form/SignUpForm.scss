@@ -5,6 +5,10 @@
     display: flex;
     gap: spacing(5);
     margin-top: spacing(8);
+    color: var(--color-text);
+    * {
+      color: inherit;
+    }
   }
 
   &__email-password-container {
@@ -12,6 +16,10 @@
     flex-direction: column;
     margin-top: spacing(5);
     gap: spacing(5);
+    color: var(--color-text);
+    * {
+      color: inherit;
+    }
   }
 
   &__button {

@@ -43,7 +43,7 @@
   font-family: $inter;
   font-size: map-get($fs, sm);
   font-weight: map-get($fw, regular);
-  color: $gray;
+  color: var(--color-text);
   text-transform: map-get($tt, none);
   transition: all map-get($duration, fast) ease;
 

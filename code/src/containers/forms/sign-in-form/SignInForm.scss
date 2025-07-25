@@ -6,6 +6,10 @@
     flex-direction: column;
     gap: spacing(5);
     margin-top: spacing(8);
+    color: var(--color-text);
+    * {
+      color: inherit;
+    }
   }
 
   &__button {

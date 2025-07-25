@@ -10,14 +10,19 @@
   &__item {
     display: flex;
     gap: spacing(2);
-
     &-icon {
       @include box(25px);
       border-radius: 50%;
+    }
+
+    &:hover {
+      background-color: var(--color-muted);
     }
   }
 
   &__container {
     border-radius: spacing(10);
+    background-color: var(--color-surface);
+    color: var(--color-text);
   }
 }

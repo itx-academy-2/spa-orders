@@ -1,0 +1,13 @@
+.spaMenu {
+  color: var(--color-text);
+  background-color: var(--color-surface);
+
+  &_item {
+    color: inherit;
+    background-color: inherit;
+
+    &:hover {
+      background-color: var(--color-hover);
+    }
+  }
+}

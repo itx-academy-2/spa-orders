@@ -5,14 +5,16 @@
   display: flex;
   flex-direction: column;
   height: $screen-height;
+  background-color: var(--color-surface);
+  color: var(--color-text);
 
+  * { 
+    color: inherit;
+  }
   &__header {
     padding-block: spacing(4);
-    background-color: var(
-      --spa-orders-tab-filters-header-background-color,
-      $black
-    );
-    color: var(--spa-orders-tab-filters-header-color, $white);
+    background-color: var(--color-bg);
+    color: var(--color-text);
     text-align: center;
     position: relative;
   }

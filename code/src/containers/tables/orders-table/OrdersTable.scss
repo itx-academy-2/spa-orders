@@ -1,10 +1,11 @@
 @import "@design-system";
 
 .spa-order-table {
-  box-shadow: var(--spa-order-table-shadow, $shadow-black);
+  box-shadow: var(--shadow);
 
   &__fallback {
-    background-color: var(--spa-order-fallback-bg-color, $white);
+    background-color: var(--color-surface);
+    color: var(--color-text);
     height: 300px;
     display: flex;
     align-items: center;

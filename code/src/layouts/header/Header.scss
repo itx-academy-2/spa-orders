@@ -7,5 +7,5 @@
   @include layer("overlay");
   position: sticky;
   top: var(--top);
-  box-shadow: var(--spa-menu-shadow, $shadow-black);
+  box-shadow: var(--shadow, $shadow-black);
 }

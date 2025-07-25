@@ -3,7 +3,8 @@
 .dashboard-tabs {
   display: flex;
   gap: spacing(8);
-
+  color: var(--color-text);
+  
   &__label-container {
     display: flex;
     flex-shrink: 0;
@@ -34,7 +35,7 @@
         --spa-dashboard-tabs-active-background-color,
         $ghost-alpha-active
       );
-      color: var(--spa-dashboard-tabs-active-text-color, $black);
+      color: var(--color-muted);
     }
   }
 

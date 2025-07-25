@@ -2,7 +2,7 @@
 
 .spa-link {
   text-decoration: none;
-  color: var(--spa-link-primary-color, $black);
+  color: var(--color-text);
   @include transition((color, "fast"));
 
   &__default.spa-link--active {

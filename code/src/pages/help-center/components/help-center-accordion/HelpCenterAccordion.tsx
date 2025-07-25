@@ -28,7 +28,7 @@ const HelpCenterAccordion = ({
     <HelpCenterAccordionItemSkeleton />
   ) : (
     <AppBox
-      className="markdown-body help-center-accordion__description"
+      className="help-center-accordion__description"
       dangerouslySetInnerHTML={{ __html: desc }}
     />
   );
@@ -38,6 +38,7 @@ const HelpCenterAccordion = ({
       data-testid="help-center-accordion"
       expanded={expanded}
       onChange={onChange}
+      className="help-center-accordion"
     >
       <AppAccordionSummary
         data-testid="help-center-accordion-summary"

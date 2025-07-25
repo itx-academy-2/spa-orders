@@ -2,8 +2,9 @@
 
 .header__wrapper {
   padding: spacing(3) spacing(4);
-  background-color: var(--spa-wrapper-background-color, $white);
-}
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}  
 
 .header__toolbar {
   display: flex;
@@ -21,7 +22,7 @@
   }
 
   &-icon {
-    color: var(--spa-cart-icon-color, $black);
+    color: var(--color-text, $black);
   }
 
   &-icon-dropdown {

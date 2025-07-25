@@ -2,7 +2,8 @@
 
 .footer {
   padding: spacing(18) 0;
-  background-color: var(--spa-foreground-background-color, $white);
+  background-color: var(--color-bg, $white);
+  color: var(--color-text);
   &__container {
     display: flex;
     justify-content: space-between;
@@ -28,11 +29,11 @@
 
   &__list-item-link {
     text-decoration: none;
-    color: var(--spa-list-item-text-color, $black);
+    color: var(--color-text, $black);
     transition: 0.25s color;
 
     &:hover {
-      color: var(--spa-list-item-text-hover-color, $dark-alpha);
+      color: var(--color-alpha-dark, $dark-alpha);
     }
   }
 
@@ -49,11 +50,11 @@
     list-style: none;
 
     a {
-      color: var(--spa-list-item-text-color, $black);
+      color: var(--color-text, $black);
       transition: 0.25s color;
 
       &:hover {
-        color: var(--spa-list-item-text-hover-color, $dark-alpha);
+        color: var(--color-alpha-dark, $dark-alpha);
       }
     }
   }

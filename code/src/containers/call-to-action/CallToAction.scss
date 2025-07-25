@@ -12,7 +12,7 @@
   &__item {
     flex-basis: 100%;
     padding: spacing(14);
-    color: var(--spa-call-to-action-text-color, $white);
+    color: var(--color-text);
     display: flex;
     flex-direction: column;
     gap: spacing(5);

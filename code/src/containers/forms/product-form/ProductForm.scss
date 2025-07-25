@@ -19,7 +19,7 @@ $gridGapHalf: calc($gridGap / 2);
   }
 
   &__header {
-    background-color: var(--new-product-form-head-bg-color, $light-alpha);
+    background-color: var(--color-muted);
     padding: spacing(5) spacing(8);
 
     &-main {
@@ -32,11 +32,16 @@ $gridGapHalf: calc($gridGap / 2);
 
   &__body {
     padding: spacing(8);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    * {
+      color: inherit;
+    }
   }
 
   &__container {
-    box-shadow: var(--new-product-form-container-shadow, $shadow-black);
-    background-color: var(--new-product-form-container-bg-color, $white);
+    box-shadow: var(--shadow);
+    background-color: var(--color-surface);
   }
 
   &__main-info-container {

@@ -96,6 +96,7 @@ const SalesPage = () => {
                 options={sortSaleOptions}
                 onSelect={handleSortChange}
                 defaultLabel={defaultDropdownText}
+                className="spa-sales-page__actions--sort"
               />
               <AppButton variant="dark" onClick={handleOpenFilterDrawer}>
                 {titleTypography}
