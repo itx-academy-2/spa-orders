@@ -12,11 +12,8 @@ import { useModalContext } from "@/context/modal/ModalContext";
 
 import * as styles from "@/components/profile-personal-information/PersonalInformation.module.scss";
 
-interface PersonalInformationProps {
-  firstName: string;
-  lastName: string;
-  phone: string;
-}
+import { PersonalInformationProps } from "./PersonalInformation.types";
+
 const PersonalInformation = ({
   firstName,
   lastName,

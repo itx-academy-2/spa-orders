@@ -5,9 +5,9 @@ import AppContainer from "../app-container/AppContainer";
 import AppInput from "../app-input/AppInput";
 import AppTypography from "../app-typography/AppTypography";
 
-interface EmailAndPasswordProps {
+type EmailAndPasswordProps = {
   email: string;
-}
+};
 
 const EmailAndPassword = ({ email }: EmailAndPasswordProps) => {
   return (
