@@ -9,6 +9,13 @@
   position: relative;
   overflow: hidden;
 
+  &__best-sellers {
+    padding: spacing(1);
+    border: 3px solid var(--color-primary);
+    border-radius: spacing(5);
+    color: var(--color-primary);
+  }
+
   &__link-wrapper {
     display: flex;
     flex-direction: column;
@@ -83,7 +90,7 @@
     color: $gray;
     display: flex;
     align-self: center;
-    
+
     &--active {
       color: $purple;
     }
