@@ -6,6 +6,8 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import * as styles from "@/components/address-card/AddressCard.module.scss";
 
+import AppIconButton from "../app-icon-button/AppIconButton";
+
 const AddressCard = ({ address }: AddressCardProps) => {
   const { title, firstName, lastName, phone, city, postMethod, department } =
     address;
@@ -14,7 +16,12 @@ const AddressCard = ({ address }: AddressCardProps) => {
     <AppBox className={styles.addressCard}>
       <AppBox className={styles.addressCard_header}>
         <AppTypography variant="subtitle2">{title}</AppTypography>
-        <CloseIcon />
+        <AppIconButton
+          className={styles.addressCard_header__closeIcon}
+          data-testid="remove-address"
+        >
+          <CloseIcon />
+        </AppIconButton>
       </AppBox>
       <AppBox className={styles.addressCard_container}>
         <AppTypography>

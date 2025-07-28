@@ -13,8 +13,11 @@
     justify-content: space-between;
     align-items: center;
     padding: spacing(1) spacing(3);
-
     background-color: var(--color-secondary);
+
+    &__closeIcon {
+      color: inherit;
+    }
   }
 
   &_container {
