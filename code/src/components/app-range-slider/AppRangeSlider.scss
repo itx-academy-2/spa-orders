@@ -14,13 +14,37 @@
 
   &__toolbar {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: spacing(3);
+    flex-direction: row;
+    width: 100%;
     padding: spacing(3) 0;
+    gap: spacing(3);
+    
+    // display: flex;
+    // align-items: center;
+    // gap: spacing(3);
+    // padding: spacing(3) 0;
 
-    & > .MuiBox-root {
-      flex-grow: 1;
-    }
+    // & > .MuiBox-root {
+    //   flex-grow: 1;
+    // }
+  }
+
+  &__toolbar-title-input {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+
+  &__toolbar-title {
+    margin-bottom: spacing(2);
+  }
+
+  &__toolbar-input-helper-text {
+    min-height: 26px;
+    line-height: 13px;
+    display: block;
   }
 
   &__range-container {

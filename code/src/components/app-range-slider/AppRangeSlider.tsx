@@ -47,44 +47,95 @@ const AppRangeSlider = ({
     updateWithValue([rangeStart, event.target.value]);
   };
 
-  const isRangeStartInputInvalid = !inputData.start.isValid;
-  const isRangeEndInputInvalid = !inputData.end.isValid;
+  const minValue = Number(inputData.start.value);
+  const maxValue = Number(inputData.end.value);
+
+  const isRangeOrderInvalid = minValue > maxValue;
+
+  const isRangeStartInputInvalid = !inputData.start.isValid || isRangeOrderInvalid;
+  const isRangeEndInputInvalid = !inputData.end.isValid || isRangeOrderInvalid;
 
   return (
     <AppBox className={cn("spa-range-slider", className?.root)}>
       <AppBox className={cn("spa-range-slider__toolbar", className?.toolbar)}>
-        <AppTypography variant="caption" translationKey="filters.from" />
-        <AppInput
-          fullWidth
-          type="number"
-          className={cn(className?.toolbarInput)}
-          inputProps={{
-            step,
-            "data-testid": "range-start",
-            "data-cy": "price-range-from"
-          }}
-          value={inputData.start.value}
-          error={isRangeStartInputInvalid}
-          color={isRangeStartInputInvalid ? "danger" : undefined}
-          onChange={handleRangeStartChange}
-          placeholder={min.toString()}
-        />
-        <AppTypography variant="caption" translationKey="filters.to" />
-        <AppInput
-          fullWidth
-          type="number"
-          className={cn(className?.toolbarInput)}
-          inputProps={{
-            step,
-            "data-testid": "range-end",
-            "data-cy": "price-range-to"
-          }}
-          value={inputData.end.value}
-          error={isRangeEndInputInvalid}
-          color={isRangeEndInputInvalid ? "danger" : undefined}
-          onChange={handleRangeEndChange}
-          placeholder={max.toString()}
-        />
+        <AppBox className={cn("spa-range-slider__toolbar-title-input", className?.toolbarInput)}>
+          <AppTypography variant="caption" translationKey="filters.from" className="spa-range-slider__toolbar-title" />
+          <AppInput
+            fullWidth
+            type="number"
+            className={cn(className?.toolbarInput)}
+            inputProps={{
+              step,
+              "data-testid": "range-start",
+              "data-cy": "price-range-from"
+            }}
+            value={inputData.start.value}
+            error={isRangeStartInputInvalid}
+            color={isRangeStartInputInvalid ? "danger" : undefined}
+            onChange={handleRangeStartChange}
+            placeholder={min.toString()}
+            helperText={
+              isRangeStartInputInvalid ? (
+                isRangeOrderInvalid ? (
+                  <AppTypography
+                    variant="caption"
+                    translationKey="filters.invalidValueRange"
+                    className="spa-range-slider__toolbar-input-helper-text"
+                  />
+                ) : (
+                <AppTypography
+                  variant="caption"
+                  translationKey="filters.invalidMinPrice"
+                  translationProps={{
+                    values: {
+                      minValue: min
+                    }
+                  }}
+                />
+              )
+            ) : undefined
+            }
+          />
+        </AppBox>
+        <AppBox className={cn("spa-range-slider__toolbar-title-input", className?.toolbarInput)}>
+          <AppTypography variant="caption" translationKey="filters.to" className="spa-range-slider__toolbar-title" />
+          <AppInput
+            fullWidth
+            type="number"
+            className={cn(className?.toolbarInput)}
+            inputProps={{
+              step,
+              "data-testid": "range-end",
+              "data-cy": "price-range-to"
+            }}
+            value={inputData.end.value}
+            error={isRangeEndInputInvalid}
+            color={isRangeEndInputInvalid ? "danger" : undefined}
+            onChange={handleRangeEndChange}
+            placeholder={max.toString()}
+            helperText={
+              isRangeEndInputInvalid ? (
+                isRangeOrderInvalid ? (
+                  <AppTypography
+                    variant="caption"
+                    translationKey="filters.invalidValueRange"
+                    className="spa-range-slider__toolbar-input-helper-text"
+                  />
+                ) : (
+                <AppTypography
+                  variant="caption"
+                  translationKey="filters.invalidMaxPrice"
+                  translationProps={{
+                    values: {
+                      maxValue: max
+                    }
+                  }}
+                />
+              )
+              ) : undefined
+            }
+          />
+        </AppBox>
       </AppBox>
       <Slider
         data-testid="range-slider"

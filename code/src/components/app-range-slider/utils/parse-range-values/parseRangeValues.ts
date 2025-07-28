@@ -31,6 +31,8 @@ const parseRangeValues = ({
     value: numericRangeEnd
   });
 
+  const isRangeOrderValid = numericRangeStart <= numericRangeEnd;
+
   return {
     sliderRange: [
       isRangeStartValueValid ? numericRangeStart : min,
@@ -39,11 +41,11 @@ const parseRangeValues = ({
     inputData: {
       start: {
         value: isRangeStartValueValid ? rangeStart : "",
-        isValid: isRangeStartInputValid
+        isValid: isRangeStartInputValid && isRangeOrderValid
       },
       end: {
         value: isRangeEndValueValid ? rangeEnd : "",
-        isValid: isRangeEndInputValid
+        isValid: isRangeEndInputValid && isRangeOrderValid
       }
     }
   };
