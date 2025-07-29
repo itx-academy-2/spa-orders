@@ -15,6 +15,7 @@ import usePagination from "@/hooks/use-pagination/usePagination";
 import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
 import { useGetUserProductsQuery } from "@/store/api/productsApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
@@ -46,6 +47,9 @@ const ProductsPage = () => {
     size,
     lang: locale
   });
+
+  const { data: wishlistData } = useGetUserWishlistQuery();
+  const wishlist = wishlistData?.content ?? [];
 
   const productsList = productsResponse?.content;
 
@@ -116,6 +120,7 @@ const ProductsPage = () => {
           loadingItemsCount={10}
           isLoading={isLoading}
           isError={isError}
+          wishlist={wishlist}
         />
         <PaginationBlock
           page={page}

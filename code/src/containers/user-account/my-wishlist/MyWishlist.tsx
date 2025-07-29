@@ -11,12 +11,18 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
+import usePagination from "@/hooks/use-pagination/usePagination";
+import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
+import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 
 import * as styles from "@/containers/user-account/my-wishlist/MyWishlist.module.scss";
 
 const MyWishlist = () => {
   const { locale } = useLocaleContext();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { page } = usePagination();
+  const screenSize = useScreenSize();
+  const size = setProductsPerPageSize(screenSize.width);
 
   const sortOption = searchParams.get("sort");
 
@@ -24,6 +30,8 @@ const MyWishlist = () => {
     data: wishlist,
     isLoading,
   } = useGetUserWishlistQuery({
+    page: page - 1,
+    size,
     sort: sortOption ?? undefined,
     lang: locale
   });
@@ -90,6 +98,7 @@ const MyWishlist = () => {
         products={productsList ?? []}
         isLoading={isLoading}
         loadingItemsCount={10}
+        wishlist={productsList ?? []}
       />
     </AppContainer>
   );

@@ -9,6 +9,7 @@ export type ProductsContainerProps = {
   errorMessage?: string;
   maxColumns?: number;
   isViewHistory?: boolean;
+  wishlist?: Product[];
 };
 
 export type HandleCartIconClickParam = Product & { isInCart: boolean };

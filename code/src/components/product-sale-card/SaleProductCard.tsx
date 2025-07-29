@@ -22,7 +22,8 @@ import "@/components/product-sale-card/SaleProductCard.scss";
 
 const SaleProductCard = ({
   product,
-  isViewHistory = false
+  isViewHistory = false,
+  wishlist = []
 }: ProductCardProps) => {
   const { isProductInCart, addToCartOrOpenDrawer } =
     useAddToCartOrOpenDrawer(product);
@@ -41,7 +42,7 @@ const SaleProductCard = ({
   const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 
   const [imgSrc, setImgSrc] = useState(image);
-  const { toggle, isFavorite } = useToggleFavorite();
+  const { toggle, isFavorite } = useToggleFavorite(wishlist);
 
   const handleImageError = () => {
     setImgSrc(fallbackImage);

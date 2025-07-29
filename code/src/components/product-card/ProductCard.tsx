@@ -21,10 +21,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import "@/components/product-card/ProductCard.scss";
 
-const ProductCard = ({ product, isViewHistory = false }: ProductCardProps) => {
+const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductCardProps) => {
   const { isProductInCart, addToCartOrOpenDrawer } =
     useAddToCartOrOpenDrawer(product);
-  const { toggle, isFavorite } = useToggleFavorite();
+  const { toggle, isFavorite } = useToggleFavorite(wishlist);
   const { id, name, image, price, description, percentageOfTotalOrders } =
     product;
 

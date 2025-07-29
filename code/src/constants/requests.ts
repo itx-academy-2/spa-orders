@@ -98,9 +98,11 @@ export const URLS = {
       `/v1/my-view-history/${productId}`,
     deleteAll: "/v1/my-view-history"
   },
-    wishlist: {
-    get: "/v1/wishlist",
-    put: (productId: string) => `/v1/wishlist/${productId}`,
-    delete: (productId: string) => `/v1/wishlist/${productId}`,
+  wishlist: {
+    get: "/v1/my-wishlist",
+    put: ({ productId }: { productId: string }) =>
+      `/v1/my-wishlist/${productId}`,
+    delete: ({ productId }: { productId: string }) =>
+      `/v1/my-wishlist/${productId}`,
   }
 } as const;

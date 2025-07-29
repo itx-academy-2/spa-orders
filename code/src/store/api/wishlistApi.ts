@@ -22,15 +22,15 @@ export const wishlistApi = appApi.injectEndpoints({
       providesTags: [rtkQueryTags.WISHLIST]
     }),
     addToWishlist: build.mutation<void, string>({
-      query: (productId) => ({
-        url: URLS.wishlist.put(productId),
+      query: (productId: string) => ({
+        url: URLS.wishlist.put({ productId }),
         method: httpMethods.put
       }),
       invalidatesTags: [rtkQueryTags.WISHLIST]
     }),
     removeFromWishlist: build.mutation<void, string>({
-      query: (productId) => ({
-        url: URLS.wishlist.delete(productId),
+      query: (productId: string) => ({
+        url: URLS.wishlist.delete({ productId }),
         method: httpMethods.delete
       }),
       invalidatesTags: [rtkQueryTags.WISHLIST]

@@ -22,6 +22,7 @@ import {
   useDeleteAllViewProductsMutation,
   useGetViewHistoryApiQuery
 } from "@/store/api/viewHistoryApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import repeatComponent from "@/utils/repeat-component/repeatComponent";
@@ -50,6 +51,9 @@ const UserViewHistory = () => {
     sort: sortOption ?? undefined,
     lang: locale
   });
+
+  const { data: wishlistData } = useGetUserWishlistQuery();
+  const wishlist = wishlistData?.content ?? [];
 
   const pagesCount = viewHistoryResponse?.totalPages ?? 1;
 
@@ -102,6 +106,7 @@ const UserViewHistory = () => {
       <ProductsContainer
         products={viewHistoryResponse!.content}
         isViewHistory
+        wishlist={wishlist}
       />
     );
   };
