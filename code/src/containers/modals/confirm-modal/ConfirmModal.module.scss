@@ -10,11 +10,14 @@
   flex-direction: column;
   gap: spacing(3);
   position: relative;
+  color: var(--color-text);
+  background-color: var(--color-surface);
 
   &_closeIcon {
     position: absolute;
     top: spacing(2);
     right: spacing(2);
     cursor: pointer;
+    color: inherit;
   }
 }

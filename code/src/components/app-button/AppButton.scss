@@ -101,7 +101,7 @@
   &__danger {
     @include focus-style(var(--spa-button-danger-focus-color, $red));
     @include hover-effect(
-      var(--spa-button-danger--bg-hover-color, $white),
+      var(--color-surface),
       var(--spa-button-danger--text-hover-color, $red)
     );
 
