@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 
 import ProductsContainer from "@/containers/products-container/ProductsContainer";
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
+import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
 
 import AppBox from "@/components/app-box/AppBox";
 import AppContainer from "@/components/app-container/AppContainer";
@@ -99,6 +100,10 @@ const MyWishlist = () => {
         isLoading={isLoading}
         loadingItemsCount={10}
         wishlist={productsList ?? []}
+      />
+      <PaginationBlock
+        page={page}
+        totalPages={wishlist?.totalPages}
       />
     </AppContainer>
   );
