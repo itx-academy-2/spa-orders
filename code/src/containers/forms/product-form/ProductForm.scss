@@ -200,7 +200,7 @@ $gridGapHalf: calc($gridGap / 2);
     padding: spacing(2) spacing(3);
     background-color: $transparent;
     border-color: $transparent;
-    color: var(--product-form-language-button-color, $gray-light);
+    color: var(--color-on-secondary);
     outline: none !important; // to overwrite mui styles
 
     &:hover {
