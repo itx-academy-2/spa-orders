@@ -14,21 +14,22 @@ import signInFormMessages from "@/containers/forms/sign-in-form/messages";
 import signupFormMessages from "@/containers/forms/sign-up-form/messages";
 import bannerMessages from "@/containers/intro-banner/messages";
 import authModalMessages from "@/containers/modals/auth/messages";
+import confirmModalMessages from "@/containers/modals/confirm-modal/messages";
 import editPersonalInfoMessages from "@/containers/modals/user-account/messages";
 import orderItemMessages from "@/containers/order-item/messages";
 import subintroMessages from "@/containers/subintro/messages";
 import ordersTableMessages from "@/containers/tables/orders-table/messages";
 import productsTableMessages from "@/containers/tables/products-table/messages";
 import usersTableMessages from "@/containers/tables/users-table/messages";
-import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
 import myWishlistMessages from "@/containers/user-account/my-wishlist/messages";
 import profileMessages from "@/containers/user-account/profile/messages";
+import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
-import sidebar from "@/components/sidebar/messages";
 import PersonalInformation from "@/components/profile-personal-information/messages";
+import sidebar from "@/components/sidebar/messages";
 
 import commonMessages from "@/constants/common-messages";
 import { Locale } from "@/context/i18n/I18nProvider";
@@ -98,6 +99,7 @@ const messages: MessagesType = {
     ...PersonalInformation.en,
     ...myWishlistMessages.en,
     ...profileMessages.en,
+    ...confirmModalMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -142,10 +144,11 @@ const messages: MessagesType = {
     ...dashboardMetricsPageMessages.uk,
     ...sidebar.uk,
     ...editPersonalInfoMessages.uk,
-     ...userViewHistoryMessages.uk,
+    ...userViewHistoryMessages.uk,
     ...PersonalInformation.uk,
     ...myWishlistMessages.uk,
     ...profileMessages.uk,
+    ...confirmModalMessages.uk
   }
 };
 
