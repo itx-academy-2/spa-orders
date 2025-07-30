@@ -14,6 +14,7 @@ import signInFormMessages from "@/containers/forms/sign-in-form/messages";
 import signupFormMessages from "@/containers/forms/sign-up-form/messages";
 import bannerMessages from "@/containers/intro-banner/messages";
 import authModalMessages from "@/containers/modals/auth/messages";
+import confirmModalMessages from "@/containers/modals/confirm-modal/messages";
 import editPersonalInfoMessages from "@/containers/modals/user-account/messages";
 import orderItemMessages from "@/containers/order-item/messages";
 import subintroMessages from "@/containers/subintro/messages";
@@ -99,7 +100,8 @@ const messages: MessagesType = {
     ...PersonalInformation.en,
     ...myWishlistMessages.en,
     ...profileMessages.en,
-    ...emailAndPasswordMessages.en
+    ...emailAndPasswordMessages.en,
+    ...confirmModalMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -148,7 +150,8 @@ const messages: MessagesType = {
     ...PersonalInformation.uk,
     ...myWishlistMessages.uk,
     ...profileMessages.uk,
-    ...emailAndPasswordMessages.uk
+    ...emailAndPasswordMessages.uk,
+    ...confirmModalMessages.uk
   }
 };
 
