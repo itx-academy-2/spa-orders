@@ -1,3 +1,4 @@
 {
-    "profile.title": "Profile"
+    "profile.title": "Profile",
+    "profile.error.label": "Something went wrong. Please try again later"
 }

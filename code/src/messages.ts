@@ -28,6 +28,7 @@ import userViewHistoryMessages from "@/containers/user-account/view-history/mess
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
+import emailAndPasswordMessages from "@/components/profile-email-password/messages";
 import PersonalInformation from "@/components/profile-personal-information/messages";
 import sidebar from "@/components/sidebar/messages";
 
@@ -99,6 +100,7 @@ const messages: MessagesType = {
     ...PersonalInformation.en,
     ...myWishlistMessages.en,
     ...profileMessages.en,
+    ...emailAndPasswordMessages.en,
     ...confirmModalMessages.en
   },
   uk: {
@@ -148,6 +150,7 @@ const messages: MessagesType = {
     ...PersonalInformation.uk,
     ...myWishlistMessages.uk,
     ...profileMessages.uk,
+    ...emailAndPasswordMessages.uk,
     ...confirmModalMessages.uk
   }
 };
