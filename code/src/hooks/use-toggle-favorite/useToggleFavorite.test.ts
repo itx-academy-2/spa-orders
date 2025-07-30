@@ -49,8 +49,8 @@ describe("useToggleFavorite", () => {
   test("toggle calls removeFromWishlist if product is favorite", async () => {
     const { result } = renderHook(() => useToggleFavorite(mockWishlist));
 
-    await act(async () => {
-      await result.current.toggle("1");
+    act(() => {
+      result.current.toggle("1");
     });
 
     expect(mockRemoveFromWishlist).toHaveBeenCalledWith("1");
@@ -60,8 +60,8 @@ describe("useToggleFavorite", () => {
   test("toggle calls addToWishlist if product is not favorite", async () => {
     const { result } = renderHook(() => useToggleFavorite(mockWishlist));
 
-    await act(async () => {
-      await result.current.toggle("3");
+    act(() => {
+      result.current.toggle("3");
     });
 
     expect(mockAddToWishlist).toHaveBeenCalledWith("3");
@@ -73,8 +73,8 @@ describe("useToggleFavorite", () => {
 
     expect(result.current.isFavorite("abc")).toBe(false);
 
-    await act(async () => {
-      await result.current.toggle("abc");
+    act(() => {
+      result.current.toggle("abc");
     });
 
     expect(mockAddToWishlist).toHaveBeenCalledWith("abc");
