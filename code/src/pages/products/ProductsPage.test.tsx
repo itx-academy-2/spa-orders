@@ -4,6 +4,7 @@ import { ProductsContainerProps } from "@/containers/products-container/Products
 
 import ProductsPage from "@/pages/products/ProductsPage";
 import { useGetUserProductsQuery } from "@/store/api/productsApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import { PaginationParams, RTKQueryReturnState } from "@/types/common";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
@@ -18,12 +19,17 @@ const mockProducts = [
   { id: 7, name: "Product 7", price: 300 },
   { id: 8, name: "Product 8", price: 400 }
 ];
+const mockWishlist = [{ id: 1 }];
 
 const mockData = { content: mockProducts, totalPages: 2, totalElements: 8 };
 
 jest.mock("@/containers/products-container/ProductsContainer", () => ({
   __esModule: true,
-  default: ({ isLoading, isError, products }: ProductsContainerProps) => (
+  default: ({
+    isLoading,
+    isError,
+    products
+  }: ProductsContainerProps) => (
     <div data-testid="products-container">
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error!</div>}
@@ -39,6 +45,10 @@ jest.mock("@/containers/products-container/ProductsContainer", () => ({
 
 jest.mock("@/store/api/productsApi", () => ({
   useGetUserProductsQuery: jest.fn()
+}));
+
+jest.mock("@/store/api/wishlistApi", () => ({
+  useGetUserWishlistQuery: jest.fn()
 }));
 
 jest.mock("@/context/i18n/I18nProvider", () => ({
@@ -75,11 +85,13 @@ jest
 const renderAndMock = (
   {
     entries = "",
-    mockResponse = {}
+    mockResponse = {},
+    wishlist = []
   }: {
     entries?: string;
     mockResponse?: Partial<RTKQueryReturnState<Partial<typeof mockData>>>;
-  } = { entries: "", mockResponse: {} }
+    wishlist?: typeof mockWishlist;
+  } = {}
 ) => {
   (useGetUserProductsQuery as jest.Mock).mockReturnValue({
     isLoading: false,
@@ -91,6 +103,12 @@ const renderAndMock = (
       "data" in mockResponse && !mockResponse.data
         ? mockResponse.data
         : { ...mockData, ...mockResponse.data }
+  });
+
+  (useGetUserWishlistQuery as jest.Mock).mockReturnValue({
+    isLoading: false,
+    isError: false,
+    data: { content: wishlist }
   });
 
   return renderWithProviders(<ProductsPage />, { initialEntries: [entries] });

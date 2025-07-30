@@ -1,148 +1,82 @@
 import { renderHook, act } from "@testing-library/react";
-import { useSearchParams } from "react-router-dom";
 
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import {
   useAddToWishlistMutation,
-  useRemoveFromWishlistMutation,
-  useGetUserWishlistQuery,
+  useRemoveFromWishlistMutation
 } from "@/store/api/wishlistApi";
+import { Product } from "@/types/product.types";
 
 jest.mock("@/store/api/wishlistApi", () => ({
-  useGetUserWishlistQuery: jest.fn(),
   useAddToWishlistMutation: jest.fn(),
-  useRemoveFromWishlistMutation: jest.fn(),
+  useRemoveFromWishlistMutation: jest.fn()
 }));
 
-jest.mock("@/context/i18n/I18nProvider", () => ({
-  ...jest.requireActual("@/context/i18n/I18nProvider"),
-  useLocaleContext: () => ({ locale: "en" }),
-}));
-
-jest.mock("react-router-dom", () => {
-  const actual = jest.requireActual("react-router-dom");
-  return {
-    ...actual,
-    useSearchParams: jest.fn(),
-  };
-});
-
-const mockUseSearchParams = useSearchParams as jest.Mock;
-const mockUseGetUserWishlistQuery = useGetUserWishlistQuery as jest.Mock;
 const mockAddToWishlist = jest.fn();
 const mockRemoveFromWishlist = jest.fn();
 
+const mockProduct: Product = {
+  id: "123",
+  name: "Mobile Phone Samsung Galaxy A55 5G 8/256GB Lilac",
+  description:
+    'Screen: 6.6" Super AMOLED, 2340x1080 / Samsung Exynos 1480 (4 x 2.75 GHz + 4 x 2.0 GHz) / Main Triple Camera: 50 MP + 12 MP + 5 MP, Front Camera: 32 MP / RAM 8 GB / 256 GB internal storage + microSD (up to 1 TB) / 3G / LTE / 5G / GPS / A-GPS / GLONASS / BDS / Dual SIM support (Nano-SIM) / Android 14 / 5000 mAh',
+  status: "AVAILABLE",
+  tags: ["category:mobile"],
+  image:
+    "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
+  price: 500
+};
+
 describe("useToggleFavorite", () => {
   beforeEach(() => {
-    const params = new URLSearchParams();
-    params.set("sort", "bestsellers,desc");
-
-    mockUseSearchParams.mockReturnValue([params]);
-
     (useAddToWishlistMutation as jest.Mock).mockReturnValue([mockAddToWishlist]);
-    (useRemoveFromWishlistMutation as jest.Mock).mockReturnValue([
-      mockRemoveFromWishlist,
-    ]);
-
+    (useRemoveFromWishlistMutation as jest.Mock).mockReturnValue([mockRemoveFromWishlist]);
     jest.clearAllMocks();
   });
 
   const mockWishlist = [
-    { id: "1", name: "Phone 1" },
-    { id: "2", name: "Phone 2" },
+    { ...mockProduct, id: "1", name: "Product 1" },
+    { ...mockProduct, id: "2", name: "Product 2" }
   ];
 
-  test("should return wishlist and flags correctly", () => {
-    mockUseGetUserWishlistQuery.mockReturnValue({
-      data: { content: mockWishlist },
-      isLoading: false,
-      isError: false,
-    });
-
-    const { result } = renderHook(() => useToggleFavorite());
-
-    expect(result.current.wishlist).toEqual(mockWishlist);
-    expect(result.current.isLoading).toBe(false);
-    expect(result.current.isError).toBe(false);
-  });
-
   test("isFavorite returns true for existing product", () => {
-    mockUseGetUserWishlistQuery.mockReturnValue({
-      data: { content: mockWishlist },
-      isLoading: false,
-      isError: false,
-    });
-
-    const { result } = renderHook(() => useToggleFavorite());
+    const { result } = renderHook(() => useToggleFavorite(mockWishlist));
 
     expect(result.current.isFavorite("1")).toBe(true);
     expect(result.current.isFavorite("999")).toBe(false);
   });
 
-  test("toggle calls removeFromWishlist if product is favorite", () => {
-    mockUseGetUserWishlistQuery.mockReturnValue({
-      data: { content: mockWishlist },
-      isLoading: false,
-      isError: false,
+  test("toggle calls removeFromWishlist if product is favorite", async () => {
+    const { result } = renderHook(() => useToggleFavorite(mockWishlist));
+
+    await act(async () => {
+      await result.current.toggle("1");
     });
 
-    const { result } = renderHook(() => useToggleFavorite());
-
-    act(() => {
-      result.current.toggle("2");
-    });
-
-    expect(mockRemoveFromWishlist).toHaveBeenCalledWith("2");
+    expect(mockRemoveFromWishlist).toHaveBeenCalledWith("1");
     expect(mockAddToWishlist).not.toHaveBeenCalled();
   });
 
-  test("toggle calls addToWishlist if product is not favorite", () => {
-    mockUseGetUserWishlistQuery.mockReturnValue({
-      data: { content: mockWishlist },
-      isLoading: false,
-      isError: false,
+  test("toggle calls addToWishlist if product is not favorite", async () => {
+    const { result } = renderHook(() => useToggleFavorite(mockWishlist));
+
+    await act(async () => {
+      await result.current.toggle("3");
     });
 
-    const { result } = renderHook(() => useToggleFavorite());
-
-    act(() => {
-      result.current.toggle("5");
-    });
-
-    expect(mockAddToWishlist).toHaveBeenCalledWith("5");
+    expect(mockAddToWishlist).toHaveBeenCalledWith("3");
     expect(mockRemoveFromWishlist).not.toHaveBeenCalled();
   });
 
-  test("works correctly with empty wishlist", () => {
-    mockUseGetUserWishlistQuery.mockReturnValue({
-      data: { content: [] },
-      isLoading: false,
-      isError: false,
-    });
-
-    const { result } = renderHook(() => useToggleFavorite());
+  test("handles empty wishlist correctly", async () => {
+    const { result } = renderHook(() => useToggleFavorite([]));
 
     expect(result.current.isFavorite("abc")).toBe(false);
 
-    act(() => {
-      result.current.toggle("abc");
+    await act(async () => {
+      await result.current.toggle("abc");
     });
 
     expect(mockAddToWishlist).toHaveBeenCalledWith("abc");
-  });
-
-  test("calls useGetUserWishlistQuery with correct params", () => {
-    mockUseGetUserWishlistQuery.mockReturnValue({
-      data: { content: [] },
-      isLoading: false,
-      isError: false,
-    });
-
-    renderHook(() => useToggleFavorite());
-
-    expect(mockUseGetUserWishlistQuery).toHaveBeenCalledWith({
-      lang: "en",
-      sort: "bestsellers,desc",
-    });
   });
 });
