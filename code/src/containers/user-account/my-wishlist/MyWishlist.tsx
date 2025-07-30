@@ -23,7 +23,7 @@ const MyWishlist = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { page } = usePagination();
   const screenSize = useScreenSize();
-  const size = setProductsPerPageSize(screenSize.width);
+  const size = Math.min(setProductsPerPageSize(screenSize.width), 6);
 
   const sortOption = searchParams.get("sort");
 
