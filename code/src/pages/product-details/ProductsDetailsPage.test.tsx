@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import ProductDetailsPage from "@/pages/product-details/ProductDetailsPage";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
+import { useIsAuthSelector } from "@/store/slices/userSlice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 const mockRenderRedirectComponent = jest.fn();
@@ -31,14 +32,16 @@ jest.mock(
     default: () => <div>ProductDetailsContainer</div>
   })
 );
-
+jest.mock("@/store/slices/userSlice", () => ({
+  useIsAuthSelector: jest.fn()
+}));
 const addViewedProductMock = jest.fn();
-
-const renderAndMock = (productId?: string) => {
+const renderAndMock = (productId?: string, isAuthenticated?: boolean) => {
   (useParams as jest.Mock).mockReturnValue({ productId });
   (useUpdateViewedProductsMutation as jest.Mock).mockReturnValue([
     addViewedProductMock
   ]);
+  (useIsAuthSelector as jest.Mock).mockReturnValue(isAuthenticated);
 
   renderWithProviders(<ProductDetailsPage />);
 };
@@ -49,14 +52,14 @@ describe("ProductsDetailsPage", () => {
   });
 
   test("redirects to 404 page if productId is not provided", () => {
-    renderAndMock();
+    renderAndMock(undefined, false);
     expect(mockRenderRedirectComponent).toHaveBeenCalledWith(
       productNotFoundRedirectConfig
     );
   });
 
   test("renders product details container when product id is defined", () => {
-    renderAndMock("1");
+    renderAndMock("1", false);
     expect(mockRenderRedirectComponent).not.toHaveBeenCalled();
 
     const productDetailsContainer = screen.getByText("ProductDetailsContainer");
@@ -64,7 +67,12 @@ describe("ProductsDetailsPage", () => {
   });
 
   test("calls addViewProduct with productId when productId is defined", () => {
-    renderAndMock("2");
+    renderAndMock("2", true);
     expect(addViewedProductMock).toHaveBeenCalledWith("2");
+  });
+
+  test("does not addViewProduct when user is not authenticated", () => {
+    renderAndMock("3", false);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
   });
 });
