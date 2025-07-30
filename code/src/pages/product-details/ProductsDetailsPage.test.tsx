@@ -1,10 +1,14 @@
 import { screen } from "@testing-library/react";
 import { useParams } from "react-router-dom";
 
+import { ROLES } from "@/constants/common";
 import ProductDetailsPage from "@/pages/product-details/ProductDetailsPage";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
-import { useIsAuthSelector } from "@/store/slices/userSlice";
+import {
+  useIsAuthSelector,
+  useUserRoleSelector
+} from "@/store/slices/userSlice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 const mockRenderRedirectComponent = jest.fn();
@@ -33,7 +37,8 @@ jest.mock(
   })
 );
 jest.mock("@/store/slices/userSlice", () => ({
-  useIsAuthSelector: jest.fn()
+  useIsAuthSelector: jest.fn(),
+  useUserRoleSelector: jest.fn()
 }));
 const addViewedProductMock = jest.fn();
 const renderAndMock = (productId?: string, isAuthenticated?: boolean) => {
@@ -42,6 +47,7 @@ const renderAndMock = (productId?: string, isAuthenticated?: boolean) => {
     addViewedProductMock
   ]);
   (useIsAuthSelector as jest.Mock).mockReturnValue(isAuthenticated);
+  (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.USER);
 
   renderWithProviders(<ProductDetailsPage />);
 };
