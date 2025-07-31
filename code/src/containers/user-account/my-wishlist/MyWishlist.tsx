@@ -1,5 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 
+import { sortOptions } from "@/containers/user-account/my-wishlist/MyWishlist.constants";
+
 import ProductsContainer from "@/containers/products-container/ProductsContainer";
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
@@ -11,7 +13,6 @@ import AppTypography from "@/components/app-typography/AppTypography";
 
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
-import { sortOptions } from "@/pages/products/ProductsPage.constants";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
@@ -21,11 +22,10 @@ import * as styles from "@/containers/user-account/my-wishlist/MyWishlist.module
 const MyWishlist = () => {
   const { locale } = useLocaleContext();
   const [searchParams, setSearchParams] = useSearchParams();
+  const sortOption = searchParams.get("sort");
   const { page } = usePagination();
   const screenSize = useScreenSize();
   const size = Math.min(setProductsPerPageSize(screenSize.width), 6);
-
-  const sortOption = searchParams.get("sort");
 
   const {
     data: wishlist,
@@ -43,10 +43,6 @@ const MyWishlist = () => {
 
   const productsCount = wishlist?.totalElements ?? 0;
 
-  const defaultDropdownText = sortOptions.find(
-    (item) => item.value === sortOption
-  )?.label || <AppTypography translationKey="productsDefault.label" />;
-
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(searchParams);
 
@@ -55,9 +51,13 @@ const MyWishlist = () => {
     } else {
       params.delete("sort");
     }
-    
+
     setSearchParams(params);
   };
+
+  const defaultDropdownText = sortOptions.find(
+    (item) => item.value === sortOption
+  )?.label || <AppTypography translationKey="sortOptions.newest" />;
 
   if (isLoading) {
     return <PageLoadingFallback />;
