@@ -23,7 +23,8 @@ const ProductsContainer = ({
   loadingItemsCount = 5,
   maxColumns = 5,
   errorMessage = "errors.somethingWentWrong",
-  isViewHistory = false
+  isViewHistory = false,
+  wishlist = [],
 }: ProductsContainerProps) => {
   const { isLoading: isCartLoading } = useGetCart();
   const isAuthLoading = useIsAuthLoadingSelector();
@@ -50,12 +51,14 @@ const ProductsContainer = ({
           key={product.id}
           product={product}
           isViewHistory={isViewHistory}
+          wishlist={wishlist}
         />
       ) : (
         <ProductCard
           key={product.id}
           product={product}
           isViewHistory={isViewHistory}
+          wishlist={wishlist}
         />
       );
 

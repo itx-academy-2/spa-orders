@@ -1,45 +1,26 @@
-import { useSearchParams } from "react-router-dom";
-
-import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import {
-  useGetUserWishlistQuery,
   useAddToWishlistMutation,
   useRemoveFromWishlistMutation
 } from "@/store/api/wishlistApi";
+import { Product } from "@/types/product.types";
 
 
-const useToggleFavorite = () => {
-  const { locale } = useLocaleContext();
-  const [searchParams] = useSearchParams();
-
-  const sort = searchParams.get("sort") ?? undefined;
-
-  const {
-    data: wishlistData,
-    isLoading,
-    isError,
-  } = useGetUserWishlistQuery({
-    lang: locale,
-    sort
-  });
-
-  const wishlist = wishlistData?.content ?? [];
-
+const useToggleFavorite = (wishlist: Product[]) => {
   const [addToWishlist] = useAddToWishlistMutation();
   const [removeFromWishlist] = useRemoveFromWishlistMutation();
 
   const isFavorite = (productId: string): boolean =>
     wishlist.some((item) => item.id === productId);
 
-  const toggle = (productId: string) => {
+  const toggle = async (productId: string) => {
     if (isFavorite(productId)) {
-      removeFromWishlist(productId);
+      await removeFromWishlist(productId);
     } else {
-      addToWishlist(productId);
+      await addToWishlist(productId);
     }
   };
 
-  return { toggle, isFavorite, wishlist, isLoading, isError };
+  return { toggle, isFavorite, wishlist };
 };
 
 export default useToggleFavorite;

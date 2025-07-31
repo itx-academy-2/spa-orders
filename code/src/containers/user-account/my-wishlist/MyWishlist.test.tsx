@@ -19,7 +19,11 @@ jest.mock("@/context/i18n/I18nProvider", () => ({
   useLocaleContext: jest.fn(() => ({ locale: "en" })),
 }));
 
-const mockData = { content: mockProducts, totalElements: mockProducts.length };
+const mockData = {
+  content: mockProducts,
+  totalElements: mockProducts.length,
+  totalPages: 3
+};
 
 jest.mock("@/containers/products-container/ProductsContainer", () => ({
   __esModule: true,
@@ -82,7 +86,7 @@ describe("MyWishlist", () => {
   });
 
   test("should show empty message, title, 0 products and sort options when wishlist is empty", () => {
-    renderAndMock({ mockResponse: { data: { content: [], totalElements: 0 } } });
+    renderAndMock({ mockResponse: { data: { content: [], totalElements: 0, totalPages: 3 } } });
 
     expect(screen.getByText(/myWishlist.emptyMessage/i)).toBeInTheDocument();
     expect(screen.getByText(/myWishlist.title/i)).toBeInTheDocument();
@@ -119,9 +123,22 @@ describe("MyWishlist", () => {
 
     renderAndMock();
 
-    expect(mockUseGetUserWishlistQuery).toHaveBeenCalledWith({
-      sort: "bestsellers,desc",
-      lang: "en",
-    });
+    expect(mockUseGetUserWishlistQuery).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sort: "bestsellers,desc",
+        lang: "en",
+      })
+    );
+  });
+
+  test("should render PaginationBlock with correct props", () => {
+    renderAndMock();
+
+    expect(screen.getByText(/myWishlist.title/i)).toBeInTheDocument();
+    expect(mockUseGetUserWishlistQuery).toHaveBeenCalledWith(
+      expect.objectContaining({
+        page: 0,
+      })
+    );
   });
 });

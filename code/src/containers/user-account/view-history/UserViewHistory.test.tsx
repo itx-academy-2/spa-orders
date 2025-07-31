@@ -8,6 +8,7 @@ import {
   useDeleteAllViewProductsMutation,
   useGetViewHistoryApiQuery
 } from "@/store/api/viewHistoryApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 import UserViewHistoryPage from "./UserViewHistory";
@@ -25,6 +26,9 @@ const mockProducts = [
 
 const mockData = { content: mockProducts, totalPages: 2, totalElements: 8 };
 const deleteAllViewProductsMock = jest.fn();
+
+jest.mock("@/store/api/wishlistApi");
+const mockUseGetUserWishlistQuery = useGetUserWishlistQuery as jest.Mock;
 
 const mockSetSearchParams = jest.fn();
 const mockSearchParams = new URLSearchParams();
@@ -97,12 +101,14 @@ const renderAndMock = ({
   mockResponse = {},
   isLoading = false,
   isError = false,
-  error
+  error,
+  wishlistResponse = { content: [] }
 }: {
   mockResponse?: Partial<ReturnType<typeof useGetViewHistoryApiQuery>>;
   isLoading?: boolean;
   isError?: boolean;
   error?: { status: number };
+  wishlistResponse?: { content: typeof mockProducts };
 } = {}) => {
   (useDeleteAllViewProductsMutation as jest.Mock).mockReturnValue([
     deleteAllViewProductsMock
@@ -116,6 +122,13 @@ const renderAndMock = ({
     isError,
     data: mockResponse?.data ?? mockData,
     error: error ?? null
+  });
+
+  mockUseGetUserWishlistQuery.mockReturnValue({
+    data: wishlistResponse,
+    isLoading: false,
+    isError: false,
+    error: null
   });
 
   return renderWithProviders(<UserViewHistoryPage />);
@@ -135,7 +148,9 @@ describe("UserViewHistory", () => {
   });
 
   it("should show no products message when no products", () => {
-    renderAndMock({ mockResponse: { data: { content: [] } } });
+    renderAndMock({
+      mockResponse: { data: { content: [], totalElements: 0, totalPages: 0 } }
+    });
     const noProducts = screen.getByText("userViewHistory.noProducts");
 
     expect(noProducts).toBeInTheDocument();
@@ -173,17 +188,6 @@ describe("UserViewHistory", () => {
 
     const updatedParams = mockSetSearchParams.mock.calls[0][0].toString();
     expect(updatedParams).toContain("sort=viewedAt%2CASC");
-  });
-
-  it("should handle page not found error", () => {
-    renderAndMock({
-      error: { status: 404 },
-      isError: true
-    });
-
-    const errorMessage = screen.getByText("product.productNotFound");
-
-    expect(errorMessage).toBeInTheDocument();
   });
 
   it("should handle page not found error", () => {

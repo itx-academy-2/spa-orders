@@ -4,6 +4,7 @@ import usePagination from "@/hooks/use-pagination/usePagination";
 import SalesPage from "@/pages/sales/SalesPage";
 import useSalesFilter from "@/pages/sales/hooks/useSalesFilter";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 
 jest.mock("@/pages/sales/SalesPage.constants", () => ({
   sortSaleOptions: [
@@ -26,6 +27,9 @@ jest.mock(
     )
   })
 );
+
+jest.mock("@/store/api/wishlistApi");
+const mockUseGetUserWishlistQuery = useGetUserWishlistQuery as jest.Mock;
 
 jest.mock("@/containers/products-container/ProductsContainer", () => ({
   __esModule: true,
@@ -76,7 +80,7 @@ const mockSales = [
   { id: 3, name: "Sale Product 3", price: 150 }
 ];
 
-const renderAndMock = (mockResponse = {}) => {
+const renderAndMock = (mockResponse = {}, wishlistResponse = []) => {
   (useSalesFilter as jest.Mock).mockReturnValue({
     sales: mockSales,
     totalPages: 3,
@@ -87,7 +91,15 @@ const renderAndMock = (mockResponse = {}) => {
     totalElements: mockSales.length,
     isLoading: false,
     isError: false,
+    wishlistResponse: typeof mockSales,
     ...mockResponse
+  });
+
+  mockUseGetUserWishlistQuery.mockReturnValue({
+    data: wishlistResponse,
+    isLoading: false,
+    isError: false,
+    error: null
   });
   return renderWithProviders(<SalesPage />);
 };
