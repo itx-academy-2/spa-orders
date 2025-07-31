@@ -9,6 +9,12 @@ $spa-input-colors: (
 );
 
 .spa-input {
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px var(--color-surface) inset;
+    -webkit-text-fill-color: var(--color-text);
+    caret-color: var(--color-text);
+  }
+
   .MuiInputBase-input {
     padding: spacing(3) spacing(4);
 
