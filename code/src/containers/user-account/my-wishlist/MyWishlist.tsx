@@ -57,7 +57,10 @@ const MyWishlist = () => {
 
   const defaultDropdownText = sortOptions.find(
     (item) => item.value === sortOption
-  )?.label || <AppTypography translationKey="sortOptions.newest" />;
+  )?.label || <AppTypography
+    translationKey="sortOptions.newest"
+    data-testid="default-sort-label"
+  />;
 
   if (isLoading) {
     return <PageLoadingFallback />;
