@@ -6,17 +6,26 @@
   padding: 2px 2px;
   max-width: 275px;
   border-radius: spacing(10);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow);
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover,
+  &:focus-within {
+    background-color: var(--color-surface);
+  }
 
   &__input-base {
     margin-left: spacing(3);
+    color: var(--color-text);
   }
 
   &__search-icon {
-    background-color: var(--spa-search-input-button-background-color, $purple);
-    color: var(--spa-search-input-icon-color, $white);
+    background-color: var(--color-secondary);
+    color: var(--color-surface);
 
     &:hover {
-      background-color: var(--spa-search-input-button-background-color, $black);
+      background-color: var(--color-text);
     }
   }
 }
