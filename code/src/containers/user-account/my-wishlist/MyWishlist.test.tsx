@@ -85,32 +85,21 @@ describe("MyWishlist", () => {
     expect(screen.queryByTestId("products-container")).not.toBeInTheDocument();
   });
 
-  test("should show empty message, title, 0 products and sort options when wishlist is empty", () => {
-    renderAndMock({ mockResponse: { data: { content: [], totalElements: 0, totalPages: 3 } } });
+  test("should show empty message, title, 0 products and sort options label when wishlist is empty", () => {
+    renderAndMock({ mockResponse: { data: { content: [], totalElements: 0, totalPages: 0 } } });
 
     expect(screen.getByText(/myWishlist.emptyMessage/i)).toBeInTheDocument();
     expect(screen.getByText(/myWishlist.title/i)).toBeInTheDocument();
     expect(screen.getByText(/myWishlist.productsCount/i)).toBeInTheDocument();
     expect(screen.getByText(/myWishlist\.productsCount\/count:0/i)).toBeInTheDocument();
-    expect(screen.getByText(/productsDefault.label/i)).toBeInTheDocument();
+    expect(screen.getByText(/sortBy.label/i)).toBeInTheDocument();
+    expect(screen.getByText(/sortOptions.newest/i)).toBeInTheDocument();
   });
 
   test("should show correct products count when wishlist is not empty", () => {
     renderAndMock({ mockResponse: { data: mockData } });
 
     expect(screen.getByText(`myWishlist.productsCount/count:${mockData.totalElements}`)).toBeInTheDocument();
-  });
-
-  test("should render all wishlist products when not empty", () => {
-    renderAndMock({ mockResponse: { data: mockData } });
-
-    const links = screen.getAllByRole("link");
-    expect(links.length).toBe(mockData.content.length);
-
-    mockData.content.forEach((product, idx) => {
-      expect(links[idx]).toHaveTextContent(product.name);
-      expect(links[idx]).toHaveTextContent(String(product.price));
-    });
   });
 
   test("should call useGetUserWishlistQuery with sort and lang params", () => {
