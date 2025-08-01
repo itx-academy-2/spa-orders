@@ -10,6 +10,7 @@ import {
   useUserRoleSelector
 } from "@/store/slices/userSlice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+
 type RoleType = (typeof ROLES)[keyof typeof ROLES];
 
 const mockRenderRedirectComponent = jest.fn();
@@ -42,7 +43,11 @@ jest.mock("@/store/slices/userSlice", () => ({
   useUserRoleSelector: jest.fn()
 }));
 const addViewedProductMock = jest.fn();
-const renderAndMock = (productId?: string, isAuthenticated?: boolean, currentRole?:RoleType) => {
+const renderAndMock = (
+  productId?: string,
+  isAuthenticated?: boolean,
+  currentRole?: RoleType | null
+) => {
   (useParams as jest.Mock).mockReturnValue({ productId });
   (useUpdateViewedProductsMutation as jest.Mock).mockReturnValue([
     addViewedProductMock
@@ -84,20 +89,17 @@ describe("ProductDetailsPage", () => {
   });
 
   test("does not addViewProduct when user role is Admin", () => {
-  (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.ADMIN);
-  renderAndMock("3", true);
-  expect(addViewedProductMock).not.toHaveBeenCalled();
-});
+    renderAndMock("3", true, ROLES.ADMIN);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
+  });
 
-test("does not addViewProduct when user role is Manager", () => {
-  (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.SHOP_MANAGER);
-  renderAndMock("3", true);
-  expect(addViewedProductMock).not.toHaveBeenCalled();
-});
+  test("does not addViewProduct when user role is Manager", () => {
+    renderAndMock("3", true, ROLES.SHOP_MANAGER);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
+  });
 
-test("does not addViewProduct when user role is null", () => {
-  (useUserRoleSelector as jest.Mock).mockReturnValue(null);
-  renderAndMock("3", true);
-  expect(addViewedProductMock).not.toHaveBeenCalled();
-});
+  test("does not addViewProduct when user role is null", () => {
+    renderAndMock("3", true, null);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
+  });
 });
