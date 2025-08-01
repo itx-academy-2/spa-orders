@@ -1,42 +1,34 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-const mockViewHistoryWithProduct = {
-  totalElements: 1,
-  content: [
-    {
-      id: "39159d74-f9f7-4136-bd7e-f006b34f8cb4",
-      name: "Apple iPhone 13 128GB Red Mobile Phone",
-      image: "...",
-      price: 1000.0,
-      priceWithDiscount: 800.0
-    }
-  ]
-};
-
 const mockViewHistoryEmpty = {
   totalElements: 0,
   content: []
 };
 
+const createMockProducts = (count: number) =>
+  Array.from({ length: count }, (_, index) => ({
+    id: `product-id-${index + 1}`,
+    name: `Product ${index + 1}`,
+    image: "...",
+    price: 1000.0,
+    priceWithDiscount: 800.0
+  }));
+
+const interceptViewHistoryWithProducts = (count: number) => {
+  const mockViewHistory = {
+    totalElements: count,
+    content: createMockProducts(count)
+  };
+
+  cy.intercept("GET", "**/retail/v1/my-view-history*", {
+    body: mockViewHistory
+  }).as("getViewHistory");
+};
+
 Given(
   "The view history page is loaded with {int} product(s)",
-  (productCount: number) => {
-    const products = Array.from({ length: productCount }, (_, index) => ({
-      id: `product-id-${index + 1}`,
-      name: `Product ${index + 1}`,
-      image: "...",
-      price: 1000.0,
-      priceWithDiscount: 800.0 + index * 10
-    }));
-
-    const mockViewHistory = {
-      totalElements: productCount,
-      content: products
-    };
-
-    cy.intercept("GET", "**/retail/v1/my-view-history*", {
-      body: mockViewHistory
-    }).as("getViewHistory");
+  (count: number) => {
+    interceptViewHistoryWithProducts(count);
 
     cy.visit("/user-cabinet/view-history");
     cy.wait("@getViewHistory");
