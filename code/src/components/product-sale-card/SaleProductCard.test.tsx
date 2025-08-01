@@ -8,6 +8,8 @@ import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+import { useUserRoleSelector, useIsAuthSelector  } from "@/store/slices/userSlice";
+import { ROLES } from "@/constants/common";
 
 const mockAddToCartOrOpenDrawer = jest.fn();
 
@@ -16,6 +18,12 @@ jest.mock("@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer");
 jest.mock("@/hooks/use-toggle-favorite/useToggleFavorite");
 
 const mockToggle = jest.fn();
+
+jest.mock("@/store/slices/userSlice", () => ({
+  ...jest.requireActual("@/store/slices/userSlice"),
+  useUserRoleSelector: jest.fn(),
+  useIsAuthSelector: jest.fn()
+}));
 
 const mockProduct: Product = {
   id: "1",
@@ -32,11 +40,15 @@ const mockProduct: Product = {
 const renderAndMock = ({
   isProductInCart,
   isFavorite = false,
-  product = mockProduct
+  product = mockProduct,
+  role,
+  isAuthenticated = true
   }: {
     isProductInCart: boolean;
     isFavorite?: boolean;
     product?: Product;
+    role?: string;
+    isAuthenticated?: boolean;
   }) => {
   (useAddToCartOrOpenDrawer as jest.Mock).mockReturnValue({
     isProductInCart,
@@ -47,6 +59,9 @@ const renderAndMock = ({
     isFavorite: () => isFavorite,
     toggle: mockToggle
   });
+  
+  (useUserRoleSelector as jest.Mock).mockReturnValue(role);
+  (useIsAuthSelector as jest.Mock).mockReturnValue(isAuthenticated);
 
   return renderWithProviders(<SaleProductCard product={product} />);
 };
@@ -303,6 +318,48 @@ describe("SaleProductCard", () => {
       renderAndMock({ isProductInCart: false, product });
 
       expect(screen.getByTestId("best-sellers")).toBeInTheDocument();
+    });
+  });
+
+  describe("role-based rendering of action buttons", () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+  
+    test("renders favorite and cart buttons for not authenticated user", () => {
+      (useUserRoleSelector as jest.Mock).mockReturnValue(undefined);
+      (useIsAuthSelector as jest.Mock).mockReturnValue(false);
+  
+      renderAndMock({ isProductInCart: false, isFavorite: false });
+  
+      expect(screen.getByTestId("FavoriteBorderIcon")).toBeInTheDocument();
+      expect(screen.getByTestId("add-to-cart-icon")).toBeInTheDocument();
+    });
+  
+    test("renders favorite and cart buttons for USER role", () => {
+      (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.USER);
+      (useIsAuthSelector as jest.Mock).mockReturnValue(true);
+  
+      renderAndMock({ isProductInCart: false, isFavorite: false });
+  
+      expect(screen.getByTestId("FavoriteBorderIcon")).toBeInTheDocument();
+      expect(screen.getByTestId("add-to-cart-icon")).toBeInTheDocument();
+    });
+  
+    test("does NOT render favorite and cart buttons for SHOP_MANAGER role", () => {
+      renderAndMock({ isProductInCart: false, role: ROLES.SHOP_MANAGER });
+  
+      expect(screen.queryByTestId("FavoriteIcon")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("FavoriteBorderIcon")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("add-to-cart-icon")).not.toBeInTheDocument();
+    });
+  
+    test("does NOT render favorite and cart buttons for ADMIN role", () => {
+      renderAndMock({ isProductInCart: false, role: ROLES.ADMIN });
+        
+      expect(screen.queryByTestId("FavoriteIcon")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("FavoriteBorderIcon")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("add-to-cart-icon")).not.toBeInTheDocument();
     });
   });
 });
