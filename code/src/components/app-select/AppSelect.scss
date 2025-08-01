@@ -32,6 +32,9 @@ $spa-select-colors: (
 .spa-select {
   @include generate-spa-select-styles($spa-select-colors);
 
+  .MuiOutlinedInput-notchedOutline {
+    border-color: var(--color-muted) !important;
+  }
   &__container {
     background-color: var(--color-surface);
     color: var(--color-text);
