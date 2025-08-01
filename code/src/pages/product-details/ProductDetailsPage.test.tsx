@@ -1,11 +1,17 @@
 import { screen } from "@testing-library/react";
 import { useParams } from "react-router-dom";
 
+import { ROLES } from "@/constants/common";
 import ProductDetailsPage from "@/pages/product-details/ProductDetailsPage";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
-import { useIsAuthSelector } from "@/store/slices/userSlice";
+import {
+  useIsAuthSelector,
+  useUserRoleSelector
+} from "@/store/slices/userSlice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+
+type RoleType = (typeof ROLES)[keyof typeof ROLES];
 
 const mockRenderRedirectComponent = jest.fn();
 
@@ -33,20 +39,26 @@ jest.mock(
   })
 );
 jest.mock("@/store/slices/userSlice", () => ({
-  useIsAuthSelector: jest.fn()
+  useIsAuthSelector: jest.fn(),
+  useUserRoleSelector: jest.fn()
 }));
 const addViewedProductMock = jest.fn();
-const renderAndMock = (productId?: string, isAuthenticated?: boolean) => {
+const renderAndMock = (
+  productId?: string,
+  isAuthenticated?: boolean,
+  currentRole?: RoleType | null
+) => {
   (useParams as jest.Mock).mockReturnValue({ productId });
   (useUpdateViewedProductsMutation as jest.Mock).mockReturnValue([
     addViewedProductMock
   ]);
   (useIsAuthSelector as jest.Mock).mockReturnValue(isAuthenticated);
+  (useUserRoleSelector as jest.Mock).mockReturnValue(currentRole);
 
   renderWithProviders(<ProductDetailsPage />);
 };
 
-describe("ProductsDetailsPage", () => {
+describe("ProductDetailsPage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -67,12 +79,27 @@ describe("ProductsDetailsPage", () => {
   });
 
   test("calls addViewProduct with productId when productId is defined", () => {
-    renderAndMock("2", true);
+    renderAndMock("2", true, ROLES.USER);
     expect(addViewedProductMock).toHaveBeenCalledWith("2");
   });
 
   test("does not addViewProduct when user is not authenticated", () => {
     renderAndMock("3", false);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
+  });
+
+  test("does not addViewProduct when user role is Admin", () => {
+    renderAndMock("3", true, ROLES.ADMIN);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
+  });
+
+  test("does not addViewProduct when user role is Manager", () => {
+    renderAndMock("3", true, ROLES.SHOP_MANAGER);
+    expect(addViewedProductMock).not.toHaveBeenCalled();
+  });
+
+  test("does not addViewProduct when user role is null", () => {
+    renderAndMock("3", true, null);
     expect(addViewedProductMock).not.toHaveBeenCalled();
   });
 });

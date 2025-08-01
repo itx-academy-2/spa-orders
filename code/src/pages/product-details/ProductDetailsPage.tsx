@@ -5,12 +5,16 @@ import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
 import AppBox from "@/components/app-box/AppBox";
 
+import { ROLES } from "@/constants/common";
 import useErrorPageRedirect from "@/hooks/use-error-page-redirect/useErrorPageRedirect";
 import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails.types";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import ProductDetailsContainer from "@/pages/product-details/components/product-details-container/ProductDetailsContainer";
 import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
-import { useIsAuthSelector } from "@/store/slices/userSlice";
+import {
+  useIsAuthSelector,
+  useUserRoleSelector
+} from "@/store/slices/userSlice";
 
 import "@/pages/product-details/ProductDetailsPage.scss";
 
@@ -19,15 +23,17 @@ const ProductDetailsPage = () => {
   const { renderRedirectComponent } = useErrorPageRedirect();
   const [addViewProduct] = useUpdateViewedProductsMutation();
   const isAuthenticated = useIsAuthSelector();
+  const userRole = useUserRoleSelector();
+
+    useEffect(() => {
+    if (productId && isAuthenticated && userRole === ROLES.USER) {
+      addViewProduct(productId);
+    }
+  }, [productId, isAuthenticated, addViewProduct, userRole]);
+
   if (!productId) {
     return renderRedirectComponent(productNotFoundRedirectConfig);
   }
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      addViewProduct(productId);
-    }
-  }, [productId, isAuthenticated, addViewProduct]);
 
   return (
     <PageWrapper>
