@@ -7,3 +7,11 @@ export type PostAddress = {
   city: string;
   department: string;
 };
+
+export type PostAddressExtended = PostAddress & {
+  id: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  title: string;
+};

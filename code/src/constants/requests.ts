@@ -9,7 +9,8 @@ import {
   GetAdminOrderParams,
   GetUserOrderParams,
   OrderPatchParams,
-  OrderPostParams
+  OrderPostParams,
+  OrderPostV2Params
 } from "@/types/order.types";
 import {
   GetManagerProductByIdParams,
@@ -55,6 +56,8 @@ export const URLS = {
       `/v1/management/orders/${orderId}?lang=${lang}`,
     post: ({ userId }: Pick<OrderPostParams, "userId">) =>
       `/v1/users/${userId}/orders`,
+    postOrderV2: ({ userId }: Pick<OrderPostV2Params, "userId">) =>
+      `/v2/users/${userId}/orders`,
     patch: ({ orderId }: Pick<OrderPatchParams, "orderId">) =>
       `/v1/management/orders/${orderId}/status`
   },
@@ -88,7 +91,7 @@ export const URLS = {
   },
   userInfo: {
     getUserInfo: "/v2/my-info",
-    patchUserInfo: "/v2/my-info",
+    patchUserInfo: "/v2/my-info"
   },
   viewHistory: {
     get: "/v1/my-view-history",
@@ -103,6 +106,6 @@ export const URLS = {
     put: ({ productId }: { productId: string }) =>
       `/v1/my-wishlist/${productId}`,
     delete: ({ productId }: { productId: string }) =>
-      `/v1/my-wishlist/${productId}`,
+      `/v1/my-wishlist/${productId}`
   }
 } as const;

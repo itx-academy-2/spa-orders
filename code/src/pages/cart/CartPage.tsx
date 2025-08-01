@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
 import DeliveryForm from "@/containers/forms/delivery-form/DeliveryForm";
@@ -23,6 +25,13 @@ const CartPage = () => {
     optimisticTotalPrice,
     optimisticTotalPriceWithDiscount
   } = useUserCartItems();
+  const isCartEmpty = !cartItems?.items?.length;
+
+  useEffect(() => {
+    if (isCartEmpty) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [isCartEmpty]);
 
   if (isError) return <AppTypography translationKey="error.label" />;
 
@@ -30,7 +39,7 @@ const CartPage = () => {
     return <AppLoader size="extra-large" />;
   }
 
-  if (!cartItems?.items?.length) {
+  if (isCartEmpty) {
     return <EmptyCart />;
   }
 

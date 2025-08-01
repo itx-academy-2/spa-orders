@@ -10,8 +10,8 @@ import "@/containers/order-summary/OrderSummary.scss";
 type OrderSummaryProps = {
   totalPrice: number;
   totalDiscountedPrice?: number;
-  isDisabled: boolean;
-  isLoading: boolean;
+  isDisabled?: boolean;
+  isLoading?: boolean;
 };
 
 const OrderSummary = ({
