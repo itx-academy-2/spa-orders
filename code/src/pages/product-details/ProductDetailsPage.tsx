@@ -25,15 +25,15 @@ const ProductDetailsPage = () => {
   const isAuthenticated = useIsAuthSelector();
   const userRole = useUserRoleSelector();
 
-  if (!productId) {
-    return renderRedirectComponent(productNotFoundRedirectConfig);
-  }
-
-  useEffect(() => {
-    if (isAuthenticated && userRole === ROLES.USER) {
+    useEffect(() => {
+    if (productId && isAuthenticated && userRole === ROLES.USER) {
       addViewProduct(productId);
     }
   }, [productId, isAuthenticated, addViewProduct, userRole]);
+
+  if (!productId) {
+    return renderRedirectComponent(productNotFoundRedirectConfig);
+  }
 
   return (
     <PageWrapper>
