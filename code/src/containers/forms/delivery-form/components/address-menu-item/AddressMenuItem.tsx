@@ -4,20 +4,12 @@ import AppBox from "@/components/app-box/AppBox";
 import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
 import AppTypography from "@/components/app-typography/AppTypography";
 
+import { PostAddressExtended } from "@/types/delivery.types";
+
 import * as styles from "./AddressMenuItem.module.scss";
 
-type Address = {
-  title: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  city: string;
-  deliveryMethod: string;
-  department: string;
-};
-
 type AddressMenuItemProps = {
-  address: Address;
+  address: PostAddressExtended;
 } & React.ComponentProps<typeof AppMenuItem>;
 
 const AddressMenuItem = forwardRef<HTMLLIElement, AddressMenuItemProps>(

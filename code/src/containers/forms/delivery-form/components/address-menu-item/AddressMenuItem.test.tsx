@@ -2,13 +2,16 @@ import { render, screen } from "@testing-library/react";
 
 import AddressMenuItem from "@/containers/forms/delivery-form/components/address-menu-item/AddressMenuItem";
 
-const mockAddress = {
+import { PostAddressExtended } from "@/types/delivery.types";
+
+const mockAddress: PostAddressExtended = {
+  id: "1",
   title: "Home",
   firstName: "John",
   lastName: "Doe",
   phone: "+380960000001",
   city: "Lviv",
-  deliveryMethod: "NOVA_POSHTA",
+  deliveryMethod: "NOVA",
   department: "52"
 };
 

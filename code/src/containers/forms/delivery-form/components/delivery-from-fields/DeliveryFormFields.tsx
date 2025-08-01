@@ -12,20 +12,19 @@ import {
   deliveryMethodValues,
   deliveryMethods
 } from "@/constants/deliveryMethods";
+import getErrorMessage from "@/utils/get-error-message/getErrorMessage";
 
 export type DeliveryMethodType = (typeof deliveryMethodValues)[number];
 
 type DeliveryFormFieldsProps = {
   control: Control<DeliveryFormData>;
   errors: FieldErrors<DeliveryFormData>;
-  formatMessage: (descriptor: { id: string }) => string;
   checked: boolean;
 };
 
 const DeliveryFormFields = ({
   control,
   errors,
-  formatMessage,
   checked
 }: DeliveryFormFieldsProps) => {
   const deliveryMethodItems = deliveryMethods.map(
@@ -55,11 +54,7 @@ const DeliveryFormFields = ({
             {...field}
             labelTranslationKey="deliveryForm.firstName"
             error={!!errors.firstName}
-            helperText={
-              errors.firstName && typeof errors.firstName.message === "string"
-                ? formatMessage({ id: errors.firstName.message })
-                : undefined
-            }
+            helperText={getErrorMessage(errors.firstName)}
             className="delivery-form__body-input"
           />
         )}
@@ -72,11 +67,7 @@ const DeliveryFormFields = ({
             {...field}
             labelTranslationKey="deliveryForm.lastName"
             error={!!errors.lastName}
-            helperText={
-              errors.lastName && typeof errors.lastName.message === "string"
-                ? formatMessage({ id: errors.lastName.message })
-                : undefined
-            }
+            helperText={getErrorMessage(errors.lastName)}
             className="delivery-form__body-input"
           />
         )}
@@ -89,11 +80,7 @@ const DeliveryFormFields = ({
             {...field}
             labelTranslationKey="deliveryForm.phone"
             error={!!errors.phone}
-            helperText={
-              errors.phone && typeof errors.phone.message === "string"
-                ? formatMessage({ id: errors.phone.message })
-                : undefined
-            }
+            helperText={getErrorMessage(errors.phone)}
             className="delivery-form__body-input"
           />
         )}
@@ -106,11 +93,7 @@ const DeliveryFormFields = ({
             {...field}
             labelTranslationKey="deliveryForm.city"
             error={!!errors.city}
-            helperText={
-              errors.city && typeof errors.city.message === "string"
-                ? formatMessage({ id: errors.city.message })
-                : undefined
-            }
+            helperText={getErrorMessage(errors.city)}
             className="delivery-form__body-input"
           />
         )}
@@ -123,11 +106,7 @@ const DeliveryFormFields = ({
             {...field}
             labelTranslationKey="deliveryForm.department"
             error={!!errors.department}
-            helperText={
-              errors.department && typeof errors.department.message === "string"
-                ? formatMessage({ id: errors.department.message })
-                : undefined
-            }
+            helperText={getErrorMessage(errors.department)}
             className="delivery-form__body-input"
           />
         )}
@@ -159,11 +138,7 @@ const DeliveryFormFields = ({
               {...field}
               labelTranslationKey="deliveryForm.addressTitle"
               error={!!errors.title}
-              helperText={
-                errors.title && typeof errors.title.message === "string"
-                  ? formatMessage({ id: errors.title.message })
-                  : undefined
-              }
+              helperText={getErrorMessage(errors.title)}
               className="delivery-form__body-input"
             />
           )}

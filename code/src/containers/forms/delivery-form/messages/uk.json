@@ -11,6 +11,7 @@
   "deliveryForm.savedAddress": "Виберіть збережену адресу",
   "deliveryForm.successMessage": "Замовлення успішно створено",
   "deliveryForm.errorMessage": "Щось пішло не так. \nБудь ласка, перевірте, чи унікальний ваш заголовок",
+  "deliveryForm.genericErrorMessage": "Щось пішло не так. Спробуйте ще раз пізніше.",
 
   "deliveryForm.validation.firstName.long": "Ім'я має містити не більше 50 символів.",
   "deliveryForm.validation.firstName.short": "Ім'я має містити щонайменше 2 символи.",

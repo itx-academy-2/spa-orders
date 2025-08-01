@@ -8,7 +8,7 @@ export type PostAddress = {
   department: string;
 };
 
-export type PostAddressExtended = Omit<PostAddress, 'email'> & {
+export type PostAddressExtended = PostAddress & {
   id: string;
   firstName: string;
   lastName: string;

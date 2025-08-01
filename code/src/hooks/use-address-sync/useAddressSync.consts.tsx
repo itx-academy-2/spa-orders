@@ -1,3 +1,5 @@
+import type { PostAddressExtended } from "@/types/delivery.types";
+
 export const addressSyncFields = [
   "firstName",
   "lastName",
@@ -5,4 +7,4 @@ export const addressSyncFields = [
   "city",
   "department",
   "deliveryMethod"
-] as const;
+] as const satisfies readonly (keyof PostAddressExtended)[];

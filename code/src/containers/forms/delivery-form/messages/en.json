@@ -11,6 +11,7 @@
   "deliveryForm.savedAddress": "Choose saved address",
   "deliveryForm.successMessage": "Order successfully created",
   "deliveryForm.errorMessage": "Something went wrong. \nPlease, check that your title is unique ",
+  "deliveryForm.genericErrorMessage": "Something went wrong. Please try again later.",
 
   "deliveryForm.validation.firstName.long": "First name must be at most 50 characters.",
   "deliveryForm.validation.firstName.short": "First name must be at least 2 characters.",

@@ -4,8 +4,6 @@ import { FieldError, FieldErrors, useForm } from "react-hook-form";
 import { DeliveryFormData } from "@/containers/forms/delivery-form/DeliveryForm.types";
 import DeliveryFormFields from "@/containers/forms/delivery-form/components/delivery-from-fields/DeliveryFormFields";
 
-const mockFormatMessage = ({ id }: { id: string }) => id;
-
 const createError = (message: string): FieldError => ({
   type: "manual",
   message,
@@ -52,7 +50,6 @@ function Wrapper({
     <DeliveryFormFields
       control={control}
       errors={errors}
-      formatMessage={mockFormatMessage}
       checked={checked}
     />
   );

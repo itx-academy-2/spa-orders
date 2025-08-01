@@ -27,6 +27,7 @@ const useAddressSync = ({
 
     const fieldNames = addressSyncFields;
 
+    // Check if any form fields differ from the selected address
     const changed = fieldNames.some((field) => {
       const selectedValue = selected[field as keyof PostAddressExtended];
       return (
@@ -34,6 +35,8 @@ const useAddressSync = ({
       );
     });
 
+    // Clear title once when user modifies fields but title still matches selected address
+    // This prevents conflicts when user wants to save as a new address
     if (
       changed &&
       watchedFields.title === selected.title &&
@@ -43,6 +46,7 @@ const useAddressSync = ({
       clearedTitleRef.current = true;
     }
 
+    // Reset the cleared flag when fields match the selected address again
     if (!changed) {
       clearedTitleRef.current = false;
     }

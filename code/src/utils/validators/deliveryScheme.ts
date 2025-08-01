@@ -18,14 +18,14 @@ export const PostAddressValidationScheme = z.object({
     .string()
     .min(2, { message: "deliveryForm.validation.firstName.short" })
     .max(50, { message: "deliveryForm.validation.firstName.long" })
-    .regex(/^[a-zA-Zа-яА-ЯёЁіІїЇєЄ'’]+$/, {
+    .regex(/^[a-zA-Zа-яА-ЯёЁіІїЇєЄ''-]+$/, {
       message: "deliveryForm.validation.firstName.invalidCharacters"
     }),
   lastName: z
     .string()
     .min(2, { message: "deliveryForm.validation.lastName.short" })
     .max(50, { message: "deliveryForm.validation.lastName.long" })
-    .regex(/^[a-zA-Zа-яА-ЯёЁіІїЇєЄ'’]+$/, {
+    .regex(/^[a-zA-Zа-яА-ЯёЁіІїЇєЄ''-]+$/, {
       message: "deliveryForm.validation.lastName.invalidCharacters"
     }),
   phone: z

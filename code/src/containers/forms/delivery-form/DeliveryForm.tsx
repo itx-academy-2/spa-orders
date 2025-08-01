@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
-import { useIntl } from "react-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -34,10 +33,11 @@ const DeliveryForm = ({
 }: DeliveryFormProps) => {
   const [checked, setChecked] = useState(false);
   const { id } = useGetUserDetails();
-  const { formatMessage } = useIntl();
+
   const { openSnackbarWithTimeout } = useSnackbar();
 
-  // Temporary mocked addresses
+  // Temporary addresses
+  // TODO: fetch saved addresses via API
   const addresses: PostAddressExtended[] = [
     {
       id: "1",
@@ -108,6 +108,11 @@ const DeliveryForm = ({
         variant: "error",
         messageTranslationKey: "deliveryForm.errorMessage"
       });
+    } else if (isError) {
+      openSnackbarWithTimeout({
+        variant: "error",
+        messageTranslationKey: "deliveryForm.genericErrorMessage"
+      });
     }
   }, [isError]);
 
@@ -170,7 +175,7 @@ const DeliveryForm = ({
                 const selectedAddress = addresses.find(
                   (addr) => addr.title === selected
                 );
-                return selectedAddress && `${selectedAddress.title}`;
+                return selectedAddress ? selectedAddress.title : "";
               }}
             >
               {savedAddressItems}
@@ -180,7 +185,6 @@ const DeliveryForm = ({
         <DeliveryFormFields
           control={control}
           errors={errors}
-          formatMessage={formatMessage}
           checked={checked}
         />
         <AppCheckbox
