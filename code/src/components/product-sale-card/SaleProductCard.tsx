@@ -20,7 +20,8 @@ import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 import { useModalContext } from "@/context/modal/ModalContext";
-import { useIsAuthSelector } from "@/store/slices/userSlice";
+import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
+import { ROLES } from "@/constants/common";
 
 import "@/components/product-sale-card/SaleProductCard.scss";
 
@@ -50,6 +51,9 @@ const SaleProductCard = ({
 
   const isAuthenticated = useIsAuthSelector();
   const { openModal } = useModalContext();
+  const userRole = useUserRoleSelector();
+
+  const isUserOrGuest = !userRole || userRole === ROLES.USER;
 
   const handleImageError = () => {
     setImgSrc(fallbackImage);
@@ -62,7 +66,7 @@ const SaleProductCard = ({
       openModal(<AuthModal />);
       return;
     }
-    
+
     toggle(product.id);
   };
 
@@ -145,34 +149,36 @@ const SaleProductCard = ({
             {formatPrice(priceWithDiscount ?? 0)}
           </AppTypography>
         </AppBox>
-        <AppBox className="spa-product-card__footer-buttons">
-          <AppIconButton
-            data-cy="favorite-button"
-            onClick={handleFavoriteClick}
-            className={cn(
-              "spa-product-card__favorite-button",
-              isFavorite(product.id) && "spa-product-card__favorite-button--active"
-            )}
-          >
-            {isFavorite(product.id) ? (
-              <FavoriteIcon fontSize="small" />
-            ) : (
-              <FavoriteBorderIcon fontSize="small" />
-            )}
-          </AppIconButton>
-          <AppIconButton
-            data-cy="add-to-cart-button"
-            onClick={addToCartOrOpenDrawer}
-            className={cn(
-              "spa-product-card__cart-button",
-              isProductInCart && "spa-product-card__cart-button--active"
-            )}
-          >
-            <svg>
-              <use data-testid="add-to-cart-icon" href={cartIconFullLink} />
-            </svg>
-          </AppIconButton>
-        </AppBox>
+        { isUserOrGuest && (
+          <AppBox className="spa-product-card__footer-buttons">
+            <AppIconButton
+              data-cy="favorite-button"
+              onClick={handleFavoriteClick}
+              className={cn(
+                "spa-product-card__favorite-button",
+                isFavorite(product.id) && "spa-product-card__favorite-button--active"
+              )}
+            >
+              {isFavorite(product.id) ? (
+                <FavoriteIcon fontSize="small" />
+              ) : (
+                <FavoriteBorderIcon fontSize="small" />
+              )}
+            </AppIconButton>
+            <AppIconButton
+              data-cy="add-to-cart-button"
+              onClick={addToCartOrOpenDrawer}
+              className={cn(
+                "spa-product-card__cart-button",
+                isProductInCart && "spa-product-card__cart-button--active"
+              )}
+            >
+              <svg>
+                <use data-testid="add-to-cart-icon" href={cartIconFullLink} />
+              </svg>
+            </AppIconButton>
+          </AppBox>
+        )}
       </AppBox>
     </AppBox>
   );
