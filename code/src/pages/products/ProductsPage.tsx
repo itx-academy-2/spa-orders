@@ -13,9 +13,9 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
+import useWishlistIfAuth from "@/hooks/use-wishlist-if-auth/useWishlistIfAuth";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
 import { useGetUserProductsQuery } from "@/store/api/productsApi";
-import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
@@ -48,7 +48,7 @@ const ProductsPage = () => {
     lang: locale
   });
 
-  const { data: wishlistData } = useGetUserWishlistQuery();
+  const { data: wishlistData } = useWishlistIfAuth();
   const wishlist = wishlistData?.content ?? [];
 
   const productsList = productsResponse?.content;
