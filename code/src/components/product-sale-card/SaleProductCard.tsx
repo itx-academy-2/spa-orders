@@ -9,6 +9,8 @@ import AppLink from "@/components/app-link/AppLink";
 import AppTypography from "@/components/app-typography/AppTypography";
 import { ProductCardProps } from "@/components/product-card/ProductCard.types";
 
+import AuthModal from "@/containers/modals/auth/AuthModal";
+
 import cartIconWithCheck from "@/assets/icons/cart-with-check.svg";
 import cartIconWithPlus from "@/assets/icons/cart-with-plus.svg";
 import fallbackImage from "@/assets/images/default-product-image.png";
@@ -17,6 +19,8 @@ import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/use
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
+import { useModalContext } from "@/context/modal/ModalContext";
+import { useIsAuthSelector } from "@/store/slices/userSlice";
 
 import "@/components/product-sale-card/SaleProductCard.scss";
 
@@ -44,12 +48,21 @@ const SaleProductCard = ({
   const [imgSrc, setImgSrc] = useState(image);
   const { toggle, isFavorite } = useToggleFavorite(wishlist);
 
+  const isAuthenticated = useIsAuthSelector();
+  const { openModal } = useModalContext();
+
   const handleImageError = () => {
     setImgSrc(fallbackImage);
   };
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    if (!isAuthenticated) {
+      openModal(<AuthModal />);
+      return;
+    }
+    
     toggle(product.id);
   };
 
