@@ -26,11 +26,11 @@
 
   &__dark {
     & .MuiCheckbox-root svg {
-      fill: $black;
+      fill: var(--color-text);
     }
 
     & .spa-typography {
-      color: $black;
+      color: var(--color-text);
     }
   }
 }

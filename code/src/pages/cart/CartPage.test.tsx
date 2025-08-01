@@ -1,11 +1,11 @@
 import { screen } from "@testing-library/react";
 
-import useCreateOrder from "@/hooks/use-create-order/useCreateOrder";
 import useGetCart from "@/hooks/use-get-cart/useGetCart";
 import useUserDetailsSelector from "@/hooks/use-get-user-details/useGetUserDetails";
 import useRemoveFromCart from "@/hooks/use-remove-from-cart/useRemoveFromCart";
 import useUpdateCartItemQuantity from "@/hooks/use-update-cart-item-quantity/useUpdateCartItemQuantity";
 import CartPage from "@/pages/cart/CartPage";
+import { useCreateOrderV2Mutation } from "@/store/api/ordersApi";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 type RenderWithMockParams = {
@@ -23,9 +23,9 @@ jest.mock("@/hooks/use-get-user-details/useGetUserDetails", () => ({
   default: jest.fn()
 }));
 
-jest.mock("@/hooks/use-create-order/useCreateOrder", () => ({
+jest.mock("@/store/api/ordersApi", () => ({
   __esModule: true,
-  default: jest.fn()
+  useCreateOrderV2Mutation: jest.fn()
 }));
 
 jest.mock("@/store/api/cartApi", () => ({
@@ -92,7 +92,11 @@ describe("CartPage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseGetUserDetails.mockReturnValue(userId);
-    (useCreateOrder as jest.Mock).mockReturnValue([mockCreateOrder, {}]);
+    (useCreateOrderV2Mutation as jest.Mock).mockReturnValue([
+      mockCreateOrder,
+      {}
+    ]);
+    window.scrollTo = jest.fn();
   });
 
   test("renders loading element when cart is loading", () => {

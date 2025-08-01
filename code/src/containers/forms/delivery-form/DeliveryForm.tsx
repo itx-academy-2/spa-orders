@@ -1,77 +1,152 @@
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { useIntl } from "react-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import {
+  DeliveryFormData,
+  DeliveryFormProps
+} from "@/containers/forms/delivery-form/DeliveryForm.types";
+import AddressMenuItem from "@/containers/forms/delivery-form/components/address-menu-item/AddressMenuItem";
+import DeliveryFormFields from "@/containers/forms/delivery-form/components/delivery-from-fields/DeliveryFormFields";
 import OrderSummary from "@/containers/order-summary/OrderSummary";
 
 import AppBox from "@/components/app-box/AppBox";
-import AppInput from "@/components/app-input/AppInput";
-import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
+import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
 import AppSelect from "@/components/app-select/AppSelect";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import { deliveryMethods } from "@/constants/deliveryMethods";
-import useCreateOrder from "@/hooks/use-create-order/useCreateOrder";
+import useAddressSync from "@/hooks/use-address-sync/useAddressSync";
 import useGetUserDetails from "@/hooks/use-get-user-details/useGetUserDetails";
-import { PostAddress } from "@/types/delivery.types";
+import useSnackbar from "@/hooks/use-snackbar/useSnackbar";
+import { useCreateOrderV2Mutation } from "@/store/api/ordersApi";
+import { PostAddressExtended } from "@/types/delivery.types";
+import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import { PostAddressValidationScheme } from "@/utils/validators/deliveryScheme";
 
 import "@/containers/forms/delivery-form/DeliveryForm.scss";
-
-type DeliveryFormProps = {
-  totalPrice: number;
-  totalDiscountedPrice?: number;
-};
 
 const DeliveryForm = ({
   totalPrice,
   totalDiscountedPrice
 }: DeliveryFormProps) => {
-  const { id, firstName, lastName, email } = useGetUserDetails();
+  const [checked, setChecked] = useState(false);
+  const { id } = useGetUserDetails();
+  const { formatMessage } = useIntl();
+  const { openSnackbarWithTimeout } = useSnackbar();
+
+  // Temporary mocked addresses
+  const addresses: PostAddressExtended[] = [
+    {
+      id: "1",
+      deliveryMethod: "UKRPOSHTA",
+      city: "Lviv",
+      department: "52",
+      title: "Home",
+      firstName: "John",
+      lastName: "Doe",
+      phone: "+380960775434"
+    },
+    {
+      id: "2",
+      deliveryMethod: "UKRPOSHTA",
+      city: "Kyiv",
+      department: "23",
+      title: "Office",
+      firstName: "Anna",
+      lastName: "Ivanova",
+      phone: "+380931112233"
+    },
+    {
+      id: "3",
+      deliveryMethod: "UKRPOSHTA",
+      city: "Odesa",
+      department: "1",
+      title: "Parents",
+      firstName: "Oleksii",
+      lastName: "Shevchenko",
+      phone: "+380977654321"
+    }
+  ];
 
   const {
+    control,
     handleSubmit,
-    register,
-    formState: { errors, isValid }
-  } = useForm<PostAddress>({
-    resolver: zodResolver(PostAddressValidationScheme)
+    formState: { errors },
+    setValue
+  } = useForm<DeliveryFormData>({
+    resolver: zodResolver(PostAddressValidationScheme),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      city: "",
+      department: "",
+      deliveryMethod: deliveryMethods[0].value,
+      title: "",
+      addressDropdown: ""
+    }
   });
 
-  const [createOrder, { isLoading }] = useCreateOrder();
+  const [createOrder, { isSuccess, isError, error }] =
+    useCreateOrderV2Mutation();
 
-  const onSubmit = (postAddress: PostAddress) => {
-    createOrder({
-      userId: id,
-      firstName,
-      lastName,
-      email,
-      ...postAddress
-    });
+  useEffect(() => {
+    if (isSuccess) {
+      openSnackbarWithTimeout({
+        variant: "success",
+        messageTranslationKey: "deliveryForm.successMessage"
+      });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isErrorWithStatus(error) && error?.status === 409) {
+      openSnackbarWithTimeout({
+        variant: "error",
+        messageTranslationKey: "deliveryForm.errorMessage"
+      });
+    }
+  }, [isError]);
+
+  const selectedDropdown = useWatch({ control, name: "addressDropdown" });
+  const watchedFields = {
+    firstName: useWatch({ control, name: "firstName" }),
+    lastName: useWatch({ control, name: "lastName" }),
+    phone: useWatch({ control, name: "phone" }),
+    city: useWatch({ control, name: "city" }),
+    department: useWatch({ control, name: "department" }),
+    deliveryMethod: useWatch({ control, name: "deliveryMethod" }),
+    title: useWatch({ control, name: "title" })
   };
 
-  const deliveryMethodItems = deliveryMethods.map(
-    ({ translationKey, value, image }) => (
-      <AppMenuItem
-        key={value}
-        value={value}
-        className="delivery-form__body-item"
-      >
-        <AppBox
-          component="img"
-          src={image}
-          alt="delivery method"
-          className="delivery-form__method-image"
-        />
-        <AppTypography translationKey={translationKey} />
-      </AppMenuItem>
-    )
-  );
+  useAddressSync({
+    addresses,
+    selectedDropdown,
+    watchedFields,
+    setValue
+  });
+
+  const savedAddressItems = addresses.map((address) => (
+    <AddressMenuItem key={address.id} address={address} value={address.title} />
+  ));
+
+  const onSubmit = (postAddress: PostAddressExtended) => {
+    createOrder({
+      userId: id,
+      ...postAddress,
+      title: postAddress.title || null
+    });
+  };
 
   return (
     <AppBox
       component="form"
       onSubmit={handleSubmit(onSubmit)}
       className="delivery-form"
+      data-testid="delivery-form"
     >
       <AppBox className="delivery-form__body">
         <AppTypography
@@ -79,38 +154,42 @@ const DeliveryForm = ({
           translationKey="deliveryForm.title"
           className="delivery-form__body-title"
         />
-        <AppInput
-          {...register("city")}
-          error={Boolean(errors.city)}
-          data-cy="delivery-city"
-          labelTranslationKey="deliveryForm.city"
-          className="delivery-form__body-input"
+        <Controller
+          name="addressDropdown"
+          control={control}
+          render={({ field }) => (
+            <AppSelect
+              {...field}
+              labelId="saved-address"
+              label="deliveryForm.savedAddress"
+              data-testid="saved-address"
+              data-cy="saved-address"
+              className="delivery-form__method-select"
+              inputProps={{ className: "delivery-form__method-select-input" }}
+              renderValue={(selected) => {
+                const selectedAddress = addresses.find(
+                  (addr) => addr.title === selected
+                );
+                return selectedAddress && `${selectedAddress.title}`;
+              }}
+            >
+              {savedAddressItems}
+            </AppSelect>
+          )}
         />
-        <AppInput
-          {...register("department")}
-          error={Boolean(errors.department)}
-          labelTranslationKey="deliveryForm.department"
-          data-cy="delivery-department"
-          className="delivery-form__body-input"
+        <DeliveryFormFields
+          control={control}
+          errors={errors}
+          formatMessage={formatMessage}
+          checked={checked}
         />
-        <AppSelect
-          {...register("deliveryMethod")}
-          defaultValue={deliveryMethods[0].value}
-          labelId="delivery-method"
-          label="deliveryForm.postMethod"
-          error={Boolean(errors.deliveryMethod)}
-          data-cy="delivery-method"
-          className="delivery-form__method-select"
-          inputProps={{
-            className: "delivery-form__method-select-input"
-          }}
-        >
-          {deliveryMethodItems}
-        </AppSelect>
+        <AppCheckbox
+          variant="dark"
+          labelTranslationKey="deliveryForm.checkboxLabel"
+          onChange={() => setChecked((prev) => !prev)}
+        />
       </AppBox>
       <OrderSummary
-        isDisabled={!isValid}
-        isLoading={isLoading}
         totalPrice={totalPrice}
         totalDiscountedPrice={totalDiscountedPrice}
       />

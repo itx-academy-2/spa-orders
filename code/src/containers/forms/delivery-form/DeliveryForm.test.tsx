@@ -1,83 +1,169 @@
-import { act, fireEvent, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+
+import userEvent from "@testing-library/user-event";
+
+import { useCreateOrderV2Mutation } from "@/store/api/ordersApi";
+import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 import DeliveryForm from "@/containers/forms/delivery-form/DeliveryForm";
 
-import useCreateOrder from "@/hooks/use-create-order/useCreateOrder";
-import useGetUserDetails from "@/hooks/use-get-user-details/useGetUserDetails";
-import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
-
-jest.mock("@/hooks/use-create-order/useCreateOrder", () => ({
-  __esModule: true,
-  default: jest.fn()
-}));
+const mockOpenSnackbar = jest.fn();
 
 jest.mock("@/hooks/use-get-user-details/useGetUserDetails", () => ({
   __esModule: true,
+  default: () => ({ id: "user123" })
+}));
+
+jest.mock("@/hooks/use-snackbar/useSnackbar", () => ({
+  __esModule: true,
+  default: () => ({
+    openSnackbarWithTimeout: mockOpenSnackbar
+  })
+}));
+const mockCreateOrder = jest.fn();
+jest.mock("@/store/api/ordersApi", () => ({
+  __esModule: true,
+  useCreateOrderV2Mutation: jest.fn()
+}));
+
+jest.mock("@/hooks/use-address-sync/useAddressSync", () => ({
+  __esModule: true,
   default: jest.fn()
 }));
 
-const mockCreateOrder = jest.fn();
-const mockUserDetails = {
-  id: 123,
-  firstName: "John",
-  lastName: "Doe",
-  email: "john.doe@example.com"
+const renderAndMock = ({
+  isSuccess = true,
+  isError = false,
+  error = {}
+}: {
+  isSuccess?: boolean;
+  isError?: boolean;
+  error?: Record<string, unknown>;
+} = {}) => {
+  (useCreateOrderV2Mutation as jest.Mock).mockReturnValue([
+    mockCreateOrder,
+    { isSuccess, isError, error }
+  ]);
+  return renderWithProviders(<DeliveryForm totalPrice={100} />);
 };
 
 describe("DeliveryForm", () => {
-  beforeEach(() => {
-    (useCreateOrder as jest.Mock).mockReturnValue([
-      mockCreateOrder,
-      { isLoading: false }
-    ]);
-    (useGetUserDetails as jest.Mock).mockReturnValue(mockUserDetails);
-    renderWithProviders(<DeliveryForm totalPrice={100} />);
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  test("renders the delivery form correctly", () => {
-    const cityInput = screen.getByLabelText(/deliveryForm.city/);
-    const departmentInput = screen.getByLabelText(/deliveryForm.department/);
+  it("should render the delivery form", () => {
+    renderAndMock();
+    const title = screen.getByText("deliveryForm.title");
 
-    const submitButton = screen.getByRole("button");
-
-    expect(cityInput).toBeInTheDocument();
-    expect(departmentInput).toBeInTheDocument();
-    expect(submitButton).toBeInTheDocument();
+    expect(title).toBeInTheDocument();
   });
-  test("select has the correct className from inputProps", () => {
-    const select = screen.getByRole("combobox");
 
-    expect(select).toHaveClass(
-      "delivery-form__method-select-input"
+  it("should call createOrder with correct data on form submission when title is empty", async () => {
+    renderAndMock();
+
+    await userEvent.clear(
+      screen.getByRole("textbox", { name: "deliveryForm.firstName" })
     );
-  });
-  test("handles input changes and form submission", async () => {
-    const cityInput = screen.getByLabelText(/deliveryForm.city/);
-    const departmentInput = screen.getByLabelText(/deliveryForm.department/);
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "deliveryForm.firstName" }),
+      "Another"
+    );
 
-    const submitButton = screen.getByRole("button");
+    await userEvent.clear(
+      screen.getByRole("textbox", { name: "deliveryForm.lastName" })
+    );
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "deliveryForm.lastName" }),
+      "Person"
+    );
 
-    await act(() => {
-      fireEvent.change(cityInput, { target: { value: "New York" } });
-      fireEvent.change(departmentInput, { target: { value: "123" } });
-    });
+    await userEvent.clear(
+      screen.getByRole("textbox", { name: "deliveryForm.phone" })
+    );
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "deliveryForm.phone" }),
+      "0987654321"
+    );
 
-    fireEvent.click(submitButton);
+    await userEvent.clear(
+      screen.getByRole("textbox", { name: "deliveryForm.city" })
+    );
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "deliveryForm.city" }),
+      "AnotherCity"
+    );
+
+    await userEvent.clear(
+      screen.getByRole("textbox", { name: "deliveryForm.department" })
+    );
+    await userEvent.type(
+      screen.getByRole("textbox", { name: "deliveryForm.department" }),
+      "202"
+    );
+
+    await userEvent.click(screen.getByTestId("delivery-method"));
+
+    const option = await screen.findByText(
+      "dashboardTabs.orders.filters.novaPost"
+    );
+    await userEvent.click(option);
+
+    const form = screen.getByTestId("delivery-form");
+    fireEvent.submit(form);
 
     await waitFor(() => {
+      expect(mockCreateOrder).toHaveBeenCalledTimes(1);
       expect(mockCreateOrder).toHaveBeenCalledWith({
-        city: "New York",
+        userId: "user123",
+        firstName: "Another",
+        lastName: "Person",
+        phone: "0987654321",
+        city: "AnotherCity",
+        department: "202",
         deliveryMethod: "NOVA",
-        department: "123",
-        email: mockUserDetails.email,
-        firstName: mockUserDetails.firstName,
-        lastName: mockUserDetails.lastName,
-        userId: mockUserDetails.id
+        title: null
       });
     });
+
+    expect(mockOpenSnackbar).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders mocked address options and displays selected value from renderValue", async () => {
+    renderAndMock();
+    const allComboboxes = screen.getAllByRole("combobox");
+    const dropdown = allComboboxes[0];
+
+    await userEvent.click(dropdown);
+
+    const menu = await screen.findByRole("listbox");
+    expect(menu).toBeInTheDocument();
+
+    const optionHome = await screen.findByTestId("address-Home");
+    expect(optionHome).toBeInTheDocument();
+
+    await userEvent.click(optionHome);
+
+    expect(screen.getByText("Home")).toBeInTheDocument();
+  });
+
+  it("should toggle checkbox state on click", async () => {
+    renderAndMock();
+
+    const checkbox = screen.getByLabelText("deliveryForm.checkboxLabel");
+    expect(checkbox).toBeInTheDocument();
+    expect(checkbox).not.toBeChecked();
+
+    await userEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
+
+    await userEvent.click(checkbox);
+    expect(checkbox).not.toBeChecked();
+  });
+
+  it("should show error message", () => {
+    renderAndMock({ isSuccess: false, isError: true, error: { status: 409 } });
+
+    expect(mockOpenSnackbar).toHaveBeenCalledTimes(1);
   });
 });

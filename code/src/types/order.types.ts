@@ -74,6 +74,11 @@ export type OrderPostParams = PostAddress & {
   email: string;
 };
 
+export type OrderPostV2Params = Omit<OrderPostParams, "email"> & {
+  phone: string;
+  title: string | null;
+};
+
 export type OrderPostResponse = {
   orderId: OrderId;
 };

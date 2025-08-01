@@ -1,6 +1,35 @@
 {
   "deliveryForm.title": "Delivery details",
-  "deliveryForm.city": "City",
-  "deliveryForm.department": "Department",
-  "deliveryForm.postMethod": "Post method"
+  "deliveryForm.city": "City *",
+  "deliveryForm.department": "Department *",
+  "deliveryForm.postMethod": "Post method *",
+  "deliveryForm.firstName": "First name *",
+  "deliveryForm.lastName": "Last name *",
+  "deliveryForm.phone": "Phone number *",
+  "deliveryForm.checkboxLabel": "Save this address",
+  "deliveryForm.addressTitle": "Title of this address",
+  "deliveryForm.savedAddress": "Choose saved address",
+  "deliveryForm.successMessage": "Order successfully created",
+  "deliveryForm.errorMessage": "Something went wrong. \nPlease, check that your title is unique ",
+
+  "deliveryForm.validation.firstName.long": "First name must be at most 50 characters.",
+  "deliveryForm.validation.firstName.short": "First name must be at least 2 characters.",
+  "deliveryForm.validation.firstName.invalidCharacters": "Only letters (Latin or Cyrillic), apostrophes, and hyphens are allowed in the first name.",
+
+  "deliveryForm.validation.lastName.long": "Last name must be at most 50 characters.",
+  "deliveryForm.validation.lastName.short": "Last name must be at least 2 characters.",
+  "deliveryForm.validation.lastName.invalidCharacters": "Only letters (Latin or Cyrillic), apostrophes, and hyphens are allowed in the last name.",
+
+  "deliveryForm.validation.city.long": "City name must be at most 100 characters.",
+  "deliveryForm.validation.city.short": "City name must be at least 2 characters.",
+
+  "deliveryForm.validation.department.long": "Department must be at most 100 characters.",
+  "deliveryForm.validation.department.short": "Department is required.",
+
+  "deliveryForm.validation.phone.long": "Phone number must be at most 13 digits.",
+  "deliveryForm.validation.phone.short": "Phone number must be at least 10 digits.",
+  "deliveryForm.validation.phone.invalidCharacters": "Phone number must contain only digits and may start with '+'(optional).",
+
+  "deliveryForm.validation.title.long": "Title must be at most 50 characters.",
+  "deliveryForm.validation.title.invalidCharacters": "Title may only include letters, numbers, hyphens, underscores, apostrophes, and single spaces between words."
 }

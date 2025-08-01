@@ -1,6 +1,35 @@
 {
   "deliveryForm.title": "Деталі доставки",
-  "deliveryForm.city": "Місто",
-  "deliveryForm.department": "Відділення",
-  "deliveryForm.postMethod": "Метод доставки"
+  "deliveryForm.city": "Місто *",
+  "deliveryForm.department": "Відділення *",
+  "deliveryForm.postMethod": "Метод доставки *",
+  "deliveryForm.firstName": "Ім'я *",
+  "deliveryForm.lastName": "Прізвище *",
+  "deliveryForm.phone": "Номер телефону *",
+  "deliveryForm.checkboxLabel": "Зберегти цю адресу",
+  "deliveryForm.addressTitle": "Назва цієї адреси",
+  "deliveryForm.savedAddress": "Виберіть збережену адресу",
+  "deliveryForm.successMessage": "Замовлення успішно створено",
+  "deliveryForm.errorMessage": "Щось пішло не так. \nБудь ласка, перевірте, чи унікальний ваш заголовок",
+
+  "deliveryForm.validation.firstName.long": "Ім'я має містити не більше 50 символів.",
+  "deliveryForm.validation.firstName.short": "Ім'я має містити щонайменше 2 символи.",
+  "deliveryForm.validation.firstName.invalidCharacters": "Ім'я може містити лише літери (латиниця або кирилиця), апострофи та дефіси.",
+
+  "deliveryForm.validation.lastName.long": "Прізвище має містити не більше 50 символів.",
+  "deliveryForm.validation.lastName.short": "Прізвище має містити щонайменше 2 символи.",
+  "deliveryForm.validation.lastName.invalidCharacters": "Прізвище може містити лише літери (латиниця або кирилиця), апострофи та дефіси.",
+
+  "deliveryForm.validation.city.long": "Назва міста має містити не більше 100 символів.",
+  "deliveryForm.validation.city.short": "Назва міста має містити щонайменше 2 символи.",
+
+  "deliveryForm.validation.department.long": "Номер відділення має містити не більше 100 символів.",
+  "deliveryForm.validation.department.short": "Поле 'Відділення' є обов'язковим.",
+
+  "deliveryForm.validation.phone.long": "Номер телефону має містити не більше 13 цифр.",
+  "deliveryForm.validation.phone.short": "Номер телефону має містити щонайменше 10 цифр.",
+  "deliveryForm.validation.phone.invalidCharacters": "Номер телефону може містити лише цифри та може починатися з '+' (необов'язково).",
+
+  "deliveryForm.validation.title.long": "Назва має містити не більше 50 символів.",
+  "deliveryForm.validation.title.invalidCharacters": "Назва може містити лише літери, цифри, дефіси, підкреслення, апострофи та одинарні пробіли між словами."
 }

@@ -11,6 +11,7 @@ import {
   OrderPatchParams,
   OrderPostParams,
   OrderPostResponse,
+  OrderPostV2Params,
   UserOrderResponse
 } from "@/types/order.types";
 
@@ -49,6 +50,19 @@ const ordersApi = appApi.injectEndpoints({
       ]
     }),
 
+    createOrderV2: build.mutation<OrderPostResponse, OrderPostV2Params>({
+      query: ({ userId, ...body }) => ({
+        url: URLS.orders.postOrderV2({ userId }),
+        method: httpMethods.post,
+        body: body
+      }),
+      invalidatesTags: [
+        rtkQueryTags.CART,
+        rtkQueryTags.ADMIN_ORDERS,
+        rtkQueryTags.USER_ORDERS
+      ]
+    }),
+
     changeOrderStatus: build.mutation<void, OrderPatchParams>({
       query: ({ orderStatus, isPaid, ...params }) => ({
         url: URLS.orders.patch(params),
@@ -65,5 +79,6 @@ export const {
   useGetAdminOrdersQuery,
   useCreateOrderMutation,
   useChangeOrderStatusMutation,
-  useGetAdminOrderByIdQuery
+  useGetAdminOrderByIdQuery,
+  useCreateOrderV2Mutation
 } = ordersApi;
