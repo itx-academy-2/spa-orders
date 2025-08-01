@@ -39,7 +39,8 @@ const ConfirmModal = ({
       onClose={handleClose}
       PaperProps={{
         className: styles.confirmModal,
-        "data-testid": "confirm-modal-paper"
+        "data-testid": "confirm-modal-paper",
+        "data-cy": "confirm-modal"
       }}
     >
       <AppTypography variant="h3" translationKey={title} />
@@ -52,10 +53,10 @@ const ConfirmModal = ({
       </AppIconButton>
       {description && <AppTypography translationKey={description} />}
       <DialogActions>
-        <AppButton onClick={handleClose} variant="danger">
+        <AppButton onClick={handleClose} variant="danger" data-cy="close-button">
           <AppTypography translationKey={textCancel} />
         </AppButton>
-        <AppButton onClick={handleSave}>
+        <AppButton onClick={handleSave} data-cy="clear-button">
           <AppTypography translationKey={textSave} />
         </AppButton>
       </DialogActions>
