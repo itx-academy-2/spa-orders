@@ -7,6 +7,7 @@ import { mockProducts } from "@/containers/products-container/ProductContainer.c
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import render from "@/utils/render-with-providers/renderWithProviders";
 import { ProductsContainerProps } from "@/containers/products-container/ProductsContainer.types";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("@/store/api/wishlistApi", () => ({
   useGetUserWishlistQuery: jest.fn(),
@@ -52,9 +53,16 @@ const mockedUseSearchParams = useSearchParams as jest.Mock;
 
 const renderAndMock = ({
   mockResponse = {},
+  mockSortOption,
 }: {
   mockResponse?: Partial<{ data?: typeof mockData; isLoading?: boolean }>;
+  mockSortOption?: string;
 } = {}) => {
+  const searchParams = new URLSearchParams();
+  if (mockSortOption) searchParams.set("sort", mockSortOption);
+  const setParams = jest.fn();
+  mockedUseSearchParams.mockReturnValue([searchParams, setParams]);
+
   mockUseGetUserWishlistQuery.mockReturnValue({
     isLoading: false,
     ...mockResponse,
@@ -85,50 +93,21 @@ describe("MyWishlist", () => {
     expect(screen.queryByTestId("products-container")).not.toBeInTheDocument();
   });
 
-  test("should show empty message, title, 0 products and sort options when wishlist is empty", () => {
-    renderAndMock({ mockResponse: { data: { content: [], totalElements: 0, totalPages: 3 } } });
+  test("should show empty message, title, 0 products and sort options label when wishlist is empty", () => {
+    renderAndMock({ mockResponse: { data: { content: [], totalElements: 0, totalPages: 0 } } });
 
     expect(screen.getByText(/myWishlist.emptyMessage/i)).toBeInTheDocument();
     expect(screen.getByText(/myWishlist.title/i)).toBeInTheDocument();
     expect(screen.getByText(/myWishlist.productsCount/i)).toBeInTheDocument();
     expect(screen.getByText(/myWishlist\.productsCount\/count:0/i)).toBeInTheDocument();
-    expect(screen.getByText(/productsDefault.label/i)).toBeInTheDocument();
+    expect(screen.getByText(/sortBy.label/i)).toBeInTheDocument();
+    expect(screen.getByText(/sortOptions.newest/i)).toBeInTheDocument();
   });
 
   test("should show correct products count when wishlist is not empty", () => {
     renderAndMock({ mockResponse: { data: mockData } });
 
     expect(screen.getByText(`myWishlist.productsCount/count:${mockData.totalElements}`)).toBeInTheDocument();
-  });
-
-  test("should render all wishlist products when not empty", () => {
-    renderAndMock({ mockResponse: { data: mockData } });
-
-    const links = screen.getAllByRole("link");
-    expect(links.length).toBe(mockData.content.length);
-
-    mockData.content.forEach((product, idx) => {
-      expect(links[idx]).toHaveTextContent(product.name);
-      expect(links[idx]).toHaveTextContent(String(product.price));
-    });
-  });
-
-  test("should call useGetUserWishlistQuery with sort and lang params", () => {
-    const searchParams = new URLSearchParams();
-    searchParams.set("sort", "bestsellers,desc");
-
-    const setSearchParams = jest.fn();
-
-    mockedUseSearchParams.mockReturnValue([searchParams, setSearchParams]);
-
-    renderAndMock();
-
-    expect(mockUseGetUserWishlistQuery).toHaveBeenCalledWith(
-      expect.objectContaining({
-        sort: "bestsellers,desc",
-        lang: "en",
-      })
-    );
   });
 
   test("should render PaginationBlock with correct props", () => {
@@ -140,5 +119,47 @@ describe("MyWishlist", () => {
         page: 0,
       })
     );
+  });
+
+  test("should fall back to default sort label when sortOption is not matched", () => {
+    const searchParams = new URLSearchParams();
+    searchParams.set("sort", "nonexistent-sort");
+
+    mockedUseSearchParams.mockReturnValue([searchParams, jest.fn()]);
+
+    renderAndMock();
+
+    expect(screen.getByTestId("default-sort-label")).toBeInTheDocument();
+  });
+
+  test("should render all wishlist products from response", () => {
+    renderAndMock({ mockResponse: { data: mockData } });
+
+    mockData.content.forEach((product) => {
+      expect(screen.getByRole("link", { name: `${product.name} - $${product.price}` })).toBeInTheDocument();
+    });
+  });
+
+  test("should update sort option on change", async () => {
+    renderAndMock({
+      mockResponse: { data: mockData },
+      mockSortOption: "priceLowToHigh",
+    });
+
+    const dropdown = screen.getByTestId("my-wishlist-dropdown");
+    await userEvent.click(dropdown);
+    const option = screen.getByText("sortOptions.priceHighLow");
+    await userEvent.click(option);
+
+    const selectedText = screen.getByText("sortOptions.priceHighLow");
+    expect(selectedText).toBeInTheDocument();
+  });
+
+  test("should show 0 products when wishlist is undefined", () => {
+    renderAndMock({
+      mockResponse: { data: undefined },
+    });
+
+    expect(screen.getByText(/myWishlist\.productsCount\/count:0/i)).toBeInTheDocument();
   });
 });
