@@ -15,7 +15,7 @@ import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import usePagination from "@/hooks/use-pagination/usePagination";
-import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
+import useWishlistWithAuthCheck from "@/hooks/use-wishlist-with-auth-check/useWishlistWithAuthCheck";
 import { sortSaleOptions } from "@/pages/sales/SalesPage.constants";
 import SalesFilterDrawer from "@/pages/sales/components/sales-filter-drawer/SalesFilterDrawer";
 import useSalesFilter from "@/pages/sales/hooks/useSalesFilter";
@@ -39,7 +39,7 @@ const SalesPage = () => {
     isError
   } = useSalesFilter({ sort: sortOption ?? undefined });
 
-  const { data: wishlistData } = useGetUserWishlistQuery();
+  const { data: wishlistData } = useWishlistWithAuthCheck();
   const wishlist = wishlistData?.content ?? [];
 
   const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);

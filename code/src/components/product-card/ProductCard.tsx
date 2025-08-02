@@ -6,6 +6,8 @@ import AppLink from "@/components/app-link/AppLink";
 import AppTypography from "@/components/app-typography/AppTypography";
 import { ProductCardProps } from "@/components/product-card/ProductCard.types";
 
+import AuthModal from "@/containers/modals/auth/AuthModal";
+
 import cartIconWithCheck from "@/assets/icons/cart-with-check.svg";
 import cartIconWithPlus from "@/assets/icons/cart-with-plus.svg";
 import fallbackImage from "@/assets/images/default-product-image.png";
@@ -15,6 +17,9 @@ import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/use
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
+import { useModalContext } from "@/context/modal/ModalContext";
+import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
+import { ROLES } from "@/constants/common";
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -32,12 +37,24 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
 
   const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 
+  const isAuthenticated = useIsAuthSelector();
+  const { openModal } = useModalContext();
+  const userRole = useUserRoleSelector();
+
+  const isUserOrGuest = !userRole || userRole === ROLES.USER;
+
   const handleImageError = () => {
     setImgSrc(fallbackImage);
   };
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    if (!isAuthenticated) {
+      openModal(<AuthModal />);
+      return;
+    }
+
     toggle(product.id);
   };
 
@@ -109,34 +126,36 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
         <AppTypography className="spa-product-card__footer-price">
           {formatPrice(price)}
         </AppTypography>
-        <AppBox className="spa-product-card__footer-buttons">
-          <AppIconButton
-            data-cy="favorite-button"
-            onClick={handleFavoriteClick}
-            className={cn(
-              "spa-product-card__favorite-button",
-              isFavorite(product.id) && "spa-product-card__favorite-button--active"
-            )}
-          >
-            {isFavorite(product.id) ? (
-              <FavoriteIcon fontSize="small" />
-            ) : (
-              <FavoriteBorderIcon fontSize="small" />
-            )}
-          </AppIconButton>
-          <AppIconButton
-            data-cy="add-to-cart-button"
-            onClick={addToCartOrOpenDrawer}
-            className={cn(
-              "spa-product-card__cart-button",
-              isProductInCart && "spa-product-card__cart-button--active"
-            )}
-          >
-            <svg>
-              <use data-testid="add-to-cart-icon" href={cartIconFullLink} />
-            </svg>
-          </AppIconButton>
-        </AppBox>
+        { isUserOrGuest && (
+          <AppBox className="spa-product-card__footer-buttons">
+            <AppIconButton
+              data-cy="favorite-button"
+              onClick={handleFavoriteClick}
+              className={cn(
+                "spa-product-card__favorite-button",
+                isFavorite(product.id) && "spa-product-card__favorite-button--active"
+              )}
+            >
+              {isFavorite(product.id) ? (
+                <FavoriteIcon fontSize="small" />
+              ) : (
+                <FavoriteBorderIcon fontSize="small" />
+              )}
+            </AppIconButton>
+            <AppIconButton
+              data-cy="add-to-cart-button"
+              onClick={addToCartOrOpenDrawer}
+              className={cn(
+                "spa-product-card__cart-button",
+                isProductInCart && "spa-product-card__cart-button--active"
+              )}
+            >
+              <svg>
+                <use data-testid="add-to-cart-icon" href={cartIconFullLink} />
+              </svg>
+            </AppIconButton>
+          </AppBox>
+        )}
       </AppBox>
     </AppBox>
   );
