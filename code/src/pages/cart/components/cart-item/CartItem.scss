@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   padding: spacing(4) 0;
-  border-bottom: 1px solid var(--spa-cart-item-border-color, $gray-light);
+  border-bottom: 1px solid $gray-light;
 
   &__image {
     margin-right: spacing(5);
@@ -35,12 +35,14 @@
     display: flex;
     align-items: center;
     gap: spacing(2);
+    color: var(--color-text);
   }
 
   &__price-old {
     text-decoration: line-through;
     color: $gray;
     font-size: 18px;
+
 
     @include breakpoint("lg") {
       font-size: var(--spa-cart-price-old-font-size, $fs-lg);
@@ -58,7 +60,7 @@
   }
 
   &__regular-price {
-    color: $black;
+    color: var(--color-text);
     font-weight: bold;
     font-size: 18px;
 
@@ -70,7 +72,7 @@
   &__quantity-selector {
     display: flex;
     align-items: center;
-    border: 1px solid var(--spa-cart-quantity-selector-border-color, $black);
+    border: 1px solid var(--color-text);
     padding: spacing(1);
     margin-inline: spacing(5) spacing(2);
   }
@@ -128,7 +130,7 @@
   }
 
   .spa-cart-item__price-discounted-total {
-    color: var(--spa-cart-regular-price-color, $black);
+    color: var(--color-text);
     font-weight: var(--spa-cart-price-value-font-weight, $fw-extra-bold);
     text-align: center;
     font-size: 18px;
@@ -140,9 +142,9 @@
 
   &__bestseller {
     padding: 4px;
-    border: 2px solid blue;
+    border: 2px solid var(--color-primary);
     border-radius: 15px;
-    color: blue;
+    color: var(--color-primary);
     max-width: 305px;
     display: flex;
     flex-direction: column;
