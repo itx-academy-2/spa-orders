@@ -64,6 +64,7 @@ const SalesFilterDrawer = ({
         onChange={handleCheckboxListChange("tags", id)}
         data-testid={`sales-page-filter-${id.replace("category:", "")}-checkbox`}
         labelTranslationKey={translationKey}
+        variant="dark"
       />
     )
   );

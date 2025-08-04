@@ -112,12 +112,6 @@ const SaleProductCard = ({
         </AppBox>
         {roundedPercentage > 0 && (
           <AppBox
-            style={{
-              padding: "5px",
-              border: "3px solid blue",
-              borderRadius: "20px",
-              color: "blue"
-            }}
             className="spa-product-card__best-sellers"
             data-testid="best-sellers"
           >
