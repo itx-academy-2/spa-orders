@@ -15,22 +15,26 @@ const menuItems: MenuItem[] = [
   {
     id: "profile",
     translationKey: "label.profile",
-    path: routes.userCabinet.profile.path
+    path: routes.userCabinet.profile.path,
+    dataCy: "sidebar-profile-link"
   },
   {
     id: "view-history",
     translationKey: "label.history",
-    path: routes.userCabinet.viewHistory.path
+    path: routes.userCabinet.viewHistory.path,
+    dataCy: "sidebar-history-link"
   },
   {
     id: "wishlist",
     translationKey: "label.wishlist",
-    path: routes.userCabinet.wishlist.path
+    path: routes.userCabinet.wishlist.path,
+    dataCy: "sidebar-wishlist-link"
   },
   {
     id: "addresses",
     translationKey: "label.addresses",
-    path: routes.userCabinet.addresses.path
+    path: routes.userCabinet.addresses.path,
+    dataCy: "sidebar-addresses-link"
   }
 ];
 

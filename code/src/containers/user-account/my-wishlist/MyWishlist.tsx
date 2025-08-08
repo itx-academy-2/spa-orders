@@ -71,6 +71,7 @@ const MyWishlist = () => {
       <AppTypography
         variant="h3"
         translationKey="myWishlist.title"
+        data-cy="my-wishlist-title"
       />
       <AppBox className={styles.MyWishlist_info}>
         <AppTypography className={styles.MyWishlist_count} component="span">
@@ -78,6 +79,7 @@ const MyWishlist = () => {
             translationKey="myWishlist.productsCount"
             component="span"
             translationProps={{ values: { count: productsCount } }}
+            data-cy="my-wishlist-count"
           />
         </AppTypography>
         <AppDropdown

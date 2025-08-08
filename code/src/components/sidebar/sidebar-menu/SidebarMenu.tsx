@@ -26,6 +26,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ items }) => {
         return (
           <ListItem key={item.id} className={styles.menuItem}>
             <ListItemButton
+              data-cy={item.dataCy}
               className={cn(styles.menuButton, {
                 [styles.active]: isActive
               })}

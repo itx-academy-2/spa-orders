@@ -152,7 +152,7 @@ const SaleProductCard = ({
         { isUserOrGuest && (
           <AppBox className="spa-product-card__footer-buttons">
             <AppIconButton
-              data-cy="favorite-button"
+              data-cy="add-to-wishlist-button"
               onClick={handleFavoriteClick}
               className={cn(
                 "spa-product-card__favorite-button",
