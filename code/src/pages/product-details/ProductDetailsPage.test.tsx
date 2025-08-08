@@ -5,6 +5,7 @@ import { ROLES } from "@/constants/common";
 import ProductDetailsPage from "@/pages/product-details/ProductDetailsPage";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import {
   useIsAuthSelector,
   useUserRoleSelector
@@ -31,6 +32,10 @@ jest.mock("@/hooks/use-error-page-redirect/useErrorPageRedirect", () => ({
   }))
 }));
 
+jest.mock("@/store/api/wishlistApi", () => ({
+  useGetUserWishlistQuery: jest.fn()
+}));
+
 jest.mock(
   "@/pages/product-details/components/product-details-container/ProductDetailsContainer",
   () => ({
@@ -46,7 +51,8 @@ const addViewedProductMock = jest.fn();
 const renderAndMock = (
   productId?: string,
   isAuthenticated?: boolean,
-  currentRole?: RoleType | null
+  currentRole?: RoleType | null,
+  wishlistData?: { content: [] }
 ) => {
   (useParams as jest.Mock).mockReturnValue({ productId });
   (useUpdateViewedProductsMutation as jest.Mock).mockReturnValue([
@@ -54,6 +60,7 @@ const renderAndMock = (
   ]);
   (useIsAuthSelector as jest.Mock).mockReturnValue(isAuthenticated);
   (useUserRoleSelector as jest.Mock).mockReturnValue(currentRole);
+  (useGetUserWishlistQuery as jest.Mock).mockReturnValue({ data: wishlistData });
 
   renderWithProviders(<ProductDetailsPage />);
 };
