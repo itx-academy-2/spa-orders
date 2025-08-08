@@ -52,6 +52,11 @@ $spa-input-colors: (
           .MuiOutlinedInput-notchedOutline {
             border-color: var(--color-muted) !important;
           }
+
+          input {
+            -webkit-text-fill-color: var(--color-muted);
+            color: var(--color-muted) !important;
+          }
         }
       }
       .MuiInputLabel-root {
