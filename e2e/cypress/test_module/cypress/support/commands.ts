@@ -43,7 +43,7 @@ Cypress.Commands.add("loginWithRole", (role = "ROLE_USER") => {
   const email = Cypress.env(`${role}_EMAIL`);
   const password = Cypress.env(`${role}_PASSWORD`);
 
-  cy.intercept("POST", "/retail/auth/sign-in").as("loginRequest");
+  cy.intercept("POST", "/api/auth/sign-in").as("loginRequest");
 
   cy.visitWithLanguage("/");
   cy.getById("auth-button").click();

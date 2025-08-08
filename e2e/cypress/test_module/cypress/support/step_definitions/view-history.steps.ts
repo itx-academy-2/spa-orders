@@ -1,4 +1,5 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { httpMethod } from "@cypress-e2e/fixtures/global-data";
 
 const mockViewHistoryEmpty = {
   totalElements: 0,
@@ -20,7 +21,7 @@ const interceptViewHistoryWithProducts = (count: number) => {
     content: createMockProducts(count)
   };
 
-  cy.intercept("GET", "**/retail/v1/my-view-history*", {
+  cy.intercept(httpMethod.get, /\/api\/v1\/my-view-history/, {
     body: mockViewHistory
   }).as("getViewHistory");
 };
@@ -36,7 +37,7 @@ Given(
 );
 
 When("The user clicks the delete icon on that product card", () => {
-  cy.intercept("DELETE", "**/retail/v1/my-view-history/*", {
+  cy.intercept(httpMethod.delete, /\/api\/v1\/my-view-history/, {
     statusCode: 204
   }).as("deleteProduct");
   cy.get('[data-cy="delete-product-from-history"]').first().click();
@@ -45,7 +46,7 @@ When("The user clicks the delete icon on that product card", () => {
 });
 
 Given("The view history page is loaded with an empty list", () => {
-  cy.intercept("GET", "**/retail/v1/my-view-history*", {
+  cy.intercept(httpMethod.get, /\/api\/v1\/my-view-history/, {
     body: mockViewHistoryEmpty
   }).as("getEmptyViewHistory");
 
@@ -90,11 +91,11 @@ Then("The user clicks Close button", () => {
 });
 
 Then("The user clicks Clear button in modal", () => {
-  cy.intercept("DELETE", "**/retail/v1/my-view-history", {
+  cy.intercept(httpMethod.delete, /\/api\/v1\/my-view-history/, {
     statusCode: 204
   }).as("deleteAllProducts");
 
-  cy.intercept("GET", "**/retail/v1/my-view-history*", {
+  cy.intercept(httpMethod.get, /\/api\/v1\/my-view-history/, {
     body: mockViewHistoryEmpty
   }).as("getEmptyViewHistory");
 
