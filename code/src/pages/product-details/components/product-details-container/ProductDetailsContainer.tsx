@@ -24,20 +24,24 @@ import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import cn from "@/utils/cn/cn";
+import { Product } from "@/types/product.types";
 
 import "@/pages/product-details/components/product-details-container/ProductDetailsContainer.scss";
 
-type ProductDetailsContainerProps = ProductDetailsPageParams;
+type ProductDetailsContainerProps = ProductDetailsPageParams & {
+  wishlist: Product[];
+};
 
 const ProductDetailsContainer = ({
-  productId
+  productId,
+  wishlist
 }: ProductDetailsContainerProps) => {
   useTrackVisits("product", productId);
 
   const { renderRedirectComponent } = useErrorPageRedirect();
   const { locale } = useLocaleContext();
   const { formatMessage } = useIntl();
-  const { toggle, isFavorite } = useToggleFavorite();
+  const { toggle, isFavorite } = useToggleFavorite(wishlist);
   const {
     data: product,
     isLoading,

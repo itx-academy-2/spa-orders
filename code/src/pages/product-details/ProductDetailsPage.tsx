@@ -11,6 +11,7 @@ import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import ProductDetailsContainer from "@/pages/product-details/components/product-details-container/ProductDetailsContainer";
 import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import {
   useIsAuthSelector,
   useUserRoleSelector
@@ -24,8 +25,11 @@ const ProductDetailsPage = () => {
   const [addViewProduct] = useUpdateViewedProductsMutation();
   const isAuthenticated = useIsAuthSelector();
   const userRole = useUserRoleSelector();
+  const { data: wishlistData } = useGetUserWishlistQuery();
 
-    useEffect(() => {
+  const wishlist = wishlistData?.content ?? [];
+
+  useEffect(() => {
     if (productId && isAuthenticated && userRole === ROLES.USER) {
       addViewProduct(productId);
     }
@@ -38,7 +42,7 @@ const ProductDetailsPage = () => {
   return (
     <PageWrapper>
       <AppBox className="spa-product-details-page">
-        <ProductDetailsContainer productId={productId} />
+        <ProductDetailsContainer productId={productId} wishlist={wishlist} />
       </AppBox>
     </PageWrapper>
   );

@@ -28,6 +28,20 @@ const mockProduct: MockProduct = {
   percentageOfTotalOrders: null
 };
 
+const wishlist: Product[] = [
+  {
+    id: "1",
+    name: "Mock product",
+    price: 100,
+    status: "AVAILABLE",
+    image: "mock-image.jpg",
+    tags: ["category:mobile"],
+    description: "Mock description",
+    discount: 0,
+    percentageOfTotalOrders: null
+  },
+];
+
 const locale = "en";
 
 const mockRenderRedirectComponent = jest.fn();
@@ -73,12 +87,12 @@ const defaultArgs: MockState = {
 
 const productId = "1";
 
-const renderAndMock = (args?: MockState) => {
+const renderAndMock = (args?: MockState, wishlistProp: Product[] = wishlist) => {
   (useGetUserProductByIdQuery as jest.Mock).mockReturnValue({
     ...defaultArgs,
     ...args
   });
-  return renderWithProviders(<ProductDetailsContainer productId={productId} />);
+  return renderWithProviders(<ProductDetailsContainer productId={productId} wishlist={wishlistProp} />);
 };
 
 const toggleMock = jest.fn();
@@ -277,7 +291,7 @@ describe("ProductDetailsContainer", () => {
     expect(favoriteIcon).toBeInTheDocument();
   });
 
-  test("calls toggle function when favorite button is clicked", async () => {
+  test("calls toggle function when favorite button is clicked", () => {
     renderAndMock({ data: mockProduct });
 
     const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
