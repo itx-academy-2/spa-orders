@@ -144,6 +144,8 @@ const ProductDetailsContainer = ({
     toggle(productId);
   };
 
+  const isProductFavorite = isFavorite(productId);
+
   return (
     <AppBox className="product-details">
       <AppBox className="product-details__image-wrapper">
@@ -181,10 +183,10 @@ const ProductDetailsContainer = ({
                   onClick={handleFavoriteClick}
                   className={cn(
                     "product-details__favorite-button",
-                    isFavorite(productId) && "product-details__favorite-button--active"
+                    isProductFavorite && "product-details__favorite-button--active"
                   )}
                 >
-                {isFavorite(productId) ? (
+                {isProductFavorite ? (
                   <FavoriteIcon fontSize="medium" />
                 ) : (
                   <FavoriteBorderIcon fontSize="medium" />
