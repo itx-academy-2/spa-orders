@@ -11,7 +11,7 @@ import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import ProductDetailsContainer from "@/pages/product-details/components/product-details-container/ProductDetailsContainer";
 import { useUpdateViewedProductsMutation } from "@/store/api/viewHistoryApi";
-import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
+import useWishlistWithAuthCheck from "@/hooks/use-wishlist-with-auth-check/useWishlistWithAuthCheck";
 import {
   useIsAuthSelector,
   useUserRoleSelector
@@ -25,7 +25,7 @@ const ProductDetailsPage = () => {
   const [addViewProduct] = useUpdateViewedProductsMutation();
   const isAuthenticated = useIsAuthSelector();
   const userRole = useUserRoleSelector();
-  const { data: wishlistData } = useGetUserWishlistQuery();
+  const { data: wishlistData } = useWishlistWithAuthCheck();
 
   const wishlist = wishlistData?.content ?? [];
 

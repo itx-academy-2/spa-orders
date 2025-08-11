@@ -3,6 +3,7 @@ import { useIntl } from "react-intl";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
+import AuthModal from "@/containers/modals/auth/AuthModal";
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 
 import AppBadge from "@/components/app-badge/AppBadge";
@@ -25,6 +26,9 @@ import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromT
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import cn from "@/utils/cn/cn";
 import { Product } from "@/types/product.types";
+import { useModalContext } from "@/context/modal/ModalContext";
+import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
+import { ROLES } from "@/constants/common";
 
 import "@/pages/product-details/components/product-details-container/ProductDetailsContainer.scss";
 
@@ -50,6 +54,12 @@ const ProductDetailsContainer = ({
     productId,
     lang: locale
   });
+  
+  const isAuthenticated = useIsAuthSelector();
+  const { openModal } = useModalContext();
+  const userRole = useUserRoleSelector();
+
+  const isUserOrGuest = !userRole || userRole === ROLES.USER;
 
   if (isLoading) {
     return <PageLoadingFallback />;
@@ -141,6 +151,12 @@ const ProductDetailsContainer = ({
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    if (!isAuthenticated) {
+      openModal(<AuthModal />);
+      return;
+    }
+    
     toggle(productId);
   };
 
@@ -177,23 +193,25 @@ const ProductDetailsContainer = ({
                 discountedPriceSize="h3"
                 discountedPriceWeight="bold"
               />
-              <AppBox className="product-details__buy-favorite-buttons">
-                <AppIconButton
-                  data-cy="favorite-button"
-                  onClick={handleFavoriteClick}
-                  className={cn(
-                    "product-details__favorite-button",
-                    isProductFavorite && "product-details__favorite-button--active"
+              { isUserOrGuest && (
+                <AppBox className="product-details__buy-favorite-buttons">
+                  <AppIconButton
+                    data-cy="favorite-button"
+                    onClick={handleFavoriteClick}
+                    className={cn(
+                      "product-details__favorite-button",
+                      isProductFavorite && "product-details__favorite-button--active"
+                    )}
+                  >
+                  {isProductFavorite ? (
+                    <FavoriteIcon fontSize="medium" />
+                  ) : (
+                    <FavoriteBorderIcon fontSize="medium" />
                   )}
-                >
-                {isProductFavorite ? (
-                  <FavoriteIcon fontSize="medium" />
-                ) : (
-                  <FavoriteBorderIcon fontSize="medium" />
-                )}
-                </AppIconButton>
-                <BuyNowButton productWithId={productWithId} />
-              </AppBox>
+                  </AppIconButton>
+                  <BuyNowButton productWithId={productWithId} />
+                </AppBox>
+              )}
             </AppBox>
           </AppBox>
           <AppBox className="product-details__section">
