@@ -12,8 +12,12 @@
     border-radius: 50%;
 
     &:hover {
-      background-color: var(--color-bg) !important;
-      color: var(--color-text) !important;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      transition:
+        background-color 150ms ease,
+        color 150ms ease,
+        outline-color 150ms ease;
     }
   }
 }
