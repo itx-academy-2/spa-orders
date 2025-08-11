@@ -25,6 +25,7 @@ import usersTableMessages from "@/containers/tables/users-table/messages";
 import myWishlistMessages from "@/containers/user-account/my-wishlist/messages";
 import profileMessages from "@/containers/user-account/profile/messages";
 import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
+import myAddressesMessages from "@/containers/user-account/my-addresses/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
@@ -103,7 +104,8 @@ const messages: MessagesType = {
     ...profileMessages.en,
     ...emailAndPasswordMessages.en,
     ...confirmModalMessages.en,
-    ...addLinkModalMessages.en
+    ...addLinkModalMessages.en,
+    ...myAddressesMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -154,7 +156,8 @@ const messages: MessagesType = {
     ...profileMessages.uk,
     ...emailAndPasswordMessages.uk,
     ...confirmModalMessages.uk,
-    ...addLinkModalMessages.uk
+    ...addLinkModalMessages.uk,
+    ...myAddressesMessages.uk
   }
 };
 

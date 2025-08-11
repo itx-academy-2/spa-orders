@@ -48,8 +48,8 @@ const Profile = lazy(
 const MyWishlist = lazy(
   () => import("@/containers/user-account/my-wishlist/MyWishlist")
 );
-const AddressesPage = lazy(
-  () => import("@/pages/user-account/Addresses/AddressesPage")
+const MyAddresses = lazy(
+  () => import("@/containers/user-account/my-addresses/MyAddresses")
 );
 
 const protectedRoutes: RouteObject[] = [
@@ -134,7 +134,7 @@ const protectedRoutes: RouteObject[] = [
       },
       {
         path: routePaths.userCabinet.addresses.path,
-        element: <AddressesPage />
+        element: <MyAddresses />
       }
     ]
   }
