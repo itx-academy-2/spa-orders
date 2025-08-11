@@ -1,5 +1,6 @@
 type AddLinkFormValues = { photoURL: string };
 
-export const defaultValues: AddLinkFormValues = {
+export const defaultValues: Readonly<AddLinkFormValues> = Object.freeze({
   photoURL: ""
-};
+});
+
