@@ -117,11 +117,14 @@ const UserViewHistory = () => {
     }
 
     return (
-      <ProductsContainer
-        products={viewHistoryResponse!.content}
-        isViewHistory
-        wishlist={wishlist}
-      />
+      <AppBox className={styles.viewHistory_products_container}>
+        <ProductsContainer
+          products={viewHistoryResponse!.content}
+          isViewHistory
+          wishlist={wishlist}
+          className={styles.viewHistory_products}
+        />
+      </AppBox>
     );
   };
 
