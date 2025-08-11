@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 
@@ -22,7 +23,8 @@ import * as styles from "@/containers/modals/add-link/AddLinkModal.module.scss";
 const AddLinkModal = () => {
   const { closeModal } = useModalContext();
   const { formatMessage } = useIntl();
-  const [updateUserPhotoURL, { isLoading }] = useUpdateUserPhotoMutation();
+  const [updateUserPhotoURL, { isLoading, isSuccess }] =
+    useUpdateUserPhotoMutation();
   const {
     register,
     handleSubmit,
@@ -34,9 +36,14 @@ const AddLinkModal = () => {
     }
   });
 
+  useEffect(() => {
+    if (isSuccess) {
+      closeModal();
+    }
+  }, [isSuccess, closeModal]);
+
   const onSubmit = (data: AddLinkValidatorType) => {
     updateUserPhotoURL({ photo: data.photoURL });
-    closeModal();
   };
 
   return (
@@ -50,6 +57,7 @@ const AddLinkModal = () => {
         onClick={closeModal}
         className={styles.addLinkModal_closeIcon}
         type="button"
+        aria-label={formatMessage({ id: "addLink.closeButton" })}
       >
         <CloseIcon />
       </AppIconButton>
@@ -65,12 +73,14 @@ const AddLinkModal = () => {
         }
         labelTranslationKey="addLink.inputLabel"
         data-cy="URL-input"
+        type="url"
+        autoFocus
       />
       <AppBox className={styles.addLinkModal_buttonsContainer}>
         <AppButton type="button" onClick={closeModal} variant="danger">
           <AppTypography translationKey="addLink.closeButton" />
         </AppButton>
-        <AppButton type="submit" isLoading={isLoading}>
+        <AppButton type="submit" isLoading={isLoading} disabled={isLoading}>
           <AppTypography translationKey="addLink.saveButton" />
         </AppButton>
       </AppBox>

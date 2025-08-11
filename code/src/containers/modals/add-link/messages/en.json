@@ -5,6 +5,5 @@
   "addLink.saveButton": "Save",
   "addLink.closeButton": "Close",
   "addLink.error.invalidUrl": "Please enter a valid URL.",
-  "addLink.error.network": "Network error, please try again later.",
   "addLink.error.required": "This field is required."
 }

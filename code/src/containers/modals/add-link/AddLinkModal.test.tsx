@@ -7,7 +7,7 @@ import { useUpdateUserPhotoMutation } from "@/store/api/userProfileApi";
 
 import AddLinkModal from "./AddLinkModal";
 
-const mockupdateUserPhotoURL = jest.fn();
+const mockUpdateUserPhotoURL = jest.fn();
 const mockCloseModal = jest.fn();
 
 jest.mock("@/context/modal/ModalContext");
@@ -16,10 +16,10 @@ jest.mock("@/store/api/userProfileApi");
   closeModal: mockCloseModal
 });
 
-const renderAndMock = ({ isLoading = false } = {}) => {
+const renderAndMock = ({ isLoading = false, isSuccess = false } = {}) => {
   (useUpdateUserPhotoMutation as jest.Mock).mockReturnValue([
-    mockupdateUserPhotoURL,
-    { isLoading }
+    mockUpdateUserPhotoURL,
+    { isLoading, isSuccess }
   ]);
   render(<AddLinkModal />);
 };
@@ -27,14 +27,12 @@ const renderAndMock = ({ isLoading = false } = {}) => {
 const mockPhotoURL = "https://example.com/photo.jpg";
 
 describe("AddLinkModal", () => {
-  beforeEach(() => {
-    renderAndMock();
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it("should render the modal with correctly", () => {
+
+  it("should render the modal correctly", () => {
+    renderAndMock();
     const title = screen.getByText("addLink.title");
     const saveButton = screen.getByText("addLink.saveButton");
 
@@ -43,16 +41,18 @@ describe("AddLinkModal", () => {
   });
 
   it("should show validation error when no URL", async () => {
+    renderAndMock();
     const saveButton = screen.getByText("addLink.saveButton");
 
     await userEvent.click(saveButton);
 
     const inputError = screen.getByText("addLink.error.required");
     expect(inputError).toBeInTheDocument();
-    expect(mockupdateUserPhotoURL).not.toHaveBeenCalled();
+    expect(mockUpdateUserPhotoURL).not.toHaveBeenCalled();
   });
 
   it("should successfully update photo when valid URL", async () => {
+    renderAndMock({ isSuccess: true });
     const saveButton = screen.getByText("addLink.saveButton");
     const input = screen.getByLabelText("addLink.inputLabel");
 
@@ -60,10 +60,26 @@ describe("AddLinkModal", () => {
     await userEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(mockupdateUserPhotoURL).toHaveBeenCalledTimes(1);
-      expect(mockupdateUserPhotoURL).toHaveBeenCalledWith({
+      expect(mockUpdateUserPhotoURL).toHaveBeenCalledTimes(1);
+      expect(mockUpdateUserPhotoURL).toHaveBeenCalledWith({
         photo: mockPhotoURL
       });
+      expect(mockCloseModal).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it("should close when clicking the Close button", async () => {
+    renderAndMock();
+    
+    const closeBtn = screen.getByText("addLink.closeButton");
+    await userEvent.click(closeBtn);
+
+    expect(mockCloseModal).toHaveBeenCalledTimes(1);
+  });
+  it("should disable Save and show loading state while isLoading", async () => {
+    renderAndMock({ isLoading: true });
+
+    const saveButton = screen.getByText("addLink.saveButton").closest("button");
+    expect(saveButton).toBeDisabled();
   });
 });
