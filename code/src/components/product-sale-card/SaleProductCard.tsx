@@ -70,6 +70,8 @@ const SaleProductCard = ({
     toggle(product.id);
   };
 
+  const isProductFavorite = isFavorite(product.id);
+
   const cartIconId = isProductInCart ? "cart-with-check" : "cart-with-plus";
   const cartIconLink = isProductInCart ? cartIconWithCheck : cartIconWithPlus;
   const cartIconFullLink = `${cartIconLink}#${cartIconId}`;
@@ -150,10 +152,10 @@ const SaleProductCard = ({
               onClick={handleFavoriteClick}
               className={cn(
                 "spa-product-card__favorite-button",
-                isFavorite(product.id) && "spa-product-card__favorite-button--active"
+                isProductFavorite && "spa-product-card__favorite-button--active"
               )}
             >
-              {isFavorite(product.id) ? (
+              {isProductFavorite ? (
                 <FavoriteIcon fontSize="small" />
               ) : (
                 <FavoriteBorderIcon fontSize="small" />

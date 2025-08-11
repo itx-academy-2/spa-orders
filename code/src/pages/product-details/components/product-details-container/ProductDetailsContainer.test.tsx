@@ -1,5 +1,7 @@
 import { screen } from "@testing-library/react";
 
+import userEvent from "@testing-library/user-event";
+
 import { deliveryMethods } from "@/constants/deliveryMethods";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
@@ -9,6 +11,9 @@ import { RTKQueryMockState } from "@/types/common";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
+import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
+import { useUserRoleSelector, useIsAuthSelector  } from "@/store/slices/userSlice";
+import { ROLES } from "@/constants/common";
 
 type MockProduct = Product & { quantity: number };
 
@@ -27,9 +32,30 @@ const mockProduct: MockProduct = {
   percentageOfTotalOrders: null
 };
 
+const wishlist: Product[] = [
+  {
+    id: "1",
+    name: "Mock product",
+    price: 100,
+    status: "AVAILABLE",
+    image: "mock-image.jpg",
+    tags: ["category:mobile"],
+    description: "Mock description",
+    discount: 0,
+    percentageOfTotalOrders: null
+  },
+];
+
 const locale = "en";
 
 const mockRenderRedirectComponent = jest.fn();
+
+const mockOpenModal = jest.fn();
+
+jest.mock("@/context/modal/ModalContext", () => ({
+  ...jest.requireActual("@/context/modal/ModalContext"),
+  useModalContext: () => ({ openModal: mockOpenModal })
+}));
 
 jest.mock("@/store/api/productsApi", () => ({
   useGetUserProductByIdQuery: jest.fn()
@@ -57,6 +83,14 @@ jest.mock(
   })
 );
 
+jest.mock("@/hooks/use-toggle-favorite/useToggleFavorite");
+
+jest.mock("@/store/slices/userSlice", () => ({
+  ...jest.requireActual("@/store/slices/userSlice"),
+  useUserRoleSelector: jest.fn(),
+  useIsAuthSelector: jest.fn()
+}));
+
 type MockState = RTKQueryMockState<
   typeof mockProduct,
   Record<string, number | string> | null
@@ -70,17 +104,24 @@ const defaultArgs: MockState = {
 
 const productId = "1";
 
-const renderAndMock = (args?: MockState) => {
+const renderAndMock = (args?: MockState, wishlistProp: Product[] = wishlist) => {
   (useGetUserProductByIdQuery as jest.Mock).mockReturnValue({
     ...defaultArgs,
     ...args
   });
-  renderWithProviders(<ProductDetailsContainer productId={productId} />);
+  return renderWithProviders(<ProductDetailsContainer productId={productId} wishlist={wishlistProp} />);
 };
+
+const toggleMock = jest.fn();
 
 describe("ProductDetailsContainer", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+
+    (useToggleFavorite as jest.Mock).mockReturnValue({
+      toggle: toggleMock,
+      isFavorite: () => false
+    });
   });
 
   test("calls useGetUserProductByIdQuery with correct arguments", () => {
@@ -247,4 +288,90 @@ describe("ProductDetailsContainer", () => {
     );
     expect(bestsellersLabel).toBeInTheDocument();
   });
+
+  test("renders favorite button (border icon) when not favorite", () => {
+    renderAndMock({ data: mockProduct });
+
+    const favoriteIcon = screen.getByTestId("FavoriteBorderIcon");
+    expect(favoriteIcon).toBeInTheDocument();
+  });
+
+  test("renders favorite button (filled icon) when product is favorite", () => {
+    (useToggleFavorite as jest.Mock).mockReturnValue({
+      toggle: toggleMock,
+      isFavorite: () => true
+    });
+
+    renderAndMock({ data: mockProduct });
+
+    const favoriteIcon = screen.getByTestId("FavoriteIcon");
+    expect(favoriteIcon).toBeInTheDocument();
+  });
+
+  test("should apply active class when product is favorite", () => {
+    (useToggleFavorite as jest.Mock).mockReturnValue({
+      toggle: toggleMock,
+      isFavorite: () => true
+    });
+
+    const result = renderAndMock({ data: mockProduct });
+
+    const isProductFavoriteElementActive = result.container.querySelector(
+      ".product-details__favorite-button--active"
+    );
+    expect(isProductFavoriteElementActive).toBeInTheDocument();
+  });
+
+  test("should not apply active class when product is not favorite", () => {
+    const result = renderAndMock({ data: mockProduct });
+
+    const isProductActiveElement = result.container.querySelector(
+      ".product-details__favorite-button--active"
+    );
+    expect(isProductActiveElement).not.toBeInTheDocument();
+  });
+
+  test("redirects unauthenticated user to sign in form when clicking favorite", async () => {
+    (useIsAuthSelector as jest.Mock).mockReturnValue(false);
+    (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.USER);
+
+    renderAndMock({ data: mockProduct });
+
+    const favoriteIcon = screen.getByTestId("FavoriteBorderIcon");
+    expect(favoriteIcon).toBeInTheDocument();
+    await userEvent.click(favoriteIcon);
+
+    expect(mockOpenModal).toHaveBeenCalled();
+  });
+
+  test("hides Favorite and Cart icons for ADMIN", () => {
+    (useIsAuthSelector as jest.Mock).mockReturnValue(true);
+    (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.ADMIN);
+
+    renderAndMock({ data: mockProduct });
+
+    expect(screen.queryByTestId("FavoriteBorderIcon")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("cart-icon")).not.toBeInTheDocument();
+  });
+
+  test("hides Favorite and Cart icons for MANAGER", () => {
+    (useIsAuthSelector as jest.Mock).mockReturnValue(true);
+    (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.SHOP_MANAGER);
+
+    renderAndMock({ data: mockProduct });
+
+    expect(screen.queryByTestId("FavoriteBorderIcon")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("cart-icon")).not.toBeInTheDocument();
+  });
+
+  test("USER can see Favorite icon", () => {
+    (useIsAuthSelector as jest.Mock).mockReturnValue(true);
+    (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.USER);
+
+    renderAndMock({ data: mockProduct });
+
+    const favoriteIcon = screen.getByTestId("FavoriteBorderIcon");
+    expect(favoriteIcon).toBeInTheDocument();
+  });
 });
+
