@@ -10,5 +10,10 @@
     z-index: 2;
     background-color: white;
     border-radius: 50%;
+
+    &:hover {
+      background-color: var(--color-bg) !important;
+      color: var(--color-text) !important;
+    }
   }
 }
