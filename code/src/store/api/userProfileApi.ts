@@ -22,9 +22,20 @@ export const userProfileApi = appApi.injectEndpoints({
         body
       }),
       invalidatesTags: [rtkQueryTags.USER_PROFILE]
+    }),
+    updateUserPhoto: build.mutation<UserResponse, Pick<UserResponse, "photo">>({
+      query: (body) => ({
+        url: URLS.userInfo.photo.put,
+        method: httpMethods.put,
+        body
+      }),
+      invalidatesTags: [rtkQueryTags.USER_PROFILE]
     })
   })
 });
 
-export const { useGetUserInfoQuery, useUpdateUserInfoMutation } =
-  userProfileApi;
+export const {
+  useGetUserInfoQuery,
+  useUpdateUserInfoMutation,
+  useUpdateUserPhotoMutation
+} = userProfileApi;

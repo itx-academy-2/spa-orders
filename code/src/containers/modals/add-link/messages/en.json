@@ -1,0 +1,10 @@
+{
+  "addLink.title": "Add a Link",
+  "addLink.description": "Paste the URL of an image you would like to use as your profile photo.",
+  "addLink.inputLabel": "Image URL",
+  "addLink.saveButton": "Save",
+  "addLink.closeButton": "Close",
+  "addLink.error.invalidUrl": "Please enter a valid URL.",
+  "addLink.error.network": "Network error, please try again later.",
+  "addLink.error.required": "This field is required."
+}

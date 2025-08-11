@@ -91,7 +91,10 @@ export const URLS = {
   },
   userInfo: {
     getUserInfo: "/v2/my-info",
-    patchUserInfo: "/v2/my-info"
+    patchUserInfo: "/v2/my-info",
+    photo: {
+      put: "/v1/my-info/photo"
+    }
   },
   viewHistory: {
     get: "/v1/my-view-history",
