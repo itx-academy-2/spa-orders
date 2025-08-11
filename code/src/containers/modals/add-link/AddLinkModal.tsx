@@ -5,6 +5,8 @@ import { useIntl } from "react-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { defaultValues } from "@/containers/modals/add-link/AddLinkModal.consts";
+
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
@@ -31,9 +33,7 @@ const AddLinkModal = () => {
     formState: { errors }
   } = useForm<AddLinkValidatorType>({
     resolver: zodResolver(AddLinkValidationSchema),
-    defaultValues: {
-      photoURL: ""
-    }
+    defaultValues: defaultValues
   });
 
   useEffect(() => {

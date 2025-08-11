@@ -70,7 +70,7 @@ describe("AddLinkModal", () => {
 
   it("should close when clicking the Close button", async () => {
     renderAndMock();
-    
+
     const closeBtn = screen.getByText("addLink.closeButton");
     await userEvent.click(closeBtn);
 
@@ -81,5 +81,14 @@ describe("AddLinkModal", () => {
 
     const saveButton = screen.getByText("addLink.saveButton").closest("button");
     expect(saveButton).toBeDisabled();
+  });
+
+  it("should render the close button with the correct aria-label", () => {
+    renderAndMock();
+
+    const closeButton = screen.getByTestId("CloseIcon").parentNode;
+
+    expect(closeButton).toBeInTheDocument();
+    expect(closeButton).toHaveAttribute("aria-label", "addLink.closeButton");
   });
 });
