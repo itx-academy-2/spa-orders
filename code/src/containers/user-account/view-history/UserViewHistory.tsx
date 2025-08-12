@@ -115,7 +115,6 @@ const UserViewHistory = () => {
 
     return (
       <ProductsContainer
-        className={styles.viewHistory_productsGrid}
         products={viewHistoryResponse!.content}
         isViewHistory
         wishlist={wishlist}
