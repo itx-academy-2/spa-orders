@@ -11,15 +11,15 @@
     box-sizing: border-box;
 
     &_header {
-    display: grid;
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-    justify-items: center;
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 2rem;
+        justify-items: center;
 
         @include breakpoint("sm") {
-        grid-template-columns: 1fr 1fr;
-        justify-items: stretch;
-        align-items: center;
+            grid-template-columns: 1fr 1fr;
+            justify-items: stretch;
+            align-items: center;
         }
     }
 
@@ -43,7 +43,7 @@
         gap: spacing(10);
     }
 
-      &_loader {
+    &_loader {
         transform: translate(-50%, -50%);
         position: absolute;
         top: 50%;
