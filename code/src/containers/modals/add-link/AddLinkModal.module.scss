@@ -1,0 +1,26 @@
+@import "@design-system";
+
+.addLinkModal {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(4);
+  padding: spacing(7);
+  position: relative;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border-radius: spacing(1);
+
+  &_closeIcon {
+    position: absolute;
+    top: spacing(2);
+    right: spacing(2);
+    cursor: pointer;
+    color: inherit;
+  }
+
+  &_buttonsContainer {
+    display: flex;
+    align-self: flex-end;
+    gap: spacing(2);
+  }
+}

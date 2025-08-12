@@ -89,7 +89,6 @@ const EditPersonalInfoModal = ({
           labelTranslationKey="personalInfo.firstname"
           autoComplete="given-name"
           data-cy="firstname"
-          // className={styles.personalInfoModal_inputs}
         />
         <AppInput
           {...register("lastName")}
@@ -102,7 +101,6 @@ const EditPersonalInfoModal = ({
           labelTranslationKey="personalInfo.lastname"
           autoComplete="family-name"
           data-cy="lastname"
-          // className={styles.personalInfoModal_inputs}
         />
         <AppInput
           {...register("phone")}
@@ -116,7 +114,6 @@ const EditPersonalInfoModal = ({
           autoComplete="tel"
           data-cy="phone-number"
           type="tel"
-          // className={styles.personalInfoModal_inputs}
         />
       </AppBox>
       <AppButton

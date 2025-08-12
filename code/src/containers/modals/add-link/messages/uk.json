@@ -1,0 +1,9 @@
+{
+  "addLink.title": "Додати посилання",
+  "addLink.description": "Вставте URL-адресу зображення, яке ви хочете використовувати як фотографію профілю.",
+  "addLink.inputLabel": "URL-адреса зображення",
+  "addLink.saveButton": "Зберегти",
+  "addLink.closeButton": "Закрити",
+  "addLink.error.invalidUrl": "Будь ласка, введіть дійсну URL-адресу.",
+  "addLink.error.required": "Це поле обов'язкове."
+}
