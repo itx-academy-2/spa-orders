@@ -29,7 +29,23 @@ jest.mock("@/components/profile-email-password/EmailAndPassword", () => ({
   default: () => <div data-testid="email-password">Mocked Email & Password</div>
 }));
 
+jest.mock("@/components/profile-photo/PhotoSection", () => ({
+  __esModule: true,
+  default: ({ photo }: { photo: string | null }) => (
+    <div data-testid="photo-section">
+      Mocked Photo Section
+      <img
+        src={photo || "default-photo.png"}
+        alt="Profile"
+        data-testid="profile-photo"
+      />
+    </div>
+  )
+}));
+
 jest.mock("@/store/api/userProfileApi");
+
+jest.mock("@/context/modal/ModalContext");
 
 type mockedDataProps = {
   firstName: string;

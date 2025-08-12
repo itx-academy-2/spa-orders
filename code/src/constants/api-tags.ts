@@ -11,7 +11,8 @@ export const rtkQueryTags = {
   USER_PROFILE: "USER_PROFILE",
   VIEW_HISTORY: "VIEW_HISTORY",
   WISHLIST: "WISHLIST",
-  ADDRESSES: "ADDRESSES",
+  ADDRESSES: "ADDRESSES",,
+  USER_PHOTO: "USER_PHOTO",
 } as const;
 
 export const rtkQueryTagsArray = Object.values(rtkQueryTags);

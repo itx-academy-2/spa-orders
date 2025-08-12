@@ -32,6 +32,7 @@ import bestSellerContainerMessages from "@/components/bestseller-card/messages";
 import productCardMessages from "@/components/product-card/messages";
 import emailAndPasswordMessages from "@/components/profile-email-password/messages";
 import PersonalInformation from "@/components/profile-personal-information/messages";
+import photoSectionMessages from "@/components/profile-photo/messages";
 import sidebar from "@/components/sidebar/messages";
 import AddressCardMessages from "@/components/address-card/messages"
 
@@ -107,7 +108,8 @@ const messages: MessagesType = {
     ...confirmModalMessages.en,
     ...addLinkModalMessages.en,
     ...myAddressesMessages.en,
-    ...AddressCardMessages.en
+    ...AddressCardMessages.en,
+    ...photoSectionMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -160,7 +162,8 @@ const messages: MessagesType = {
     ...confirmModalMessages.uk,
     ...addLinkModalMessages.uk,
     ...myAddressesMessages.uk,
-    ...AddressCardMessages.uk
+    ...AddressCardMessages.uk,
+    ...photoSectionMessages.uk
   }
 };
 

@@ -1,0 +1,8 @@
+{
+  "photoSection.title": "Upload or delete profile photo URL",
+  "photoSection.uploadButton": "Upload Photo URL",
+  "photoSection.deleteButton": "Delete Photo",
+  "photoSection.confirmDeleteModal.title": "Confirm photo deletion",
+  "photoSection.confirmDeleteModal.description": "Are you sure you want to delete your profile photo?",
+  "photoSection.confirmDeleteModal.clearButton": "Delete"
+}
