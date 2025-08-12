@@ -13,7 +13,7 @@ const AddressCard = ({ address }: AddressCardProps) => {
     address;
 
   return (
-    <AppBox className={styles.addressCard}>
+    <AppBox className={styles.addressCard} data-testid="address-card" data-cy="address-card">
       <AppBox className={styles.addressCard_header}>
         <AppTypography variant="subtitle2">{title}</AppTypography>
         <AppIconButton
