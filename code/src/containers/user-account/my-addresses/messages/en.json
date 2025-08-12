@@ -1,4 +1,5 @@
 {
     "myAddresses.title": "My Addresses",
-    "myAddresses.emptyMessage": "You haven't added any addresses yet."
+    "myAddresses.emptyMessage": "You haven't added any addresses yet.",
+    "myAddresses.error.label": "Something went wrong. Please try again later."
 }

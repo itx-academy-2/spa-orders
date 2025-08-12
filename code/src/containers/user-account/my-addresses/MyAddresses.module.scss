@@ -22,4 +22,31 @@
         align-items: center;
         }
     }
+
+    &_emptyMessage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 210px 0;
+    }
+
+    &_error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: spacing(10);
+    }
+
+    &_list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: spacing(10);
+    }
+
+      &_loader {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
 }
