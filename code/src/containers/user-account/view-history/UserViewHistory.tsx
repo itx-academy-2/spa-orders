@@ -25,18 +25,14 @@ import {
   useGetViewHistoryApiQuery
 } from "@/store/api/viewHistoryApi";
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
-import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import repeatComponent from "@/utils/repeat-component/repeatComponent";
-import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
 import * as styles from "@/containers/user-account/view-history/UserViewHistory.module.scss";
 
 const UserViewHistory = () => {
   const { page } = usePagination();
-  const screenSize = useScreenSize();
   const { locale } = useLocaleContext();
-  const size = setProductsPerPageSize(screenSize.width);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
   const { renderRedirectComponent } = useErrorPageRedirect();
@@ -50,7 +46,7 @@ const UserViewHistory = () => {
     error
   } = useGetViewHistoryApiQuery({
     page: page - 1,
-    size,
+    size: 6,
     sort: sortOption ?? undefined,
     lang: locale
   });
