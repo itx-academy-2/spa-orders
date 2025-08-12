@@ -10,7 +10,7 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppMenu from "@/components/app-menu/AppMenu";
 
 import useLogout from "@/hooks/use-logout/useLogout";
-import { useGetUserInfoQuery } from "@/store/api/userProfileApi";
+import { useGetUserPhotoQuery } from "@/store/api/userProfileApi";
 
 import { rawMenuItems } from "./HeaderAccountButton.constants";
 
@@ -19,15 +19,13 @@ const HeaderAccountButton = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleLogout = useLogout();
-  const { data } = useGetUserInfoQuery();
+  const { data: userPhoto } = useGetUserPhotoQuery();
 
-  const profilePhoto = data?.photo;
-
-  const profileIconOrPhoto = profilePhoto ? (
+  const profileIconOrPhoto = userPhoto ? (
     <AppBox className="header__toolbar-profile-img-wrapper">
       <AppBox
         component="img"
-        src={profilePhoto}
+        src={userPhoto}
         alt="Profile photo"
         className="header__toolbar-profile-img"
         data-testid="header-account-photo"
