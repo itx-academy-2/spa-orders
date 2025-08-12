@@ -5,6 +5,7 @@ import { rtkQueryTags } from "@/constants/api-tags";
 
 import { 
     AddressesGetParams,
+    AddressesDeleteParams,
     UserAddressResponse
 } from "@/types/address.types";
 
@@ -17,7 +18,17 @@ export const addressApi = appApi.injectEndpoints({
       }),
       providesTags: [rtkQueryTags.ADDRESSES],
     }),
+    removeUserPermanentAddress: build.mutation<void, AddressesDeleteParams>({
+      query: (params) => ({
+        url: URLS.address.delete(params),
+        method: httpMethods.delete
+      }),
+      invalidatesTags: [rtkQueryTags.ADDRESSES]
+    })
   }),
 });
 
-export const { useGetUserAddressesQuery } = addressApi;
+export const {
+  useGetUserAddressesQuery,
+  useRemoveUserPermanentAddressMutation
+} = addressApi;

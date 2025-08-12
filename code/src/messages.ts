@@ -33,6 +33,7 @@ import productCardMessages from "@/components/product-card/messages";
 import emailAndPasswordMessages from "@/components/profile-email-password/messages";
 import PersonalInformation from "@/components/profile-personal-information/messages";
 import sidebar from "@/components/sidebar/messages";
+import AddressCardMessages from "@/components/address-card/messages"
 
 import commonMessages from "@/constants/common-messages";
 import { Locale } from "@/context/i18n/I18nProvider";
@@ -105,7 +106,8 @@ const messages: MessagesType = {
     ...emailAndPasswordMessages.en,
     ...confirmModalMessages.en,
     ...addLinkModalMessages.en,
-    ...myAddressesMessages.en
+    ...myAddressesMessages.en,
+    ...AddressCardMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -157,7 +159,8 @@ const messages: MessagesType = {
     ...emailAndPasswordMessages.uk,
     ...confirmModalMessages.uk,
     ...addLinkModalMessages.uk,
-    ...myAddressesMessages.uk
+    ...myAddressesMessages.uk,
+    ...AddressCardMessages.uk
   }
 };
 

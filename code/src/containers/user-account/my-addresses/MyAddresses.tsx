@@ -18,19 +18,11 @@ const MyAddresses = () => {
     }
     
     const { data: addresses, isLoading, isError } = useGetUserAddressesQuery({ userId });
+
+    const isEmpty = !isLoading && addresses?.length === 0;
     
     if (isLoading) {
         return <AppLoader size="extra-large" className={styles.MyAddresses_loader} />;
-    }
-
-    const isEmpty = !isLoading && addresses?.length === 0;
-
-    if (isEmpty) {
-        return (
-            <AppContainer className={styles.MyAddresses_emptyMessage}>
-                <AppTypography variant="body" translationKey="myAddresses.emptyMessage" />
-            </AppContainer>
-        );
     }
 
     if (isError) {
@@ -63,6 +55,11 @@ const MyAddresses = () => {
                     />
                 ))}
             </AppBox>
+            {isEmpty && (
+                <AppContainer className={styles.MyAddresses_emptyMessage}>
+                    <AppTypography variant="body" translationKey="myAddresses.emptyMessage" />
+                </AppContainer>
+            )}
         </AppContainer>
     );
 };

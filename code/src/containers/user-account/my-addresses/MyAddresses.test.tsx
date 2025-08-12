@@ -4,9 +4,7 @@ import MyAddresses from "@/containers/user-account/my-addresses/MyAddresses";
 
 import { useUserDetailsSelector } from "@/store/slices/userSlice";
 import { useGetUserAddressesQuery } from "@/store/api/addressApi";
-
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
-
 
 jest.mock("@/store/slices/userSlice", () => ({
   ...jest.requireActual("@/store/slices/userSlice"),
@@ -96,9 +94,9 @@ describe("MyAddresses", () => {
 
     expect(() => {
         renderAndMock({ userId: null });
-        }).toThrow("UserId is required and must be a number");
+    }).toThrow("UserId is required and must be a number");
 
-        consoleErrorSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
   });
 
   test("calls useGetUserAddressesQuery with correct userId", () => {
