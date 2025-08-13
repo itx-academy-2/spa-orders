@@ -50,7 +50,7 @@ const MyAddresses = () => {
                         key={addr.id}
                         address={{
                             ...addr,
-                            postMethod: addr.deliveryMethod ?? "",
+                            postMethod: addr.deliveryMethod,
                         }}
                     />
                 ))}
