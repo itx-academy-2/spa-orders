@@ -58,6 +58,12 @@ describe("AddressCard", () => {
     ).toBeInTheDocument();
   });
 
+  test("renders remove button", () => {
+    renderAndMock();
+
+    expect(screen.getByTestId("remove-address")).toBeInTheDocument();
+  });
+
   test("remove button is disabled when loading", () => {
     renderAndMock({ isLoading: true });
 
