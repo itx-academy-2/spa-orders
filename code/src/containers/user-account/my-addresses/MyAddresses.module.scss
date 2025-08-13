@@ -10,7 +10,7 @@
     padding: spacing(10);
     max-width: 100%;
     box-sizing: border-box;
-    padding-bottom: 420px;
+    min-height: 420px;
 
     &_header {
         display: grid;
@@ -25,13 +25,6 @@
         }
     }
 
-    &_emptyMessage {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 210px 0;
-    }
-
     &_error {
         display: flex;
         align-items: center;
@@ -43,6 +36,17 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: spacing(10);
+        position: relative;
+    }
+
+    &_emptyMessage {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        padding-top: 200px;
     }
 
     &_loader {
