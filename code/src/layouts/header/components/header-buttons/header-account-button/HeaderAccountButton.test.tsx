@@ -7,8 +7,6 @@ import HeaderAccountButton from "@/layouts/header/components/header-buttons/head
 import { AppMenuProps, MenuItem } from "@/components/app-menu/AppMenu.types";
 
 import { useGetUserPhotoQuery } from "@/store/api/userProfileApi";
-import { RTKQueryMockState } from "@/types/common";
-import { UserResponse } from "@/types/user.types";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 jest.mock("@/store/api/userProfileApi", () => ({
@@ -35,17 +33,11 @@ jest.mock("@/components/app-menu/AppMenu", () => ({
     ) : null
 }));
 
-const defaultArgs: RTKQueryMockState<UserResponse> = {
-  data: null,
-  isError: false,
-  isLoading: false
-};
 const mockedPhoto = "https://example.com/photo.jpg";
 
-const mockAndRender = (photo?: string | null) => {
+const mockAndRender = (data?: { photo: string | null }) => {
   (useGetUserPhotoQuery as jest.Mock).mockReturnValue({
-    ...defaultArgs,
-    data: photo || defaultArgs.data
+    data: data
   });
 
   renderWithProviders(<HeaderAccountButton />);
@@ -59,7 +51,7 @@ describe("HeaderAccountButton", () => {
   });
 
   it("should render HeaderAccountButton with img", () => {
-    mockAndRender(mockedPhoto);
+    mockAndRender({ photo: mockedPhoto });
 
     const photo = screen.getByTestId(
       "header-account-photo"
@@ -85,7 +77,7 @@ describe("HeaderAccountButton", () => {
   });
 
   it("should not render the photo when no photo is provided", () => {
-    mockAndRender(null);
+    mockAndRender({ photo: null });
 
     const photo = screen.queryByTestId("header-account-photo");
     expect(photo).not.toBeInTheDocument();
