@@ -1,6 +1,7 @@
 @import "@design-system";
 
 .MyAddresses {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: spacing(10);

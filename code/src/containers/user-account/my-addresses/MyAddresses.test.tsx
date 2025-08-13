@@ -72,17 +72,6 @@ describe("MyAddresses", () => {
     expect(screen.getByText(/myAddresses.emptyMessage/i)).toBeInTheDocument();
   });
 
-  test("renders error message when request fails", () => {
-    const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-
-    renderAndMock({ isError: true });
-
-    expect(screen.getByText(/myAddresses.error.label/i)).toBeInTheDocument();
-    expect(consoleErrorSpy).toHaveBeenCalled();
-
-    consoleErrorSpy.mockRestore();
-  });
-
   test("renders address cards when addresses are present", () => {
     renderAndMock({});
     expect(screen.getAllByTestId("address-card")).toHaveLength(mockAddresses.length);

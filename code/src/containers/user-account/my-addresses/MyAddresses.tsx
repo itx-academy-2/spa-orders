@@ -18,25 +18,35 @@ const MyAddresses = () => {
     }
     
     const { data: addresses, isLoading, isError } = useGetUserAddressesQuery({ userId });
-
     const isEmpty = !isLoading && addresses?.length === 0;
-    
-    if (isLoading) {
-        return <AppLoader size="extra-large" className={styles.MyAddresses_loader} />;
-    }
 
-    if (isError) {
-        console.error("Error fetching user addresses:", isError);
-        return (
-            <AppBox className={styles.MyAddresses_error} data-cy="my-addresses-error">
-                <AppTypography
-                    variant="subtitle2"
-                    fontWeight="semi-bold"
-                    translationKey="myAddresses.error.label"
-                    data-cy="my-addresses-error-label"
-                />
-            </AppBox>
-        );
+    const content = () => {
+        if (isEmpty) {
+            return (
+                <AppContainer className={styles.MyAddresses_emptyMessage}>
+                    <AppTypography variant="body" translationKey="myAddresses.emptyMessage" />
+                </AppContainer>
+            )
+        };
+    
+        if (isLoading) {
+            return <AppLoader size="extra-large" className={styles.MyAddresses_loader} />;
+        };
+
+        if (isError) {
+            return (
+                <AppBox className={styles.MyAddresses_error} data-cy="my-addresses-error">
+                    <AppTypography
+                        variant="subtitle2"
+                        fontWeight="semi-bold"
+                        translationKey="myAddresses.error.label"
+                        data-cy="my-addresses-error-label"
+                    />
+                </AppBox>
+            );
+        }
+
+        return null;
     }
 
     return (
@@ -55,11 +65,7 @@ const MyAddresses = () => {
                     />
                 ))}
             </AppBox>
-            {isEmpty && (
-                <AppContainer className={styles.MyAddresses_emptyMessage}>
-                    <AppTypography variant="body" translationKey="myAddresses.emptyMessage" />
-                </AppContainer>
-            )}
+            {content()}
         </AppContainer>
     );
 };

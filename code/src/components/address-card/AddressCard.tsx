@@ -32,11 +32,7 @@ const AddressCard = ({ address }: AddressCardProps) => {
         description="addressCard.confirmModal.description"
         onCancel={closeModal}
         onSave={async () => {
-          try {
             await removeAddress({ userId, addressId: id }).unwrap();
-          } catch (error) {
-            console.error("Failed to remove address:", error);
-          }
         }}
         textCancel="addressCard.confirmModal.closeButton"
         textSave="addressCard.confirmModal.saveButton"
