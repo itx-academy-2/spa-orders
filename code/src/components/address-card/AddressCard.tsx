@@ -1,4 +1,3 @@
-import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { AddressCardProps } from "@/components/address-card/AddressCard.types";
@@ -9,6 +8,7 @@ import AppIconButton from "../app-icon-button/AppIconButton";
 
 import { useRemoveUserPermanentAddressMutation } from "@/store/api/addressApi";
 import { useUserDetailsSelector } from "@/store/slices/userSlice";
+import { useModalContext } from "@/context/modal/ModalContext";
 
 import * as styles from "@/components/address-card/AddressCard.module.scss";
 
@@ -19,60 +19,54 @@ const AddressCard = ({ address }: AddressCardProps) => {
   const userId = user?.id;
 
   const [removeAddress, { isLoading }] = useRemoveUserPermanentAddressMutation();
-  const [isModalOpen, setModalOpen] = useState(false);
+  const { openModal, closeModal } = useModalContext();
 
   if (typeof userId !== "number") {
     throw new Error("UserId is required and must be a number");
   }
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
-
-  const handleRemoveConfirmed = async () => {
-    try {
-      await removeAddress({ userId, addressId: id }).unwrap();
-      closeModal();
-    } catch (error) {
-      console.error("Failed to remove address:", error);
-    }
+  const handleRemove = () => {
+    openModal(
+      <ConfirmModal
+        title="addressCard.confirmModal.title"
+        description="addressCard.confirmModal.description"
+        onCancel={closeModal}
+        onSave={async () => {
+          try {
+            await removeAddress({ userId, addressId: id }).unwrap();
+          } catch (error) {
+            console.error("Failed to remove address:", error);
+          }
+        }}
+        textCancel="addressCard.confirmModal.closeButton"
+        textSave="addressCard.confirmModal.saveButton"
+      />
+    );
   };
 
   return (
-    <>
-      <AppBox className={styles.addressCard} data-testid="address-card" data-cy="address-card">
-        <AppBox className={styles.addressCard_header}>
-          <AppTypography variant="subtitle2">{title}</AppTypography>
-          <AppIconButton
-            className={styles.addressCard_header__closeIcon}
-            data-testid="remove-address"
-            disabled={isLoading}
-            onClick={openModal}
-          >
-            <CloseIcon />
-          </AppIconButton>
-        </AppBox>
-        <AppBox className={styles.addressCard_container}>
-          <AppTypography>
-            {firstName} {lastName}
-          </AppTypography>
-          <AppTypography>{phone}</AppTypography>
-          <AppTypography className={styles.addressCard_container__location}>
-            {city}, {postMethod}, {department}
-          </AppTypography>
-        </AppBox>
+    <AppBox className={styles.addressCard} data-testid="address-card" data-cy="address-card">
+      <AppBox className={styles.addressCard_header}>
+        <AppTypography variant="subtitle2">{title}</AppTypography>
+        <AppIconButton
+          className={styles.addressCard_header__closeIcon}
+          data-testid="remove-address"
+          disabled={isLoading}
+          onClick={handleRemove}
+        >
+          <CloseIcon />
+        </AppIconButton>
       </AppBox>
-
-      {isModalOpen && (
-        <ConfirmModal
-          title="addressCard.confirmModal.title"
-          description="addressCard.confirmModal.description"
-          onCancel={closeModal}
-          onSave={handleRemoveConfirmed}
-          textCancel="addressCard.confirmModal.closeButton"
-          textSave="addressCard.confirmModal.saveButton"
-        />
-      )}
-    </>
+      <AppBox className={styles.addressCard_container}>
+        <AppTypography>
+          {firstName} {lastName}
+        </AppTypography>
+        <AppTypography>{phone}</AppTypography>
+        <AppTypography className={styles.addressCard_container__location}>
+          {city}, {postMethod}, {department}
+        </AppTypography>
+      </AppBox>
+    </AppBox>
   );
 };
 
