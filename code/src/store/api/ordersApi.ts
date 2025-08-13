@@ -59,7 +59,8 @@ const ordersApi = appApi.injectEndpoints({
       invalidatesTags: [
         rtkQueryTags.CART,
         rtkQueryTags.ADMIN_ORDERS,
-        rtkQueryTags.USER_ORDERS
+        rtkQueryTags.USER_ORDERS,
+        rtkQueryTags.ADDRESSES
       ]
     }),
 

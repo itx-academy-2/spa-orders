@@ -5,6 +5,7 @@ import useUserDetailsSelector from "@/hooks/use-get-user-details/useGetUserDetai
 import useRemoveFromCart from "@/hooks/use-remove-from-cart/useRemoveFromCart";
 import useUpdateCartItemQuantity from "@/hooks/use-update-cart-item-quantity/useUpdateCartItemQuantity";
 import CartPage from "@/pages/cart/CartPage";
+import { useGetUserAddressesQuery } from "@/store/api/addressApi";
 import { useCreateOrderV2Mutation } from "@/store/api/ordersApi";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
@@ -34,6 +35,10 @@ jest.mock("@/store/api/cartApi", () => ({
       matchFulfilled: jest.fn()
     }
   }
+}));
+
+jest.mock("@/store/api/addressApi", () => ({
+  useGetUserAddressesQuery: jest.fn()
 }));
 
 jest.mock("@/hooks/use-get-cart/useGetCart");
@@ -67,6 +72,29 @@ const mockedCartItems = {
 
 const userId = { id: 3 };
 
+const mockAddresses = [
+  {
+    id: "1",
+    deliveryMethod: "Nova Poshta",
+    city: "Lviv",
+    department: "52",
+    title: "Home",
+    firstName: "John",
+    lastName: "Doe",
+    phone: "+380960775434"
+  },
+  {
+    id: "2",
+    deliveryMethod: "Ukrposhta",
+    city: "Kyiv",
+    department: "14",
+    title: "Office",
+    firstName: "Jane",
+    lastName: "Smith",
+    phone: "+380970123456"
+  }
+];
+
 const renderWithMockParams = ({
   data = emptyCartData,
   isError = false,
@@ -83,6 +111,10 @@ const renderWithMockParams = ({
     updateQuantity: jest.fn(),
     isLoading: false,
     isError: false
+  });
+
+  (useGetUserAddressesQuery as jest.Mock).mockReturnValue({
+    data: mockAddresses
   });
 
   renderWithProviders(<CartPage />);

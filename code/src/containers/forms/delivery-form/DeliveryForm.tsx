@@ -20,6 +20,7 @@ import { deliveryMethods } from "@/constants/deliveryMethods";
 import useAddressSync from "@/hooks/use-address-sync/useAddressSync";
 import useGetUserDetails from "@/hooks/use-get-user-details/useGetUserDetails";
 import useSnackbar from "@/hooks/use-snackbar/useSnackbar";
+import { useGetUserAddressesQuery } from "@/store/api/addressApi";
 import { useCreateOrderV2Mutation } from "@/store/api/ordersApi";
 import { PostAddressExtended } from "@/types/delivery.types";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
@@ -36,40 +37,7 @@ const DeliveryForm = ({
 
   const { openSnackbarWithTimeout } = useSnackbar();
 
-  // Temporary addresses
-  // TODO: fetch saved addresses via API
-  const addresses: PostAddressExtended[] = [
-    {
-      id: "1",
-      deliveryMethod: "UKRPOSHTA",
-      city: "Lviv",
-      department: "52",
-      title: "Home",
-      firstName: "John",
-      lastName: "Doe",
-      phone: "+380960775434"
-    },
-    {
-      id: "2",
-      deliveryMethod: "UKRPOSHTA",
-      city: "Kyiv",
-      department: "23",
-      title: "Office",
-      firstName: "Anna",
-      lastName: "Ivanova",
-      phone: "+380931112233"
-    },
-    {
-      id: "3",
-      deliveryMethod: "UKRPOSHTA",
-      city: "Odesa",
-      department: "1",
-      title: "Parents",
-      firstName: "Oleksii",
-      lastName: "Shevchenko",
-      phone: "+380977654321"
-    }
-  ];
+  const { data: addresses = [] } = useGetUserAddressesQuery({ userId: id });
 
   const {
     control,
@@ -103,7 +71,7 @@ const DeliveryForm = ({
   }, [isSuccess]);
 
   useEffect(() => {
-    if (isErrorWithStatus(error) && error?.status === 409) {
+    if (isErrorWithStatus(error) && error.status === 409) {
       openSnackbarWithTimeout({
         variant: "error",
         messageTranslationKey: "deliveryForm.errorMessage"

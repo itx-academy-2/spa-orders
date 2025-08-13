@@ -2,10 +2,11 @@ import { fireEvent, screen, waitFor } from "@testing-library/react";
 
 import userEvent from "@testing-library/user-event";
 
+import DeliveryForm from "@/containers/forms/delivery-form/DeliveryForm";
+
+import { useGetUserAddressesQuery } from "@/store/api/addressApi";
 import { useCreateOrderV2Mutation } from "@/store/api/ordersApi";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
-
-import DeliveryForm from "@/containers/forms/delivery-form/DeliveryForm";
 
 const mockOpenSnackbar = jest.fn();
 
@@ -31,6 +32,43 @@ jest.mock("@/hooks/use-address-sync/useAddressSync", () => ({
   default: jest.fn()
 }));
 
+jest.mock("@/store/api/addressApi", () => ({
+  useGetUserAddressesQuery: jest.fn()
+}));
+
+const mockAddresses = [
+  {
+    id: "1",
+    deliveryMethod: "Nova Poshta",
+    city: "Lviv",
+    department: "52",
+    title: "Home",
+    firstName: "John",
+    lastName: "Doe",
+    phone: "+380960775434"
+  },
+  {
+    id: "2",
+    deliveryMethod: "Ukrposhta",
+    city: "Kyiv",
+    department: "14",
+    title: "Office",
+    firstName: "Jane",
+    lastName: "Smith",
+    phone: "+380970123456"
+  }
+];
+
+const errorSnackbarConfig = {
+  variant: "error",
+  messageTranslationKey: "deliveryForm.errorMessage"
+};
+
+const errorGenericSnackbarConfig = {
+  variant: "error",
+  messageTranslationKey: "deliveryForm.genericErrorMessage"
+};
+
 const renderAndMock = ({
   isSuccess = true,
   isError = false,
@@ -44,6 +82,10 @@ const renderAndMock = ({
     mockCreateOrder,
     { isSuccess, isError, error }
   ]);
+
+  (useGetUserAddressesQuery as jest.Mock).mockReturnValue({
+    data: mockAddresses
+  });
   return renderWithProviders(<DeliveryForm totalPrice={100} />);
 };
 
@@ -161,9 +203,17 @@ describe("DeliveryForm", () => {
     expect(checkbox).not.toBeChecked();
   });
 
-  it("should show error message", () => {
+  it("should show error message when status 409", () => {
     renderAndMock({ isSuccess: false, isError: true, error: { status: 409 } });
 
     expect(mockOpenSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockOpenSnackbar).toHaveBeenCalledWith(errorSnackbarConfig);
+  });
+
+  it("should show generic error message for non-409 errors", () => {
+    renderAndMock({ isSuccess: false, isError: true, error: { status: 500 } });
+
+    expect(mockOpenSnackbar).toHaveBeenCalledTimes(1);
+    expect(mockOpenSnackbar).toHaveBeenCalledWith(errorGenericSnackbarConfig);
   });
 });
