@@ -12,7 +12,8 @@ jest.mock("@/store/slices/userSlice", () => ({
 }));
 
 jest.mock("@/store/api/addressApi", () => ({
-  useGetUserAddressesQuery: jest.fn()
+  useGetUserAddressesQuery: jest.fn(),
+  useRemoveUserPermanentAddressMutation: jest.fn(() => [jest.fn(), { isLoading: false }])
 }));
 
 const mockAddresses = [

@@ -5,9 +5,9 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import AddressCard from "@/components/address-card/AddressCard";
 
 import { useGetUserAddressesQuery } from "@/store/api/addressApi";
+import { useUserDetailsSelector } from "@/store/slices/userSlice";
 
 import * as styles from "@/containers/user-account/my-addresses/MyAddresses.module.scss";
-import { useUserDetailsSelector } from "@/store/slices/userSlice";
 
 const MyAddresses = () => {    
     const user = useUserDetailsSelector();
