@@ -19,7 +19,9 @@ const HeaderAccountButton = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleLogout = useLogout();
-  const { data: userPhoto } = useGetUserPhotoQuery();
+  const { data } = useGetUserPhotoQuery();
+
+  const userPhoto = data?.photo;
 
   const profileIconOrPhoto = userPhoto ? (
     <AppBox className="header__toolbar-profile-img-wrapper">

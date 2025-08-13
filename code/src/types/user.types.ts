@@ -21,6 +21,8 @@ export type UserResponse = User & {
   photo: string | null;
 };
 
+export type UserPhotoResponse = Pick<UserResponse, "photo">;
+
 export type UserFromServer = BaseUser & {
   sub: string;
   scope: UserRole;
