@@ -38,10 +38,6 @@ Given("The view history page is loaded with an empty list", () => {
   cy.wait("@getEmptyViewHistory");
 });
 
-Then("The product card should no longer be visible", () => {
-  cy.get('[data-cy="product-card"]').should("not.exist");
-});
-
 Then("The product count should show {string}", (countText: string) => {
   cy.get('[data-cy="products-count"]').should("contain", countText);
 });
