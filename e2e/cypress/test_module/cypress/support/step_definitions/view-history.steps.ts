@@ -1,43 +1,27 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import { httpMethod } from "@cypress-e2e/fixtures/global-data";
+import { interceptGetProducts } from "../helpers";
 
 const mockViewHistoryEmpty = {
   totalElements: 0,
   content: []
 };
 
-const createMockProducts = (count: number) =>
-  Array.from({ length: count }, (_, index) => ({
-    id: `product-id-${index + 1}`,
-    name: `Product ${index + 1}`,
-    image: "...",
-    price: 1000.0,
-    priceWithDiscount: 800.0
-  }));
-
-const interceptViewHistoryWithProducts = (count: number) => {
-  const mockViewHistory = {
-    totalElements: count,
-    content: createMockProducts(count)
-  };
-
-  cy.intercept(httpMethod.get, /\/api\/v1\/my-view-history/, {
-    body: mockViewHistory
-  }).as("getViewHistory");
-};
+const viewHistoryRequestPath = /\/api\/v1\/my-view-history/;
+const viewHistoryPath = "/user-cabinet/view-history";
 
 Given(
   "The view history page is loaded with {int} product(s)",
   (count: number) => {
-    interceptViewHistoryWithProducts(count);
+    interceptGetProducts(viewHistoryRequestPath, count, "getViewHistory");
 
-    cy.visit("/user-cabinet/view-history");
+    cy.visit(viewHistoryPath);
     cy.wait("@getViewHistory");
   }
 );
 
-When("The user clicks the delete icon on that product card", () => {
-  cy.intercept(httpMethod.delete, /\/api\/v1\/my-view-history/, {
+When("The user clicks the delete icon on first product card", () => {
+  cy.intercept(httpMethod.delete, viewHistoryRequestPath, {
     statusCode: 204
   }).as("deleteProduct");
   cy.get('[data-cy="delete-product-from-history"]').first().click();
@@ -46,11 +30,11 @@ When("The user clicks the delete icon on that product card", () => {
 });
 
 Given("The view history page is loaded with an empty list", () => {
-  cy.intercept(httpMethod.get, /\/api\/v1\/my-view-history/, {
+  cy.intercept(httpMethod.get, viewHistoryRequestPath, {
     body: mockViewHistoryEmpty
   }).as("getEmptyViewHistory");
 
-  cy.visit("/user-cabinet/view-history");
+  cy.visit(viewHistoryPath);
   cy.wait("@getEmptyViewHistory");
 });
 
@@ -70,20 +54,18 @@ When("The user clicks the sort dropdown", () => {
   cy.get('[data-cy="products-dropdown"]').click();
 });
 
-Then("The {string} option should be visible", (criteria: string) => {
-  cy.contains(criteria).should("be.visible");
+Then("The {string} option should be visible", (text: string) => {
+  cy.contains('[data-cy="dropdown-item"]', text).should("be.visible");
 });
 
 When("The user clicks Clear All button", () => {
   cy.get('[data-cy="delete-all-products"]').click();
 });
 
-Then("Modal confirm should be visible", () => {
-  cy.get('[data-cy="confirm-modal"]').should("be.visible");
-});
+Then("Modal confirm should be {string}", (visibility) => {
+  const assertion = visibility === "visible" ? "be.visible" : "not.exist";
 
-Then("Modal confirm should NOT be visible", () => {
-  cy.get('[data-cy="confirm-modal"]').should("not.exist");
+  cy.get('[data-cy="confirm-modal"]').should(assertion);
 });
 
 Then("The user clicks Close button", () => {
@@ -91,15 +73,15 @@ Then("The user clicks Close button", () => {
 });
 
 Then("The user clicks Clear button in modal", () => {
-  cy.intercept(httpMethod.delete, /\/api\/v1\/my-view-history/, {
+  cy.intercept(httpMethod.delete, viewHistoryRequestPath, {
     statusCode: 204
   }).as("deleteAllProducts");
 
-  cy.intercept(httpMethod.get, /\/api\/v1\/my-view-history/, {
+  cy.intercept(httpMethod.get, viewHistoryRequestPath, {
     body: mockViewHistoryEmpty
   }).as("getEmptyViewHistory");
 
-  cy.get('[data-cy="clear-button"]').click();
+  cy.get('[data-cy="save-button"]').click();
   cy.wait("@deleteAllProducts");
   cy.wait("@getEmptyViewHistory");
 });

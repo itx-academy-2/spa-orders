@@ -56,7 +56,7 @@ const ConfirmModal = ({
         <AppButton onClick={handleClose} variant="danger" data-cy="close-button">
           <AppTypography translationKey={textCancel} />
         </AppButton>
-        <AppButton onClick={handleSave} data-cy="clear-button">
+        <AppButton onClick={handleSave} data-cy="save-button">
           <AppTypography translationKey={textSave} />
         </AppButton>
       </DialogActions>
