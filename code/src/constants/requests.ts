@@ -18,6 +18,10 @@ import {
   GetUserProductsBySearchQueryParams,
   UpdateProductBody
 } from "@/types/product.types";
+import {
+  AddressesGetParams,
+  AddressesDeleteParams
+} from "@/types/address.types";
 import { GetUsersForAdminParams } from "@/types/user.types";
 import createUrlPath from "@/utils/create-url-path/createUrlPath";
 
@@ -110,5 +114,10 @@ export const URLS = {
       `/v1/my-wishlist/${productId}`,
     delete: ({ productId }: { productId: string }) =>
       `/v1/my-wishlist/${productId}`
+  },
+  address: {
+    get: ({userId}: AddressesGetParams) => `/v1/users/${userId}/addresses`,
+    delete: ({ userId, addressId }: AddressesDeleteParams) =>
+      `/v1/users/${userId}/addresses/${addressId}`
   }
 } as const;

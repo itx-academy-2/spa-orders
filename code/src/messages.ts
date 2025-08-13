@@ -25,6 +25,7 @@ import usersTableMessages from "@/containers/tables/users-table/messages";
 import myWishlistMessages from "@/containers/user-account/my-wishlist/messages";
 import profileMessages from "@/containers/user-account/profile/messages";
 import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
+import myAddressesMessages from "@/containers/user-account/my-addresses/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
@@ -32,6 +33,7 @@ import productCardMessages from "@/components/product-card/messages";
 import emailAndPasswordMessages from "@/components/profile-email-password/messages";
 import PersonalInformation from "@/components/profile-personal-information/messages";
 import sidebar from "@/components/sidebar/messages";
+import AddressCardMessages from "@/components/address-card/messages"
 
 import commonMessages from "@/constants/common-messages";
 import { Locale } from "@/context/i18n/I18nProvider";
@@ -103,7 +105,9 @@ const messages: MessagesType = {
     ...profileMessages.en,
     ...emailAndPasswordMessages.en,
     ...confirmModalMessages.en,
-    ...addLinkModalMessages.en
+    ...addLinkModalMessages.en,
+    ...myAddressesMessages.en,
+    ...AddressCardMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -154,7 +158,9 @@ const messages: MessagesType = {
     ...profileMessages.uk,
     ...emailAndPasswordMessages.uk,
     ...confirmModalMessages.uk,
-    ...addLinkModalMessages.uk
+    ...addLinkModalMessages.uk,
+    ...myAddressesMessages.uk,
+    ...AddressCardMessages.uk
   }
 };
 

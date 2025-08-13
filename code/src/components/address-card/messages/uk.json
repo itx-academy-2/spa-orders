@@ -1,0 +1,6 @@
+{
+  "addressCard.confirmModal.title": "Видалити адресу?",
+  "addressCard.confirmModal.description": "Ви впевнені, що хочете видалити цю адресу? Цю операцію не можна буде скасувати.",
+  "addressCard.confirmModal.closeButton": "Відміна",
+  "addressCard.confirmModal.saveButton": "Видалити"
+}

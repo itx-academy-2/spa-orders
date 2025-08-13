@@ -1,0 +1,58 @@
+@import "@design-system";
+
+.MyAddresses {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: spacing(10);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    padding: spacing(10);
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 620px;
+
+    &_header {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 2rem;
+        justify-items: center;
+
+        @include breakpoint("sm") {
+            grid-template-columns: 1fr 1fr;
+            justify-items: stretch;
+            align-items: center;
+        }
+    }
+
+    &_error {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: spacing(10);
+    }
+
+    &_list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: spacing(10);
+        position: relative;
+    }
+
+    &_emptyMessage {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        padding-top: 320px;
+    }
+
+    &_loader {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+}

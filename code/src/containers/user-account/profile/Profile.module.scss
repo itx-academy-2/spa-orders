@@ -7,6 +7,8 @@
   background-color: var(--color-surface);
   color: var(--color-text);
   padding: spacing(10);
+  max-width: 100%;
+  box-sizing: border-box;
 
   &__divider {
     border: 1px solid $light;

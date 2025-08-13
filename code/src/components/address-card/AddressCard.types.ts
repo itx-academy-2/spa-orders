@@ -1,5 +1,6 @@
 export type AddressCardProps = {
   address: {
+    id: string;
     title: string;
     firstName: string;
     lastName: string;
