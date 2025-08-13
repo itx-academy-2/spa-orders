@@ -23,14 +23,19 @@ const CartDrawer = () => {
   const { openModal } = useModalContext();
   const navigate = useNavigate();
   const { closeDrawer } = useDrawerContext();
-  const { user, cartItems, isError, handleRemoveItem } = useUserCartItems();
+  const { user, cartItems, isError, handleRemoveItem, handleQuantityChange } = useUserCartItems();
 
   if (isError) return <AppTypography translationKey="error.label" />;
+
+  const handleUpdateItemQuantity = (updatedItem: CartItem, newQuantity: number) => {
+    handleQuantityChange(updatedItem, newQuantity);
+  };
 
   const cartItemsList = cartItems.items.map((item: CartItem) => (
     <CartDrawerItem
       key={item.productId}
       onRemove={handleRemoveItem}
+      onQuantityChange={handleUpdateItemQuantity}
       {...item}
     />
   ));

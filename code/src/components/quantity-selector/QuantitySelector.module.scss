@@ -1,0 +1,31 @@
+@import "@design-system";
+
+.quantitySelector {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-text);
+    padding: spacing(1);
+    margin-inline: spacing(5) spacing(2);
+
+  &_quantityBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: spacing(8);
+    cursor: pointer;
+
+    &.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  &_quantityInput {
+    width: 40px;
+    text-align: center;
+    border: none;
+    outline: none;
+    font-size: $fs-base;
+  }
+}

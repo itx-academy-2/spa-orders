@@ -46,4 +46,6 @@ export type CartItemProps = {
   onQuantityChange: (product: CartItem, newQuantity: number) => void;
 };
 
-export type CartDrawerItemProps = Pick<CartItemProps, "onRemove"> & CartItem;
+export type CartDrawerItemProps = Partial<Pick<CartItemProps, "onRemove">> & CartItem & {
+  onQuantityChange?: (item: CartDrawerItemProps, newQuantity: number) => void;
+};
