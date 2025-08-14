@@ -86,7 +86,7 @@ const CartDrawerItem = ({
               </>
             ) : (
               <AppTypography className="cart-item__price" variant="concept">
-                {totalPrice}
+                {formatPrice(props.productPrice)}
               </AppTypography>
             )}
           </Box>
@@ -104,20 +104,27 @@ const CartDrawerItem = ({
             </AppBox>
           )}
         </AppBox>
-        <AppBox className="cart-item__quantity-delete-icon-container">
+        <AppBox className="cart-item__quantity-selector-total-price-container">
           <AppBox className="cart-item__quantity-selector cart-item__quantity-selector--small">
             <QuantitySelector initialQuantity={quantity} onQuantityChange={handleQuantityChange} />
           </AppBox>
-          <AppBox className="cart-item__price-delete-icon">
-            <AppIconButton
-              color="default"
-              className="cart-item__remove-button"
-              data-testid="remove-item-from-cart-button"
-              onClick={handleRemoveItem}
+            <AppTypography
+              className="cart-item__item-total-price"
+              variant="concept"
             >
-              <CloseIcon />
-            </AppIconButton>
-          </AppBox>
+              {totalPrice}
+            </AppTypography>
+        </AppBox>
+
+        <AppBox className="cart-item__price-delete-icon">
+          <AppIconButton
+            color="default"
+            className="cart-item__remove-button"
+            data-testid="remove-item-from-cart-button"
+            onClick={handleRemoveItem}
+          >
+            <CloseIcon />
+          </AppIconButton>
         </AppBox>
       </AppBox>
     </AppBox>
