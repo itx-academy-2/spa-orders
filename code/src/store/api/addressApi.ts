@@ -6,12 +6,12 @@ import { rtkQueryTags } from "@/constants/api-tags";
 import { 
     AddressesGetParams,
     AddressesDeleteParams,
-    UserAddressResponse
 } from "@/types/address.types";
+import { PostAddressExtended } from "@/types/delivery.types";
 
 export const addressApi = appApi.injectEndpoints({
   endpoints: (build) => ({
-    getUserAddresses: build.query<UserAddressResponse[], AddressesGetParams>({
+    getUserAddresses: build.query<PostAddressExtended[], AddressesGetParams>({
       query: (params) => ({
           url: URLS.address.get(params),
           method: httpMethods.get
