@@ -25,6 +25,10 @@ const BestSellers = () => {
     tags: ""
   });
 
+  if (!bestsellersData?.content || bestsellersData.content.length === 0) {
+    return null;
+  }
+
   return (
     <PageWrapper
       id="bestsellers-section"
