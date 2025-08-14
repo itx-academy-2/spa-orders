@@ -37,6 +37,7 @@ const UserViewHistory = () => {
   const sortOption = searchParams.get("sort");
   const { renderRedirectComponent } = useErrorPageRedirect();
   const { openModal, closeModal } = useModalContext();
+  const size = 6;
 
   const [deleteAllViewProducts] = useDeleteAllViewProductsMutation();
   const {
@@ -46,7 +47,7 @@ const UserViewHistory = () => {
     error
   } = useGetViewHistoryApiQuery({
     page: page - 1,
-    size: 6,
+    size,
     sort: sortOption ?? undefined,
     lang: locale
   });
