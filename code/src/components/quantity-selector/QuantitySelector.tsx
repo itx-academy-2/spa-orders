@@ -1,18 +1,15 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import cn from "@/utils/cn/cn";
+
+import { QuantitySelectorProps } from "@/components/quantity-selector/QuantitySelector.types";
 
 import AppBox from "@/components/app-box/AppBox";
 import useDebouncedValue from "@/hooks/use-debounced-value/useDebouncedValue";
+import cn from "@/utils/cn/cn";
 
 import * as styles from "@/components/quantity-selector/QuantitySelector.module.scss";
-
-type QuantitySelectorProps = {
-  initialQuantity: number;
-  onQuantityChange: (quantity: number) => void;
-  minQuantity?: number;
-}
 
 const QuantitySelector = ({
   initialQuantity,
@@ -20,7 +17,7 @@ const QuantitySelector = ({
   minQuantity = 1,
 }: QuantitySelectorProps) => {
   const [quantity, setQuantity] = useState(initialQuantity);
-  const debouncedQuantity = useDebouncedValue(quantity, 500);
+  const debouncedQuantity = useDebouncedValue(quantity);
   const lastDebouncedQuantityRef = useRef(debouncedQuantity);
 
   useEffect(() => {
