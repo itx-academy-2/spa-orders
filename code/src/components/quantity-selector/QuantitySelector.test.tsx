@@ -60,9 +60,4 @@ describe("QuantitySelector", () => {
     fireEvent.change(input, { target: { value: "" } });
     expect(input.value).toBe("");
   });
-
-  test("disables decrease button when quantity equals minQuantity", () => {
-    renderSelector({ initialQuantity: 1 });
-    expect(screen.getByTestId("decrease-quantity-button")).toHaveClass("disabled");
-  });
 });

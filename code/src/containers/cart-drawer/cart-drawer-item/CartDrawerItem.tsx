@@ -108,12 +108,12 @@ const CartDrawerItem = ({
           <AppBox className="cart-item__quantity-selector cart-item__quantity-selector--small">
             <QuantitySelector initialQuantity={quantity} onQuantityChange={handleQuantityChange} />
           </AppBox>
-            <AppTypography
-              className="cart-item__item-total-price"
-              variant="concept"
-            >
-              {totalPrice}
-            </AppTypography>
+          <AppTypography
+            className="cart-item__item-total-price"
+            variant="concept"
+          >
+            {totalPrice}
+          </AppTypography>
         </AppBox>
 
         <AppBox className="cart-item__price-delete-icon">
