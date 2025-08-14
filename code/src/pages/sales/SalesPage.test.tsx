@@ -3,8 +3,8 @@ import { fireEvent, screen } from "@testing-library/react";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import SalesPage from "@/pages/sales/SalesPage";
 import useSalesFilter from "@/pages/sales/hooks/useSalesFilter";
-import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
+import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 jest.mock("@/pages/sales/SalesPage.constants", () => ({
   sortSaleOptions: [
@@ -137,7 +137,11 @@ describe("SalesPage", () => {
 
   test("displays loading state correctly", () => {
     renderAndMock({ isLoading: true, products: [] });
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+
+    expect(
+      screen.queryAllByTestId("spa-product-skeleton")[0]
+    ).toBeInTheDocument();
+    expect(screen.queryAllByTestId("spa-product-skeleton")).toHaveLength(3);
   });
 
   test("displays error state correctly", () => {
