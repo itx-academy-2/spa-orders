@@ -4,6 +4,7 @@ import AppLoader from "@/components/app-loader/AppLoader";
 import AppTypography from "@/components/app-typography/AppTypography";
 import EmailAndPassword from "@/components/profile-email-password/EmailAndPassword";
 import PersonalInformation from "@/components/profile-personal-information/PersonalInformation";
+import PhotoSection from "@/components/profile-photo/PhotoSection";
 
 import { useGetUserInfoQuery } from "@/store/api/userProfileApi";
 
@@ -34,6 +35,7 @@ const Profile = () => {
   return (
     <AppContainer className={styles.Profile}>
       <AppTypography variant="h3" translationKey="profile.title" />
+      <PhotoSection photo={user.photo}/>
       <PersonalInformation
         firstName={user.firstName}
         lastName={user.lastName}

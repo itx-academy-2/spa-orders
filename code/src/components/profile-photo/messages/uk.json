@@ -1,0 +1,8 @@
+{
+  "photoSection.title": "Завантажте або видаліть фотографію профілю",
+  "photoSection.uploadButton": "Завантажити URL фотографії",
+  "photoSection.deleteButton": "Видалити фотографію",
+  "photoSection.confirmDeleteModal.title": "Підтвердіть видалення фотографії",
+  "photoSection.confirmDeleteModal.description": "Ви впевнені, що хочете видалити фотографію профілю?",
+  "photoSection.confirmDeleteModal.clearButton": "Видалити"
+}

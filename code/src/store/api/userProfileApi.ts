@@ -29,7 +29,14 @@ export const userProfileApi = appApi.injectEndpoints({
         method: httpMethods.put,
         body
       }),
-      invalidatesTags: [rtkQueryTags.USER_PROFILE]
+      invalidatesTags: [rtkQueryTags.USER_PROFILE, rtkQueryTags.USER_PHOTO]
+    }),
+    deleteUserPhoto: build.mutation<void, void>({
+      query: () => ({
+        url: URLS.userInfo.photo.delete,
+        method: httpMethods.delete
+      }),
+      invalidatesTags: [rtkQueryTags.USER_PROFILE, rtkQueryTags.USER_PHOTO]
     })
   })
 });
@@ -37,5 +44,6 @@ export const userProfileApi = appApi.injectEndpoints({
 export const {
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
-  useUpdateUserPhotoMutation
+  useUpdateUserPhotoMutation,
+  useDeleteUserPhotoMutation
 } = userProfileApi;

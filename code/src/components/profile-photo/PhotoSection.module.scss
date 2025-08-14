@@ -1,0 +1,27 @@
+@import "@design-system";
+.photoSection {
+  display: flex;
+
+  &__image {
+    width: clamp(100px, 20vw, 150px);
+    height: clamp(100px, 20vw, 150px);
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: spacing(20);
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    &_buttons {
+      display: flex;
+      gap: spacing(10);
+
+      & button {
+        width: 10vw;
+      }
+    }
+  }
+}
