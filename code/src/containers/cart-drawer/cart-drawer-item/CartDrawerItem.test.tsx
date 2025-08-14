@@ -30,11 +30,11 @@ describe("Test CartDrawerItem", () => {
 
     const imageElement = screen.getByRole("img");
     const nameElement = screen.getByText(mockCartItem.name);
-    const priceElement = screen.getByText(/\$20.00/);
+    const priceElement = screen.getAllByText(/\$20.00/);
 
     expect(imageElement).toBeInTheDocument();
     expect(nameElement).toBeInTheDocument();
-    expect(priceElement).toBeInTheDocument();
+    expect(priceElement[0]).toBeInTheDocument();
   });
 
   test("Should call onRemove when remove button is clicked", () => {
