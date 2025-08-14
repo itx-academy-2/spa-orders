@@ -54,6 +54,7 @@ const QuantitySelector = ({
       <AppBox
         className={cn(styles.quantitySelector_quantityBlock, disableMinus)}
         onClick={handleDecrease}
+        data-testid="decrease-quantity-button"
       >
         <RemoveCircleOutlineIcon />
       </AppBox>
@@ -64,7 +65,11 @@ const QuantitySelector = ({
         onBlur={handleBlur}
         maxLength={6}
       />
-      <AppBox className={styles.quantitySelector_quantityBlock} onClick={handleIncrease}>
+      <AppBox
+        className={styles.quantitySelector_quantityBlock}
+        onClick={handleIncrease}
+        data-testid="increase-quantity-button"
+      >
         <AddCircleOutlineIcon />
       </AppBox>
     </AppBox>
