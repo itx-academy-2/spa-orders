@@ -89,7 +89,7 @@ const UserViewHistory = () => {
     if (isLoading) {
       return (
         <AppBox className={styles.viewHistory_loading}>
-          {repeatComponent(<ProductSkeleton />, 10)}
+          {repeatComponent(<ProductSkeleton />, 6)}
         </AppBox>
       );
     }
@@ -120,6 +120,7 @@ const UserViewHistory = () => {
           isViewHistory
           wishlist={wishlist}
           className={styles.viewHistory_products}
+          maxColumns={3}
         />
       </AppBox>
     );

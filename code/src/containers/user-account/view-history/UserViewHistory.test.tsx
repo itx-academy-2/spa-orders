@@ -160,7 +160,7 @@ describe("UserViewHistory", () => {
     renderAndMock({ isLoading: true });
     const skeletons = screen.queryAllByTestId("spa-product-skeleton");
 
-    expect(skeletons.length).toBe(10);
+    expect(skeletons.length).toBe(6);
   });
 
   it("should call clearAll and open modal", async () => {
