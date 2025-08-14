@@ -47,13 +47,16 @@ const QuantitySelector = ({
     if (quantity < minQuantity) setQuantity(initialQuantity);
   };
 
-  const disableMinus = quantity <= minQuantity && "disabled";
+  const isMinusDisabled = quantity <= minQuantity;
 
   return (
     <AppBox className={styles.quantitySelector}>
       <AppBox
-        className={cn(styles.quantitySelector_quantityBlock, disableMinus)}
-        onClick={handleDecrease}
+        className={cn(
+          styles.quantitySelector_quantityBlock,
+          isMinusDisabled && styles.quantitySelector_disabled
+        )}
+        onClick={isMinusDisabled ? undefined : handleDecrease}
         data-testid="decrease-quantity-button"
       >
         <RemoveCircleOutlineIcon />
