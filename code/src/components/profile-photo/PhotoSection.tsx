@@ -6,16 +6,13 @@ import ConfirmModal from "@/containers/modals/confirm-modal/ConfirmModal";
 import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppTypography from "@/components/app-typography/AppTypography";
+import { PhotoSectionProps } from "@/components/profile-photo/PhotoSection.types";
 
 import defaultImage from "@/assets/images/profile/profile-img.svg";
 import { useModalContext } from "@/context/modal/ModalContext";
 import { useDeleteUserPhotoMutation } from "@/store/api/userProfileApi";
 
 import * as styles from "@/components/profile-photo/PhotoSection.module.scss";
-
-type PhotoSectionProps = {
-  photo: string | null;
-};
 
 const PhotoSection = ({ photo }: PhotoSectionProps) => {
   const [imgSrc, setImgSrc] = useState<string>(() => photo || defaultImage);
