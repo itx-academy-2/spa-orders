@@ -25,7 +25,7 @@ const BestSellers = () => {
     tags: ""
   });
 
-  if (!bestsellersData?.content || bestsellersData.content.length === 0) {
+  if (!isLoading && !isError && !bestsellersData?.content?.length) {
     return null;
   }
 
