@@ -25,22 +25,19 @@ import {
   useGetViewHistoryApiQuery
 } from "@/store/api/viewHistoryApi";
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
-import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import repeatComponent from "@/utils/repeat-component/repeatComponent";
-import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
 import * as styles from "@/containers/user-account/view-history/UserViewHistory.module.scss";
 
 const UserViewHistory = () => {
   const { page } = usePagination();
-  const screenSize = useScreenSize();
   const { locale } = useLocaleContext();
-  const size = setProductsPerPageSize(screenSize.width);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
   const { renderRedirectComponent } = useErrorPageRedirect();
   const { openModal, closeModal } = useModalContext();
+  const size = 6;
 
   const [deleteAllViewProducts] = useDeleteAllViewProductsMutation();
   const {
@@ -117,11 +114,14 @@ const UserViewHistory = () => {
     }
 
     return (
-      <ProductsContainer
-        products={viewHistoryResponse!.content}
-        isViewHistory
-        wishlist={wishlist}
-      />
+      <AppBox className={styles.viewHistory_products_container}>
+        <ProductsContainer
+          products={viewHistoryResponse!.content}
+          isViewHistory
+          wishlist={wishlist}
+          className={styles.viewHistory_products}
+        />
+      </AppBox>
     );
   };
 

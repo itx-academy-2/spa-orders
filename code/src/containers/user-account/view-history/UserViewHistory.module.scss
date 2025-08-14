@@ -8,6 +8,17 @@
   flex-direction: column;
   gap: spacing(10);
 
+  &_products_container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  &_products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: spacing(16);
+  }
+
   &_header {
     display: grid;
     grid-template-columns: 1fr;
