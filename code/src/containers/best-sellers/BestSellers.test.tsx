@@ -70,13 +70,13 @@ describe("BestSellers", () => {
   });
 
   test("should render loading state", () => {
-    renderAndMock({ isLoading: true, data: mockProductsResponse });
+    renderAndMock({ isLoading: true, data: null });
     const loading = screen.getByText("Loading...");
     expect(loading).toBeInTheDocument();
   });
 
   test("should render error state", () => {
-    renderAndMock({ isError: true, data: mockProductsResponse });
+    renderAndMock({ isError: true, data: null });
     const error = screen.getByText("Error!");
     expect(error).toBeInTheDocument();
   });
