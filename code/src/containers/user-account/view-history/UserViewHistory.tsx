@@ -103,7 +103,10 @@ const UserViewHistory = () => {
 
     if (viewHistoryResponse?.content.length === 0 && !isLoading) {
       return (
-        <AppBox className={styles.viewHistory_fallback}>
+        <AppBox
+          className={styles.viewHistory_fallback}
+          data-cy="view-history-fallback"
+        >
           <SentimentDissatisfiedOutlinedIcon fontSize="large" />
           <AppTypography
             variant="h3"
@@ -125,17 +128,23 @@ const UserViewHistory = () => {
   return (
     <AppBox className={styles.viewHistory}>
       <AppBox className={styles.viewHistory_header}>
-        <AppTypography variant="h3" translationKey="userViewHistory.title" />
+        <AppTypography
+          variant="h3"
+          translationKey="userViewHistory.title"
+          data-cy="view-history-title"
+        />
         <AppButton
           className={styles.viewHistory_header__btn}
           variant="contained"
           size="medium"
           onClick={onDeleteAll}
+          data-cy="delete-all-products"
         >
           <AppTypography translationKey="userViewHistory.clearAll" />
         </AppButton>
         <AppTypography component="span">
           <AppTypography
+            data-cy="products-count"
             translationKey="userViewHistory.productsLabel"
             component="span"
             translationProps={{

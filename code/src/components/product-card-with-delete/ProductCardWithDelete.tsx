@@ -21,6 +21,7 @@ const ProductCardWithDelete = ({
         onClick={() => deleteViewProduct(productId)}
         aria-label="Delete product from view history"
         title="Delete product from view history"
+        data-cy='delete-product-from-history'
       >
         <DeleteOutlineOutlinedIcon fontSize="small" />
       </AppIconButton>
