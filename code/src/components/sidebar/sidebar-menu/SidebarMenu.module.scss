@@ -8,7 +8,7 @@
 .menuItem {
   padding: 0;
   margin: 0;
-  border-bottom: 1px solid $light;
+  border-bottom: 1px solid var(--color-surface);
 
   &:last-child {
     border-bottom: none;
@@ -21,7 +21,7 @@
   border-radius: 0;
 
   &:hover {
-    background-color: $ghost-alpha-active;
+    background-color: var(--color-hover-active);
 
     .menuText {
       color: $purple;
@@ -29,7 +29,7 @@
   }
 
   &.active {
-    background-color: $ghost-alpha;
+    background-color: var(--color-hover);
     border-right: 3px solid $purple;
 
     .menuText {
