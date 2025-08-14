@@ -103,6 +103,7 @@ const MyWishlist = () => {
         isLoading={isLoading}
         loadingItemsCount={10}
         wishlist={productsList ?? []}
+        maxColumns={3}
       />
       <PaginationBlock
         page={page}
