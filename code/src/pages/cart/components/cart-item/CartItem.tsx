@@ -1,75 +1,20 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 import AppBadge from "@/components/app-badge/AppBadge";
 import AppBox from "@/components/app-box/AppBox";
 import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import AppTypography from "@/components/app-typography/AppTypography";
+import QuantitySelector from "@/components/quantity-selector/QuantitySelector";
 
-import useDebouncedValue from "@/hooks/use-debounced-value/useDebouncedValue";
 import { CartItemProps } from "@/types/cart.types";
-import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 
 import "@/pages/cart/components/cart-item/CartItem.scss";
 
 const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
-  const [quantity, setQuantity] = useState(item.quantity);
-  const debouncedQuantity = useDebouncedValue(quantity, 500);
-
-  const lastDebouncedQuantityRef = useRef(debouncedQuantity);
-
-  const shouldUpdateQuantity = (
-    debouncedQuantity: number,
-    lastDebouncedQuantity: number
-  ) => {
-    return debouncedQuantity !== lastDebouncedQuantity && debouncedQuantity > 0;
-  };
-
-  useEffect(() => {
-    if (
-      shouldUpdateQuantity(debouncedQuantity, lastDebouncedQuantityRef.current)
-    ) {
-      onQuantityChange(item, debouncedQuantity);
-      lastDebouncedQuantityRef.current = debouncedQuantity;
-    }
-  }, [debouncedQuantity, item, onQuantityChange]);
-
   const handleRemoveCartItem = () => {
     onRemove(item);
   };
-
-  const handleIncreaseQuantity = () => {
-    setQuantity((prevState) => prevState + 1);
-  };
-
-  const handleDecreaseQuantity = () => {
-    setQuantity((prevState) => prevState - 1);
-  };
-
-  const handleQuantityInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-
-    if (value === "") {
-      setQuantity(0);
-    } else {
-      const numberValue = parseInt(value, 10);
-      if (!isNaN(numberValue) && numberValue > 0) {
-        setQuantity(numberValue);
-      }
-    }
-  };
-
-  const handleBlur = () => {
-    if (quantity === 0) {
-      setQuantity(item.quantity);
-    }
-  };
-
-  const disableMinusQuantity = quantity === 1 && "disabled";
 
   const hasDiscount = !!item.productPriceWithDiscount;
 
@@ -78,8 +23,8 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
   const roundedPercentage = Math.round(ordersPercentage || 0);
 
   const totalPrice = formatPrice(
-    quantity *
-      (hasDiscount ? item.productPriceWithDiscount! : item.productPrice)
+    item.quantity *
+    (hasDiscount ? item.productPriceWithDiscount! : item.productPrice)
   );
 
   return (
@@ -146,36 +91,10 @@ const CartItem = ({ item, onRemove, onQuantityChange }: CartItemProps) => {
         )}
       </AppBox>
       <AppBox className="spa-cart-item__quantity-price">
-        <AppBox className="spa-cart-item__quantity-selector">
-          <AppBox
-            className={cn(
-              "spa-cart-item__quantity-block",
-              disableMinusQuantity
-            )}
-            onClick={handleDecreaseQuantity}
-            data-cy="decrease-quantity-button"
-            data-testid="decrease-quantity-button"
-          >
-            <RemoveCircleOutlineIcon />
-          </AppBox>
-          <input
-            value={quantity || ""}
-            className="spa-cart-item__quantity-input"
-            data-real-quantity={quantity}
-            onChange={handleQuantityInputChange}
-            onBlur={handleBlur}
-            data-cy="cart-item-quantity"
-            maxLength={6}
-          />
-          <AppBox
-            className="spa-cart-item__quantity-block"
-            onClick={handleIncreaseQuantity}
-            data-cy="increase-quantity-button"
-            data-testid="increase-quantity-button"
-          >
-            <AddCircleOutlineIcon />
-          </AppBox>
-        </AppBox>
+        <QuantitySelector
+          initialQuantity={item.quantity}
+          onQuantityChange={(newQuantity) => onQuantityChange(item, newQuantity)}
+        />
         <AppBox className="spa-cart-item__price-delete-icon">
           <AppBox className="spa-cart-item__price">
             <AppTooltip titleTranslationKey={totalPrice}>

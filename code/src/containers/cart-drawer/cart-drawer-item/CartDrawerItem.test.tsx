@@ -26,15 +26,15 @@ const mockCartItemWithDiscount: CartItem = {
 
 describe("Test CartDrawerItem", () => {
   test("Should render CartDrawerItem component", () => {
-    render(<CartDrawerItem {...mockCartItem} onRemove={() => {}} />);
+    render(<CartDrawerItem {...mockCartItem} onRemove={() => { }} />);
 
     const imageElement = screen.getByRole("img");
     const nameElement = screen.getByText(mockCartItem.name);
-    const priceElement = screen.getByText(/\$20.00/);
+    const priceElement = screen.getAllByText(/\$20.00/);
 
     expect(imageElement).toBeInTheDocument();
     expect(nameElement).toBeInTheDocument();
-    expect(priceElement).toBeInTheDocument();
+    expect(priceElement[0]).toBeInTheDocument();
   });
 
   test("Should call onRemove when remove button is clicked", () => {
@@ -49,7 +49,7 @@ describe("Test CartDrawerItem", () => {
 
   test("Should render badge and discounted price if product is on sail", () => {
     render(
-      <CartDrawerItem {...mockCartItemWithDiscount} onRemove={() => {}} />
+      <CartDrawerItem {...mockCartItemWithDiscount} onRemove={() => { }} />
     );
 
     const discountBadge = screen.getByTestId("cart-item-discount-badge");
@@ -60,7 +60,7 @@ describe("Test CartDrawerItem", () => {
   });
 
   test("Should not render badge and discounted price if product is not on sail", () => {
-    render(<CartDrawerItem {...mockCartItem} onRemove={() => {}} />);
+    render(<CartDrawerItem {...mockCartItem} onRemove={() => { }} />);
 
     const discountBadge = screen.queryByTestId("cart-item-discount-badge");
     const discountedPrice = screen.queryByTestId("cart-item-discounted-price");

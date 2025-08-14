@@ -98,7 +98,7 @@ describe("CartDrawer", () => {
     const subtotal = screen.getByText(/cart.subtotal/);
     expect(subtotal).toBeInTheDocument();
 
-    expect(mockFormatPrice).toHaveBeenCalledTimes(3);
+    expect(mockFormatPrice).toHaveBeenCalledTimes(mockCartItems.items.length * 2 + 1);
     expect(mockFormatPrice).toHaveBeenCalledWith(30);
   });
 
