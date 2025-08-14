@@ -6,13 +6,11 @@ import HeaderAccountButton from "@/layouts/header/components/header-buttons/head
 
 import { AppMenuProps, MenuItem } from "@/components/app-menu/AppMenu.types";
 
-import { useGetUserInfoQuery } from "@/store/api/userProfileApi";
-import { RTKQueryMockState } from "@/types/common";
-import { UserResponse } from "@/types/user.types";
+import { useGetUserPhotoQuery } from "@/store/api/userProfileApi";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 jest.mock("@/store/api/userProfileApi", () => ({
-  useGetUserInfoQuery: jest.fn()
+  useGetUserPhotoQuery: jest.fn()
 }));
 jest.mock("@/components/app-menu/AppMenu", () => ({
   __esModule: true,
@@ -35,19 +33,11 @@ jest.mock("@/components/app-menu/AppMenu", () => ({
     ) : null
 }));
 
-const defaultArgs: RTKQueryMockState<UserResponse> = {
-  data: null,
-  isError: false,
-  isLoading: false
-};
-const mockData = {
-  data: { photo: "https://example.com/photo.jpg" }
-};
+const mockedPhoto = "https://example.com/photo.jpg";
 
-const mockAndRender = (args?: RTKQueryMockState<Partial<UserResponse>>) => {
-  (useGetUserInfoQuery as jest.Mock).mockReturnValue({
-    ...defaultArgs,
-    ...args
+const mockAndRender = (data?: { photo: string | null }) => {
+  (useGetUserPhotoQuery as jest.Mock).mockReturnValue({
+    data: data
   });
 
   renderWithProviders(<HeaderAccountButton />);
@@ -61,11 +51,14 @@ describe("HeaderAccountButton", () => {
   });
 
   it("should render HeaderAccountButton with img", () => {
-    mockAndRender(mockData);
+    mockAndRender({ photo: mockedPhoto });
 
-    const photo = screen.getByTestId("header-account-photo");
+    const photo = screen.getByTestId(
+      "header-account-photo"
+    ) as HTMLImageElement;
+
     expect(photo).toBeInTheDocument();
-    expect(photo).toHaveAttribute("src", mockData.data.photo);
+    expect(photo.src).toBe(mockedPhoto);
   });
 
   it("should open menu and close when menuItem is clicked", async () => {
@@ -81,5 +74,12 @@ describe("HeaderAccountButton", () => {
     await userEvent.click(screen.getByTestId("menu-item-0"));
 
     expect(screen.queryByTestId("menu")).not.toBeInTheDocument();
+  });
+
+  it("should not render the photo when no photo is provided", () => {
+    mockAndRender({ photo: null });
+
+    const photo = screen.queryByTestId("header-account-photo");
+    expect(photo).not.toBeInTheDocument();
   });
 });

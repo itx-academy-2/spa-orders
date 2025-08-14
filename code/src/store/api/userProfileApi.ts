@@ -2,7 +2,7 @@ import { rtkQueryTags } from "@/constants/api-tags";
 import { httpMethods } from "@/constants/methods";
 import { URLS } from "@/constants/requests";
 import { appApi } from "@/store/api/appApi";
-import { UserResponse } from "@/types/user.types";
+import { UserPhotoResponse, UserResponse } from "@/types/user.types";
 
 export const userProfileApi = appApi.injectEndpoints({
   endpoints: (build) => ({
@@ -37,6 +37,12 @@ export const userProfileApi = appApi.injectEndpoints({
         method: httpMethods.delete
       }),
       invalidatesTags: [rtkQueryTags.USER_PROFILE, rtkQueryTags.USER_PHOTO]
+    }),
+    getUserPhoto: build.query<UserPhotoResponse, void>({
+      query: () => ({
+        url: URLS.userInfo.photo.get
+      }),
+      providesTags: [rtkQueryTags.USER_PROFILE, rtkQueryTags.USER_PHOTO]
     })
   })
 });
@@ -45,5 +51,6 @@ export const {
   useGetUserInfoQuery,
   useUpdateUserInfoMutation,
   useUpdateUserPhotoMutation,
+  useGetUserPhotoQuery,
   useDeleteUserPhotoMutation
 } = userProfileApi;

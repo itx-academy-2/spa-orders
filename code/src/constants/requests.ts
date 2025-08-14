@@ -97,6 +97,7 @@ export const URLS = {
     getUserInfo: "/v2/my-info",
     patchUserInfo: "/v2/my-info",
     photo: {
+      get: "/v1/my-info/photo",
       put: "/v1/my-info/photo",
       delete: "/v1/my-info/photo"
     }
