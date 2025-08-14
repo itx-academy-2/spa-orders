@@ -16,7 +16,7 @@
   &_products {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: spacing(16);
+    gap: spacing(5);
   }
 
   &_header {
