@@ -4,7 +4,7 @@
   padding: spacing(3) spacing(4);
   background-color: var(--color-surface);
   color: var(--color-text);
-}  
+}
 
 .header__toolbar {
   display: flex;
@@ -22,6 +22,8 @@
   }
 
   &-icon {
+    width: 30px;
+    height: 30px;
     color: var(--color-text, $black);
   }
 
@@ -30,8 +32,8 @@
   }
 
   &-profile-img-wrapper {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
