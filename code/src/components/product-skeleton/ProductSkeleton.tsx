@@ -1,9 +1,13 @@
 import AppBox from "@/components/app-box/AppBox";
 import AppSkeleton from "@/components/app-skeleton/AppSkeleton";
+import { ProductSkeletonProps } from "@/components/product-skeleton/ProductSkeleton.types";
 
 import "@/components/product-skeleton/ProductSkeleton.scss";
 
-const ProductSkeleton = () => {
+const ProductSkeleton = ({
+  width = 254,
+  height = 300
+}: ProductSkeletonProps) => {
   return (
     <AppBox
       className="spa-product-skeleton"
@@ -12,8 +16,8 @@ const ProductSkeleton = () => {
     >
       <AppSkeleton
         variant="rectangular"
-        height={300}
-        width={254}
+        height={height}
+        width={width}
         animation="pulse"
       />
       <AppBox className="spa-product-skeleton__footer">

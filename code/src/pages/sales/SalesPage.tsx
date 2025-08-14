@@ -13,12 +13,14 @@ import AppButton from "@/components/app-button/AppButton";
 import AppDrawer from "@/components/app-drawer/AppDrawer";
 import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
+import ProductSkeleton from "@/components/product-skeleton/ProductSkeleton";
 
 import usePagination from "@/hooks/use-pagination/usePagination";
 import useWishlistWithAuthCheck from "@/hooks/use-wishlist-with-auth-check/useWishlistWithAuthCheck";
 import { sortSaleOptions } from "@/pages/sales/SalesPage.constants";
 import SalesFilterDrawer from "@/pages/sales/components/sales-filter-drawer/SalesFilterDrawer";
 import useSalesFilter from "@/pages/sales/hooks/useSalesFilter";
+import repeatComponent from "@/utils/repeat-component/repeatComponent";
 
 import "@/pages/sales/SalesPage.scss";
 
@@ -84,6 +86,26 @@ const SalesPage = () => {
     }
   }, [sales, page, searchParams, setSearchParams, totalPages]);
 
+  const content = () => {
+    if (isLoading) {
+      return (
+        <AppBox className="spa-sales-page__loading">
+          {repeatComponent(<ProductSkeleton width={430} height={500} />, 3)}
+        </AppBox>
+      );
+    }
+
+    return (
+      <ProductsContainer
+        className="spa-sales-page__grid"
+        products={sales ?? []}
+        isError={isError}
+        maxColumns={3}
+        wishlist={wishlist}
+      />
+    );
+  };
+
   return (
     <>
       <PageWrapper>
@@ -117,15 +139,7 @@ const SalesPage = () => {
               />
             </AppTypography>
           </AppBox>
-          <ProductsContainer
-            className="spa-sales-page__grid"
-            products={sales ?? []}
-            loadingItemsCount={3}
-            isLoading={isLoading}
-            isError={isError}
-            maxColumns={3}
-            wishlist={wishlist}
-          />
+          {content()}
           {totalPages > 1 && (
             <PaginationBlock
               data-testid="pagination-block"
