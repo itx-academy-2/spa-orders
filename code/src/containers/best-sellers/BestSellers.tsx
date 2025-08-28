@@ -25,6 +25,10 @@ const BestSellers = () => {
     tags: ""
   });
 
+  if (!isLoading && !isError && !bestsellersData?.content?.length) {
+    return null;
+  }
+
   return (
     <PageWrapper
       id="bestsellers-section"

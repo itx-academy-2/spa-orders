@@ -46,7 +46,7 @@ const renderAndMock = (
 
 describe("BestSellers", () => {
   test("Should render bestSellers header", () => {
-    renderAndMock();
+    renderAndMock({ data: mockProductsResponse });
 
     const bestSellersHeader = screen.getByText(/bestSellers.header/i);
 
@@ -70,19 +70,19 @@ describe("BestSellers", () => {
   });
 
   test("should render loading state", () => {
-    renderAndMock({ isLoading: true });
+    renderAndMock({ isLoading: true, data: null });
     const loading = screen.getByText("Loading...");
     expect(loading).toBeInTheDocument();
   });
 
   test("should render error state", () => {
-    renderAndMock({ isError: true });
+    renderAndMock({ isError: true, data: null });
     const error = screen.getByText("Error!");
     expect(error).toBeInTheDocument();
   });
 
   test("should render the button with correct props", () => {
-    renderAndMock();
+    renderAndMock({ data: mockProductsResponse });
 
     const button = screen.getByRole("link", { name: /bestSellers.button/i });
     expect(button).toHaveAttribute(
