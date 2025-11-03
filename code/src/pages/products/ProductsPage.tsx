@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
@@ -7,6 +9,7 @@ import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
 import ProductsContainer from "@/containers/products-container/ProductsContainer";
 
 import AppBox from "@/components/app-box/AppBox";
+import AppButton from "@/components/app-button/AppButton";
 import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
 
@@ -29,6 +32,11 @@ const ProductsPage = () => {
   const sortOption = searchParams.get("sort");
 
   const categoryType = searchParams.get("category");
+
+  const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
+  
+  const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
+  const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
   useTrackVisits("category", categoryType as string);
 
@@ -81,6 +89,21 @@ const ProductsPage = () => {
 
   const productsCount = productsResponse?.totalElements ?? 0;
 
+  const titleTypography =
+    activeFiltersCount > 0 ? (
+      <AppTypography
+        translationKey="productsFilter.titleWithCount"
+          data-cy="applied-filters-count"
+          translationProps={{
+            values: {
+              count: activeFiltersCount
+            }
+          }}
+        />
+      ) : (
+        <AppTypography translationKey="productsFilter.title" />
+      );
+
   useEffect(() => {
     if (page > pagesCount) {
       searchParams.set("page", pagesCount.toString());
@@ -105,14 +128,20 @@ const ProductsPage = () => {
               translationProps={{ values: { count: productsCount } }}
             />
           </AppTypography>
-          <AppDropdown
-            key={sortOption}
-            options={sortOptions}
-            onSelect={handleSortChange}
-            defaultLabel={defaultDropdownText}
-            className="spa-products-page__sort"
-            data-cy="products-dropdown"
-          />
+          <AppBox className="spa-products-page__actions">
+            <AppDropdown
+              key={sortOption}
+              options={sortOptions}
+              onSelect={handleSortChange}
+              defaultLabel={defaultDropdownText}
+              className="spa-products-page__sort"
+              data-cy="products-dropdown"
+            />
+            <AppButton variant="dark" onClick={handleOpenFilterDrawer}>
+              {titleTypography}
+              <FilterListIcon />
+            </AppButton>
+          </AppBox>
         </AppBox>
         <ProductsContainer
           className="spa-products-page__grid"

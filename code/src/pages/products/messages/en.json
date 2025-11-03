@@ -10,6 +10,8 @@
   "productsItems.category.tablet": "{count, plural, one {# tablet} other {# tablets}}",
   "productsItems.category.sales": "{count, plural, one {# sale} other {# sales}}",
   "productsDefault.label": "Recommended",
+  "productsFilter.titleWithCount": "Filters ({count})",
+  "productsFilter.title": "Filters",
   "sortOptions.newest": "Newest",
   "sortOptions.bestsellers": "Bestsellers",
   "sortOptions.priceLowHigh": "Price (low to high)",
