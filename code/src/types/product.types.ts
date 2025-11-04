@@ -41,6 +41,9 @@ export type GetUserProductsResponse = {
   content: Product[];
   totalPages: number;
   totalElements: number;
+  priceMin?: number;
+  priceMax?: number;
+  pageProducts: GetUserProductsResponse;
 };
 
 export type GetSaleProductsResponse = {
@@ -57,6 +60,8 @@ export type GetUserProductsParams = Lang & {
   size?: number;
   sort?: string;
   discount?: number;
+  priceMin?: number;
+  priceMax?: number;
 };
 
 export type GetSaleProductsParams = Lang &

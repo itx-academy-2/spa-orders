@@ -1,5 +1,12 @@
 import { FormattedMessage } from "react-intl";
 
+import { ProductsPageFilters } from "./ProductsPage.types";
+
+export const defaultAllProductsFilters: ProductsPageFilters = {
+  tags: new Set(["category:computer", "category:mobile", "category:tablet"]),
+  price: { start: 0, end: 100000 }
+};
+
 export const sortOptions = [
   {
     value: "",
