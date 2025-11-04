@@ -12,20 +12,20 @@ import AppBox from "@/components/app-box/AppBox";
 import AppButton from "@/components/app-button/AppButton";
 import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
+import AppDrawer from "@/components/app-drawer/AppDrawer";
 
-import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
 import useWishlistWithAuthCheck from "@/hooks/use-wishlist-with-auth-check/useWishlistWithAuthCheck";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
-import { useGetUserProductsQuery } from "@/store/api/productsApi";
+import useAllProductsFilter from "@/pages/products/hooks/useAllProductsFilter";
+import ProductsFilterDrawer from "@/pages/products/components/products-filter-drawer/ProductsFilterDrawer";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
 import "@/pages/products/ProductsPage.scss";
 
 const ProductsPage = () => {
-  const { locale } = useLocaleContext();
   const { page } = usePagination();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,35 +33,34 @@ const ProductsPage = () => {
 
   const categoryType = searchParams.get("category");
 
+  const {
+    products,
+    totalPages = 0,
+    activeFiltersCount,
+    filterActions,
+    filters,
+    defaultFilters,
+    totalElements = 0,
+    isCategoryFilterVisible,
+    isLoading,
+    isError
+  } = useAllProductsFilter({ sort: sortOption ?? undefined, category: categoryType ?? undefined });
+
   const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
-  
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
   useTrackVisits("category", categoryType as string);
 
   const screenSize = useScreenSize();
-
   const size = setProductsPerPageSize(screenSize.width);
-
-  const {
-    data: productsResponse,
-    isLoading,
-    isError
-  } = useGetUserProductsQuery({
-    tags: categoryType ? `category:${categoryType}` : "",
-    page: page - 1,
-    sort: sortOption ?? undefined,
-    size,
-    lang: locale
-  });
 
   const { data: wishlistData } = useWishlistWithAuthCheck();
   const wishlist = wishlistData?.content ?? [];
 
-  const productsList = productsResponse?.content;
+  const productsList = products ?? [];
 
-  const pagesCount = productsResponse?.totalPages ?? 1;
+  const pagesCount = totalPages ?? 1;
 
   const defaultDropdownText = sortOptions.find(
     (item) => item.value === sortOption
@@ -86,28 +85,28 @@ const ProductsPage = () => {
   const productsItemsLabel = !categoryType
     ? "productsItems.label"
     : `productsItems.category.${categoryType}`;
-
-  const productsCount = productsResponse?.totalElements ?? 0;
+  const productsCount = totalElements ?? 0;
 
   const titleTypography =
     activeFiltersCount > 0 ? (
       <AppTypography
         translationKey="productsFilter.titleWithCount"
-          data-cy="applied-filters-count"
-          translationProps={{
-            values: {
-              count: activeFiltersCount
-            }
-          }}
-        />
-      ) : (
-        <AppTypography translationKey="productsFilter.title" />
-      );
+        data-cy="applied-filters-count"
+        translationProps={{
+          values: {
+            count: activeFiltersCount
+          }
+        }}
+      />
+    ) : (
+      <AppTypography translationKey="productsFilter.title" />
+    );
 
   useEffect(() => {
     if (page > pagesCount) {
-      searchParams.set("page", pagesCount.toString());
-      setSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams);
+      params.set("page", pagesCount.toString());
+      setSearchParams(params);
     }
   }, [pagesCount, page, searchParams, setSearchParams]);
 
@@ -153,9 +152,19 @@ const ProductsPage = () => {
         />
         <PaginationBlock
           page={page}
-          totalPages={productsResponse?.totalPages}
+          totalPages={pagesCount}
         />
       </AppBox>
+      <AppDrawer isOpen={isFilterDrawerOpened} onClose={handleCloseFilterDrawer}>
+        <ProductsFilterDrawer
+          activeFiltersCount={activeFiltersCount}
+          filters={filters}
+          filterActions={filterActions}
+          defaultFilters={defaultFilters}
+          closeFilterDrawer={handleCloseFilterDrawer}
+          showCategory={isCategoryFilterVisible}
+        />
+      </AppDrawer>
     </PageWrapper>
   );
 };
