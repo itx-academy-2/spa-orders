@@ -1,35 +1,55 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 
-import useFiltersWithApply from "@/hooks/use-filters-with-apply/useFiltersWithApply";
-import usePagination from "@/hooks/use-pagination/usePagination";
+import { useGetUserProductsQuery } from "@/store/api/productsApi";
+import { useFiltersStore } from "@/store/zustand/filtersStore";
 
+import { UseAllProductsFilterExtraParams } from "@/pages/products/hooks/useAllProductsFilter.types";
 import { defaultAllProductsFilters } from "@/pages/products/ProductsPage.constants";
 import { ProductsPageFilters } from "@/pages/products/ProductsPage.types";
 
-import { useGetUserProductsQuery } from "@/store/api/productsApi";
+import usePagination from "@/hooks/use-pagination/usePagination";
 
-type UseAllProductsFilterExtraParams = {
-  sort?: string;
-  category?: string | null;
-};
+import useScreenSize from "@/utils/check-screen-size/useScreenSize";
+import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
+import toNum from "@/utils/price-to-number/priceToNumber";
 
 const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => {
   const { locale } = useLocaleContext();
 
   const { page } = usePagination();
 
-  const {
-    filters,
-    appliedFilters,
-    activeFiltersCount,
-    actions: filterActions,
-    defaultFilters
-  } = useFiltersWithApply<ProductsPageFilters>(defaultAllProductsFilters);
+  const tabKey = extraParams?.category ?? "all";
 
-  const tagsArray = appliedFilters.tags ? Array.from(appliedFilters.tags) : undefined;
-  const tags = tagsArray ? tagsArray.join(",") : undefined;
+  const setFiltersInStore = useFiltersStore((state) => state.setFilters);
+
+  const rawStoredFilters = useFiltersStore((state) => state.filtersByTab[tabKey]);
+
+  const defaultForThisTab: ProductsPageFilters = useMemo(() => {
+    if (extraParams?.category) {
+      const tag = `category:${String(extraParams.category).trim()}`;
+      return { ...defaultAllProductsFilters, tags: [tag] };
+    }
+    return defaultAllProductsFilters;
+  }, [extraParams?.category]);
+
+  const filters: ProductsPageFilters = rawStoredFilters ?? defaultForThisTab;
+
+  const setFilters = (newFilters: ProductsPageFilters) => {
+    setFiltersInStore(tabKey, newFilters);
+  };
+
+  const tagsParam = useMemo(() => {
+    if (extraParams?.category) {
+      return `category:${String(extraParams.category).trim()}`;
+    }
+    return filters.tags && filters.tags.length > 0 ? filters.tags.join(",") : undefined;
+  }, [extraParams?.category, filters.tags]);
+
+  const screenSize = useScreenSize();
+
+  const size = setProductsPerPageSize(screenSize.width);
 
   const {
     data: productsResponse,
@@ -37,37 +57,67 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
     isError
   } = useGetUserProductsQuery({
     lang: locale,
-    page: page - 1,
-    size: 20,
-    priceMin: appliedFilters.price?.start,
-    priceMax: appliedFilters.price?.end,
-    tags,
+    page: Math.max(0, (page ?? 1) - 1),
+    size,
+    priceMin: filters.price.start,
+    priceMax: filters.price.end,
+    tags: tagsParam,
     sort: extraParams?.sort
   });
 
   useEffect(() => {
-    if (productsResponse) {
-      const priceRange = {
-        start: productsResponse?.priceMin ?? defaultAllProductsFilters.price.start,
-        end: productsResponse?.priceMax ?? defaultAllProductsFilters.price.end
-      };
+    if (!productsResponse) return;
 
-      filterActions.setDefaultFilters({
-        ...defaultAllProductsFilters,
-        price: priceRange
-      });
+    const priceRange = {
+      start: toNum(productsResponse.priceMin, defaultForThisTab.price.start),
+      end: toNum(productsResponse.priceMax, defaultForThisTab.price.end)
+    };
+
+    const isUserPriceDefault =
+      filters.price.start === defaultForThisTab.price.start &&
+      filters.price.end === defaultForThisTab.price.end;
+
+    if (!isUserPriceDefault) {
+      return;
     }
-  }, [isLoading]);
 
-  const isCategoryFilterVisible = !extraParams?.category;
+    const hasChanged = filters.price.start !== priceRange.start || filters.price.end !== priceRange.end;
+    if (hasChanged) {
+      setFilters({ ...filters, price: priceRange });
+    }
+  }, [productsResponse, filters, setFilters]);
 
   const products = productsResponse?.pageProducts?.content ?? productsResponse?.content ?? [];
   const totalPages = productsResponse?.pageProducts?.totalPages ?? productsResponse?.totalPages ?? 0;
   const totalElements = productsResponse?.pageProducts?.totalElements ?? productsResponse?.totalElements ?? 0;
 
+  const isCategoryFilterVisible = !extraParams?.category;
+
+  const tagsAreDefault = (() => {
+    const current = filters.tags ?? [];
+    const def = defaultForThisTab.tags ?? [];
+
+    if (current.length !== def.length) return false;
+    return current.every((t) => def.includes(t));
+  })();
+
+  const priceIsDefault =
+    filters.price.start === defaultForThisTab.price.start && filters.price.end === defaultForThisTab.price.end;
+
+  const activeFiltersCount =
+    (tagsAreDefault ? 0 : 1) + (priceIsDefault ? 0 : 1);
+
+  const resetFilterByKey = <K extends keyof ProductsPageFilters>(key: K) => {
+    setFilters({ ...filters, [key]: defaultForThisTab[key] } as ProductsPageFilters);
+  };
+
+  const resetFilters = () => {
+    setFilters(defaultForThisTab);
+  };
+
   return {
     filters,
-    filterActions,
+    setFilters,
     activeFiltersCount,
     products,
     totalPages,
@@ -75,8 +125,10 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
     isLoading,
     totalElements,
     isError,
-    defaultFilters,
-    isCategoryFilterVisible
+    defaultFilters: defaultForThisTab,
+    isCategoryFilterVisible,
+    resetFilterByKey,
+    resetFilters
   } as const;
 };
 

@@ -20,8 +20,6 @@ import useWishlistWithAuthCheck from "@/hooks/use-wishlist-with-auth-check/useWi
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
 import useAllProductsFilter from "@/pages/products/hooks/useAllProductsFilter";
 import ProductsFilterDrawer from "@/pages/products/components/products-filter-drawer/ProductsFilterDrawer";
-import useScreenSize from "@/utils/check-screen-size/useScreenSize";
-import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
 import "@/pages/products/ProductsPage.scss";
 
@@ -45,6 +43,8 @@ const ProductsPage = () => {
     defaultFilters,
     totalElements = 0,
     isCategoryFilterVisible,
+    resetFilterByKey,
+    resetFilters,
     isLoading,
     isError
   } = useAllProductsFilter({ sort: sortOption ?? undefined, category: categoryType ?? undefined });
@@ -55,9 +55,6 @@ const ProductsPage = () => {
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
   useTrackVisits("category", categoryType as string);
-
-  const screenSize = useScreenSize();
-  const size = setProductsPerPageSize(screenSize.width);
 
   const { data: wishlistData } = useWishlistWithAuthCheck();
   const wishlist = wishlistData?.content ?? [];
@@ -168,6 +165,8 @@ const ProductsPage = () => {
           closeFilterDrawer={handleCloseFilterDrawer}
           showCategory={isCategoryFilterVisible}
           tabKey={tabKey}
+          resetFilters={resetFilters}
+          resetFilterByKey={resetFilterByKey}
         />
       </AppDrawer>
     </PageWrapper>
