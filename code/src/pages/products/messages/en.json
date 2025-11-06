@@ -15,6 +15,7 @@
   "productsFilter.category": "Category",
   "productsFilter.price": "Price",
   "productsFilter.apply": "Apply",
+  "productsFilter.clear": "Clear filters",
   "sortOptions.newest": "Newest",
   "sortOptions.bestsellers": "Bestsellers",
   "sortOptions.priceLowHigh": "Price (low to high)",

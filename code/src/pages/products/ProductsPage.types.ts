@@ -1,6 +1,8 @@
-export type RangeFilter = { start: number; end: number };
-
+export type RangeFilter = {
+  start: number;
+  end: number;
+};
 export type ProductsPageFilters = {
-  tags: Set<string>;
+  tags: string[];
   price: RangeFilter;
 };

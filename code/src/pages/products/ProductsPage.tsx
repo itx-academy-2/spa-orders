@@ -29,16 +29,19 @@ const ProductsPage = () => {
   const { page } = usePagination();
 
   const [searchParams, setSearchParams] = useSearchParams();
+
   const sortOption = searchParams.get("sort");
 
   const categoryType = searchParams.get("category");
+
+  const tabKey = categoryType ?? "all";
 
   const {
     products,
     totalPages = 0,
     activeFiltersCount,
-    filterActions,
     filters,
+    setFilters,
     defaultFilters,
     totalElements = 0,
     isCategoryFilterVisible,
@@ -47,6 +50,7 @@ const ProductsPage = () => {
   } = useAllProductsFilter({ sort: sortOption ?? undefined, category: categoryType ?? undefined });
 
   const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
+
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
 
@@ -85,6 +89,7 @@ const ProductsPage = () => {
   const productsItemsLabel = !categoryType
     ? "productsItems.label"
     : `productsItems.category.${categoryType}`;
+  
   const productsCount = totalElements ?? 0;
 
   const titleTypography =
@@ -159,10 +164,10 @@ const ProductsPage = () => {
         <ProductsFilterDrawer
           activeFiltersCount={activeFiltersCount}
           filters={filters}
-          filterActions={filterActions}
           defaultFilters={defaultFilters}
           closeFilterDrawer={handleCloseFilterDrawer}
           showCategory={isCategoryFilterVisible}
+          tabKey={tabKey}
         />
       </AppDrawer>
     </PageWrapper>

@@ -15,6 +15,7 @@
   "productsFilter.category": "Категорія",
   "productsFilter.price": "Ціна",
   "productsFilter.apply": "Застосувати",
+    "productsFilter.clear": "Очистити фільтри",
   "sortOptions.newest": "Нові",
   "sortOptions.bestsellers": "Бестселлери",
   "sortOptions.priceLowHigh": "Ціна (від низької до високої)",
