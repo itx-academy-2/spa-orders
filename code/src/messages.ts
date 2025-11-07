@@ -26,6 +26,7 @@ import myWishlistMessages from "@/containers/user-account/my-wishlist/messages";
 import profileMessages from "@/containers/user-account/profile/messages";
 import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
 import myAddressesMessages from "@/containers/user-account/my-addresses/messages";
+import myReservationsMessages from "@/containers/user-account/my-reservations/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
@@ -109,7 +110,8 @@ const messages: MessagesType = {
     ...addLinkModalMessages.en,
     ...myAddressesMessages.en,
     ...AddressCardMessages.en,
-    ...photoSectionMessages.en
+    ...photoSectionMessages.en,
+    ...myReservationsMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -163,7 +165,8 @@ const messages: MessagesType = {
     ...addLinkModalMessages.uk,
     ...myAddressesMessages.uk,
     ...AddressCardMessages.uk,
-    ...photoSectionMessages.uk
+    ...photoSectionMessages.uk,
+    ...myReservationsMessages.uk
   }
 };
 
