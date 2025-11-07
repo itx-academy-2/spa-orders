@@ -51,6 +51,9 @@ const MyWishlist = lazy(
 const MyAddresses = lazy(
   () => import("@/containers/user-account/my-addresses/MyAddresses")
 );
+const MyReservations = lazy(
+  () => import("@/containers/user-account/my-reservations/MyReservations")
+);
 
 const protectedRoutes: RouteObject[] = [
   {
@@ -135,6 +138,10 @@ const protectedRoutes: RouteObject[] = [
       {
         path: routePaths.userCabinet.addresses.path,
         element: <MyAddresses />
+      },
+      {
+        path: routePaths.userCabinet.reservations.path,
+        element: <MyReservations />
       }
     ]
   }

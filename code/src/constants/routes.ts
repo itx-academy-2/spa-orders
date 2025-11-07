@@ -36,7 +36,8 @@ const routes = {
     profile: { path: "/user-cabinet/profile" },
     viewHistory: { path: "/user-cabinet/view-history" },
     wishlist: { path: "/user-cabinet/wishlist" },
-    addresses: { path: "/user-cabinet/addresses" }
+    addresses: { path: "/user-cabinet/addresses" },
+    reservations: { path: "/user-cabinet/reservations" }
   },
   dashboard: {
     path: "/dashboard",
