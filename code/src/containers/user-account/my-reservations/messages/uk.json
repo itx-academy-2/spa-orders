@@ -2,7 +2,7 @@
     "MyReservations.title": "Мої Резервації",
     "MyReservations.emptyMessage": "Ви ще не додали жодного товару до свого резерву.",
     "MyReservations.error.label": "Щось пішло не так. Будь ласка, спробуйте ще раз пізніше.",
-    "MyReservations.productsCount": "{count, plural, one {# товар} other {# товари}}",
+    "MyReservations.productsCount": "{count, plural, one {# товар} few {# товари} many {# товарів} other {# товарів}}",
     "productsDefault.label": "Рекомендовані",
     "sortOptions.newest": "Нові",
     "sortOptions.bestsellers": "Бестселлери",
