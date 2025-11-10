@@ -31,6 +31,11 @@ const menuItems: MenuItem[] = [
     id: "addresses",
     translationKey: "label.addresses",
     path: routes.userCabinet.addresses.path
+  },
+  {
+    id: "reservations",
+    translationKey: "label.reservations",
+    path: routes.userCabinet.reservations.path
   }
 ];
 

@@ -2,5 +2,6 @@
   "label.profile": "Profile",
   "label.wishlist": "My Wishlist",
   "label.history": "View History",
-  "label.addresses": "My Addresses"
+  "label.addresses": "My Addresses",
+  "label.reservations": "My Reservations"
 }

@@ -21,6 +21,7 @@ import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { ProductDetailsPageParams } from "@/pages/product-details/ProductDetails.types";
 import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsDetailsPage.constants";
 import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
+import ReserveButton from "@/pages/product-details/components/reserve-button/ReserveButton";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
@@ -195,6 +196,7 @@ const ProductDetailsContainer = ({
               />
               { isUserOrGuest && (
                 <AppBox className="product-details__buy-favorite-buttons">
+                  <ReserveButton />
                   <AppIconButton
                     data-cy="favorite-button"
                     onClick={handleFavoriteClick}

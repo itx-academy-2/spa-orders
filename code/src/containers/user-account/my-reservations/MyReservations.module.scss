@@ -1,0 +1,52 @@
+@import "@design-system";
+
+.MyReservations {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: spacing(10);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    padding: spacing(10);
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 620px;
+
+    &_header {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 2rem;
+        justify-items: center;
+
+        @include breakpoint("sm") {
+            grid-template-columns: 1fr 1fr;
+            justify-items: stretch;
+            align-items: center;
+        }
+    }
+
+    &_info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: spacing(5);
+    }
+
+    &_count,
+    &_sort {
+        font-size: 1rem;
+        color: var(--color-text);
+        display: flex;
+        gap: spacing(1);
+    }
+
+    &_sort {
+        cursor: pointer;
+        background-color: var(--color-surface);
+
+        div {
+            color: inherit;
+            background-color: inherit;
+        }
+    }
+}
