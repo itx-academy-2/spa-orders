@@ -35,6 +35,12 @@ describe("MyReservations Page", () => {
         expect(screen.getByText("MyReservations.title")).toBeInTheDocument();
     });
 
+    test("renders count of products", () => {
+        renderAndMock();
+
+        expect(screen.getByText(/MyReservations\.productsCount/i)).toBeInTheDocument();
+    });
+
     test("renders dropdown component", () => {
         renderAndMock();
 
