@@ -5,4 +5,10 @@ export type RangeFilter = {
 export type ProductsPageFilters = {
   tags: string[];
   price: RangeFilter;
+  discount?: boolean;
+  nonDiscount?: boolean;
+  availability?: boolean;
+  nonAvailability?: boolean;
+  deliveryNovaPost?: boolean;
+  deliveryUkrPost?: boolean;
 };

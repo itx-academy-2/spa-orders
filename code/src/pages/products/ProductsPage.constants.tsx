@@ -4,7 +4,13 @@ import { ProductsPageFilters } from "./ProductsPage.types";
 
 export const defaultAllProductsFilters: ProductsPageFilters = {
   tags: ["category:computer", "category:mobile", "category:tablet"],
-  price: { start: 0, end: 10000 }
+  price: { start: 0, end: 10000 },
+  discount: false,
+  nonDiscount: true,
+  availability: true,
+  nonAvailability: false,
+  deliveryNovaPost: true,
+  deliveryUkrPost: true,
 };
 
 export const sortOptions = [

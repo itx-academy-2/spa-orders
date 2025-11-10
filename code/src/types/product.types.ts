@@ -35,15 +35,38 @@ export type ManagerProduct = {
   priceWithDiscount: number | null;
 };
 
+export type PageMeta = {
+  totalElements: number;
+  totalPages: number;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  size: number;
+  empty: boolean;
+};
+
 export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
 
-export type GetUserProductsResponse = {
+export type GetUserProductsResponse = PageMeta & {
+  minProductPrice?: number;
+  maxProductPrice?: number;
   content: Product[];
-  totalPages: number;
-  totalElements: number;
-  priceMin?: number;
-  priceMax?: number;
-  pageProducts: GetUserProductsResponse;
+};
+
+export type GetUserProductsParams = Lang & {
+  tags?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+  discount?: boolean;
+  nonDiscount?: boolean;
+  availability?: boolean;
+  nonAvailability?: boolean;
+  deliveryNovaPost?: boolean;
+  deliveryUkrPost?: boolean;
+  minProductPrice?: number;
+  maxProductPrice?: number;
 };
 
 export type GetSaleProductsResponse = {
@@ -52,16 +75,6 @@ export type GetSaleProductsResponse = {
   maximumDiscount: number;
   minimumDiscount: number;
   pageProducts: GetUserProductsResponse;
-};
-
-export type GetUserProductsParams = Lang & {
-  tags?: string;
-  page?: number;
-  size?: number;
-  sort?: string;
-  discount?: number;
-  priceMin?: number;
-  priceMax?: number;
 };
 
 export type GetSaleProductsParams = Lang &

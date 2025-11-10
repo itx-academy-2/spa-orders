@@ -44,7 +44,7 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
     if (extraParams?.category) {
       return `category:${String(extraParams.category).trim()}`;
     }
-    return filters.tags && filters.tags.length > 0 ? filters.tags.join(",") : undefined;
+    return filters.tags.length > 0 ? filters.tags.join(",") : undefined;
   }, [extraParams?.category, filters.tags]);
 
   const screenSize = useScreenSize();
@@ -53,33 +53,36 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
 
   const {
     data: productsResponse,
-    isLoading,
-    isError
+    isLoading, isError
   } = useGetUserProductsQuery({
     lang: locale,
     page: Math.max(0, (page ?? 1) - 1),
     size,
-    priceMin: filters.price.start,
-    priceMax: filters.price.end,
+    sort: extraParams?.sort,
     tags: tagsParam,
-    sort: extraParams?.sort
+    minProductPrice: filters.price.start,
+    maxProductPrice: filters.price.end,
+    discount: filters.discount,
+    nonDiscount: filters.nonDiscount,
+    availability: filters.availability,
+    nonAvailability: filters.nonAvailability,
+    deliveryNovaPost: filters.deliveryNovaPost,
+    deliveryUkrPost: filters.deliveryUkrPost
   });
 
   useEffect(() => {
     if (!productsResponse) return;
 
     const priceRange = {
-      start: toNum(productsResponse.priceMin, defaultForThisTab.price.start),
-      end: toNum(productsResponse.priceMax, defaultForThisTab.price.end)
+      start: toNum(productsResponse.minProductPrice, defaultForThisTab.price.start),
+      end: toNum(productsResponse.maxProductPrice, defaultForThisTab.price.end)
     };
 
     const isUserPriceDefault =
       filters.price.start === defaultForThisTab.price.start &&
       filters.price.end === defaultForThisTab.price.end;
 
-    if (!isUserPriceDefault) {
-      return;
-    }
+    if (!isUserPriceDefault) return;
 
     const hasChanged = filters.price.start !== priceRange.start || filters.price.end !== priceRange.end;
     if (hasChanged) {
@@ -87,25 +90,25 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
     }
   }, [productsResponse, filters, setFilters]);
 
-  const products = productsResponse?.pageProducts?.content ?? productsResponse?.content ?? [];
-  const totalPages = productsResponse?.pageProducts?.totalPages ?? productsResponse?.totalPages ?? 0;
-  const totalElements = productsResponse?.pageProducts?.totalElements ?? productsResponse?.totalElements ?? 0;
+  const products = productsResponse?.content ?? [];
+  const totalPages = productsResponse?.totalPages ?? 0;
+  const totalElements = productsResponse?.totalElements ?? 0;
 
   const isCategoryFilterVisible = !extraParams?.category;
 
   const tagsAreDefault = (() => {
     const current = filters.tags ?? [];
     const def = defaultForThisTab.tags ?? [];
-
+    
     if (current.length !== def.length) return false;
     return current.every((t) => def.includes(t));
   })();
 
   const priceIsDefault =
-    filters.price.start === defaultForThisTab.price.start && filters.price.end === defaultForThisTab.price.end;
+    filters.price.start === defaultForThisTab.price.start &&
+    filters.price.end === defaultForThisTab.price.end;
 
-  const activeFiltersCount =
-    (tagsAreDefault ? 0 : 1) + (priceIsDefault ? 0 : 1);
+  const activeFiltersCount = (tagsAreDefault ? 0 : 1) + (priceIsDefault ? 0 : 1);
 
   const resetFilterByKey = <K extends keyof ProductsPageFilters>(key: K) => {
     setFilters({ ...filters, [key]: defaultForThisTab[key] } as ProductsPageFilters);
