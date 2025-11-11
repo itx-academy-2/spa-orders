@@ -7,7 +7,7 @@
   height: $screen-height;
   background-color: var(--color-surface);
   color: var(--color-text);
-  
+
   &__header {
     padding-block: spacing(4);
     background-color: $black;
@@ -43,5 +43,18 @@
   &__footer {
     padding: spacing(5);
     border-top: 1px solid $light;
+    display: flex;
+    flex-direction: row;
+    gap: spacing(2);
+  }
+
+  &__reset-button {
+    color: $black;
+    background-color: $light;
+    border-color: $light;
+  }
+
+  .products-filters__footer>button {
+    flex: 1;
   }
 }

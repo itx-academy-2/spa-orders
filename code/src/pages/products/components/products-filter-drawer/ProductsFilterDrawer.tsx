@@ -1,4 +1,4 @@
-import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { SyntheticEvent, useCallback, useEffect, useState } from "react";
 
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 
@@ -26,9 +26,9 @@ type ProductsFilterDrawerProps = {
   closeFilterDrawer: () => void;
   showCategory?: boolean;
   tabKey: string;
-  activeFiltersCount?: number;
   resetFilters: () => void;
-  resetFilterByKey: <K extends keyof ProductsPageFilters>(key: K) => void;
+  productsResponse?: { minProductPrice?: number; maxProductPrice?: number };
+  activeFiltersCount: number;
 };
 
 const ProductsFilterDrawer = ({
@@ -37,58 +37,36 @@ const ProductsFilterDrawer = ({
   closeFilterDrawer,
   showCategory,
   tabKey,
-  resetFilters
+  resetFilters,
+  productsResponse,
+  activeFiltersCount,
 }: ProductsFilterDrawerProps) => {
   const setFilters = useFiltersStore((s) => s.setFilters);
-
   const tags = filters.tags;
   const defaultTags = defaultFilters.tags;
 
-  const [localPrice, setLocalPrice] = useState<[number, number]>([filters.price.start, filters.price.end]);
+  const priceRange = {
+    min: productsResponse?.minProductPrice ?? defaultFilters.price.start,
+    max: productsResponse?.maxProductPrice ?? defaultFilters.price.end,
+  };
+
+  const [localPrice, setLocalPrice] = useState<[number, number]>([
+    filters.price.start ?? priceRange.min,
+    filters.price.end ?? priceRange.max,
+  ]);
 
   useEffect(() => {
-    setLocalPrice([filters.price.start, filters.price.end]);
-  }, [filters.price.start, filters.price.end]);
+    setLocalPrice([filters.price.start ?? priceRange.min, filters.price.end ?? priceRange.max]);
+  }, [filters.price.start, filters.price.end, priceRange.min, priceRange.max]);
 
-  const debounceRef = useRef<number | null>(null);
-  useEffect(() => {
-    return () => {
-      if (debounceRef.current) {
-        window.clearTimeout(debounceRef.current);
-        debounceRef.current = null;
-      }
-    };
+  const handleSliderChange = useCallback((value: number[]) => {
+    setLocalPrice([value[0], value[1]]);
   }, []);
-
-  const applyPriceToStore = useCallback(
-    (start: number, end: number) => {
-      setFilters(tabKey, { ...filters, price: { start, end } });
-    },
-    [setFilters, tabKey, filters]
-  );
-
-  const handleSliderChange = useCallback(
-    (value: number[]) => {
-      const [newStart, newEnd] = [value[0], value[1]];
-      setLocalPrice([newStart, newEnd]);
-
-      if (debounceRef.current) {
-        window.clearTimeout(debounceRef.current);
-      }
-
-      debounceRef.current = window.setTimeout(() => {
-        applyPriceToStore(newStart, newEnd);
-        debounceRef.current = null;
-      }, 300);
-    },
-    [applyPriceToStore]
-  );
 
   const handleCheckboxListChange = useCallback(
     (key: keyof ProductsPageFilters, value: any) => (event: SyntheticEvent, checked: boolean) => {
       if (key === "tags") {
-        const current = tags;
-        const updated = checked ? Array.from(new Set([...current, value])) : current.filter((t) => t !== value);
+        const updated = checked ? Array.from(new Set([...tags, value])) : tags.filter((t) => t !== value);
         setFilters(tabKey, { ...filters, tags: updated });
       } else {
         setFilters(tabKey, { ...filters, [key]: checked });
@@ -97,13 +75,18 @@ const ProductsFilterDrawer = ({
     [tags, setFilters, tabKey, filters]
   );
 
+  const handleApplyFilters = useCallback(() => {
+    setFilters(tabKey, { ...filters, price: { start: localPrice[0], end: localPrice[1] } });
+    closeFilterDrawer();
+  }, [localPrice, setFilters, tabKey, filters, closeFilterDrawer]);
+
   const resetFilterSection = (keys: (keyof ProductsPageFilters)[]) => () => {
     const newFilters = { ...filters };
 
     keys.forEach((key) => {
       if (key === "price") {
-        newFilters.price = { ...defaultFilters.price };
-        setLocalPrice([defaultFilters.price.start, defaultFilters.price.end]);
+        newFilters.price = { start: priceRange.min, end: priceRange.max };
+        setLocalPrice([priceRange.min, priceRange.max]);
       } else if (key === "tags") {
         newFilters.tags = [...defaultFilters.tags];
       } else {
@@ -114,49 +97,16 @@ const ProductsFilterDrawer = ({
     setFilters(tabKey, newFilters);
   };
 
-  const getActiveFiltersCount = () => {
-    let count = 0;
-
-    if (tags.length !== defaultTags.length || !tags.every(t => defaultTags.includes(t))) count++;
-    if (localPrice[0] !== defaultFilters.price.start || localPrice[1] !== defaultFilters.price.end) count++;
-    if (filters.discount !== defaultFilters.discount || filters.nonDiscount !== defaultFilters.nonDiscount) count++;
-    if (filters.availability !== defaultFilters.availability || filters.nonAvailability !== defaultFilters.nonAvailability) count++;
-    if (filters.deliveryUkrPost !== defaultFilters.deliveryUkrPost || filters.deliveryNovaPost !== defaultFilters.deliveryNovaPost) count++;
-
-    return count;
-  };
-
-  const activeFiltersCount = getActiveFiltersCount();
-
-  const handleApplyFilters = useCallback(() => {
-    if (debounceRef.current) {
-      window.clearTimeout(debounceRef.current);
-      debounceRef.current = null;
-    }
-    setFilters(tabKey, { ...filters, price: { start: localPrice[0], end: localPrice[1] } });
-    closeFilterDrawer();
-  }, [localPrice, setFilters, tabKey, filters, closeFilterDrawer]);
-
-  const isPriceActive = localPrice[0] !== defaultFilters.price.start || localPrice[1] !== defaultFilters.price.end;
-  const isCategoryActive = tags.length !== defaultTags.length || !tags.every((t) => defaultTags.includes(t));
-  const isDiscountActive = filters.discount !== defaultFilters.discount || filters.nonDiscount !== defaultFilters.nonDiscount;
-  const isAvailabilityActive = filters.availability !== defaultFilters.availability || filters.nonAvailability !== defaultFilters.nonAvailability;
-  const isDeliveryActive = filters.deliveryNovaPost !== defaultFilters.deliveryNovaPost || filters.deliveryUkrPost !== defaultFilters.deliveryUkrPost;
-
-  const categoriesSection = useMemo(
-    () =>
-      categoryProbableFilters.map(({ id, translationKey }) => (
-        <AppCheckbox
-          key={id}
-          checked={tags.includes(id)}
-          onChange={handleCheckboxListChange("tags", id)}
-          data-testid={`products-page-filter-${id.replace("category:", "")}-checkbox`}
-          labelTranslationKey={translationKey}
-          variant="dark"
-        />
-      )),
-    [tags, handleCheckboxListChange]
-  );
+  const categoriesSection = categoryProbableFilters.map(({ id, translationKey }) => (
+    <AppCheckbox
+      key={id}
+      checked={tags.includes(id)}
+      onChange={handleCheckboxListChange("tags", id)}
+      data-testid={`products-page-filter-${id.replace("category:", "")}-checkbox`}
+      labelTranslationKey={translationKey}
+      variant="dark"
+    />
+  ));
 
   const discountSection = (
     <>
@@ -177,10 +127,10 @@ const ProductsFilterDrawer = ({
 
   const priceSection = (
     <AppRangeSlider
-      value={[localPrice[0], localPrice[1]]}
+      value={localPrice}
       onChange={handleSliderChange}
-      min={defaultFilters.price.start}
-      max={defaultFilters.price.end}
+      min={priceRange.min}
+      max={priceRange.max}
     />
   );
 
@@ -220,11 +170,8 @@ const ProductsFilterDrawer = ({
     </>
   );
 
-  const resetFiltersButton = (activeFiltersCount ?? 0) > 0 && (
-    <AppTooltip
-      titleTranslationKey="productsFilter.clear"
-      className="products-filters__clear-filters-tooltip"
-    >
+  const resetFiltersIcon = activeFiltersCount > 0 && (
+    <AppTooltip titleTranslationKey="productsFilter.clear" className="products-filters__clear-filters-tooltip">
       <AppBadge badgeContent={activeFiltersCount} size="small">
         <AppIconButton onClick={resetFilters}>
           <FilterListOffIcon />
@@ -242,12 +189,12 @@ const ProductsFilterDrawer = ({
           component="h2"
           fontWeight="extra-bold"
         />
-        {resetFiltersButton}
+        {resetFiltersIcon}
       </AppBox>
       <AppBox className="products-filters__items">
         {showCategory && (
           <FilterRecordAccordion
-            isFilterActive={isCategoryActive}
+            isFilterActive={tags.length !== defaultTags.length || !tags.every((t) => defaultTags.includes(t))}
             resetFilter={resetFilterSection(["tags"])}
             sectionCaptionTranslationKey="productsFilter.category"
           >
@@ -255,36 +202,39 @@ const ProductsFilterDrawer = ({
           </FilterRecordAccordion>
         )}
         <FilterRecordAccordion
-          isFilterActive={isDiscountActive}
+          isFilterActive={filters.discount !== defaultFilters.discount || filters.nonDiscount !== defaultFilters.nonDiscount}
           resetFilter={resetFilterSection(["discount", "nonDiscount"])}
           sectionCaptionTranslationKey="productsFilter.discount"
         >
           {discountSection}
         </FilterRecordAccordion>
         <FilterRecordAccordion
-          isFilterActive={isPriceActive}
+          isFilterActive={filters.price.start !== priceRange.min || filters.price.end !== priceRange.max}
           resetFilter={resetFilterSection(["price"])}
           sectionCaptionTranslationKey="productsFilter.price"
         >
           {priceSection}
         </FilterRecordAccordion>
         <FilterRecordAccordion
-          isFilterActive={isAvailabilityActive}
+          isFilterActive={filters.availability !== defaultFilters.availability || filters.nonAvailability !== defaultFilters.nonAvailability}
           resetFilter={resetFilterSection(["availability", "nonAvailability"])}
           sectionCaptionTranslationKey="productsFilter.availability"
         >
           {availabilitySection}
         </FilterRecordAccordion>
         <FilterRecordAccordion
-          isFilterActive={isDeliveryActive}
-          resetFilter={resetFilterSection(["deliveryNovaPost", "deliveryUkrPost"])}
+          isFilterActive={filters.deliveryUkrPost !== defaultFilters.deliveryUkrPost || filters.deliveryNovaPost !== defaultFilters.deliveryNovaPost}
+          resetFilter={resetFilterSection(["deliveryUkrPost", "deliveryNovaPost"])}
           sectionCaptionTranslationKey="productsFilter.delivery"
         >
           {deliverySection}
         </FilterRecordAccordion>
       </AppBox>
       <AppBox className="products-filters__footer">
-        <AppButton data-testid="products-filter-apply-btn" onClick={handleApplyFilters} fullWidth>
+        <AppButton data-testid="products-filter-btn" onClick={resetFilters} className="products-filters__reset-button">
+          <AppTypography translationKey="productsFilter.reset" />
+        </AppButton>
+        <AppButton data-testid="products-filter-btn" onClick={handleApplyFilters}>
           <AppTypography translationKey="productsFilter.apply" />
         </AppButton>
       </AppBox>

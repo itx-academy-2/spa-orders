@@ -23,6 +23,7 @@
   "productsFilter.delivery": "Delivery",
   "productsFilter.deliveryUkrPost": "UkrPost",
   "productsFilter.deliveryNovaPost": "NovaPost",
+  "productsFilter.reset": "Reset",
   "productsFilter.apply": "Apply",
   "productsFilter.clear": "Clear filters",
   "sortOptions.newest": "Newest",

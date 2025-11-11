@@ -5,7 +5,7 @@ import { ProductsPageFilters } from "./ProductsPage.types";
 export const defaultAllProductsFilters: ProductsPageFilters = {
   tags: ["category:computer", "category:mobile", "category:tablet"],
   price: { start: 0, end: 10000 },
-  discount: false,
+  discount: true,
   nonDiscount: true,
   availability: true,
   nonAvailability: false,

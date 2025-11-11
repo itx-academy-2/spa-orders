@@ -61,12 +61,12 @@ export type GetUserProductsParams = Lang & {
   sort?: string;
   discount?: boolean;
   nonDiscount?: boolean;
+  priceMin?: number;
+  priceMax?: number;
   availability?: boolean;
   nonAvailability?: boolean;
   deliveryNovaPost?: boolean;
   deliveryUkrPost?: boolean;
-  minProductPrice?: number;
-  maxProductPrice?: number;
 };
 
 export type GetSaleProductsResponse = {

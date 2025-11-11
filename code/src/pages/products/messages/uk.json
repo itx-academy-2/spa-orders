@@ -23,6 +23,7 @@
   "productsFilter.delivery": "Доставка",
   "productsFilter.deliveryUkrPost": "УкрПошта",
   "productsFilter.deliveryNovaPost": "Нова Пошта",
+  "productsFilter.reset": "Очистити",
   "productsFilter.apply": "Застосувати",
   "productsFilter.clear": "Очистити фільтри",
   "sortOptions.newest": "Нові",

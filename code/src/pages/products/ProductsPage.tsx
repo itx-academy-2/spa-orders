@@ -39,11 +39,9 @@ const ProductsPage = () => {
     totalPages = 0,
     activeFiltersCount,
     filters,
-    setFilters,
     defaultFilters,
     totalElements = 0,
     isCategoryFilterVisible,
-    resetFilterByKey,
     resetFilters,
     isLoading,
     isError
@@ -159,14 +157,13 @@ const ProductsPage = () => {
       </AppBox>
       <AppDrawer isOpen={isFilterDrawerOpened} onClose={handleCloseFilterDrawer}>
         <ProductsFilterDrawer
-          activeFiltersCount={activeFiltersCount}
           filters={filters}
           defaultFilters={defaultFilters}
           closeFilterDrawer={handleCloseFilterDrawer}
           showCategory={isCategoryFilterVisible}
           tabKey={tabKey}
           resetFilters={resetFilters}
-          resetFilterByKey={resetFilterByKey}
+          activeFiltersCount={activeFiltersCount}
         />
       </AppDrawer>
     </PageWrapper>
