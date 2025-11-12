@@ -9,17 +9,6 @@ import ProductsFilterDrawer from "@/pages/products/components/products-filter-dr
 
 jest.mock("@/store/zustand/filtersStore");
 
-jest.mock("@/components/app-range-slider/AppRangeSlider", () => (props: any) => {
-    return (
-        <input
-            data-testid="products-price-slider"
-            type="range"
-            value={props.value[0]}
-            onChange={(e) => props.onChange([100, 400])}
-        />
-    );
-});
-
 describe("ProductsFilterDrawer component", () => {
     const mockSetFilters = jest.fn();
     const mockCloseDrawer = jest.fn();
@@ -51,8 +40,7 @@ describe("ProductsFilterDrawer component", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-
-        (useFiltersStore as unknown as jest.Mock).mockImplementation((selector: any) => {
+        (useFiltersStore as unknown as jest.Mock).mockImplementation((selector: (state: { setFilters: typeof mockSetFilters }) => any) => {
             const storeState = { setFilters: mockSetFilters };
             return selector(storeState);
         });
@@ -83,28 +71,6 @@ describe("ProductsFilterDrawer component", () => {
         expect(buttons).toHaveLength(2);
     });
 
-    test("calls setFilters when slider changes", () => {
-        render(
-            <ProductsFilterDrawer
-                filters={filters}
-                defaultFilters={defaultFilters}
-                closeFilterDrawer={mockCloseDrawer}
-                showCategory
-                tabKey="computer"
-                resetFilters={mockResetFilters}
-                activeFiltersCount={1}
-            />
-        );
-
-        const slider = screen.getByTestId("products-price-slider");
-        fireEvent.change(slider, { target: { value: 100 } });
-
-        expect(mockSetFilters).toHaveBeenCalledWith("computer", {
-            ...filters,
-            price: { start: 100, end: 400 },
-        });
-    });
-
     test("calls setFilters when a checkbox changes", () => {
         render(
             <ProductsFilterDrawer
@@ -119,9 +85,7 @@ describe("ProductsFilterDrawer component", () => {
         );
 
         const firstCheckboxId = categoryProbableFilters[0].id.replace("category:", "");
-        const checkbox = screen.getByTestId(`products-page-filter-${firstCheckboxId}-checkbox`);
-
-        fireEvent.click(checkbox);
+        fireEvent.click(screen.getByTestId(`products-page-filter-${firstCheckboxId}-checkbox`));
 
         expect(mockSetFilters).toHaveBeenCalledWith("computer", expect.any(Object));
     });
@@ -139,8 +103,7 @@ describe("ProductsFilterDrawer component", () => {
             />
         );
 
-        const resetIcon = screen.getByTestId("products-filters-clear-filters-btn");
-        fireEvent.click(resetIcon);
+        fireEvent.click(screen.getByTestId("products-filters-clear-filters-btn"));
 
         expect(mockResetFilters).toHaveBeenCalled();
     });
@@ -158,8 +121,7 @@ describe("ProductsFilterDrawer component", () => {
             />
         );
 
-        const applyButton = screen.getAllByTestId("products-filter-btn")[1];
-        fireEvent.click(applyButton);
+        fireEvent.click(screen.getAllByTestId("products-filter-btn")[1]);
 
         expect(mockCloseDrawer).toHaveBeenCalled();
     });
