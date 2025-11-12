@@ -63,8 +63,14 @@ const defaultQueryArguments = {
   page: 0,
   sort: undefined,
   lang: "en",
-  tags: ""
-};
+  tags: "category:computer,category:mobile,category:tablet",
+  availability: true,
+  nonAvailability: false,
+  deliveryNovaPost: true,
+  deliveryUkrPost: true,
+  discount: true,
+  nonDiscount: true,
+}
 
 type TestQueryArguments = PaginationParams & {
   tags: string;
