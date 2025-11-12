@@ -30,7 +30,9 @@ describe("useAllProductsFilter hook", () => {
 
         (usePagination as jest.Mock).mockReturnValue({ page: 2 });
 
-        (useFiltersStore as unknown as jest.Mock).mockImplementation((selector: any) => {
+        (useFiltersStore as unknown as jest.Mock).mockImplementation(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (selector: any) => {
             const storeState = {
                 setFilters: mockSetFilters,
                 filtersByTab: {},
