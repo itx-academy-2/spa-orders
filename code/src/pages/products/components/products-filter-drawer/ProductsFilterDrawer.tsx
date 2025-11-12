@@ -135,6 +135,7 @@ const ProductsFilterDrawer = ({
       onChange={handleSliderChange}
       min={priceRange.min}
       max={priceRange.max}
+      data-testid="products-price-slider"
     />
   );
 
@@ -177,7 +178,7 @@ const ProductsFilterDrawer = ({
   const resetFiltersIcon = activeFiltersCount > 0 && (
     <AppTooltip titleTranslationKey="productsFilter.clear" className="products-filters__clear-filters-tooltip">
       <AppBadge badgeContent={activeFiltersCount} size="small">
-        <AppIconButton onClick={resetFilters}>
+        <AppIconButton onClick={resetFilters} data-testid="products-filters-clear-filters-btn">
           <FilterListOffIcon />
         </AppIconButton>
       </AppBadge>
