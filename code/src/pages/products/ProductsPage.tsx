@@ -44,7 +44,8 @@ const ProductsPage = () => {
     isCategoryFilterVisible,
     resetFilters,
     isLoading,
-    isError
+    isError,
+    productsResponse
   } = useAllProductsFilter({ sort: sortOption ?? undefined, category: categoryType ?? undefined });
 
   const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
@@ -164,6 +165,7 @@ const ProductsPage = () => {
           tabKey={tabKey}
           resetFilters={resetFilters}
           activeFiltersCount={activeFiltersCount}
+          productsResponse={productsResponse}
         />
       </AppDrawer>
     </PageWrapper>

@@ -60,8 +60,11 @@ const ProductsFilterDrawer = ({
   }, [filters.price.start, filters.price.end, priceRange.min, priceRange.max]);
 
   const handleSliderChange = useCallback((value: number[]) => {
-    setLocalPrice([value[0], value[1]]);
-  }, []);
+    const newPrice: [number, number] = [value[0], value[1]];
+    setLocalPrice(newPrice);
+
+    setFilters(tabKey, { ...filters, price: { start: newPrice[0], end: newPrice[1] } });
+  }, [setFilters, tabKey, filters]);
 
   const handleCheckboxListChange = useCallback(
     (key: keyof ProductsPageFilters, value: any) => (event: SyntheticEvent, checked: boolean) => {
@@ -76,9 +79,9 @@ const ProductsFilterDrawer = ({
   );
 
   const handleApplyFilters = useCallback(() => {
-    setFilters(tabKey, { ...filters, price: { start: localPrice[0], end: localPrice[1] } });
     closeFilterDrawer();
-  }, [localPrice, setFilters, tabKey, filters, closeFilterDrawer]);
+  }, [closeFilterDrawer]);
+
 
   const resetFilterSection = (keys: (keyof ProductsPageFilters)[]) => () => {
     const newFilters = { ...filters };

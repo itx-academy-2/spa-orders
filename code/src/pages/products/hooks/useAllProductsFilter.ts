@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 
@@ -99,6 +99,11 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
 
   const isCategoryFilterVisible = !extraParams?.category;
 
+  const effectiveDefaultPrice = {
+    start: productsResponse?.minProductPrice ?? defaultForThisTab.price.start,
+    end: productsResponse?.maxProductPrice ?? defaultForThisTab.price.end,
+  };
+
   const tagsAreDefault = (() => {
     const current = filters.tags ?? [];
     const def = defaultForThisTab.tags ?? [];
@@ -106,7 +111,10 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
     if (current.length !== def.length) return false;
     return current.every((t) => def.includes(t));
   })();
-  const priceIsDefault = filters.price.start === defaultForThisTab.price.start && filters.price.end === defaultForThisTab.price.end;
+
+  const priceIsDefault =
+    (filters.price.start ?? effectiveDefaultPrice.start) === (effectiveDefaultPrice.start ?? filters.price.start) &&
+    (filters.price.end ?? effectiveDefaultPrice.end) === (effectiveDefaultPrice.end ?? filters.price.end);
 
   const activeFiltersCount =
   (tagsAreDefault ? 0 : 1) +
@@ -117,9 +125,17 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
   ((filters.nonAvailability ?? false) !== (defaultForThisTab.nonAvailability ?? false) ? 1 : 0);
 
   const resetFilters = () => {
+    const priceFromServer =
+      productsResponse && (productsResponse.minProductPrice !== undefined || productsResponse.maxProductPrice !== undefined)
+        ? {
+            start: productsResponse.minProductPrice ?? defaultForThisTab.price.start,
+            end: productsResponse.maxProductPrice ?? defaultForThisTab.price.end,
+          }
+        : defaultForThisTab.price;
+
     setFilters({
       ...defaultForThisTab,
-      price: defaultForThisTab.price
+      price: priceFromServer,
     });
   };
 
