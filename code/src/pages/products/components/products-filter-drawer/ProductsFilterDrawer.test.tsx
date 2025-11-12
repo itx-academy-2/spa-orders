@@ -40,11 +40,15 @@ describe("ProductsFilterDrawer component", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        (useFiltersStore as unknown as jest.Mock).mockImplementation((selector: (state: { setFilters: typeof mockSetFilters }) => any) => {
-            const storeState = { setFilters: mockSetFilters };
-            return selector(storeState);
-        });
+        type FiltersStoreState = { setFilters: typeof mockSetFilters };
+        (useFiltersStore as unknown as jest.Mock).mockImplementation(
+            (selector: (state: FiltersStoreState) => unknown) => {
+                const storeState: FiltersStoreState = { setFilters: mockSetFilters };
+                return selector(storeState);
+            }
+        );
     });
+
 
     test("renders correctly with category section when showCategory=true", () => {
         render(
