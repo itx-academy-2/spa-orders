@@ -117,20 +117,20 @@ const useAllProductsFilter = (extraParams?: UseAllProductsFilterExtraParams) => 
     (filters.price.end ?? effectiveDefaultPrice.end) === (effectiveDefaultPrice.end ?? filters.price.end);
 
   const activeFiltersCount =
-  (tagsAreDefault ? 0 : 1) +
-  (priceIsDefault ? 0 : 1) +
-  ((filters.discount ?? false) !== (defaultForThisTab.discount ?? false) ? 1 : 0) +
-  ((filters.nonDiscount ?? false) !== (defaultForThisTab.nonDiscount ?? false) ? 1 : 0) +
-  ((filters.availability ?? false) !== (defaultForThisTab.availability ?? false) ? 1 : 0) +
-  ((filters.nonAvailability ?? false) !== (defaultForThisTab.nonAvailability ?? false) ? 1 : 0);
+    (tagsAreDefault ? 0 : 1) +
+    (priceIsDefault ? 0 : 1) +
+    ((filters.discount ?? false) !== (defaultForThisTab.discount ?? false) ? 1 : 0) +
+    ((filters.nonDiscount ?? false) !== (defaultForThisTab.nonDiscount ?? false) ? 1 : 0) +
+    ((filters.availability ?? false) !== (defaultForThisTab.availability ?? false) ? 1 : 0) +
+    ((filters.nonAvailability ?? false) !== (defaultForThisTab.nonAvailability ?? false) ? 1 : 0);
 
   const resetFilters = () => {
     const priceFromServer =
       productsResponse && (productsResponse.minProductPrice !== undefined || productsResponse.maxProductPrice !== undefined)
         ? {
-            start: productsResponse.minProductPrice ?? defaultForThisTab.price.start,
-            end: productsResponse.maxProductPrice ?? defaultForThisTab.price.end,
-          }
+          start: productsResponse.minProductPrice ?? defaultForThisTab.price.start,
+          end: productsResponse.maxProductPrice ?? defaultForThisTab.price.end,
+        }
         : defaultForThisTab.price;
 
     setFilters({

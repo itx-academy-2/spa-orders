@@ -67,14 +67,15 @@ const ProductsFilterDrawer = ({
   }, [setFilters, tabKey, filters]);
 
   const handleCheckboxListChange = useCallback(
-    (key: keyof ProductsPageFilters, value: any) => (event: SyntheticEvent, checked: boolean) => {
-      if (key === "tags") {
-        const updated = checked ? Array.from(new Set([...tags, value])) : tags.filter((t) => t !== value);
-        setFilters(tabKey, { ...filters, tags: updated });
-      } else {
-        setFilters(tabKey, { ...filters, [key]: checked });
-      }
-    },
+    (key: keyof ProductsPageFilters, value: string | null) =>
+      (event: SyntheticEvent, checked: boolean) => {
+        if (key === "tags" && value) {
+          const updated = checked ? Array.from(new Set([...tags, value])) : tags.filter((t) => t !== value);
+          setFilters(tabKey, { ...filters, tags: updated });
+        } else {
+          setFilters(tabKey, { ...filters, [key]: checked });
+        }
+      },
     [tags, setFilters, tabKey, filters]
   );
 
