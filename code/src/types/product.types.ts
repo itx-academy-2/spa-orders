@@ -60,14 +60,6 @@ export type ProductFilterParams = {
 
 export type GetUserProductsParams = Lang & ProductFilterParams & Pageable;
 
-export type GetBestsellerProductsParams = Lang & {
-  tags?: string;
-  page?: number;
-  size?: number;
-  sort?: string;
-  discount?: number;
-};
-
 export type GetSaleProductsResponse = {
   maximumPriceWithDiscount: number;
   minimumPriceWithDiscount: number;
@@ -218,6 +210,14 @@ export type GetUserWishlistResponse = {
 };
 
 export type GetUserWishlistParams = Lang & {
+  tags?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+  discount?: number;
+};
+
+export type GetBestsellerProductsParams = Lang & {
   tags?: string;
   page?: number;
   size?: number;
