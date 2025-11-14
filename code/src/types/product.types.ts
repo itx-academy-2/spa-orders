@@ -35,38 +35,37 @@ export type ManagerProduct = {
   priceWithDiscount: number | null;
 };
 
-export type PageMeta = {
+export type GetUserProductsResponse = {
+  minProductPrice: number;
+  maxProductPrice: number;
   totalElements: number;
   totalPages: number;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
   size: number;
-  empty: boolean;
-};
-
-export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
-
-export type GetUserProductsResponse = PageMeta & {
-  minProductPrice?: number;
-  maxProductPrice?: number;
   content: Product[];
 };
 
-export type GetUserProductsParams = Lang & {
+export type ProductFilterParams = {
+  tags: string[];
+  discount: boolean;
+  nonDiscount: boolean;
+  priceMin: number;
+  priceMax: number;
+  availability: boolean;
+  nonAvailability: boolean;
+  deliveryNovaPost: boolean;
+  deliveryUkrPost: boolean;
+};
+
+export type GetUserProductsParams = Lang & ProductFilterParams & Pageable;
+
+export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
+
+export type GetBestsellerProductsParams = Lang & {
   tags?: string;
   page?: number;
   size?: number;
   sort?: string;
-  discount?: boolean;
-  nonDiscount?: boolean;
-  priceMin?: number;
-  priceMax?: number;
-  availability?: boolean;
-  nonAvailability?: boolean;
-  deliveryNovaPost?: boolean;
-  deliveryUkrPost?: boolean;
+  discount?: number;
 };
 
 export type GetSaleProductsResponse = {
@@ -77,13 +76,16 @@ export type GetSaleProductsResponse = {
   pageProducts: GetUserProductsResponse;
 };
 
-export type GetSaleProductsParams = Lang &
-  Omit<GetUserProductsParams, "tags"> & {
-    tags?: string[];
+export type GetSaleProductsParams = Lang & {
     minimumDiscount?: number;
     maximumDiscount?: number;
     minimumPriceWithDiscount?: number;
     maximumPriceWithDiscount?: number;
+    tags?: string[];
+    page?: number;
+    size?: number;
+    sort?: string;
+    discount?: number;
   };
 
 export type GetUserProductByIdResponse = Pick<
@@ -194,3 +196,31 @@ export interface GetBestsellerProductsResponse {
   empty: boolean;
   content: BestsellerProduct[];
 }
+
+export type GetViewHistoryResponse = {
+  content: Product[];
+  totalPages: number;
+  totalElements: number;
+};
+
+export type GetViewHistoryParams = Lang & {
+  tags?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+  discount?: number;
+};
+
+export type GetUserWishlistResponse = {
+  content: Product[];
+  totalPages: number;
+  totalElements: number;
+};
+
+export type GetUserWishlistParams = Lang & {
+  tags?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+  discount?: number;
+};

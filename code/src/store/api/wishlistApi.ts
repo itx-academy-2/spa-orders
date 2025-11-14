@@ -4,15 +4,15 @@ import { httpMethods } from "@/constants/methods";
 import { rtkQueryTags } from "@/constants/api-tags";
 
 import {
-  GetUserProductsParams,
-  GetUserProductsResponse,
+  GetUserWishlistParams,
+  GetUserWishlistResponse,
 } from "@/types/product.types";
 
 export const wishlistApi = appApi.injectEndpoints({
   endpoints: (build) => ({
     getUserWishlist: build.query<
-      GetUserProductsResponse,
-      GetUserProductsParams | void
+      GetUserWishlistResponse,
+      GetUserWishlistParams | void
     >({
       query: (params) => ({
         url: URLS.wishlist.get,

@@ -3,16 +3,16 @@ import { httpMethods } from "@/constants/methods";
 import { URLS } from "@/constants/requests";
 import { appApi } from "@/store/api/appApi";
 import {
-  GetUserProductsParams,
-  GetUserProductsResponse,
+  GetViewHistoryParams,
+  GetViewHistoryResponse,
   Product
 } from "@/types/product.types";
 
 const viewHistoryApi = appApi.injectEndpoints({
   endpoints: (build) => ({
     getViewHistoryApi: build.query<
-      GetUserProductsResponse,
-      GetUserProductsParams
+      GetViewHistoryResponse,
+      GetViewHistoryParams
     >({
       query: (params) => ({ url: URLS.viewHistory.get, params: params ?? {} }),
       providesTags: [rtkQueryTags.VIEW_HISTORY]

@@ -20,6 +20,7 @@ import {
   GetUserProductsBySearchQueryResponse,
   GetUserProductsParams,
   GetUserProductsResponse,
+  GetBestsellerProductsParams,
   Product,
   UpdateProductBody
 } from "@/types/product.types";
@@ -124,7 +125,7 @@ export const productsApi = appApi.injectEndpoints({
     }),
     getBestsellerProducts: build.query<
       GetBestsellerProductsResponse,
-      GetUserProductsParams
+      GetBestsellerProductsParams
     >({
       query: (params) => ({
         url: URLS.products.getBestsellersProducts,
