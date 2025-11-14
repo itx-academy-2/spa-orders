@@ -35,6 +35,8 @@ export type ManagerProduct = {
   priceWithDiscount: number | null;
 };
 
+export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
+
 export type GetUserProductsResponse = {
   minProductPrice: number;
   maxProductPrice: number;
@@ -57,8 +59,6 @@ export type ProductFilterParams = {
 };
 
 export type GetUserProductsParams = Lang & ProductFilterParams & Pageable;
-
-export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
 
 export type GetBestsellerProductsParams = Lang & {
   tags?: string;
