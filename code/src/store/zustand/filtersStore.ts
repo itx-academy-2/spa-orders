@@ -7,7 +7,6 @@ import { defaultFilters } from "@/pages/products/ProductsPage.constants";
 type FiltersStore = {
   draft: ProductFilterParams;
   applied: Partial<ProductFilterParams>;
-
   setDraft: (patch: Partial<ProductFilterParams>) => void;
   apply: () => void;
   reset: () => void;
@@ -20,7 +19,6 @@ export const useFiltersStore = create<FiltersStore>()(
     (set) => ({
       draft: { ...defaultFilters },
       applied: {},
-
       setDraft: (patch) => set((s) => ({ draft: { ...s.draft, ...patch } })),
       apply: () => set((s) => ({ applied: { ...s.draft } })),
       reset: () => set({ draft: { ...defaultFilters }, applied: { ...defaultFilters } }),
@@ -31,7 +29,6 @@ export const useFiltersStore = create<FiltersStore>()(
         });
         set((s) => ({
           draft: { ...s.draft, ...updates },
-          applied: { ...s.applied, ...updates }
         }));
       },
       resetPriceSection: (min, max) => {
@@ -41,14 +38,18 @@ export const useFiltersStore = create<FiltersStore>()(
         };
         set((s) => ({
           draft: { ...s.draft, ...updates },
-          applied: { ...s.applied, ...updates }
         }));
       }
     }),
     {
       name: "filters-session-storage",
       storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({ applied: state.applied })
+      partialize: (state) => ({ applied: state.applied }),
+      onRehydrateStorage: () => (state) => {
+        if (state?.applied) {
+          state.draft = { ...defaultFilters, ...state.applied };
+        }
+      }
     }
   )
 );

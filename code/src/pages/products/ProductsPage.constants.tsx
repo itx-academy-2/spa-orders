@@ -1,12 +1,13 @@
 import { FormattedMessage } from "react-intl";
 
-import { ProductsPageFilters } from "./ProductsPage.types";
+import { ProductFilterParams } from "@/types/product.types";
 
-export const defaultAllProductsFilters: ProductsPageFilters = {
+export const defaultFilters: ProductFilterParams = {
   tags: ["category:computer", "category:mobile", "category:tablet"],
-  price: { start: 0, end: 10000 },
   discount: true,
   nonDiscount: true,
+  priceMin: undefined,
+  priceMax: undefined,
   availability: true,
   nonAvailability: false,
   deliveryNovaPost: true,

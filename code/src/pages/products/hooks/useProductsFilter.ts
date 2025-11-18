@@ -9,6 +9,9 @@ import usePagination from "@/hooks/use-pagination/usePagination";
 
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
+import { defaultFilters } from "@/pages/products/ProductsPage.constants";
+import { ProductFilterParams } from "@/types/product.types";
+import { filterSections } from "../ProductsPage.types";
 
 const DEFAULT_SORT = "createdAt,desc";
 
@@ -19,26 +22,46 @@ export const useProductsFilter = () => {
   const size = Math.min(setProductsPerPageSize(screenSize.width), 6);
   const [searchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
+  const categoryType = searchParams.get("category");
 
   const applied = useFiltersStore(s => s.applied);
   const reset = useFiltersStore(s => s.reset);
+  const draft = useFiltersStore(s => s.draft);
 
-  const params: GetUserProductsParams = {
+  const tags = categoryType ? [`category:${categoryType}`] : (applied.tags && applied.tags.length > 0 ? applied.tags : defaultFilters.tags);
+
+  const params: Partial<GetUserProductsParams> = {
     ...applied,
+    tags,
     lang: locale,
     sort: sortOption ?? DEFAULT_SORT,
     page: page - 1,
     size,
   };
 
-  const { data, isLoading, isError } = useGetUserProductsQuery(params);
+  const { data, isLoading, isError } = useGetUserProductsQuery(params as GetUserProductsParams);
   console.log('useProductsFilter render', { appliedRef: applied, page, size, locale });
   console.log("Params for API:", params);
 
   const products = data?.content ?? [];
   const totalPages = data?.totalPages ?? 0;
   const totalElements = data?.totalElements ?? 0;
-  const activeFiltersCount = Object.values(applied).filter(Boolean).length;;
+
+  const countActiveSections = (draft: ProductFilterParams, data?: { minProductPrice: number; maxProductPrice: number }) => {
+    return filterSections.filter(section => {
+      if (section.keys.includes("tags")) {
+        return JSON.stringify(draft.tags ?? defaultFilters.tags) !== JSON.stringify(defaultFilters.tags);
+      }
+      if (section.keys.includes("priceMin") || section.keys.includes("priceMax")) {
+        const minDefault = data?.minProductPrice ?? defaultFilters.priceMin ?? 0;
+        const maxDefault = data?.maxProductPrice ?? defaultFilters.priceMax ?? 0;
+        return (draft.priceMin != null && draft.priceMin !== minDefault) ||
+          (draft.priceMax != null && draft.priceMax !== maxDefault);
+      }
+      return section.keys.some(key => draft[key] !== defaultFilters[key] && draft[key] != null);
+    }).length;
+  };
+  const activeFiltersCount = countActiveSections(draft, data);
 
   return {
     products,

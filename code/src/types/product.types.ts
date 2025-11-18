@@ -60,6 +60,7 @@ export type ProductFilterParams = {
 
 export type GetUserProductsParams = Lang & ProductFilterParams & Omit<Pageable, "sort"> & {
   sort: string;
+  tags: string[];
 };
 
 export type GetSaleProductsResponse = {
