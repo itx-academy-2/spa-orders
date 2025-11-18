@@ -50,8 +50,8 @@ export type ProductFilterParams = {
   tags: string[];
   discount: boolean;
   nonDiscount: boolean;
-  priceMin: number;
-  priceMax: number;
+  priceMin?: number;
+  priceMax?: number;
   availability: boolean;
   nonAvailability: boolean;
   deliveryNovaPost: boolean;
