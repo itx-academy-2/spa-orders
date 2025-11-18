@@ -1,4 +1,4 @@
-export type UseAllProductsFilterExtraParams = {
+export type UseProductsFilterExtraParams = {
   sort?: string;
   category?: string | null;
 };

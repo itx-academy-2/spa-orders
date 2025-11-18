@@ -58,7 +58,9 @@ export type ProductFilterParams = {
   deliveryUkrPost: boolean;
 };
 
-export type GetUserProductsParams = Lang & ProductFilterParams & Pageable;
+export type GetUserProductsParams = Lang & ProductFilterParams & Omit<Pageable, "sort"> & {
+  sort: string;
+};
 
 export type GetSaleProductsResponse = {
   maximumPriceWithDiscount: number;

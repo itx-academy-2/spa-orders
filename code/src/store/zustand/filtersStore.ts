@@ -1,26 +1,35 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
 
-import { ProductsPageFilters } from "@/pages/products/ProductsPage.types";
-import { defaultAllProductsFilters } from "@/pages/products/ProductsPage.constants";
+import type { ProductFilterParams } from "@/types/product.types";
 
 type FiltersStore = {
-  filtersByTab: Record<string, ProductsPageFilters>;
-  setFilters: (tab: string, filters: ProductsPageFilters) => void;
-  getFilters: (tab: string) => ProductsPageFilters;
-  resetFilters: (tab: string) => void;
+  draft: ProductFilterParams;
+  applied: ProductFilterParams;
+
+  setDraft: (patch: Partial<ProductFilterParams>) => void;
+  apply: () => void;
+  reset: () => void;
 };
 
-export const useFiltersStore = create<FiltersStore>()(
-  persist(
-    (set, get) => ({
-      filtersByTab: {},
-      setFilters: (tab, filters) =>
-        set((state) => ({ filtersByTab: { ...state.filtersByTab, [tab]: filters } })),
-      getFilters: (tab) => get().filtersByTab[tab] ?? defaultAllProductsFilters,
-      resetFilters: (tab) =>
-        set((state) => ({ filtersByTab: { ...state.filtersByTab, [tab]: { ...defaultAllProductsFilters } } }))
-    }),
-    { name: "products-filters" }
-  )
-);
+const defaultFilters: ProductFilterParams = {
+  tags: ["category:computer", "category:mobile", "category:tablet"],
+  discount: false,
+  nonDiscount: true,
+  priceMin: 0,
+  priceMax: 10000,
+  availability: true,
+  nonAvailability: false,
+  deliveryNovaPost: true,
+  deliveryUkrPost: true,
+};
+
+export const useFiltersStore = create<FiltersStore>
+  ((set) => ({
+  draft: { ...defaultFilters },
+  applied: { ...defaultFilters },
+
+  setDraft: (patch) => set((s) => ({ draft: { ...s.draft, ...patch } })),
+  apply: () => set((s) => ({ applied: { ...s.draft } })),
+  reset: () => set({ draft: { ...defaultFilters }, applied: { ...defaultFilters } }),
+}));
