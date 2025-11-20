@@ -18,7 +18,7 @@ import usePagination from "@/hooks/use-pagination/usePagination";
 import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
 import useWishlistWithAuthCheck from "@/hooks/use-wishlist-with-auth-check/useWishlistWithAuthCheck";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
-import useAllProductsFilter from "@/pages/products/hooks/useAllProductsFilter";
+import useProductsFilter from "@/pages/products/hooks/useProductsFilter";
 import ProductsFilterDrawer from "@/pages/products/components/products-filter-drawer/ProductsFilterDrawer";
 
 import "@/pages/products/ProductsPage.scss";
@@ -27,32 +27,28 @@ const ProductsPage = () => {
   const { page } = usePagination();
 
   const [searchParams, setSearchParams] = useSearchParams();
+  
+  const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
 
   const sortOption = searchParams.get("sort");
 
   const categoryType = searchParams.get("category");
-
-  const tabKey = categoryType ?? "all";
+  const tabKey = categoryType || "all";
 
   const {
     products,
-    totalPages = 0,
+    totalPages,
+    totalElements,
     activeFiltersCount,
-    filters,
-    defaultFilters,
-    totalElements = 0,
-    isCategoryFilterVisible,
     resetFilters,
     isLoading,
     isError,
     productsResponse
-  } = useAllProductsFilter({ sort: sortOption ?? undefined, category: categoryType ?? undefined });
-
-  const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
+  } = useProductsFilter();
 
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
-
+  
   useTrackVisits("category", categoryType as string);
 
   const { data: wishlistData } = useWishlistWithAuthCheck();
@@ -85,7 +81,7 @@ const ProductsPage = () => {
   const productsItemsLabel = !categoryType
     ? "productsItems.label"
     : `productsItems.category.${categoryType}`;
-  
+
   const productsCount = totalElements ?? 0;
 
   const titleTypography =
@@ -105,9 +101,8 @@ const ProductsPage = () => {
 
   useEffect(() => {
     if (page > pagesCount) {
-      const params = new URLSearchParams(searchParams);
-      params.set("page", pagesCount.toString());
-      setSearchParams(params);
+      searchParams.set("page", pagesCount.toString());
+      setSearchParams(searchParams);
     }
   }, [pagesCount, page, searchParams, setSearchParams]);
 
@@ -145,7 +140,7 @@ const ProductsPage = () => {
         </AppBox>
         <ProductsContainer
           className="spa-products-page__grid"
-          products={productsList ?? []}
+          products={productsList}
           loadingItemsCount={10}
           isLoading={isLoading}
           isError={isError}
@@ -158,13 +153,10 @@ const ProductsPage = () => {
       </AppBox>
       <AppDrawer isOpen={isFilterDrawerOpened} onClose={handleCloseFilterDrawer}>
         <ProductsFilterDrawer
-          filters={filters}
-          defaultFilters={defaultFilters}
           closeFilterDrawer={handleCloseFilterDrawer}
-          showCategory={isCategoryFilterVisible}
-          tabKey={tabKey}
           resetFilters={resetFilters}
           activeFiltersCount={activeFiltersCount}
+          tabKey={tabKey}
           productsResponse={productsResponse}
         />
       </AppDrawer>
