@@ -1,0 +1,12 @@
+import AppButton from "@/components/app-button/AppButton";
+import AppTypography from "@/components/app-typography/AppTypography";
+
+import { ApplyFiltersButtonProps } from "@/pages/products/components/products-filter-buttons/apply-filters-button/ApplyFiltersButton.types";
+
+const ApplyFiltersButton = ({ onClick }: ApplyFiltersButtonProps) => (
+  <AppButton data-testid="products-filter-apply-btn" onClick={onClick}>
+    <AppTypography translationKey="productsFilter.apply" />
+  </AppButton>
+);
+
+export default ApplyFiltersButton;
