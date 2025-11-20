@@ -1,0 +1,9 @@
+@import "@design-system";
+
+.reset-filters-button {
+    &__reset-button {
+        color: $black;
+        background-color: $light;
+        border-color: $light;
+    }
+}

@@ -1,0 +1,22 @@
+@import "@design-system";
+
+.reset-filters-icon {
+    &__clear-filters-tooltip {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: spacing(4);
+
+        .MuiTouchRipple-child {
+            color: $white;
+        }
+
+        .spa-icon-button {
+            padding: spacing(1);
+        }
+
+        svg {
+            color: $white;
+        }
+    }
+}
