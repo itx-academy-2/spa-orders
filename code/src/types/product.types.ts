@@ -80,7 +80,6 @@ export type GetSaleProductsParams = Lang & {
     page?: number;
     size?: number;
     sort?: string;
-    discount?: number;
   };
 
 export type GetUserProductByIdResponse = Pick<
