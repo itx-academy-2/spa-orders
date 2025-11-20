@@ -9,7 +9,7 @@ import { CategoriesProps } from "@/pages/products/components/products-filter-dra
 
 import { useFiltersStore } from "@/store/zustand/filtersStore";
 
-export const CategoriesFilterSection = ({ tabKey, draftTags }: CategoriesProps) => {
+export const CategoriesFilterSection = ({ tabKey }: CategoriesProps) => {
   const draft = useFiltersStore(s => s.drafts[tabKey] ?? defaultFilters);
   const setDraft = useFiltersStore(s => s.setDraft);
   const resetSection = useFiltersStore(s => s.resetSection);
