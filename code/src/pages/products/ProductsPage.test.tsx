@@ -1,7 +1,10 @@
 import { fireEvent, screen } from "@testing-library/react";
+
 import ProductsPage from "@/pages/products/ProductsPage";
 import { useGetUserProductsQuery } from "@/store/api/productsApi";
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
+
+import { ProductsContainerProps } from "@/containers/products-container/ProductsContainer.types";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 const mockProducts = [
@@ -18,13 +21,16 @@ jest.mock("@/store/api/wishlistApi", () => ({
   useGetUserWishlistQuery: jest.fn(),
 }));
 
-jest.mock("@/containers/products-container/ProductsContainer", () => (props: any) => (
-  <div data-testid="products-container">
-    {props.products.map((p: any) => (
-      <span key={p.id}>{p.name}</span>
-    ))}
-  </div>
-));
+jest.mock(
+  "@/containers/products-container/ProductsContainer",
+  () => (props: ProductsContainerProps) => (
+    <div data-testid="products-container">
+      {props.products?.map((p) => (
+        <span key={p.id}>{p.name}</span>
+      ))}
+    </div>
+  )
+);
 
 const renderAndMock = (mockResponse = {}, wishlist = mockWishlist, entries = "") => {
   (useGetUserProductsQuery as unknown as jest.Mock).mockReturnValue({
