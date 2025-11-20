@@ -9,30 +9,22 @@
   color: var(--color-text);
 
   &__header {
-    padding-block: spacing(4);
-    background-color: $black;
-    color: $white;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
+    background-color: $black;
+    height: spacing(17);
   }
 
-  &__clear-filters-tooltip {
+  &__reset-icon {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: spacing(4);
+    left: spacing(3);
+  }
 
-    .MuiTouchRipple-child {
-      color: $white;
-    }
-
-    .spa-icon-button {
-      padding: spacing(1);
-    }
-
-    svg {
-      color: $white;
-    }
+  &__title {
+    font-weight: $fw-extra-bold;
+    color: $white;
   }
 
   &__items {
@@ -46,12 +38,6 @@
     display: flex;
     flex-direction: row;
     gap: spacing(2);
-  }
-
-  &__reset-button {
-    color: $black;
-    background-color: $light;
-    border-color: $light;
   }
 
   .products-filters__footer>button {
