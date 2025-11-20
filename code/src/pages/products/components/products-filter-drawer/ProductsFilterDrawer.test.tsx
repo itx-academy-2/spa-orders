@@ -21,7 +21,7 @@ jest.mock("@/pages/products/components/products-filter-drawer/drawer-sections/ca
 jest.mock("@/pages/products/components/products-filter-drawer/drawer-sections/delivery-filter-section/DeliveryFilterSection", () =>
     jest.fn(() => <div data-testid="delivery-section" />)
 );
-jest.mock("@/pages/products/components/products-filter-buttons/reset-filters-icon/ResetFiltersIcon", () =>
+jest.mock("@/pages/products/components/products-filter-buttons/reset-icon/ResetIcon", () =>
     jest.fn(({ onClick }) => <button data-testid="reset-icon" onClick={onClick} />)
 );
 jest.mock("@/pages/products/components/products-filter-buttons/reset-filters-button/ResetFiltersButton", () =>

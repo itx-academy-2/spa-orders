@@ -1,4 +1,4 @@
-export type ResetFiltersIconProps = {
+export type ResetIconProps = {
   activeFiltersCount: number;
   onClick: () => void;
 };
