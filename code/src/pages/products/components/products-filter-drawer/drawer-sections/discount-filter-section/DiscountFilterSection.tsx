@@ -3,7 +3,7 @@ import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
 
 import { useFiltersStore } from "@/store/zustand/filtersStore";
 import { defaultFilters } from "@/pages/products/ProductsPage.constants";
-import { DiscountProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/drawerSections.types";
+import { DiscountProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/DrawerSections.types";
 
 import { ProductFilterParams } from "@/types/product.types";
 

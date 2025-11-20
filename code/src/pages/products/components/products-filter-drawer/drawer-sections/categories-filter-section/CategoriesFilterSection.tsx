@@ -3,7 +3,7 @@ import FilterRecordAccordion from "@/containers/dashboard-orders-filter-drawer/c
 
 import { categoryProbableFilters } from "@/pages/sales/SalesPage.constants";
 import { defaultFilters } from "@/pages/products/ProductsPage.constants";
-import { CategoriesProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/drawerSections.types";
+import { CategoriesProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/DrawerSections.types";
 
 import { useFiltersStore } from "@/store/zustand/filtersStore";
 

@@ -3,7 +3,7 @@ import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
 
 import { useFiltersStore } from "@/store/zustand/filtersStore";
 import { defaultFilters } from "@/pages/products/ProductsPage.constants";
-import { DeliveryProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/drawerSections.types";
+import { DeliveryProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/DrawerSections.types";
 
 
 const DeliverySection = ({ tabKey, draft }: DeliveryProps) => {

@@ -4,7 +4,7 @@ import FilterRecordAccordion from "@/containers/dashboard-orders-filter-drawer/c
 
 import { useFiltersStore } from "@/store/zustand/filtersStore";
 import { defaultFilters } from "@/pages/products/ProductsPage.constants";
-import { PriceProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/drawerSections.types";
+import { PriceProps } from "@/pages/products/components/products-filter-drawer/drawer-sections/DrawerSections.types";
 
 export const PriceFilterSection = ({ tabKey, min, max }: PriceProps) => {
   const draft = useFiltersStore(s => s.drafts[tabKey] ?? defaultFilters);
