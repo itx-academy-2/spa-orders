@@ -23,13 +23,18 @@ jest.mock("@/store/api/wishlistApi", () => ({
 
 jest.mock(
   "@/containers/products-container/ProductsContainer",
-  () => (props: ProductsContainerProps) => (
-    <div data-testid="products-container">
-      {props.products?.map((p) => (
-        <span key={p.id}>{p.name}</span>
-      ))}
-    </div>
-  )
+  () => {
+    const MockProductsContainer = (props: ProductsContainerProps) => (
+      <div data-testid="products-container">
+        {props.products?.map((p) => (
+          <span key={p.id}>{p.name}</span>
+        ))}
+      </div>
+    );
+
+    MockProductsContainer.displayName = "MockProductsContainer";
+    return MockProductsContainer;
+  }
 );
 
 const renderAndMock = (mockResponse = {}, wishlist = mockWishlist, entries = "") => {
