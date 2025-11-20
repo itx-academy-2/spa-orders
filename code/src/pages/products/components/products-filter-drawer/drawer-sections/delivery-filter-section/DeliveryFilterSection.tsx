@@ -9,13 +9,13 @@ import { DeliveryProps } from "@/pages/products/components/products-filter-drawe
 const DeliverySection = ({ tabKey, draft }: DeliveryProps) => {
     const resetSection = useFiltersStore(s => s.resetSection);
 
-    const isFilterActive = () => draft.availability !== defaultFilters.availability ||
-        draft.nonAvailability !== defaultFilters.nonAvailability;
+    const isFilterActive = () => draft.deliveryUkrPost !== defaultFilters.deliveryUkrPost ||
+        draft.deliveryNovaPost !== defaultFilters.deliveryNovaPost;
 
     return (
         <FilterRecordAccordion
             isFilterActive={isFilterActive()}
-            resetFilter={() => resetSection(tabKey, ["availability", "nonAvailability"])}
+            resetFilter={() => resetSection(tabKey, ["deliveryUkrPost", "deliveryNovaPost"])}
             sectionCaptionTranslationKey="productsFilter.delivery"
         >
             <AppCheckbox

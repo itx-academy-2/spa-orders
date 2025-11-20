@@ -27,7 +27,7 @@ const ProductsPage = () => {
   const { page } = usePagination();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
 
   const sortOption = searchParams.get("sort");
@@ -40,7 +40,6 @@ const ProductsPage = () => {
     totalPages,
     totalElements,
     activeFiltersCount,
-    resetFilters,
     isLoading,
     isError,
     productsResponse
@@ -154,7 +153,6 @@ const ProductsPage = () => {
       <AppDrawer isOpen={isFilterDrawerOpened} onClose={handleCloseFilterDrawer}>
         <ProductsFilterDrawer
           closeFilterDrawer={handleCloseFilterDrawer}
-          resetFilters={resetFilters}
           activeFiltersCount={activeFiltersCount}
           tabKey={tabKey}
           productsResponse={productsResponse}
