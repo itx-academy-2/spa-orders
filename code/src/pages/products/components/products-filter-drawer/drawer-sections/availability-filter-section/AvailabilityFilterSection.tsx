@@ -1,3 +1,5 @@
+import { SyntheticEvent } from "react";
+
 import FilterRecordAccordion from "@/containers/dashboard-orders-filter-drawer/components/filter-record-accordion/FilterRecordAccordion";
 import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
 
@@ -11,7 +13,7 @@ export const AvailabilityFilterSection = ({ tabKey, draft }: AvailabilityProps) 
     const setDraft = useFiltersStore(s => s.setDraft);
     const resetSection = useFiltersStore(s => s.resetSection);
 
-    const handleCheckboxChange = (key: keyof ProductFilterParams) => (event: any, checked: boolean) => {
+    const handleCheckboxChange = (key: keyof ProductFilterParams) => (event: SyntheticEvent, checked: boolean) => {
         setDraft(tabKey, { [key]: checked } as Partial<ProductFilterParams>);
     };
 

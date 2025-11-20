@@ -1,4 +1,4 @@
-export const removeKeyFromObject = <T extends Record<string, any>>(
+export const removeKeyFromObject = <T extends Record<string, unknown>>(
   obj: T,
   keyToRemove: string
 ): T => {

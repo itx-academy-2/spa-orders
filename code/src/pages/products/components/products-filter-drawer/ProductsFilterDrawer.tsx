@@ -10,7 +10,7 @@ import DiscountFilterSection from "@/pages/products/components/products-filter-d
 import AvailabilityFilterSection from "@/pages/products/components/products-filter-drawer/drawer-sections/availability-filter-section/AvailabilityFilterSection";
 import PriceFilterSection from "@/pages/products/components/products-filter-drawer/drawer-sections/price-filters-section/PriceFilterSection";
 import CategoriesFilterSection from "@/pages/products/components/products-filter-drawer/drawer-sections/categories-filter-section/CategoriesFilterSection";
-import ResetFiltersIcon from "@/pages/products/components/products-filter-buttons/reset-filters-icon/resetFiltersIcon";
+import ResetFiltersIcon from "@/pages/products/components/products-filter-buttons/reset-filters-icon/ResetFiltersIcon";
 import ResetFiltersButton from "@/pages/products/components/products-filter-buttons/reset-filters-button/ResetFiltersButton";
 import ApplyFiltersButton from "@/pages/products/components/products-filter-buttons/apply-filters-button/ApplyFiltersButton";
 import DeliverySection from "@/pages/products/components/products-filter-drawer/drawer-sections/delivery-filter-section/DeliveryFilterSection";

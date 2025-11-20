@@ -1,3 +1,5 @@
+import { SyntheticEvent } from "react";
+
 import AppCheckbox from "@/components/app-checkbox/AppCheckbox";
 import FilterRecordAccordion from "@/containers/dashboard-orders-filter-drawer/components/filter-record-accordion/FilterRecordAccordion";
 
@@ -12,7 +14,7 @@ export const CategoriesFilterSection = ({ tabKey, draftTags }: CategoriesProps) 
   const setDraft = useFiltersStore(s => s.setDraft);
   const resetSection = useFiltersStore(s => s.resetSection);
 
-  const handleCheckboxChange = (value: string) => (event: any, checked: boolean) => {
+  const handleCheckboxChange = (value: string) => (event: SyntheticEvent, checked: boolean) => {
     const updated = checked
       ? Array.from(new Set([...(draft.tags ?? []), value]))
       : (draft.tags ?? []).filter(t => t !== value);

@@ -81,7 +81,8 @@ export const useFiltersStore = create<FiltersStore>()(
         if (state?.appliedByTab) {
           const drafts: Record<string, ProductFilterParams> = {};
           Object.keys(state.appliedByTab).forEach((tab) => {
-            drafts[tab] = { ...defaultFilters, ...(state.appliedByTab as any)[tab] };
+            const applied = state.appliedByTab![tab];
+            drafts[tab] = { ...defaultFilters, ...applied };
           });
           if (!drafts.all) drafts.all = { ...defaultFilters };
           state.drafts = drafts;

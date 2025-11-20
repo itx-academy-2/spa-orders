@@ -3,7 +3,7 @@ import AppBadge from "@/components/app-badge/AppBadge";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTooltip from "@/components/app-tooltip/AppTooltip";
 
-import { ResetFiltersIconProps } from "@/pages/products/components/products-filter-buttons/reset-filters-icon/resetFiltersIcon.types";
+import { ResetFiltersIconProps } from "@/pages/products/components/products-filter-buttons/reset-filters-icon/ResetFiltersIcon.types";
 
 import "@/pages/products/components/products-filter-buttons/reset-filters-icon/ResetFiltersIcon.scss";
 
