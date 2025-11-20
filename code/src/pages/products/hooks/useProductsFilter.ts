@@ -13,8 +13,6 @@ import { defaultFilters } from "@/pages/products/ProductsPage.constants";
 import { ProductFilterParams } from "@/types/product.types";
 import { filterSections } from "../ProductsPage.types";
 
-const DEFAULT_SORT = "createdAt,desc";
-
 export const useProductsFilter = () => {
   const { locale } = useLocaleContext();
   const { page } = usePagination();
@@ -23,42 +21,46 @@ export const useProductsFilter = () => {
   const [searchParams] = useSearchParams();
   const sortOption = searchParams.get("sort");
   const categoryType = searchParams.get("category");
+  const tabKey = categoryType ?? "all";
 
-  const applied = useFiltersStore(s => s.applied);
-  const reset = useFiltersStore(s => s.reset);
-  const draft = useFiltersStore(s => s.draft);
+  const appliedByTab = useFiltersStore((s) => s.appliedByTab);
+  const draftsByTab = useFiltersStore((s) => s.drafts);
 
-  const tags = categoryType ? [`category:${categoryType}`] : (applied.tags && applied.tags.length > 0 ? applied.tags : defaultFilters.tags);
+  const applied = appliedByTab[tabKey] ?? defaultFilters;
+  const draft = draftsByTab[tabKey] ?? defaultFilters;
+
+  const tags =
+    categoryType
+      ? [`category:${categoryType}`]
+      : (applied.tags && applied.tags.length > 0 ? applied.tags : defaultFilters.tags);
 
   const params: Partial<GetUserProductsParams> = {
     ...applied,
     tags,
     lang: locale,
-    sort: sortOption ?? DEFAULT_SORT,
+    sort: sortOption ?? undefined,
     page: page - 1,
     size,
   };
 
   const { data, isLoading, isError } = useGetUserProductsQuery(params as GetUserProductsParams);
-  console.log('useProductsFilter render', { appliedRef: applied, page, size, locale });
-  console.log("Params for API:", params);
 
   const products = data?.content ?? [];
   const totalPages = data?.totalPages ?? 0;
   const totalElements = data?.totalElements ?? 0;
 
-  const countActiveSections = (draft: ProductFilterParams, data?: { minProductPrice: number; maxProductPrice: number }) => {
+  const countActiveSections = (draftLocal: ProductFilterParams, data?: { minProductPrice: number; maxProductPrice: number }) => {
     return filterSections.filter(section => {
       if (section.keys.includes("tags")) {
-        return JSON.stringify(draft.tags ?? defaultFilters.tags) !== JSON.stringify(defaultFilters.tags);
+        return JSON.stringify(draftLocal.tags ?? defaultFilters.tags) !== JSON.stringify(defaultFilters.tags);
       }
       if (section.keys.includes("priceMin") || section.keys.includes("priceMax")) {
         const minDefault = data?.minProductPrice ?? defaultFilters.priceMin ?? 0;
         const maxDefault = data?.maxProductPrice ?? defaultFilters.priceMax ?? 0;
-        return (draft.priceMin != null && draft.priceMin !== minDefault) ||
-          (draft.priceMax != null && draft.priceMax !== maxDefault);
+        return (draftLocal.priceMin != null && draftLocal.priceMin !== minDefault) ||
+          (draftLocal.priceMax != null && draftLocal.priceMax !== maxDefault);
       }
-      return section.keys.some(key => draft[key] !== defaultFilters[key] && draft[key] != null);
+      return section.keys.some(key => draftLocal[key] !== defaultFilters[key] && draftLocal[key] != null);
     }).length;
   };
   const activeFiltersCount = countActiveSections(draft, data);
@@ -70,7 +72,6 @@ export const useProductsFilter = () => {
     activeFiltersCount,
     filters: applied,
     defaultFilters: { ...applied },
-    resetFilters: reset,
     isLoading,
     isError,
     productsResponse: data
