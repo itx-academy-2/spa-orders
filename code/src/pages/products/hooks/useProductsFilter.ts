@@ -26,7 +26,7 @@ export const useProductsFilter = () => {
   const appliedByTab = useFiltersStore((s) => s.appliedByTab);
   const draftsByTab = useFiltersStore((s) => s.drafts);
 
-  const applied = appliedByTab[tabKey] ?? defaultFilters;
+  const applied = appliedByTab[tabKey] ?? {};
   const draft = draftsByTab[tabKey] ?? defaultFilters;
 
   const tags =
