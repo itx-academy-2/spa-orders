@@ -1,17 +1,16 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 
-import { AvailabilityFilterSection } from "@/pages/products/components/products-filter-drawer/drawer-sections/availability-filter-section/AvailabilityFilterSection";
 import { ProductFilterParams } from "@/types/product.types";
+import DeliverySection from "@/pages/products/components/products-filter-drawer/drawer-sections/delivery-filter-section/DeliveryFilterSection";
 
-const mockSetDraft = jest.fn();
 const mockResetSection = jest.fn();
 
 jest.mock("@/store/zustand/filtersStore", () => ({
     useFiltersStore: (selector: (store: {
-        setDraft: (tabKey: string, patch: Partial<ProductFilterParams>) => void;
+        drafts: Record<string, ProductFilterParams>;
         resetSection: (tabKey: string, keys: (keyof ProductFilterParams)[]) => void;
     }) => unknown) => selector({
-        setDraft: mockSetDraft,
+        drafts: {},
         resetSection: mockResetSection,
     }),
 }));
@@ -40,19 +39,18 @@ jest.mock("@/components/app-checkbox/AppCheckbox", () => ({
     default: (props: {
         checked: boolean;
         labelTranslationKey: string;
-        onChange: (event: React.SyntheticEvent, checked: boolean) => void;
+        disabled?: boolean;
     }) => (
         <input
             type="checkbox"
             checked={props.checked}
             data-testid={`checkbox-${props.labelTranslationKey}`}
-            onClick={(e) => props.onChange(e as unknown as React.SyntheticEvent, !props.checked)}
             readOnly
         />
     ),
 }));
 
-describe("AvailabilityFilterSection", () => {
+describe("DeliverySection", () => {
     const fullDraft: ProductFilterParams = {
         availability: true,
         nonAvailability: false,
@@ -60,7 +58,7 @@ describe("AvailabilityFilterSection", () => {
         discount: true,
         nonDiscount: true,
         deliveryNovaPost: true,
-        deliveryUkrPost: true,
+        deliveryUkrPost: false,
         priceMin: 0,
         priceMax: 1000,
     };
@@ -70,34 +68,25 @@ describe("AvailabilityFilterSection", () => {
     });
 
     test("renders checkboxes with draft values", () => {
-        render(<AvailabilityFilterSection tabKey="tab" draft={fullDraft} />);
+        render(<DeliverySection tabKey="tab" draft={fullDraft} />);
 
-        expect(
-            screen.getByTestId("checkbox-productsFilter.available")
-        ).toBeChecked();
-        expect(
-            screen.getByTestId("checkbox-productsFilter.nonAvailable")
-        ).not.toBeChecked();
+        expect(screen.getByTestId("checkbox-productsFilter.deliveryUkrPost")).not.toBeChecked();
+        expect(screen.getByTestId("checkbox-productsFilter.deliveryNovaPost")).toBeChecked();
     });
 
-    test("calls setDraft on checkbox change", () => {
-        const draft = { ...fullDraft, availability: false };
+    test("computes isFilterActive correctly", () => {
+        render(<DeliverySection tabKey="tab" draft={fullDraft} />);
+        expect(screen.getByTestId("is-active")).toHaveTextContent("true");
 
-        render(<AvailabilityFilterSection tabKey="tab" draft={draft} />);
-
-        fireEvent.click(screen.getByTestId("checkbox-productsFilter.available"));
-
-        expect(mockSetDraft).toHaveBeenCalledWith("tab", { availability: true });
+        render(<DeliverySection tabKey="tab" draft={{ ...fullDraft, deliveryUkrPost: true, deliveryNovaPost: true }} />);
+        const list = screen.getAllByTestId("is-active");
+        expect(list[list.length - 1]).toHaveTextContent("false");
     });
 
     test("reset button triggers resetSection", () => {
-        render(<AvailabilityFilterSection tabKey="tab" draft={fullDraft} />);
-
+        render(<DeliverySection tabKey="tab" draft={fullDraft} />);
         fireEvent.click(screen.getByTestId("reset-btn"));
 
-        expect(mockResetSection).toHaveBeenCalledWith("tab", [
-            "availability",
-            "nonAvailability",
-        ]);
+        expect(mockResetSection).toHaveBeenCalledWith("tab", ["deliveryUkrPost", "deliveryNovaPost"]);
     });
 });
