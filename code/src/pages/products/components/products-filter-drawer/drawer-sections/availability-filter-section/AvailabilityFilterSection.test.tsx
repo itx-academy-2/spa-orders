@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { AvailabilityFilterSection } from "./AvailabilityFilterSection";
 import { ProductFilterParams } from "@/types/product.types";
-import { defaultFilters } from "@/pages/products/ProductsPage.constants";
 
 const mockSetDraft = jest.fn();
 const mockResetSection = jest.fn();
