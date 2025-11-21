@@ -4,6 +4,7 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTooltip from "@/components/app-tooltip/AppTooltip";
 
 import { ResetIconProps } from "@/pages/products/components/products-filter-buttons/reset-icon/ResetIcon.types";
+
 import "@/pages/products/components/products-filter-buttons/reset-icon/ResetIcon.scss";
 
 const ResetIcon = ({ activeFiltersCount, onClick }: ResetIconProps) => {
@@ -17,7 +18,6 @@ const ResetIcon = ({ activeFiltersCount, onClick }: ResetIconProps) => {
       <AppBadge badgeContent={activeFiltersCount} size="small">
         <AppIconButton
           onClick={onClick}
-          data-testid="reset-filters-icon-clear-filters-icon"
         >
           <FilterListOffIcon />
         </AppIconButton>
