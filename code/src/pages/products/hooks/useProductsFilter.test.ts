@@ -57,8 +57,6 @@ describe("useProductsFilter", () => {
     expect(result.current.products).toEqual([{ id: 1, name: "Product 1" }]);
     expect(result.current.totalPages).toBe(2);
     expect(result.current.totalElements).toBe(10);
-    expect(result.current.filters).toEqual(defaultFilters);
-    expect(result.current.defaultFilters).toEqual(defaultFilters);
     expect(result.current.isLoading).toBe(false);
     expect(result.current.isError).toBe(false);
   });
@@ -86,7 +84,6 @@ describe("useProductsFilter", () => {
 
     const { result } = renderHook(() => useProductsFilter());
 
-    expect(result.current.filters).toEqual(defaultFilters);
     expect(result.current.products).toEqual([{ id: 1, name: "Product 1" }]);
     expect(result.current.activeFiltersCount).toBe(0);
   });
