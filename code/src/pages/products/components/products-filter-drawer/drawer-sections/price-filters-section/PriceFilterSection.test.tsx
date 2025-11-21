@@ -57,18 +57,6 @@ jest.mock("@/components/app-range-slider/AppRangeSlider", () => ({
 }));
 
 describe("PriceFilterSection", () => {
-    const fullDraft: ProductFilterParams = {
-        availability: true,
-        nonAvailability: false,
-        tags: ["computers"],
-        discount: true,
-        nonDiscount: false,
-        deliveryNovaPost: true,
-        deliveryUkrPost: true,
-        priceMin: 100,
-        priceMax: 900,
-    };
-
     const min = 0;
     const max = 1000;
 

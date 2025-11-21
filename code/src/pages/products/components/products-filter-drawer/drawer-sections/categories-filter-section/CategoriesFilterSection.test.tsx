@@ -56,18 +56,6 @@ jest.mock("@/components/app-checkbox/AppCheckbox", () => ({
 }));
 
 describe("CategoriesFilterSection", () => {
-    const fullDraft: ProductFilterParams = {
-        availability: true,
-        nonAvailability: false,
-        tags: ["computers"],
-        discount: true,
-        nonDiscount: true,
-        deliveryNovaPost: true,
-        deliveryUkrPost: true,
-        priceMin: 0,
-        priceMax: 1000,
-    };
-
     beforeEach(() => {
         jest.clearAllMocks();
     });
