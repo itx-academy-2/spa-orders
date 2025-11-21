@@ -202,7 +202,6 @@ export type GetViewHistoryParams = Lang & {
   page?: number;
   size?: number;
   sort?: string;
-  discount?: number;
 };
 
 export type GetUserWishlistResponse = {
@@ -216,7 +215,6 @@ export type GetUserWishlistParams = Lang & {
   page?: number;
   size?: number;
   sort?: string;
-  discount?: number;
 };
 
 export type GetBestsellerProductsParams = Lang & {
@@ -224,5 +222,4 @@ export type GetBestsellerProductsParams = Lang & {
   page?: number;
   size?: number;
   sort?: string;
-  discount?: number;
 };
