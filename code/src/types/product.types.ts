@@ -175,6 +175,13 @@ export type GetManagerProductByIdParams = {
   productId: string;
 };
 
+export type GetManagerImageSearchParams = {
+  query: string;
+}
+
+export type ImageUrl = string;
+export type GetManagerImageSearchResponse = ImageUrl[];
+
 export interface BestsellerProduct extends Product {
   percentageOfTotalOrders: number;
 }

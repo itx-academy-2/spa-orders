@@ -46,7 +46,8 @@ export const URLS = {
     getForManagerById: ({ productId }: GetManagerProductByIdParams) =>
       `/v1/management/products/${productId}`,
     searchByQuery: (params: GetUserProductsBySearchQueryParams) =>
-      createUrlPath("/v1/products/search", undefined, params)
+      createUrlPath("/v1/products/search", undefined, params),
+    getForManagerImageBySearch: "/v1/management/products/images/search"
   },
   sales: {
     getSaleProducts: "/v1/products/sales"
