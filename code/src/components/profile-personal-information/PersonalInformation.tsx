@@ -11,7 +11,6 @@ import { useModalContext } from "@/context/modal/ModalContext";
 import * as styles from "@/components/profile-personal-information/PersonalInformation.module.scss";
 
 import { PersonalInformationProps } from "./PersonalInformation.types";
-import ImageSearchModal from "@/containers/modals/image-search/ImageSearchModal";
 
 const PersonalInformation = ({
   firstName,
@@ -22,12 +21,11 @@ const PersonalInformation = ({
 
   const handleChangePersonalInformation = () => {
     openModal(
-      // <EditPersonalInfoModal
-      //   firstName={firstName}
-      //   lastName={lastName}
-      //   phone={phone}
-      // />
-      <ImageSearchModal />
+      <EditPersonalInfoModal
+        firstName={firstName}
+        lastName={lastName}
+        phone={phone}
+      />
     );
   };
 
