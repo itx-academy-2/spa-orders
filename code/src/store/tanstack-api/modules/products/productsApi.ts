@@ -12,7 +12,7 @@ export const productsApi = {
   ): Promise<GetManagerImageSearchResponse> => {
     return fetcher<GetManagerImageSearchResponse>(URLS.products.getForManagerImageBySearch, {
       method: httpMethods.get,
-      query: { query: params.query },
+      query: { query: params.searchQuery },
     });
   },
 };

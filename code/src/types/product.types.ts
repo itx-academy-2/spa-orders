@@ -176,7 +176,7 @@ export type GetManagerProductByIdParams = {
 };
 
 export type GetManagerImageSearchParams = {
-  query: string;
+  searchQuery: string;
 }
 
 export type ImageUrl = string;
