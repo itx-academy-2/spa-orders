@@ -1,0 +1,25 @@
+@import "@design-system";
+
+.imageSearchModal {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  padding: spacing(3);
+  width: min(560px, 100vw);
+  height: min(420px, 100vh);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  &_title {
+    margin-top: spacing(2);
+  }
+
+  &_closeIcon {
+    position: absolute;
+    top: spacing(2);
+    right: spacing(2);
+    cursor: pointer;
+  }
+}

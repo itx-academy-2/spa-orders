@@ -1,4 +1,4 @@
-import { getAuthHeaders } from "@/store/tanstack-api/client/auth";
+import { useUserStore } from "@/store/tanstack-api/useUserStore";
 import { httpMethods } from "@/constants/methods";
 import { ErrorPayload } from "@/types/common";
 import createUrlPath from "@/utils/create-url-path/createUrlPath";
@@ -8,6 +8,7 @@ export type FetchOptions<ReqBody = unknown> = Omit<RequestInit, "headers" | "bod
   body?: ReqBody;
   params?: string;
   query?: Record<string, string | number | undefined>;
+  headers?: Record<string, string>;
 };
 
 const handleError = async (res: Response): Promise<never> => {
@@ -16,19 +17,24 @@ const handleError = async (res: Response): Promise<never> => {
   throw { status: res.status, data } as ErrorPayload;
 };
 
+const BASE_URL = process.env.API_BASE_PATH;
+
 export const fetcher = async <T, ReqBody = unknown>(
   url: string,
   options: FetchOptions<ReqBody> = {}
 ): Promise<T> => {
-  const { method = httpMethods.get, body, params, query, ...rest } = options;
+  const { method = httpMethods.get, body, params, query, headers: customHeaders, ...rest } = options;
 
-  const fullUrl = createUrlPath(url, params, query);
+  const token = useUserStore.getState().token;
+
+  const fullUrl = createUrlPath(`${BASE_URL}${url}`, params, query);
 
   const res = await fetch(fullUrl, {
     method,
     headers: {
       "Content-Type": "application/json",
-      ...getAuthHeaders(),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...customHeaders,
     },
     body: body ? JSON.stringify(body) : undefined,
     ...rest,
