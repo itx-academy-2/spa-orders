@@ -1,94 +1,135 @@
 import { ChangeEvent, useState } from "react";
+import { useIntl } from "react-intl";
 
+import AppBox from "@/components/app-box/AppBox";
+import AppButton from "@/components/app-button/AppButton";
 import AppContainer from "@/components/app-container/AppContainer";
 import AppTypography from "@/components/app-typography/AppTypography";
-import AppButton from "@/components/app-button/AppButton";
 import AppSearchInput from "@/components/app-search-input/AppSearchInput";
+import AppLoader from "@/components/app-loader/AppLoader";
 
 import { useGetManagerImageSearchQuery } from "@/store/tanstack-api/modules/products/queries";
 
-import * as styles from "@/containers/modals/image-search/ImageSearchModal.module.scss";
+import cn from "@/utils/cn/cn";
+
+import * as styles from "@/containers/modals/image-search/components/ImageSearch.module.scss";
 
 type ImageSearchProps = {
-    onSelect?: (image: string) => void;
-    onSearch: (searchValue: string) => void;
-}
+  onSelect?: (image: string) => void;
+  onSearch: (searchValue: string) => void;
+};
 
-const ImageSearch = ({ onSelect, onSearch, }: ImageSearchProps) => {
-    const [searchValue, setSearchValue] = useState("");
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
+  const [searchValue, setSearchValue] = useState("");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    const { data: images, isLoading, error } = useGetManagerImageSearchQuery({
-        searchQuery: searchValue,
-    });
+  const searchQuery = searchValue.length >= 3 ? searchValue : "";
+  const { data: images = [], isLoading, error } = useGetManagerImageSearchQuery({ searchQuery });
 
-    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setSearchValue(value);
-    };
+  const { formatMessage } = useIntl();
 
-    const handleClearSearch = () => {
-        setSearchValue("");
-        onSearch("");
-    };
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value);
 
-    const handleSearch = () => {
-        onSearch(searchValue);
-    };
+  const handleClearSearch = () => {
+    setSearchValue("");
+    setSelectedImage(null);
+    onSearch("");
+  };
 
-    const handleConfirm = () => {
-        if (selectedImage) {
-            if (onSelect) onSelect(selectedImage);
-            setSelectedImage(null);
-            setSearchValue("");
-        }
-    };
+  const handleSearch = () => onSearch(searchValue);
 
-    const renderError = () => {
-        if (error) return <AppTypography color="error">Error fetching images</AppTypography>;
-        if (!searchValue) return <AppTypography color="textSecondary">Type a keyword to search</AppTypography>;
-        if (searchValue.length < 3) return <AppTypography color="textSecondary">Enter at least 3 characters</AppTypography>;
-        if (images?.length === 0) return <AppTypography color="textSecondary">No images found</AppTypography>;
-        return null;
-    };
+  const handleConfirm = () => {
+    if (selectedImage && onSelect) {
+      onSelect(selectedImage);
+      setSelectedImage(null);
+      setSearchValue("");
+    }
+  };
 
-    return (
-        <AppContainer className={styles.searchContainer}>
-            <AppSearchInput
-                value={searchValue}
-                placeholder="Search images..."
-                onChange={handleSearchChange}
-                onClear={handleClearSearch}
-                onSearch={handleSearch}
-                disabled={isLoading}
-            />
+  const handleImageClick = (url: string, e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setSelectedImage(prev => (prev === url ? null : url));
+  };
 
-            {isLoading && <AppTypography>Loading...</AppTypography>}
-            {renderError()}
+  const getStatusMessage = () => {
+    if (error) {
+      const status = (error as any).status;
+      if (status === 403) return formatMessage({ id: "searchImageModal.error.accessDenied" });
+      if (status === 503) return formatMessage({ id: "searchImageModal.error.unavailable" });
+      return formatMessage({ id: "searchImageModal.error.generic" });
+    }
+    if (!searchValue) return formatMessage({ id: "searchImageModal.info.typeKeyword" });
+    if (searchValue.length < 3) return formatMessage({ id: "searchImageModal.info.minChars" });
+    if (images.length === 0) return formatMessage({ id: "searchImageModal.info.noResults" });
+    return null;
+  };
 
-            {images && images.length > 0 && (
-                <div className={styles.imageGrid}>
-                    {images.slice(0, 8).map((url) => (
-                        <div
-                            key={url}
-                            className={`${styles.imageWrapper} ${selectedImage === url ? styles.selected : ""}`}
-                            onClick={() => setSelectedImage(url)}
-                        >
-                            <img src={url} alt="product" className={styles.image} />
-                        </div>
-                    ))}
-                </div>
-            )}
+  const message = getStatusMessage();
 
-            <AppButton
-                onClick={handleConfirm}
-                disabled={!selectedImage}
-                className={selectedImage ? styles.confirmButtonActive : styles.confirmButton}
-            >
-                Confirm
-            </AppButton>
-        </AppContainer>
-    );
+  return (
+    <AppContainer className={styles.searchContainer}>
+      <AppBox className={styles.searchContainer_searchInputWrapper}>
+        <AppSearchInput
+          value={searchValue}
+          placeholder={formatMessage({
+            id: "searchImageModal.search.placeholder"
+          })}
+          onChange={handleSearchChange}
+          onClear={handleClearSearch}
+          onSearch={handleSearch}
+          className={styles.searchContainer_searchInput}
+        />
+      </AppBox>
+      <AppBox className={styles.searchContainer_imageContent}>
+        {isLoading && (
+          <AppBox>
+            <AppLoader size="medium" />
+          </AppBox>
+        )}
+        {message && !isLoading && (
+          <AppTypography
+            className={styles.searchContainer_errorMessage}
+          >
+            {message}
+          </AppTypography>
+        )}
+        {images.length > 0 && (
+          <AppBox
+            className={styles.searchContainer_imageGrid}
+          >
+            {images.slice(0, 8).map(url => (
+              <AppBox
+                key={url}
+                className={cn(
+                  styles.searchContainer_imageWrapper,
+                  selectedImage === url && styles.searchContainer_selectedImage
+                )}
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => handleImageClick(url, e)}
+              >
+                <img
+                  src={url}
+                  alt="product"
+                  className={styles.searchContainer_image}
+                />
+              </AppBox>
+            ))}
+          </AppBox>
+        )}
+      </AppBox>
+      <AppBox className={styles.searchContainer_buttonWrapper}>
+        <AppButton
+          onClick={handleConfirm}
+          disabled={!selectedImage}
+          className={`${styles.searchContainer_selectedImage} ? ${styles.searchContainer_confirmButtonActive} : ${styles.searchContainer_confirmButton}`}
+        >
+          <AppTypography
+            variant="caption"
+            translationKey="searchImageModal.confirmButton"
+          />
+        </AppButton>
+      </AppBox>
+    </AppContainer>
+  );
 };
 
 export default ImageSearch;
