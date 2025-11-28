@@ -27,7 +27,7 @@ import profileMessages from "@/containers/user-account/profile/messages";
 import userViewHistoryMessages from "@/containers/user-account/view-history/messages";
 import myAddressesMessages from "@/containers/user-account/my-addresses/messages";
 import myReservationsMessages from "@/containers/user-account/my-reservations/messages";
-import imageSearchModalMessages from "@/containers/modals/image-search/messages";
+import imageSearchModalMessages from "@/containers/modals/image-search-modal/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
