@@ -13,6 +13,7 @@ const AppSearchInput = ({
   onClear,
   value,
   placeholder,
+  hideSearchIcon = false,
   ...props
 }: AppSearchInputProps) => {
   return (
@@ -28,14 +29,16 @@ const AppSearchInput = ({
           <ClearIcon fontSize="small" />
         </AppIconButton>
       )}
-      <AppIconButton
-        aria-label="search"
-        onClick={onSearch}
-        className="spa-search-input-field__search-icon"
-        disabled={props.disabled}
-      >
-        <SearchIcon />
-      </AppIconButton>
+      {!hideSearchIcon && (
+        <AppIconButton
+          aria-label="search"
+          onClick={onSearch}
+          className="spa-search-input-field__search-icon"
+          disabled={props.disabled}
+        >
+          <SearchIcon />
+        </AppIconButton>
+      )}
     </Paper>
   );
 };
