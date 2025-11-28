@@ -17,12 +17,13 @@ export const AvailabilityFilterSection = ({ tabKey, draft }: AvailabilityProps) 
         setDraft(tabKey, { [key]: checked } as Partial<ProductFilterParams>);
     };
 
-    const isFilterActive = () => draft.availability !== defaultFilters.availability ||
+    const isFilterActive =
+        draft.availability !== defaultFilters.availability ||
         draft.nonAvailability !== defaultFilters.nonAvailability;
 
     return (
         <FilterRecordAccordion
-            isFilterActive={isFilterActive()}
+            isFilterActive={isFilterActive}
             resetFilter={() => resetSection(tabKey, ["availability", "nonAvailability"])}
             sectionCaptionTranslationKey="productsFilter.availability"
         >
