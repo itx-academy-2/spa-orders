@@ -34,6 +34,7 @@ const ImageSearchModal = ({ onSelect }: ImageSearchModalProps) => {
       <AppIconButton
         className={styles.imageSearchModal_closeIcon}
         onClick={closeModal}
+        data-testid="close-icon"
       >
         <CloseIcon />
       </AppIconButton>

@@ -56,7 +56,7 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
   const message = getImageSearchStatus({ error, searchValue, imagesLength: images.length }, intl);
 
   return (
-    <AppContainer className={styles.searchContainer}>
+    <AppContainer className={styles.searchContainer} data-testid="image-search-container">
       <AppBox className={styles.searchContainer_searchInputWrapper}>
         <AppSearchInput
           value={searchValue}
@@ -72,7 +72,7 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
       </AppBox>
       <AppBox className={styles.searchContainer_imageContent}>
         {isLoading && (
-          <AppBox>
+          <AppBox data-testid="image-search-loader">
             <AppLoader size="medium" />
           </AppBox>
         )}
