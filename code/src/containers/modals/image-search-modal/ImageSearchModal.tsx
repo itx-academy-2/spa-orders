@@ -9,7 +9,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
 
 import { ImageSearchModalProps } from "@/containers/modals/image-search-modal/ImageSearchModal.types";
-import ImageSearch from "@/containers/modals/image-search/components/image-search/ImageSearch";
+import ImageSearch from "@/containers/modals/image-search-modal/components/image-search/ImageSearch";
 
 import * as styles from "@/containers/modals/image-search-modal/ImageSearchModal.module.scss";
 

@@ -35,7 +35,7 @@ const getToken = (): string | null => {
   const serialized = localStorage.getItem(LOCAL_STORAGE_KEYS.userDetails);
   if (!serialized) return null;
 
-  const { token } = JSON.parse(serialized);
+  const { token }: { token?: string } = JSON.parse(serialized);
   if (!token) return null;
 
   if (checkJWTExpiration(token)) {
@@ -46,13 +46,23 @@ const getToken = (): string | null => {
   return token;
 };
 
-const handleError = async (res: Response) => {
+const handleError = async (res: Response): Promise<never> => {
   const ct = res.headers.get("Content-Type") ?? "";
   const data = ct.includes("application/json") ? await res.json() : await res.text();
   throw { status: res.status, data } as ErrorPayload;
 };
 
-export async function fetcher<T = any, B = unknown>(
+const parseResponse = async <T>(res: Response): Promise<T> => {
+  if (res.status === 204) return null as T;
+
+  const ct = res.headers.get("Content-Type") ?? "";
+  if (ct.includes("application/json")) {
+    return (await res.json()) as T;
+  }
+  return (await res.text()) as unknown as T;
+};
+
+export async function fetcher<T = unknown, B = unknown>(
   url: string,
   options: FetchOptions<B> = {}
 ): Promise<T> {
@@ -77,10 +87,6 @@ export async function fetcher<T = any, B = unknown>(
   });
 
   if (!res.ok) return handleError(res);
-  if (res.status === 204) return (null as unknown) as T;
 
-  const ct = res.headers.get("Content-Type") ?? "";
-  return ct.includes("application/json")
-    ? (await res.json()) as T
-    : (await res.text()) as unknown as T;
+  return parseResponse<T>(res);
 }

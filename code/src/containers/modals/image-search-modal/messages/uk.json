@@ -4,7 +4,7 @@
     "searchImageModal.confirmButton": "Підтвердити",
     "searchImageModal.error.accessDenied.uk": "Доступ заборонено",
     "searchImageModal.error.unavailable.uk": "Пошук зображень тимчасово недоступний. Спробуйте пізніше",
-    "searchImageModal.error.generic.uk": "Помилка при завантаженні зображень",
+    "searchImageModal.error.generic.uk": "Щось пішло не так. Спробуйте ще раз.",
     "searchImageModal.info.typeKeyword.uk": "Введіть ключове слово, щоб розпочати пошук зображень",
     "searchImageModal.info.minChars.uk": "Введіть щонайменше 3 символи",
     "searchImageModal.info.noResults.uk": "Зображення не знайдено"
