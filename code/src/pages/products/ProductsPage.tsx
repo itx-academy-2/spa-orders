@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 import PageWrapper from "@/layouts/page-wrapper/PageWrapper";
 
@@ -7,53 +9,53 @@ import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
 import ProductsContainer from "@/containers/products-container/ProductsContainer";
 
 import AppBox from "@/components/app-box/AppBox";
+import AppButton from "@/components/app-button/AppButton";
 import AppDropdown from "@/components/app-dropdown/AppDropdown";
 import AppTypography from "@/components/app-typography/AppTypography";
+import AppDrawer from "@/components/app-drawer/AppDrawer";
 
-import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import useTrackVisits from "@/hooks/use-track-visits/useTrackVisits";
 import useWishlistWithAuthCheck from "@/hooks/use-wishlist-with-auth-check/useWishlistWithAuthCheck";
 import { sortOptions } from "@/pages/products/ProductsPage.constants";
-import { useGetUserProductsQuery } from "@/store/api/productsApi";
-import useScreenSize from "@/utils/check-screen-size/useScreenSize";
-import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
+import useProductsFilter from "@/pages/products/hooks/useProductsFilter";
+import ProductsFilterDrawer from "@/pages/products/components/products-filter-drawer/ProductsFilterDrawer";
 
 import "@/pages/products/ProductsPage.scss";
 
 const ProductsPage = () => {
-  const { locale } = useLocaleContext();
   const { page } = usePagination();
 
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [isFilterDrawerOpened, setIsFilterDrawerOpened] = useState(false);
+
   const sortOption = searchParams.get("sort");
 
   const categoryType = searchParams.get("category");
-
-  useTrackVisits("category", categoryType as string);
-
-  const screenSize = useScreenSize();
-
-  const size = setProductsPerPageSize(screenSize.width);
+  const tabKey = categoryType || "all";
 
   const {
-    data: productsResponse,
+    products,
+    totalPages,
+    totalElements,
+    activeFiltersCount,
     isLoading,
-    isError
-  } = useGetUserProductsQuery({
-    tags: categoryType ? `category:${categoryType}` : "",
-    page: page - 1,
-    sort: sortOption ?? undefined,
-    size,
-    lang: locale
-  });
+    isError,
+    productsResponse
+  } = useProductsFilter();
+
+  const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
+  const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
+  
+  useTrackVisits("category", categoryType as string);
 
   const { data: wishlistData } = useWishlistWithAuthCheck();
   const wishlist = wishlistData?.content ?? [];
 
-  const productsList = productsResponse?.content;
+  const productsList = products ?? [];
 
-  const pagesCount = productsResponse?.totalPages ?? 1;
+  const pagesCount = totalPages ?? 1;
 
   const defaultDropdownText = sortOptions.find(
     (item) => item.value === sortOption
@@ -79,7 +81,22 @@ const ProductsPage = () => {
     ? "productsItems.label"
     : `productsItems.category.${categoryType}`;
 
-  const productsCount = productsResponse?.totalElements ?? 0;
+  const productsCount = totalElements ?? 0;
+
+  const titleTypography =
+    activeFiltersCount > 0 ? (
+      <AppTypography
+        translationKey="productsFilter.titleWithCount"
+        data-cy="applied-filters-count"
+        translationProps={{
+          values: {
+            count: activeFiltersCount
+          }
+        }}
+      />
+    ) : (
+      <AppTypography translationKey="productsFilter.title" />
+    );
 
   useEffect(() => {
     if (page > pagesCount) {
@@ -105,18 +122,24 @@ const ProductsPage = () => {
               translationProps={{ values: { count: productsCount } }}
             />
           </AppTypography>
-          <AppDropdown
-            key={sortOption}
-            options={sortOptions}
-            onSelect={handleSortChange}
-            defaultLabel={defaultDropdownText}
-            className="spa-products-page__sort"
-            data-cy="products-dropdown"
-          />
+          <AppBox className="spa-products-page__actions">
+            <AppDropdown
+              key={sortOption}
+              options={sortOptions}
+              onSelect={handleSortChange}
+              defaultLabel={defaultDropdownText}
+              className="spa-products-page__sort"
+              data-cy="products-dropdown"
+            />
+            <AppButton variant="dark" onClick={handleOpenFilterDrawer}>
+              {titleTypography}
+              <FilterListIcon />
+            </AppButton>
+          </AppBox>
         </AppBox>
         <ProductsContainer
           className="spa-products-page__grid"
-          products={productsList ?? []}
+          products={productsList}
           loadingItemsCount={10}
           isLoading={isLoading}
           isError={isError}
@@ -124,9 +147,17 @@ const ProductsPage = () => {
         />
         <PaginationBlock
           page={page}
-          totalPages={productsResponse?.totalPages}
+          totalPages={pagesCount}
         />
       </AppBox>
+      <AppDrawer isOpen={isFilterDrawerOpened} onClose={handleCloseFilterDrawer}>
+        <ProductsFilterDrawer
+          closeFilterDrawer={handleCloseFilterDrawer}
+          activeFiltersCount={activeFiltersCount}
+          tabKey={tabKey}
+          productsResponse={productsResponse}
+        />
+      </AppDrawer>
     </PageWrapper>
   );
 };

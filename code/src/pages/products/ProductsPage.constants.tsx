@@ -1,5 +1,19 @@
 import { FormattedMessage } from "react-intl";
 
+import { ProductFilterParams } from "@/types/product.types";
+
+export const defaultFilters: ProductFilterParams = {
+  tags: ["category:computer", "category:mobile", "category:tablet"],
+  discount: true,
+  nonDiscount: true,
+  priceMin: undefined,
+  priceMax: undefined,
+  availability: true,
+  nonAvailability: false,
+  deliveryNovaPost: true,
+  deliveryUkrPost: true,
+};
+
 export const sortOptions = [
   {
     value: "",

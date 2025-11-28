@@ -95,6 +95,15 @@ const SalesPage = () => {
               translationKey="productsAll.sales"
               component="h1"
             />
+          </AppBox>
+          <AppBox className="spa-sales-page__info">
+            <AppTypography className="spa-sales-page__count" component="span">
+              <AppTypography
+                translationKey="salesPage.label"
+                component="span"
+                translationProps={{ values: { count: salesCount } }}
+              />
+            </AppTypography>
             <AppBox className="spa-sales-page__actions">
               <AppDropdown
                 options={sortSaleOptions}
@@ -107,15 +116,6 @@ const SalesPage = () => {
                 <FilterListIcon />
               </AppButton>
             </AppBox>
-          </AppBox>
-          <AppBox className="spa-sales-page__info">
-            <AppTypography className="spa-sales-page__count" component="span">
-              <AppTypography
-                translationKey="salesPage.label"
-                component="span"
-                translationProps={{ values: { count: salesCount } }}
-              />
-            </AppTypography>
           </AppBox>
           <ProductsContainer
             className="spa-sales-page__grid"

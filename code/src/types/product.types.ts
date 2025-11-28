@@ -38,9 +38,29 @@ export type ManagerProduct = {
 export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
 
 export type GetUserProductsResponse = {
-  content: Product[];
-  totalPages: number;
+  minProductPrice: number;
+  maxProductPrice: number;
   totalElements: number;
+  totalPages: number;
+  size: number;
+  content: Product[];
+};
+
+export type ProductFilterParams = {
+  tags: string[];
+  discount: boolean;
+  nonDiscount: boolean;
+  priceMin?: number;
+  priceMax?: number;
+  availability: boolean;
+  nonAvailability: boolean;
+  deliveryNovaPost: boolean;
+  deliveryUkrPost: boolean;
+};
+
+export type GetUserProductsParams = Lang & ProductFilterParams & Omit<Pageable, "sort"> & {
+  sort: string;
+  tags: string[];
 };
 
 export type GetSaleProductsResponse = {
@@ -51,21 +71,15 @@ export type GetSaleProductsResponse = {
   pageProducts: GetUserProductsResponse;
 };
 
-export type GetUserProductsParams = Lang & {
-  tags?: string;
-  page?: number;
-  size?: number;
-  sort?: string;
-  discount?: number;
-};
-
-export type GetSaleProductsParams = Lang &
-  Omit<GetUserProductsParams, "tags"> & {
-    tags?: string[];
+export type GetSaleProductsParams = Lang & {
     minimumDiscount?: number;
     maximumDiscount?: number;
     minimumPriceWithDiscount?: number;
     maximumPriceWithDiscount?: number;
+    tags?: string[];
+    page?: number;
+    size?: number;
+    sort?: string;
   };
 
 export type GetUserProductByIdResponse = Pick<
@@ -176,3 +190,36 @@ export interface GetBestsellerProductsResponse {
   empty: boolean;
   content: BestsellerProduct[];
 }
+
+export type GetViewHistoryResponse = {
+  content: Product[];
+  totalPages: number;
+  totalElements: number;
+};
+
+export type GetViewHistoryParams = Lang & {
+  tags?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+};
+
+export type GetUserWishlistResponse = {
+  content: Product[];
+  totalPages: number;
+  totalElements: number;
+};
+
+export type GetUserWishlistParams = Lang & {
+  tags?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+};
+
+export type GetBestsellerProductsParams = Lang & {
+  tags?: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+};

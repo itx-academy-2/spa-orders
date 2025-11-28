@@ -1,0 +1,46 @@
+@import "@design-system";
+
+.products-filters {
+  width: 365px;
+  display: flex;
+  flex-direction: column;
+  height: $screen-height;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: $black;
+    height: spacing(17);
+  }
+
+  &__reset-icon {
+    position: absolute;
+    left: spacing(1);
+  }
+
+  &__title {
+    font-weight: $fw-extra-bold;
+    color: $white;
+  }
+
+  &__items {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    padding: spacing(5);
+    border-top: 1px solid $light;
+    display: flex;
+    flex-direction: row;
+    gap: spacing(2);
+  }
+
+  .products-filters__footer>button {
+    flex: 1;
+  }
+}
