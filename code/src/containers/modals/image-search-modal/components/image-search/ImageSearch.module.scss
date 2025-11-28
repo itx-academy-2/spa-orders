@@ -61,6 +61,7 @@
 
   &_confirmButtonActive {
     background-color: $purple;
-    border: $gray;
+    width: spacing(30);
+    height: spacing(10);
   }
 }
