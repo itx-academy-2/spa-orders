@@ -36,9 +36,9 @@ const ReservedProductDetails = ({
     const categoryName = getCategoryFromTags(product.tags);
 
     const category = categoryName ? (
-        <AppTypography translationKey={`productsAll.${categoryName}`} variant="caption" />
+        <AppTypography translationKey={`productsAll.${categoryName}`} />
     ) : (
-        <AppTypography variant="caption">-</AppTypography>
+        <AppTypography>-</AppTypography>
     );
 
     return (
