@@ -1,0 +1,13 @@
+@import "@design-system";
+
+.detail-item {
+    display: contents;
+
+    &__info-label {
+        text-align: left;
+    }
+
+    &__info-value {
+        text-align: left;
+    }
+}

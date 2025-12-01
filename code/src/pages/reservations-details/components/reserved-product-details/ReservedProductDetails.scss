@@ -1,0 +1,23 @@
+@import "@design-system";
+
+.reserved-product-details {
+  background-color: var(--color-surface-variant);
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+
+  &__image-section {
+    img {
+      width: 300px;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__info-section {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 16px;
+  }
+}
