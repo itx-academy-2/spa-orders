@@ -8,6 +8,7 @@ import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import { ReservedProductDetailsProps } from "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.types";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
+import { useIntl } from "react-intl";
 
 import "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.scss";
 
@@ -15,6 +16,7 @@ const ReservedProductDetails = ({
     productId
 }: ReservedProductDetailsProps) => {
     const { locale } = useLocaleContext();
+    const { formatMessage } = useIntl();
 
     const {
         data: product,
@@ -34,12 +36,7 @@ const ReservedProductDetails = ({
     }
 
     const categoryName = getCategoryFromTags(product.tags);
-
-    const category = categoryName ? (
-        <AppTypography translationKey={`productsAll.${categoryName}`} />
-    ) : (
-        <AppTypography>-</AppTypography>
-    );
+    const category = categoryName ? formatMessage({ id: `productsAll.${categoryName}` }) : "-";
 
     return (
         <AppContainer className="reserved-product-details">
