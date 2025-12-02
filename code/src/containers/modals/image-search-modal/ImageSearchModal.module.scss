@@ -1,0 +1,23 @@
+@import "@design-system";
+
+.imageSearchModal {
+  width: min(550px, 100vw);
+  height: min(530px, 100vh);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: spacing(2);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+
+  &_title {
+    margin-top: spacing(8);
+  }
+
+  &_closeIcon {
+    position: absolute;
+    top: spacing(2);
+    right: spacing(2);
+    cursor: pointer;
+  }
+}

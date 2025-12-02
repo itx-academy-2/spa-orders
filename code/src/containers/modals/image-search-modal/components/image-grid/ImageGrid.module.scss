@@ -1,0 +1,29 @@
+@import "@design-system";
+
+.imageGrid {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: spacing(2);
+    overflow-y: auto;
+    padding: 4px 0;
+    max-height: 250px;
+
+
+    &_imageWrapper {
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+    }
+
+    &_image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    }
+
+    &_selectedImage {
+        border: 2px solid $purple;
+    }
+}

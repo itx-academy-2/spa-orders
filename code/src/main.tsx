@@ -6,6 +6,8 @@ import { StyledEngineProvider } from "@mui/material";
 
 import App from "@/App";
 
+import ReactQueryProvider from "@/libs/react-query/ReactQueryProvider";
+
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 
 import { I18nProvider } from "@/context/i18n/I18nProvider";
@@ -22,9 +24,11 @@ root.render(
     <StyledEngineProvider injectFirst>
       <I18nProvider>
         <ThemeProvider>
-          <Suspense fallback={<PageLoadingFallback fullScreen />}>
-            <App />
-          </Suspense>
+          <ReactQueryProvider>
+            <Suspense fallback={<PageLoadingFallback fullScreen />}>
+              <App />
+            </Suspense>
+          </ReactQueryProvider>
         </ThemeProvider>
       </I18nProvider>
     </StyledEngineProvider>

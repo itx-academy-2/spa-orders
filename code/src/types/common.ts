@@ -34,6 +34,11 @@ export type APIError = {
   detail: string;
 };
 
+export type ErrorPayload = {
+  status: number;
+  data: APIError | string;
+};
+
 export type RTKQueryReturnState<TData = null, TError = null> = {
   data: TData | null;
   isLoading: boolean;

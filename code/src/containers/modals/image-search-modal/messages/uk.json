@@ -1,0 +1,11 @@
+{
+    "searchImageModal.title": "Пошук на Pexels",
+    "searchImageModal.search.placeholder": "Пошук зображень...",
+    "searchImageModal.confirmButton": "Підтвердити",
+    "searchImageModal.error.accessDenied": "Доступ заборонено",
+    "searchImageModal.error.unavailable": "Пошук зображень тимчасово недоступний. Спробуйте пізніше",
+    "searchImageModal.error.generic": "Щось пішло не так. Спробуйте ще раз.",
+    "searchImageModal.info.typeKeyword": "Введіть ключове слово, щоб розпочати пошук зображень",
+    "searchImageModal.info.minChars": "Введіть щонайменше 3 символи",
+    "searchImageModal.info.noResults": "Зображення не знайдено"
+}

@@ -1,0 +1,67 @@
+@import "@design-system";
+
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &_title {
+    margin-top: spacing(2);
+  }
+
+  &_closeIcon {
+    position: absolute;
+    top: spacing(2);
+    right: spacing(2);
+    cursor: pointer;
+  }
+
+  &_searchInputWrapper {
+    color: var(--color-text);
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    margin-top: spacing(8);
+  }
+
+  &_searchInput {
+    height: 40px;
+    max-width: 525px;
+    width: 400px;
+    padding: 9px 13px;
+  }
+
+  &_errorMessage {
+    color: var(--color-muted);
+  }
+
+  &_imageContent {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: spacing(4);
+    align-items: center;
+    justify-content: center;
+  }
+
+  &_buttonWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: spacing(4);
+    margin-bottom: spacing(2);
+  }
+
+  &_confirmButton {
+    flex: 0 0 auto;
+    margin-top: auto;
+    background-color: $gray-light;
+    width: spacing(30);
+    height: spacing(10);
+  }
+
+  &_confirmButtonActive {
+    background-color: $purple;
+    width: spacing(30);
+    height: spacing(10);
+  }
+}

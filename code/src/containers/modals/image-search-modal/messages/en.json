@@ -1,0 +1,11 @@
+{
+    "searchImageModal.title": "Search on Pexels",
+    "searchImageModal.search.placeholder": "Search images...",
+    "searchImageModal.confirmButton": "Confirm",
+    "searchImageModal.error.accessDenied": "Access denied",
+    "searchImageModal.error.unavailable": "Image search temporarily unavailable. Try later.",
+    "searchImageModal.error.generic": "Something went wrong. Please try again.",
+    "searchImageModal.info.typeKeyword": "Enter a keyword to start searching for images",
+    "searchImageModal.info.minChars": "Enter at least 3 characters",
+    "searchImageModal.info.noResults": "Oops! Nothing came up for your search."
+}
