@@ -1,3 +1,5 @@
+import { useIntl } from "react-intl";
+
 import AppBox from "@/components/app-box/AppBox";
 import AppContainer from "@/components/app-container/AppContainer";
 import AppTypography from "@/components/app-typography/AppTypography";
@@ -6,9 +8,8 @@ import DetailItem from "@/components/detail-item/DetailItem";
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import { ReservedProductDetailsProps } from "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.types";
-import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
+import { useGetManagerProductQuery } from "@/store/api/productsApi";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
-import { useIntl } from "react-intl";
 
 import "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.scss";
 
@@ -22,9 +23,8 @@ const ReservedProductDetails = ({
         data: product,
         isLoading,
         error
-    } = useGetUserProductByIdQuery({
-        productId,
-        lang: locale
+    } = useGetManagerProductQuery({
+        productId
     });
 
     if (isLoading) {
@@ -35,16 +35,24 @@ const ReservedProductDetails = ({
         return <AppTypography translationKey="errors.somethingWentWrong" />;
     }
 
-    const categoryName = getCategoryFromTags(product.tags);
+    const translations = product.productTranslations;
+
+    const productName =
+        translations.find(t => t.languageCode === locale)?.name ??
+        translations[0]?.name ??
+        "-";
+
+    const categoryName = getCategoryFromTags(product.tags.map(tag => tag.name));
+
     const category = categoryName ? formatMessage({ id: `productsAll.${categoryName}` }) : "-";
 
     return (
         <AppContainer className="reserved-product-details">
             <AppBox className="reserved-product-details__image-section">
-                <img src={product.image} alt={product.name} />
+                <img src={product.image} alt={productName} />
             </AppBox>
             <AppBox className="reserved-product-details__info-section">
-                <DetailItem labelTranslationKey="reservedProductDetails.productName.label" value={product.name} />
+                <DetailItem labelTranslationKey="reservedProductDetails.productName.label" value={productName} />
                 <DetailItem labelTranslationKey="reservedProductDetails.productCategory.label" value={category} />
                 <DetailItem labelTranslationKey="reservedProductDetails.productQuantity.label" value={product.quantity} />
                 <DetailItem labelTranslationKey="reservedProductDetails.productPrice.label" value={product.price} />

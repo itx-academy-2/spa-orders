@@ -1,37 +1,43 @@
 import { render, screen } from "@testing-library/react";
 
 import ReservedProductDetails from "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails";
-import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
+import { useGetManagerProductQuery } from "@/store/api/productsApi";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import getCategoryFromTags from '@/utils/get-category-from-tags/getCategoryFromTags';
 
 jest.mock("@/store/api/productsApi");
 jest.mock("@/context/i18n/I18nProvider");
 jest.mock('@/utils/get-category-from-tags/getCategoryFromTags');
 
-const mockedUseGetUserProductByIdQuery = useGetUserProductByIdQuery as jest.Mock;
+const mockedUseGetManagerProductQuery = useGetManagerProductQuery as jest.Mock;
 const mockedUseLocaleContext = useLocaleContext as jest.Mock;
+const mockedGetCategoryFromTags = getCategoryFromTags as jest.Mock;
 
 describe("ReservedProductDetails", () => {
     const productId = "1";
 
     const mockProduct = {
         id: "1",
-        name: "Test Product",
         image: "test-image.png",
-        tags: ["category:mobile"],
         quantity: 5,
         price: 100,
         priceWithDiscount: 80,
-        discount: 20
+        discount: 20,
+        tags: [{ id: 1, name: "category:mobile" }],
+        productTranslations: [
+            { name: "Тестовий продукт", description: "Опис", languageCode: "uk" },
+            { name: "Test Product", description: "Description", languageCode: "en" }
+        ]
     };
 
     beforeEach(() => {
         jest.clearAllMocks();
         mockedUseLocaleContext.mockReturnValue({ locale: "uk" });
+        mockedGetCategoryFromTags.mockReturnValue("mobile");
     });
 
     test("renders loading fallback while fetching product", () => {
-        mockedUseGetUserProductByIdQuery.mockReturnValue({
+        mockedUseGetManagerProductQuery.mockReturnValue({
             data: null,
             isLoading: true,
             error: null
@@ -42,7 +48,7 @@ describe("ReservedProductDetails", () => {
     });
 
     test("renders error message if no product or error occurs", () => {
-        mockedUseGetUserProductByIdQuery.mockReturnValue({
+        mockedUseGetManagerProductQuery.mockReturnValue({
             data: null,
             isLoading: false,
             error: true
@@ -53,7 +59,7 @@ describe("ReservedProductDetails", () => {
     });
 
     test("renders product details correctly", () => {
-        mockedUseGetUserProductByIdQuery.mockReturnValue({
+        mockedUseGetManagerProductQuery.mockReturnValue({
             data: mockProduct,
             isLoading: false,
             error: null
@@ -62,11 +68,12 @@ describe("ReservedProductDetails", () => {
         render(<ReservedProductDetails productId={productId} />);
 
         expect(screen.getByRole("img")).toHaveAttribute("src", "test-image.png");
-        expect(screen.getByRole("img")).toHaveAttribute("alt", "Test Product");
-        expect(screen.getByText("Test Product")).toBeInTheDocument();
+        expect(screen.getByRole("img")).toHaveAttribute("alt", "Тестовий продукт");
+        expect(screen.getByText("Тестовий продукт")).toBeInTheDocument();
         expect(screen.getByText("5")).toBeInTheDocument();
         expect(screen.getByText("100")).toBeInTheDocument();
         expect(screen.getByText("80")).toBeInTheDocument();
         expect(screen.getByText("20%")).toBeInTheDocument();
+        expect(screen.getByText("productsAll.mobile")).toBeInTheDocument();
     });
 });
