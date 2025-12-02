@@ -29,17 +29,16 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
     handleSearchChange,
     handleClearSearch,
     handleSearch,
-    setSelectedImage,
     toggleSelection,
     resetSearch,
   } = useImageSearch(onSearch);
 
   const handleConfirm = () => {
-    if (selectedImage && onSelect) {
-      onSelect(selectedImage);
-      resetSearch();
-      closeModal();
-    }
+    if (!selectedImage || !onSelect) return;
+
+    onSelect(selectedImage);
+    resetSearch();
+    closeModal();
   };
 
   return (
@@ -70,11 +69,11 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
             {message}
           </AppTypography>
         )}
-        {images && images.length > 0 && (
+        {images?.length && (
           <ImageGrid
             images={images.slice(0, MAX_IMAGES)}
             selectedImage={selectedImage}
-            onSelect={(url) => setSelectedImage(toggleSelection(selectedImage, url))}
+            onSelect={(url) => toggleSelection(url)}
           />
         )}
       </AppBox>
