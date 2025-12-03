@@ -72,15 +72,15 @@ export type GetSaleProductsResponse = {
 };
 
 export type GetSaleProductsParams = Lang & {
-    minimumDiscount?: number;
-    maximumDiscount?: number;
-    minimumPriceWithDiscount?: number;
-    maximumPriceWithDiscount?: number;
-    tags?: string[];
-    page?: number;
-    size?: number;
-    sort?: string;
-  };
+  minimumDiscount?: number;
+  maximumDiscount?: number;
+  minimumPriceWithDiscount?: number;
+  maximumPriceWithDiscount?: number;
+  tags?: string[];
+  page?: number;
+  size?: number;
+  sort?: string;
+};
 
 export type GetUserProductByIdResponse = Pick<
   Product,
@@ -181,6 +181,29 @@ export type GetManagerImageSearchParams = {
 
 export type ImageUrl = string;
 export type GetManagerImageSearchResponse = ImageUrl[];
+
+export type ProductReservationDetails = {
+  username: string
+  email: string
+  quantity: number
+  addedAt: string
+}
+
+export type GetManagerReservedByIdParams = Omit<Pageable, "sort"> & {
+  productId: string;
+  sort?: string;
+};
+
+export type GetManagerReservedByIdResponse = {
+  content: ProductReservationDetails[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  numberOfElements: number;
+  first: boolean;
+  last: boolean;
+};
 
 export interface BestsellerProduct extends Product {
   percentageOfTotalOrders: number;
