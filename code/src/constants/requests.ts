@@ -14,6 +14,7 @@ import {
 } from "@/types/order.types";
 import {
   GetManagerProductByIdParams,
+  GetManagerReservedByIdParams,
   GetUserProductByIdParams,
   GetUserProductsBySearchQueryParams,
   UpdateProductBody
@@ -47,7 +48,9 @@ export const URLS = {
       `/v1/management/products/${productId}`,
     searchByQuery: (params: GetUserProductsBySearchQueryParams) =>
       createUrlPath("/v1/products/search", undefined, params),
-    getForManagerImageBySearch: "/v1/management/products/images/search"
+    getForManagerImageBySearch: "/v1/management/products/images/search",
+    getForManagerProductReservations: ({ productId }: Pick<GetManagerReservedByIdParams, "productId">) =>
+      `/v1/management/products/${productId}/reservations`
   },
   sales: {
     getSaleProducts: "/v1/products/sales"
