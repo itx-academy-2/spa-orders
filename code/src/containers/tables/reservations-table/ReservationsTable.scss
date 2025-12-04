@@ -1,0 +1,24 @@
+@import "@design-system";
+
+.reservations-table {
+    box-shadow: var(--shadow);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+
+    &__body {
+        background-color: var(--color-surface);
+        color: var(--color-text);
+
+        td {
+            color: inherit;
+        }
+    }
+
+    &__fallback {
+        background-color: var(--color-surface);
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

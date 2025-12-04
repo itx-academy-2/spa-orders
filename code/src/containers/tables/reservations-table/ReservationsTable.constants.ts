@@ -12,7 +12,7 @@ export const mockProductReservations = {
             username: "John Doe",
             email: "john.doe@example.com",
             quantity: 2,
-            addedAt: "2025-01-15T10:30:00Z"
+            addedAt: "2025-12-03T10:30:00Z"
         },
         {
             username: "Alice Johnson",
@@ -51,5 +51,5 @@ export const mockProductReservations = {
     number: 0,
     numberOfElements: 6,
     first: true,
-    last: true,
+    last: false,
 };

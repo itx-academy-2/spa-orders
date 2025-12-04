@@ -1,0 +1,9 @@
+{
+    "reservationsTable.columns.username": "Ім'я користувача",
+    "reservationsTable.columns.email": "Електронна адреса",
+    "reservationsTable.columns.quantity": "Кількість зарезервованих",
+    "reservationsTable.columns.timeLeft": "Залишилось часу",
+    "reservationsTable.columns.addedAt": "Зарезервовано",
+    "reservationsTable.expired": "Закінчено",
+    "reservationsTable.fallback": "Резервацій не знайдено"
+}
