@@ -32,7 +32,7 @@ export const productsApi = {
     );
   },
   getForManagerProductReservationsMock: async (
-    _params: GetManagerReservedByIdParams
+    _: GetManagerReservedByIdParams
   ): Promise<GetManagerReservedByIdResponse> => {
     return mockProductReservations;
   },
