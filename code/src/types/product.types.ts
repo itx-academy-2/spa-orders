@@ -183,10 +183,10 @@ export type ImageUrl = string;
 export type GetManagerImageSearchResponse = ImageUrl[];
 
 export type ProductReservationDetails = {
-  username: string
-  email: string
-  quantity: number
-  addedAt: string
+  username: string;
+  email: string;
+  quantity: number;
+  addedAt: string;
 }
 
 export type GetManagerReservedByIdParams = Omit<Pageable, "sort"> & {

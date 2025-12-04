@@ -5,16 +5,13 @@ import ReservationsTableHead from "@/containers/tables/reservations-table/compon
 import ReservationsTableBody from "@/containers/tables/reservations-table/components/reservations-table-body/ReservationsTableBody";
 
 import { tableColumns } from "@/containers/tables/reservations-table/ReservationsTable.constants";
+import { ReservationsTableProps } from "@/containers/tables/reservations-table/ReservationsTable.types";
 import { useGetManagerProductReservationsQuery } from "@/store/tanstack-api/modules/products/queries";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 import usePagination from "@/hooks/use-pagination/usePagination";
 
 import "@/containers/tables/reservations-table/ReservationsTable.scss"
-
-type ReservationsTableProps = {
-  productId: string;
-};
 
 const ReservationsTable = ({ productId }: ReservationsTableProps) => {
   const { page } = usePagination();

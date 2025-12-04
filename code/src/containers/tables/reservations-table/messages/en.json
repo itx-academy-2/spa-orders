@@ -5,5 +5,5 @@
     "reservationsTable.columns.timeLeft": "Time Left",
     "reservationsTable.columns.addedAt": "Reserve date",
     "reservationsTable.expired": "Expired",
-    "reservationsTable.fallback": "No resevations found"
+    "reservationsTable.fallback": "No reservations found"
 }
