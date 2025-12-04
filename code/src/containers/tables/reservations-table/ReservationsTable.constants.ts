@@ -52,4 +52,5 @@ export const mockProductReservations = {
     numberOfElements: 6,
     first: true,
     last: false,
+    empty: false
 };

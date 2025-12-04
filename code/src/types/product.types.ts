@@ -203,6 +203,7 @@ export type GetManagerReservedByIdResponse = {
   numberOfElements: number;
   first: boolean;
   last: boolean;
+  empty: boolean;
 };
 
 export interface BestsellerProduct extends Product {
