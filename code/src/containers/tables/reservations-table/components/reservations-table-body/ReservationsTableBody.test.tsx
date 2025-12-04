@@ -34,7 +34,6 @@ describe("ReservationsTableBody", () => {
                 </tbody>
             </table>
         );
-
     test("renders username, email and quantity", () => {
         (useTimeLeft as jest.Mock).mockReturnValue({ expired: false });
         (formatTimeLeft as jest.Mock).mockReturnValue("10:00");
@@ -46,7 +45,6 @@ describe("ReservationsTableBody", () => {
         expect(screen.getByText("john@example.com")).toBeInTheDocument();
         expect(screen.getByText("3")).toBeInTheDocument();
     });
-
     test("renders timeLeft as plain text when not expired", () => {
         (useTimeLeft as jest.Mock).mockReturnValue({ expired: false });
         (formatTimeLeft as jest.Mock).mockReturnValue("09:30");
@@ -55,7 +53,6 @@ describe("ReservationsTableBody", () => {
 
         expect(screen.getByText("09:30")).toBeInTheDocument();
     });
-
     test("renders AppTypography when timeLeft is expired", () => {
         (useTimeLeft as jest.Mock).mockReturnValue({ expired: true });
         (formatTimeLeft as jest.Mock).mockReturnValue("expired");
@@ -64,7 +61,6 @@ describe("ReservationsTableBody", () => {
 
         expect(screen.getByText("expired")).toBeInTheDocument();
     });
-
     test("renders formatted date", () => {
         (useTimeLeft as jest.Mock).mockReturnValue({ expired: false });
         (formatTimeLeft as jest.Mock).mockReturnValue("10:00");

@@ -24,7 +24,6 @@ describe("ReservationsTable", () => {
         (useScreenSize as jest.Mock).mockReturnValue(mockScreenSize);
         useGetQuery.mockReturnValue({ data: { content: mockReservations } });
     });
-
     test("renders table rows correctly", () => {
         render(<ReservationsTable productId={"1"} />);
 
@@ -32,7 +31,6 @@ describe("ReservationsTable", () => {
         expect(screen.getByText("john@example.com")).toBeInTheDocument();
         expect(screen.getByText("2")).toBeInTheDocument();
     });
-
     test("renders fallback when no reservations", () => {
         useGetQuery.mockReturnValue({ data: { content: [] } });
 
