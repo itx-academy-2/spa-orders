@@ -32,6 +32,7 @@ export const productsApi = {
     );
   },
   getForManagerProductReservationsMock: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _: GetManagerReservedByIdParams
   ): Promise<GetManagerReservedByIdResponse> => {
     return mockProductReservations;

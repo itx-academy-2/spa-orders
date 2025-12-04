@@ -1,13 +1,10 @@
-
-import { useState, useEffect } from "react";
-
 import { AppTableCell } from "@/components/app-table/components";
 import AppTypography from "@/components/app-typography/AppTypography";
 
 import { ReservationsTableBodyProps } from "@/containers/tables/reservations-table/components/reservations-table-body/ReservationsTableBody.types";
 import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTimeLeft";
 
-import { calculateTimeLeft, formatTimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
+import { formatTimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
 import formatDate from "@/utils/format-date/formatDate";
 
 const ReservationsTableBody = ({ reservation }: ReservationsTableBodyProps) => {
