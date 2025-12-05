@@ -1,3 +1,5 @@
+import { ProductReservationDetails } from "@/types/product.types";
+
 export type ReservationsTableProps = {
-    productId: string;
+    reservations: ProductReservationDetails[];
 };

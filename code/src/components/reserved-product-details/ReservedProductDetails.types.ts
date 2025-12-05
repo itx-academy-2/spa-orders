@@ -1,3 +1,5 @@
+import { GetManagerProductByIdResponse } from "@/types/product.types";
+
 export type ReservedProductDetailsProps = {
-  productId: string;
+  product: GetManagerProductByIdResponse;
 };
