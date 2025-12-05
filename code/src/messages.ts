@@ -28,6 +28,7 @@ import userViewHistoryMessages from "@/containers/user-account/view-history/mess
 import myAddressesMessages from "@/containers/user-account/my-addresses/messages";
 import myReservationsMessages from "@/containers/user-account/my-reservations/messages";
 import imageSearchModalMessages from "@/containers/modals/image-search-modal/messages";
+import reservationsTableMessages from "@/containers/tables/reservations-table/messages"
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
@@ -113,7 +114,8 @@ const messages: MessagesType = {
     ...AddressCardMessages.en,
     ...photoSectionMessages.en,
     ...myReservationsMessages.en,
-    ...imageSearchModalMessages.en
+    ...imageSearchModalMessages.en,
+    ...reservationsTableMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -169,7 +171,8 @@ const messages: MessagesType = {
     ...AddressCardMessages.uk,
     ...photoSectionMessages.uk,
     ...myReservationsMessages.uk,
-    ...imageSearchModalMessages.uk
+    ...imageSearchModalMessages.uk,
+    ...reservationsTableMessages.uk
   }
 };
 

@@ -1,0 +1,9 @@
+{
+    "reservationsTable.columns.username": "User name",
+    "reservationsTable.columns.email": "Email",
+    "reservationsTable.columns.quantity": "Reserved",
+    "reservationsTable.columns.timeLeft": "Time Left",
+    "reservationsTable.columns.addedAt": "Reserve date",
+    "reservationsTable.expired": "Expired",
+    "reservationsTable.fallback": "No reservations found"
+}
