@@ -31,8 +31,12 @@ const ReservedProductDetails = ({
         return <PageLoadingFallback />;
     }
 
-    if (!product || error) {
+    if (error) {
         return <AppTypography translationKey="errors.somethingWentWrong" />;
+    }
+
+    if (!product) {
+        return <AppTypography translationKey="errors.notFound" />;
     }
 
     const translations = product.productTranslations;
