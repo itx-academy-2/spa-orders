@@ -27,6 +27,8 @@ const DashboardReservationsContainer = ({
     const screenSize = useScreenSize();
     const size = Math.min(setProductsPerPageSize(screenSize.width), 3);
 
+    if (!productId) return renderRedirectComponent(reservationsPageNotFoundErrorConfig);
+
     const {
         data: product,
         isLoading: isLoadingProduct,
@@ -41,8 +43,6 @@ const DashboardReservationsContainer = ({
         page: page - 1,
         size: size,
     });
-
-    if (!productId) return renderRedirectComponent(reservationsPageNotFoundErrorConfig);
 
     if (isLoadingProduct) return <PageLoadingFallback />;
     if (productError) return <AppTypography translationKey="errors.somethingWentWrong" />;

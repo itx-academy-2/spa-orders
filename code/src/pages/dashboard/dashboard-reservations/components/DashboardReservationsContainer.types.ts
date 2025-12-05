@@ -1,3 +1,3 @@
 export type DashboardReservationsContainerProps = {
-    productId: string;
+    productId?: string;
 }
