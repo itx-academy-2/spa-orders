@@ -7,11 +7,11 @@ import DetailItem from "@/components/detail-item/DetailItem";
 
 import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
-import { ReservedProductDetailsProps } from "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.types";
+import { ReservedProductDetailsProps } from "@/components/reserved-product-details/ReservedProductDetails.types";
 import { useGetManagerProductQuery } from "@/store/api/productsApi";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 
-import "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.scss";
+import "@/components/reserved-product-details/ReservedProductDetails.scss";
 
 const ReservedProductDetails = ({
     productId

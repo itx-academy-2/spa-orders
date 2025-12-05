@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import ReservedProductDetails from "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails";
+import ReservedProductDetails from "@/components/reserved-product-details/ReservedProductDetails";
 import { useGetManagerProductQuery } from "@/store/api/productsApi";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import getCategoryFromTags from '@/utils/get-category-from-tags/getCategoryFromTags';
