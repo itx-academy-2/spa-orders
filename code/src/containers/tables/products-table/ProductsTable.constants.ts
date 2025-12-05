@@ -6,6 +6,7 @@ export const productsTableColumns = [
   "productsTable.columns.status",
   "productsTable.columns.category",
   "productsTable.columns.quantity",
+  "productsTable.columns.reserved",
   "product.originalPrice",
   "product.priceWithDiscount",
   "product.discountPercentage",

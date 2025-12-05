@@ -4,6 +4,7 @@ import { productStatuToTranslationKeyMap } from "@/containers/tables/products-ta
 import { ProductsTableBodyProps } from "@/containers/tables/products-table/ProductsTable.types";
 
 import AppBox from "@/components/app-box/AppBox";
+import AppButton from "@/components/app-button/AppButton";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppLink from "@/components/app-link/AppLink";
 import { AppTableCell } from "@/components/app-table/components";
@@ -75,6 +76,21 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
       <AppTableCell>{productStatus}</AppTableCell>
       <AppTableCell>{category}</AppTableCell>
       <AppTableCell>{quantity}</AppTableCell>
+      <AppTableCell>
+        <AppButton
+          className="products-table__body-reserved-button"
+          type="button"
+          size="small"
+          variant="outlined"
+          to={routes.dashboard.products.reservationsDetails.path(id)}
+        >
+          <AppTypography
+            variant="caption"
+            component="span"
+            translationKey="productsTable.reservedButton"
+          />
+        </AppButton>
+      </AppTableCell>
       <AppTableCell>{formatPrice(price)}</AppTableCell>
       <AppTableCell
         className={cn(priceWithDiscount && "products-table__discounted-price")}
