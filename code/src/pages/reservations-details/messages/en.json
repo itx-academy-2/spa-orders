@@ -1,0 +1,8 @@
+{
+    "reservedProductDetails.productName.label": "Name:",
+    "reservedProductDetails.productCategory.label": "Category:",
+    "reservedProductDetails.productQuantity.label": "Quantity:",
+    "reservedProductDetails.productPrice.label": "Price:",
+    "reservedProductDetails.productPriceWithDiscount.label": "Price with Discount:",
+    "reservedProductDetails.productDiscount.label": "Discount percentage:"
+}

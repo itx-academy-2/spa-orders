@@ -1,0 +1,22 @@
+@import "@design-system";
+
+.reserved-product-details {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  &__image-section {
+    img {
+      width: 170px;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+
+  &__info-section {
+    margin-left: spacing(20);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 16px;
+  }
+}
