@@ -8,5 +8,6 @@
   "productsTable.columns.price": "Ціна",
   "productsTable.columns.date": "Дата створення",
   "productsTable.fallback": "Продуктів не знайдено",
-  "productsTable.label.draft": "Чернетка"
+  "productsTable.label.draft": "Чернетка",
+  "productsTable.reservedButton": "Резерв"
 }
