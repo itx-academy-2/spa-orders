@@ -77,6 +77,7 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
       <AppTableCell>{category}</AppTableCell>
       <AppTableCell>{quantity}</AppTableCell>
       <AppTableCell>
+        {/* TODO: Replace with reserved quantity */}
         <AppButton
           className="products-table__body-reserved-button"
           type="button"
