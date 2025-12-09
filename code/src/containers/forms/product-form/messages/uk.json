@@ -6,6 +6,7 @@
   "productForm.discountPercentage.label": "Знижка, %",
   "productForm.inputLabel.image": "URL зображення",
   "productForm.inputLabel.status": "Видимий для покупців",
+  "productForm.image.searchImageButton": "Пошук у Pexels",
   "productForm.update.submit": "Оновити товар",
   "productForm.create.submit": "Створити товар",
   "productForm.creation.success": "Продукт успішно створено",
