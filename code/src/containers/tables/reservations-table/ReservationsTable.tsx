@@ -13,7 +13,7 @@ const ReservationsTable = ({ reservations }: ReservationsTableProps) => {
   const ReservationsTableFallback = (
     <AppTypography
       textAlign="center"
-      variant="subtitle1"
+      variant="subtitle2"
       translationKey="reservationsTable.fallback"
     />
   );
