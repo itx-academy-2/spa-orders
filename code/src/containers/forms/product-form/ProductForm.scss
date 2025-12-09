@@ -34,9 +34,17 @@ $gridGapHalf: calc($gridGap / 2);
     padding: spacing(8);
     background-color: var(--color-surface);
     color: var(--color-text);
+
     * {
       color: inherit;
     }
+  }
+
+  &__image-search-button {
+    border-radius: spacing(1);
+    height: 47px;
+    margin-top: spacing(4);
+    color: $light;
   }
 
   &__container {
@@ -167,17 +175,13 @@ $gridGapHalf: calc($gridGap / 2);
     padding: spacing(1) spacing(3);
 
     &-label {
-      color: var(
-        --new-rpoduct-form-checkbox-color,
-        $light-alpha
-      ) !important; // To rewrite mui styles and styles setted in AppCheckbox
+      color: var(--new-rpoduct-form-checkbox-color,
+          $light-alpha ) !important; // To rewrite mui styles and styles setted in AppCheckbox
     }
 
     & svg {
-      fill: var(
-        --new-rpoduct-form-checkbox-color,
-        $light-alpha
-      ) !important; // To rewrite mui styles and styles setted in AppCheckbox
+      fill: var(--new-rpoduct-form-checkbox-color,
+          $light-alpha ) !important; // To rewrite mui styles and styles setted in AppCheckbox
     }
   }
 
@@ -215,13 +219,9 @@ $gridGapHalf: calc($gridGap / 2);
 
   &__language-button--active {
     color: var(--product-form-language-button-active-text-color, $white);
-    background-color: var(
-      --product-form-language-button-active-background-color,
-      $product-form-language-button-color
-    ) !important; // to overwrite mui styles
-    border-color: var(
-      --product-form-language-button-active-color,
-      $product-form-language-button-color
-    );
+    background-color: var(--product-form-language-button-active-background-color,
+        $product-form-language-button-color ) !important; // to overwrite mui styles
+    border-color: var(--product-form-language-button-active-color,
+        $product-form-language-button-color );
   }
 }

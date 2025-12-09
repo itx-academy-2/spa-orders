@@ -56,6 +56,14 @@ const Image = ({ errors, control }: ProductFormImageSectionProps) => {
         />
       );
 
+    const handleImageModalOpen = () => {
+      openModal(
+        <ImageSearchModal
+          onSelect={(url) => onChange(url)}
+        />
+      );
+    };
+
     return (
       <AppBox className="product-form__container product-form__image-section">
         <AppBox className="product-form__header">
@@ -80,11 +88,11 @@ const Image = ({ errors, control }: ProductFormImageSectionProps) => {
             onChange={handleChange}
             {...handlers}
           />
-          <AppButton onClick={() => openModal(
-            <ImageSearchModal
-              onSelect={(url) => onChange(url)}
-            />
-          )}>
+          <AppButton
+            className="product-form__image-search-button"
+            fullWidth
+            onClick={handleImageModalOpen}
+          >
             <AppTypography translationKey="productForm.image.searchImageButton" />
           </AppButton>
         </AppBox>
