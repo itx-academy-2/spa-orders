@@ -22,9 +22,16 @@ export const useImageSearch = (onSearch?: (value: string) => void) => {
         onSearch?.("");
     };
 
-    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value);
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
+    };
+
     const handleClearSearch = () => resetSearch();
-    const handleSearch = () => onSearch?.(searchValue);
+
+    const handleSearch = (value?: string) => {
+        const searchTerm = value ?? searchValue;
+        onSearch?.(searchTerm);
+    };
 
     const message = getImageSearchStatus({
         error,
@@ -34,6 +41,7 @@ export const useImageSearch = (onSearch?: (value: string) => void) => {
 
     return {
         searchValue,
+        setSearchValue,
         selectedImage,
         images,
         isLoading,

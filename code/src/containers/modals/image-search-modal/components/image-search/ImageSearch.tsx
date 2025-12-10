@@ -10,7 +10,8 @@ import AppLoader from "@/components/app-loader/AppLoader";
 import { ImageSearchProps } from "@/containers/modals/image-search-modal/components/image-search/ImageSearch.types";
 import ImageGrid from "@/containers/modals/image-search-modal/components/image-grid/ImageGrid";
 import { useImageSearch } from "@/containers/modals/image-search-modal/hooks/useImageSearch";
-import { MAX_IMAGES } from "@/containers/modals/image-search-modal/components/image-search/ImageSearch.constants";
+import SuggestedKeywords from "@/containers/modals/image-search-modal/components/suggested-keywords/SuggestedKeywords";
+import { MAX_IMAGES, suggestedKeywords } from "@/containers/modals/image-search-modal/components/image-search/ImageSearch.constants";
 import { useModalContext } from "@/context/modal/ModalContext";
 import cn from "@/utils/cn/cn";
 
@@ -22,6 +23,7 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
 
   const {
     searchValue,
+    setSearchValue,
     selectedImage,
     images,
     isLoading,
@@ -41,6 +43,11 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
     closeModal();
   };
 
+  const handleKeywordClick = (keyword: string) => {
+    setSearchValue(keyword);
+    handleSearch(keyword);
+  };
+
   return (
     <AppContainer className={styles.searchContainer} data-testid="image-search-container">
       <AppBox className={styles.searchContainer_searchInputWrapper}>
@@ -51,9 +58,17 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
           })}
           onChange={handleSearchChange}
           onClear={handleClearSearch}
-          onSearch={handleSearch}
+          onSearch={() => handleSearch()}
           hideSearchIcon
           className={styles.searchContainer_searchInput}
+        />
+      </AppBox>
+      <AppBox
+        sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}
+      >
+        <SuggestedKeywords
+          keywords={suggestedKeywords}
+          onKeywordClick={handleKeywordClick}
         />
       </AppBox>
       <AppBox className={styles.searchContainer_imageContent}>
