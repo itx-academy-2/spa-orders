@@ -15,6 +15,7 @@ const SuggestedKeywords = ({ keywords, onKeywordClick }: SuggestedKeywordsProps)
                     className={styles.suggestedKeywords_box}
                     onClick={() => onKeywordClick(keyword)}
                     variant="outlined"
+                    type="button"
                 >
                     <AppTypography className={styles.suggestedKeywords_keyword}>
                         {keyword}
