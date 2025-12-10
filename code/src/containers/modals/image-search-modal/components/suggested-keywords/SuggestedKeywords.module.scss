@@ -16,9 +16,11 @@
         cursor: pointer;
 
         &:hover,
-        &:focus-within {
+        &:focus {
             background-color: var(--color-bg);
             transform: scale(1.005);
+            border-color: var(--color-bg);
+            outline: none;
         }
     }
 
