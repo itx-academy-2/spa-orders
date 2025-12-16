@@ -125,5 +125,12 @@ export const URLS = {
     get: ({userId}: AddressesGetParams) => `/v1/users/${userId}/addresses`,
     delete: ({ userId, addressId }: AddressesDeleteParams) =>
       `/v1/users/${userId}/addresses/${addressId}`
-  }
+  },
+  reservations: {
+    getMyReservations: "/v1/my-reservations",
+    put: ({ productId }: { productId: string }) =>
+      `/v1/my-reservations/${productId}`,
+    delete: ({ productId }: { productId: string }) =>
+      `/v1/my-reservations/${productId}`
+  },
 } as const;
