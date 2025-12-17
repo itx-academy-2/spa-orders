@@ -15,10 +15,27 @@ jest.mock("@/hooks/use-pagination/usePagination");
 jest.mock("@/utils/check-screen-size/useScreenSize");
 jest.mock("@/utils/set-product-size/setProductsPerPageSize");
 
-jest.mock("@/containers/products-container/ProductsContainer", () => ({ products }: any) => (
-    <div data-testid="products-container">{products.map((p: any) => <span key={p.id}>{p.name}</span>)}</div>
-));
-jest.mock("@/containers/page-loading-fallback/PageLoadingFallback", () => () => <div>Loading...</div>);
+jest.mock(
+    "@/containers/products-container/ProductsContainer",
+    () => ({
+        __esModule: true,
+        default: ({ products }: { products: { id: string; name: string }[] }) => (
+            <div data-testid="products-container">
+                {products.map((p) => (
+                    <span key={p.id}>{p.name}</span>
+                ))}
+            </div>
+        ),
+    })
+);
+
+jest.mock(
+    "@/containers/page-loading-fallback/PageLoadingFallback",
+    () => ({
+        __esModule: true,
+        default: () => <div>Loading...</div>,
+    })
+);
 
 const mockReservations = [
     { id: "1", name: "Product 1" },
