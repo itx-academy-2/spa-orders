@@ -254,3 +254,13 @@ export type GetBestsellerProductsParams = Lang & {
   size?: number;
   sort?: string;
 };
+
+export type ReservationProductParams = {
+  productId: string;
+};
+
+export type GetMyReservationsParams = Lang & Omit<Pageable, "sort"> & {
+  sort?: string;
+};
+
+export type GetMyReservationsResponse = Product[];
