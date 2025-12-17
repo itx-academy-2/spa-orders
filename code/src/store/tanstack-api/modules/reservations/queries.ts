@@ -3,14 +3,14 @@ import { reservationsApi } from "@/store/tanstack-api/modules/reservations/reser
 import { reservationsKeys } from "@/store/tanstack-api/modules/reservations/queryKeys";
 import {
   GetMyReservationsResponse,
+  GetMyReservationsParams,
   ReservationProductParams
 } from "@/types/product.types";
 
-export const useGetMyReservationsQuery = () => {
-  console.info("useGetMyReservationsQuery called");
+export const useGetMyReservationsQuery = (params?: GetMyReservationsParams) => {
   return useQuery<GetMyReservationsResponse>({
     queryKey: reservationsKeys.myReservations(),
-    queryFn: () => reservationsApi.getMyReservations(),
+    queryFn: () => reservationsApi.getMyReservations(params),
   });
 };
 

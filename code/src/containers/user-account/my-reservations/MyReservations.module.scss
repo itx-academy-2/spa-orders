@@ -49,4 +49,20 @@
             background-color: inherit;
         }
     }
+
+    &_productsGrid {
+        margin-top: spacing(4);
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        justify-content: flex-start;
+        width: 100%;
+        gap: spacing(5);
+    }
+
+    &_emptyMessage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 210px 0;
+    }
 }
