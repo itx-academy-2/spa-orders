@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 
 import ReserveButtonContainer from "@/pages/product-details/components/reserve-button-container/ReserveButtonContainer";
 import ReserveButton from "@/pages/product-details/components/reserve-button/ReserveButton";
-import AuthModal from "@/containers/modals/auth/AuthModal";
 import { useGetMyReservationsQuery, useRemoveFromReservationsMutation } from "@/store/tanstack-api/modules/reservations";
 import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
 import { useModalContext } from "@/context/modal/ModalContext";
