@@ -1,49 +1,87 @@
 import { render, screen } from "@testing-library/react";
-import { useSearchParams } from "react-router-dom";
-
 import MyReservations from "@/containers/user-account/my-reservations/MyReservations";
 
-const mockedUseSearchParams = useSearchParams as jest.Mock;
+import { useGetMyReservationsQuery } from "@/store/tanstack-api/modules/reservations";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
+import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import usePagination from "@/hooks/use-pagination/usePagination";
+import useScreenSize from "@/utils/check-screen-size/useScreenSize";
+import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
 
-jest.mock("react-router-dom", () => {
-    const actual = jest.requireActual("react-router-dom");
-    return {
-        ...actual,
-        useSearchParams: jest.fn(),
-    };
-});
+jest.mock("@/store/tanstack-api/modules/reservations");
+jest.mock("@/store/api/wishlistApi");
+jest.mock("@/context/i18n/I18nProvider");
+jest.mock("@/hooks/use-pagination/usePagination");
+jest.mock("@/utils/check-screen-size/useScreenSize");
+jest.mock("@/utils/set-product-size/setProductsPerPageSize");
 
-const renderAndMock = ({ mockSortOption }: { mockSortOption?: string } = {}) => {
-    const searchParams = new URLSearchParams();
-    if (mockSortOption) searchParams.set("sort", mockSortOption);
+jest.mock("@/containers/products-container/ProductsContainer", () => ({ products }: any) => (
+    <div data-testid="products-container">{products.map((p: any) => <span key={p.id}>{p.name}</span>)}</div>
+));
+jest.mock("@/containers/page-loading-fallback/PageLoadingFallback", () => () => <div>Loading...</div>);
 
-    const setParams = jest.fn();
-    mockedUseSearchParams.mockReturnValue([searchParams, setParams]);
+const mockReservations = [
+    { id: "1", name: "Product 1" },
+    { id: "2", name: "Product 2" }
+];
 
-    render(<MyReservations />);
+const mockWishlist = { content: [{ id: "1", name: "Product 1" }] };
 
-    return {
-        setParams,
-        searchParams,
-    };
-};
+describe("MyReservations", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
 
-describe("MyReservations Page", () => {
-    test("renders the title typography", () => {
-        renderAndMock();
+        (useLocaleContext as jest.Mock).mockReturnValue({ locale: "en" });
+        (usePagination as jest.Mock).mockReturnValue({ page: 1 });
+        (useScreenSize as jest.Mock).mockReturnValue({ width: 1200 });
+        (setProductsPerPageSize as jest.Mock).mockReturnValue(10);
 
-        expect(screen.getByText("MyReservations.title")).toBeInTheDocument();
+        (useGetMyReservationsQuery as jest.Mock).mockReturnValue({
+            data: mockReservations,
+            isLoading: false
+        });
+
+        (useGetUserWishlistQuery as jest.Mock).mockReturnValue({
+            data: mockWishlist
+        });
+    });
+
+    test("renders the page title", () => {
+        render(<MyReservations />);
+        expect(screen.getByText(/MyReservations.title/i)).toBeInTheDocument();
     });
 
     test("renders count of products", () => {
-        renderAndMock();
-
-        expect(screen.getByText(/MyReservations\.productsCount/i)).toBeInTheDocument();
+        render(<MyReservations />);
+        expect(screen.getByText(/MyReservations.productsCount/i)).toBeInTheDocument();
     });
 
-    test("renders dropdown component", () => {
-        renderAndMock();
+    test("renders empty message when no reservations", () => {
+        (useGetMyReservationsQuery as jest.Mock).mockReturnValue({
+            data: [],
+            isLoading: false
+        });
 
-        expect(screen.getByTestId("app-dropdown")).toBeInTheDocument();
+        render(<MyReservations />);
+        expect(screen.getByText(/MyReservations.emptyMessage/i)).toBeInTheDocument();
+    });
+
+    test("renders loading fallback when isLoading is true", () => {
+        (useGetMyReservationsQuery as jest.Mock).mockReturnValue({
+            data: null,
+            isLoading: true
+        });
+
+        render(<MyReservations />);
+        expect(screen.getByText("Loading...")).toBeInTheDocument();
+    });
+
+    test("renders ProductsContainer when reservations exist", () => {
+        render(<MyReservations />);
+        const container = screen.getByTestId("products-container");
+        expect(container).toBeInTheDocument();
+        mockReservations.forEach((r) => {
+            expect(screen.getByText(r.name)).toBeInTheDocument();
+        });
     });
 });
