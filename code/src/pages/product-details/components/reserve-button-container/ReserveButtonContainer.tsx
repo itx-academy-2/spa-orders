@@ -1,16 +1,29 @@
 import { ReserveButtonContainerProps } from "@/pages/product-details/components/reserve-button-container/ReserveButtonContainer.types";
+import ReserveButton from "@/pages/product-details/components/reserve-button/ReserveButton";
 
+import AuthModal from "@/containers/modals/auth/AuthModal";
 import {
-    useAddToReservationsMutation,
     useGetMyReservationsQuery,
     useRemoveFromReservationsMutation
 } from "@/store/tanstack-api/modules/reservations";
-import ReserveButton from "@/pages/product-details/components/reserve-button/ReserveButton";
+import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
+import { isUserAllowed } from "@/utils/is-user-allowed/isUserAllowed";
+import { useModalContext } from "@/context/modal/ModalContext";
+import useAddToReservations from "@/hooks/use-add-to-reservations/useAddToReservations";
 
 export const ReserveButtonContainer = ({
     productId
 }: ReserveButtonContainerProps) => {
-    const { data } = useGetMyReservationsQuery();
+    const isAuthenticated = useIsAuthSelector();
+    const userRole = useUserRoleSelector();
+
+    const { openModal } = useModalContext();
+
+    const canUserInteract = !isUserAllowed(isAuthenticated, userRole);
+
+    const { data } = useGetMyReservationsQuery(undefined, {
+        enabled: !canUserInteract
+    });
 
     const reservedProducts = data ?? [];
 
@@ -18,15 +31,21 @@ export const ReserveButtonContainer = ({
         return product.id === productId;
     });
 
-    const addMutation = useAddToReservationsMutation();
+    const { handleAddToReservations, isPending: isAdding } = useAddToReservations();
     const removeMutation = useRemoveFromReservationsMutation();
-    const isLoading = addMutation.isPending || removeMutation.isPending;
+    const isRemoving = removeMutation.isPending;
+
+    const isLoading = isAdding || isRemoving;
 
     const handleToggle = () => {
+        if (canUserInteract) {
+            openModal(<AuthModal />);
+            return;
+        }
         if (isReserved) {
             removeMutation.mutate({ productId });
         } else {
-            addMutation.mutate({ productId });
+            handleAddToReservations({ productId });
         }
     };
 
