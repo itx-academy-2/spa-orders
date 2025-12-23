@@ -1,0 +1,11 @@
+@import "@design-system";
+
+.draft-label {
+  position: absolute;
+  background-color: $gray-light;
+  color: $white;
+  padding: 1px spacing(4);
+  border-radius: 15px;
+  font-size: 15px;
+  z-index: 1;
+}
