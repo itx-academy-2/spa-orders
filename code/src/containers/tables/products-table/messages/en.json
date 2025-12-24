@@ -6,5 +6,6 @@
   "productsTable.columns.quantity": "Quantity",
   "productsTable.columns.price": "Price",
   "productsTable.columns.date": "Date of creation",
-  "productsTable.fallback": "No products found"
+  "productsTable.fallback": "No products found",
+  "productsTable.label.draft": "Draft"
 }
