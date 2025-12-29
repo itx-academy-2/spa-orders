@@ -4,5 +4,6 @@
     "reservedProductDetails.productQuantity.label": "Кількість:",
     "reservedProductDetails.productPrice.label": "Ціна:",
     "reservedProductDetails.productPriceWithDiscount.label": "Ціна зі знижкою:",
-    "reservedProductDetails.productDiscount.label": "Відсоток знижки:"
+    "reservedProductDetails.productDiscount.label": "Відсоток знижки:",
+    "reservationsPage.reservationsNotFound": "Сторінки резервацій не знайдено"
 }

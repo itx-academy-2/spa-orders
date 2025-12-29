@@ -5,35 +5,15 @@ import AppContainer from "@/components/app-container/AppContainer";
 import AppTypography from "@/components/app-typography/AppTypography";
 import DetailItem from "@/components/detail-item/DetailItem";
 
-import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
-import { ReservedProductDetailsProps } from "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.types";
-import { useGetManagerProductQuery } from "@/store/api/productsApi";
+import { ReservedProductDetailsProps } from "@/components/reserved-product-details/ReservedProductDetails.types";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 
-import "@/pages/reservations-details/components/reserved-product-details/ReservedProductDetails.scss";
+import "@/components/reserved-product-details/ReservedProductDetails.scss";
 
-const ReservedProductDetails = ({
-    productId
-}: ReservedProductDetailsProps) => {
+const ReservedProductDetails = ({ product }: ReservedProductDetailsProps) => {
     const { locale } = useLocaleContext();
     const { formatMessage } = useIntl();
-
-    const {
-        data: product,
-        isLoading,
-        error
-    } = useGetManagerProductQuery({
-        productId
-    });
-
-    if (isLoading) {
-        return <PageLoadingFallback />;
-    }
-
-    if (error) {
-        return <AppTypography translationKey="errors.somethingWentWrong" />;
-    }
 
     if (!product) {
         return <AppTypography translationKey="errors.notFound" />;

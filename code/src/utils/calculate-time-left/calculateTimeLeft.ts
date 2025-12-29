@@ -23,6 +23,9 @@ export const calculateTimeLeft = (addedAt: string): TimeLeft => {
     return { hours, minutes, seconds, expired };
 };
 
+/* 
+  Formats the remaining time as a string (HH:MM:SS) or shows "expired" 
+*/
 export const formatTimeLeft = (time: TimeLeft): string =>
     time.expired
         ? "reservationsTable.expired"

@@ -29,7 +29,7 @@ import myAddressesMessages from "@/containers/user-account/my-addresses/messages
 import myReservationsMessages from "@/containers/user-account/my-reservations/messages";
 import imageSearchModalMessages from "@/containers/modals/image-search-modal/messages";
 import reservationsTableMessages from "@/containers/tables/reservations-table/messages"
-import reservationsDetailsMessages from "@/pages/reservations-details/messages";
+import reservationsDetailsMessages from "@/components/reserved-product-details/messages";
 
 import dropDownMessages from "@/components/app-dropdown/messages";
 import bestSellerContainerMessages from "@/components/bestseller-card/messages";
@@ -56,6 +56,7 @@ import orderPageMessages from "@/pages/orders/messages";
 import productDetailsMessages from "@/pages/product-details/messages";
 import productsItemsMessages from "@/pages/products/messages";
 import salesPageMessages from "@/pages/sales/messages";
+import DashboardReservationsPageMessages from "@/pages/dashboard/dashboard-reservations/messages"
 
 type MessagesType = Record<Locale, Record<string, string>>;
 
@@ -117,7 +118,8 @@ const messages: MessagesType = {
     ...myReservationsMessages.en,
     ...imageSearchModalMessages.en,
     ...reservationsTableMessages.en,
-    ...reservationsDetailsMessages.en
+    ...reservationsDetailsMessages.en,
+    ...DashboardReservationsPageMessages.en
   },
   uk: {
     ...commonMessages.uk,
@@ -175,7 +177,8 @@ const messages: MessagesType = {
     ...myReservationsMessages.uk,
     ...imageSearchModalMessages.uk,
     ...reservationsTableMessages.uk,
-    ...reservationsDetailsMessages.uk
+    ...reservationsDetailsMessages.uk,
+    ...DashboardReservationsPageMessages.uk
   }
 };
 

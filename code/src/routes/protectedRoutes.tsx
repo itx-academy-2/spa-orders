@@ -39,6 +39,12 @@ const DashboardUpdateProductPage = lazy(
       "@/pages/dashboard/dashboard-update-product/DashboardUpdateProductPage"
     )
 );
+const DashboardReservationsPage = lazy(
+  () =>
+    import(
+      "@/pages/dashboard/dashboard-reservations/DashboardReservationsPage"
+    )
+);
 const DashboardProductPage = lazy(
   () => import("@/pages/dashboard/dashboard-product/DashboardProductPage")
 );
@@ -105,6 +111,10 @@ const protectedRoutes: RouteObject[] = [
       {
         path: routePaths.dashboard.products.productDetails.path(),
         element: <DashboardProductPage />
+      },
+      {
+        path: routePaths.dashboard.products.reservationsDetails.path(),
+        element: <DashboardReservationsPage />
       }
     ]
   },

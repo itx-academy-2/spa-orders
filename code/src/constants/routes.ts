@@ -59,6 +59,10 @@ const routes = {
       productDetails: {
         path: (productId: string = ":productId") =>
           `/dashboard/products/${productId}`
+      },
+      reservationsDetails: {
+        path: (productId: string = ":productId") =>
+          `/dashboard/products/${productId}/reservations`
       }
     },
     users: {

@@ -26,5 +26,10 @@
 
       object-fit: cover;
     }
+
+    &-reserved-button {
+      border-color: var(--color-text);
+      color: var(--color-text);
+    }
   }
 }

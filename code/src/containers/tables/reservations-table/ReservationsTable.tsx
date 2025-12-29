@@ -6,28 +6,14 @@ import ReservationsTableBody from "@/containers/tables/reservations-table/compon
 
 import { tableColumns } from "@/containers/tables/reservations-table/ReservationsTable.constants";
 import { ReservationsTableProps } from "@/containers/tables/reservations-table/ReservationsTable.types";
-import { useGetManagerProductReservationsQuery } from "@/store/tanstack-api/modules/products/queries";
-import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
-import useScreenSize from "@/utils/check-screen-size/useScreenSize";
-import usePagination from "@/hooks/use-pagination/usePagination";
 
 import "@/containers/tables/reservations-table/ReservationsTable.scss"
 
-const ReservationsTable = ({ productId }: ReservationsTableProps) => {
-  const { page } = usePagination();
-  const screenSize = useScreenSize();
-  const size = Math.min(setProductsPerPageSize(screenSize.width), 3);
-
-  const { data } = useGetManagerProductReservationsQuery({
-    productId,
-    page: page - 1,
-    size,
-  });
-
+const ReservationsTable = ({ reservations }: ReservationsTableProps) => {
   const ReservationsTableFallback = (
     <AppTypography
       textAlign="center"
-      variant="subtitle1"
+      variant="subtitle2"
       translationKey="reservationsTable.fallback"
     />
   );
@@ -41,7 +27,7 @@ const ReservationsTable = ({ productId }: ReservationsTableProps) => {
       }}
       headItems={tableColumns}
       renderHeadItem={(head) => <ReservationsTableHead key={head} head={head} />}
-      bodyItems={data?.content ?? []}
+      bodyItems={reservations ?? []}
       renderBodyItem={(item) => <ReservationsTableBody key={item.email} reservation={item} />}
       fallback={ReservationsTableFallback}
     />

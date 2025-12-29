@@ -4,8 +4,10 @@
   "productsTable.columns.status": "Видимість",
   "productsTable.columns.category": "Категорія",
   "productsTable.columns.quantity": "Кількість",
+  "productsTable.columns.reserved": "Зарезервовано",
   "productsTable.columns.price": "Ціна",
   "productsTable.columns.date": "Дата створення",
   "productsTable.fallback": "Продуктів не знайдено",
-  "productsTable.label.draft": "Чернетка"
+  "productsTable.label.draft": "Чернетка",
+  "productsTable.reservedButton": "Резерв"
 }
