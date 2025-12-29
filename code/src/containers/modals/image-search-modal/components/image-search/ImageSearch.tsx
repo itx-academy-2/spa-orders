@@ -58,7 +58,7 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
           })}
           onChange={handleSearchChange}
           onClear={handleClearSearch}
-          onSearch={() => handleSearch()}
+          onSearch={handleSearch}
           hideSearchIcon
           className={styles.searchContainer_searchInput}
         />
