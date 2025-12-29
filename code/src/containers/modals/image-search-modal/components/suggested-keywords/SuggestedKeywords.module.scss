@@ -1,0 +1,30 @@
+.suggestedKeywords {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+
+
+    &_box {
+        padding: 4px 12px;
+        border-radius: 16px;
+        border-color: var(--color-bg);
+        border-width: spacing(2);
+        box-shadow: var(--shadow);
+        color: var(--color-text);
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            background-color: var(--color-bg);
+            transform: scale(1.005);
+            border-color: var(--color-bg);
+            outline: none;
+        }
+    }
+
+    &_keyword {
+        color: var(--color-muted);
+    }
+}
