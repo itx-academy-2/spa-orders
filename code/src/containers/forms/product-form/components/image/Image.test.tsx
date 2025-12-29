@@ -7,6 +7,7 @@ import {
   ProductFormRegisterFunction
 } from "@/containers/forms/product-form/ProductForm.types";
 import ImagePreview from "@/containers/forms/product-form/components/image/Image";
+import { useModalContext } from "@/context/modal/ModalContext";
 
 import getTagIn from "@/utils/get-tag-in/getTagIn";
 import typeIntoInput from "@/utils/type-into-input/typeIntoInput";
@@ -19,6 +20,23 @@ jest.mock("react-hook-form", () => ({
   Controller: jest.fn()
 }));
 
+jest.mock("@/context/modal/ModalContext", () => ({
+  useModalContext: jest.fn()
+}));
+
+const mockOpenModal = jest.fn();
+const mockCloseModal = jest.fn();
+const mockToggleModal = jest.fn();
+
+beforeEach(() => {
+  (useModalContext as jest.Mock).mockReturnValue({
+    openModal: mockOpenModal,
+    closeModal: mockCloseModal,
+    toggleModal: mockToggleModal
+  });
+});
+
+// Mock error for input
 const imageError = {
   image: {
     message: "Image error"
@@ -26,8 +44,9 @@ const imageError = {
 } as unknown as ProductFormFieldErrors;
 
 const controllerPropsWithValue = {
-  value: "https://test.com/image.jpg"
-} as ControllerRenderProps;
+  value: "https://test.com/image.jpg",
+  onChange: jest.fn()
+} as unknown as ControllerRenderProps;
 
 const registerFunction = (() => ({})) as unknown as ProductFormRegisterFunction;
 const controlFunction = (() => ({})) as unknown as ProductFormControl;
@@ -38,9 +57,7 @@ const renderAndMock = (
 ) => {
   (Controller as jest.Mock).mockImplementation(
     ({ render }: MockControllerProps) =>
-      render({
-        field: controllerRenderProps
-      })
+      render({ field: controllerRenderProps })
   );
 
   render(
@@ -52,8 +69,8 @@ const renderAndMock = (
   );
 };
 
-describe("Test Image", () => {
-  test("should render input and image preview text", () => {
+describe("ImagePreview Component", () => {
+  test("renders input and default image preview text", () => {
     renderAndMock();
 
     const imageInput = screen.getByRole("textbox");
@@ -63,7 +80,7 @@ describe("Test Image", () => {
     expect(imagePreviewText).toBeInTheDocument();
   });
 
-  test("Should render helper text and change styles when error", () => {
+  test("renders helper text and error styles when error exists", () => {
     renderAndMock(undefined, imageError);
 
     const imageHelperText = screen.getByText("Image error");
@@ -73,7 +90,7 @@ describe("Test Image", () => {
     expect(imageInput.closest(".Mui-error")).toBeTruthy();
   });
 
-  test("Should not display error by default", () => {
+  test("does not display error styles by default", () => {
     renderAndMock();
 
     const imageInput = getTagIn("product-form-image-input");
@@ -81,34 +98,31 @@ describe("Test Image", () => {
     expect(imageInput.closest(".Mui-error")).toBeFalsy();
   });
 
-  test("Should show error if image is invalid and clear it when valid value provided", async () => {
-    renderAndMock({
-      value: "https://test.com/image.jpg",
-      onChange: () => {}
-    } as ControllerRenderProps);
+  test("shows error when image fails to load and clears on valid input", async () => {
+    renderAndMock(controllerPropsWithValue);
 
     const image = screen.getByTestId("product-form-image-preview");
     fireEvent.error(image);
 
-    const error = screen.getByText("productForm.image.previewError");
-    expect(error).toBeInTheDocument();
+    const errorText = screen.getByText("productForm.image.previewError");
+    expect(errorText).toBeInTheDocument();
 
     const imageInput = getTagIn("product-form-image-input");
     await typeIntoInput(imageInput, "https://test.com/example.jpg");
 
-    const imageEl = screen.getByTestId("product-form-image-preview");
-    expect(imageEl).toBeInTheDocument();
+    const updatedImage = screen.getByTestId("product-form-image-preview");
+    expect(updatedImage).toBeInTheDocument();
   });
 
-  test("Should show image when image input is filled", async () => {
+  test("displays image when input has value", () => {
     renderAndMock(controllerPropsWithValue);
 
     const image = screen.getByTestId("product-form-image-preview");
-
+    
     expect(image).toBeInTheDocument();
   });
 
-  test("Should show default image text if image input is empty", () => {
+  test("displays default preview text if input is empty", () => {
     renderAndMock();
 
     const imageText = screen.getByText("productForm.image.preview");

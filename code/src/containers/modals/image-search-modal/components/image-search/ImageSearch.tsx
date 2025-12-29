@@ -69,7 +69,7 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
             {message}
           </AppTypography>
         )}
-        {images?.length && (
+        {images && images.length > 0 && (
           <ImageGrid
             images={images.slice(0, MAX_IMAGES)}
             selectedImage={selectedImage}

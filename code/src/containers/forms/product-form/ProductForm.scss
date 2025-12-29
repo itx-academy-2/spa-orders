@@ -39,6 +39,13 @@ $gridGapHalf: calc($gridGap / 2);
     }
   }
 
+  &__image-search-button {
+    border-radius: spacing(1);
+    height: 47px;
+    margin-top: spacing(4);
+    color: $light;
+  }
+
   &__container {
     box-shadow: var(--shadow);
     background-color: var(--color-surface);

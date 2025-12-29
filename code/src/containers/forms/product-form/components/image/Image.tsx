@@ -5,10 +5,14 @@ import {
   ProductFormImageSectionProps,
   ProductFormValues
 } from "@/containers/forms/product-form/ProductForm.types";
+import ImageSearchModal from "@/containers/modals/image-search-modal/ImageSearchModal";
 
 import AppBox from "@/components/app-box/AppBox";
 import AppInput from "@/components/app-input/AppInput";
 import AppTypography from "@/components/app-typography/AppTypography";
+import AppButton from "@/components/app-button/AppButton";
+
+import { useModalContext } from "@/context/modal/ModalContext";
 
 type ControllerRenderFunctionProps = {
   field: ControllerRenderProps<ProductFormValues, "image">;
@@ -16,6 +20,7 @@ type ControllerRenderFunctionProps = {
 
 const Image = ({ errors, control }: ProductFormImageSectionProps) => {
   const [isError, setIsError] = useState(false);
+  const { openModal } = useModalContext();
 
   const handleImgError = () => {
     setIsError(true);
@@ -51,6 +56,14 @@ const Image = ({ errors, control }: ProductFormImageSectionProps) => {
         />
       );
 
+    const handleImageModalOpen = () => {
+      openModal(
+        <ImageSearchModal
+          onSelect={onChange}
+        />
+      );
+    };
+
     return (
       <AppBox className="product-form__container product-form__image-section">
         <AppBox className="product-form__header">
@@ -75,6 +88,13 @@ const Image = ({ errors, control }: ProductFormImageSectionProps) => {
             onChange={handleChange}
             {...handlers}
           />
+          <AppButton
+            className="product-form__image-search-button"
+            fullWidth
+            onClick={handleImageModalOpen}
+          >
+            <AppTypography translationKey="productForm.image.searchImageButton" />
+          </AppButton>
         </AppBox>
       </AppBox>
     );

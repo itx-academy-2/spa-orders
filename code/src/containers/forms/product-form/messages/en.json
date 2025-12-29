@@ -6,6 +6,7 @@
   "productForm.discountPercentage.label": "Discount, %",
   "productForm.inputLabel.image": "Image URL",
   "productForm.inputLabel.status": "Visible to customers",
+  "productForm.image.searchImageButton": "Search on Pexels",
   "productForm.update.submit": "Update product",
   "productForm.create.submit": "Create product",
   "productForm.creation.success": "Product successfully created",
