@@ -59,7 +59,7 @@ const Image = ({ errors, control }: ProductFormImageSectionProps) => {
     const handleImageModalOpen = () => {
       openModal(
         <ImageSearchModal
-          onSelect={(url) => onChange(url)}
+          onSelect={onChange}
         />
       );
     };
