@@ -62,6 +62,14 @@ When("I click on the 'Update product' button", () => {
   cy.getById("update-product-form-button").click();
 });
 
+When("I click on the 'Search on Pexels' button", () => {
+  cy.getById("product-form-image-search-button").click();
+});
+
+Then("I see Search on Pexels modal", () => {
+  cy.getById("image-search-modal").should("exist").and("be.visible");
+});
+
 When("Server returns 500 error when manager tries to update a product", () => {
   cy.intercept(httpMethod.patch, /\/v1\/management\/products/, {
     statusCode: httpStatusCode.internalServerError
