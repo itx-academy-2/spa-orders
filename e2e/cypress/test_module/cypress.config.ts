@@ -5,11 +5,9 @@ import addTestCoveragePlugin from "@cypress/code-coverage/task";
 import addWebpackPreprocessorPlugin from "./cypress/plugins/addWebpackPreprocessorPlugin";
 import path from "path";
 
-const configFromEnv = dotenv.config({
+dotenv.config({
   path: path.resolve(__dirname, ".env.local")
 });
-
-dotenv.config();
 
 export default defineConfig({
   defaultCommandTimeout: 15000,
@@ -34,8 +32,7 @@ export default defineConfig({
   },
   env: {
     TAGS: "not @ignore",
-    windowMode: "desktop",
-    ...configFromEnv.parsed
+    windowMode: "desktop"
   },
   execTimeout: 15000,
   pageLoadTimeout: 20000,
