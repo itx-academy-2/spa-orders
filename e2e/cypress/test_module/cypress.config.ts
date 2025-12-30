@@ -9,6 +9,8 @@ const configFromEnv = dotenv.config({
   path: path.resolve(__dirname, ".env.local")
 });
 
+dotenv.config();
+
 export default defineConfig({
   defaultCommandTimeout: 15000,
   e2e: {
