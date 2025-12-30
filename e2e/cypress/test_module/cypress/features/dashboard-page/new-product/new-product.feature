@@ -20,6 +20,10 @@ Feature: | New Product |
     And I click on the 'Create product' button
     Then I should receive a snackbar with message 'Product successfully created'
 
+  Scenario: Manager can open 'Search on Pexels' modal 
+    When I click on the 'Search on Pexels' button
+    Then I see Search on Pexels modal
+
   Scenario: Server error when manager creates a product
     Given Server returns 500 error when manager tries to create a product
     When I fill in the 'Image URL' field with "http://image.com"

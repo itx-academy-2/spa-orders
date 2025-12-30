@@ -61,6 +61,7 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
           onSearch={handleSearch}
           hideSearchIcon
           className={styles.searchContainer_searchInput}
+          data-cy="image-search-input"
         />
       </AppBox>
       <AppBox
@@ -94,6 +95,7 @@ const ImageSearch = ({ onSelect, onSearch }: ImageSearchProps) => {
       </AppBox>
       <AppBox className={styles.searchContainer_buttonWrapper}>
         <AppButton
+          data-cy="image-search-confirm-button"
           onClick={handleConfirm}
           disabled={!selectedImage}
           className={cn(

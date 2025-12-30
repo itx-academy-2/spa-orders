@@ -25,6 +25,10 @@ Feature: | Update Product |
         And I click on the 'Update product' button
         Then I should receive a snackbar with message 'Product successfully updated'
 
+    Scenario: Manager can open 'Search on Pexels' modal 
+        When I click on the 'Search on Pexels' button
+        Then I see Search on Pexels modal
+
     Scenario: Manager tries to update without changing anything
         And I click on the 'Update product' button
         Then I should not receive any snackbar message
