@@ -8,7 +8,7 @@ import * as styles from "@/containers/modals/image-search-modal/components/sugge
 
 const SuggestedKeywords = ({ keywords, onKeywordClick }: SuggestedKeywordsProps) => {
     return (
-        <AppBox className={styles.suggestedKeywords}>
+        <AppBox className={styles.suggestedKeywords} data-cy="suggested-keywords">
             {keywords.map((keyword) => (
                 <AppButton
                     key={keyword}

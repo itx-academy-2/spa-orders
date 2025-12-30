@@ -92,6 +92,7 @@ const Image = ({ errors, control }: ProductFormImageSectionProps) => {
             className="product-form__image-search-button"
             fullWidth
             onClick={handleImageModalOpen}
+            data-cy="product-form-image-search-button"
           >
             <AppTypography translationKey="productForm.image.searchImageButton" />
           </AppButton>

@@ -7,7 +7,7 @@ import * as styles from "@/containers/modals/image-search-modal/components/image
 
 const ImageGrid = ({ images, selectedImage, onSelect }: ImageGridProps) => {
   return (
-    <AppBox className={styles.imageGrid}>
+    <AppBox className={styles.imageGrid} data-cy="image-search-results">
       {images.map((url) => (
         <AppBox
           key={url}
@@ -15,6 +15,7 @@ const ImageGrid = ({ images, selectedImage, onSelect }: ImageGridProps) => {
             styles.imageGrid_imageWrapper,
             selectedImage === url && styles.imageGrid_selectedImage
           )}
+          data-cy={selectedImage === url ? "selected-image" : null}
           onClick={(e) => {
             e.stopPropagation();
             onSelect(url);

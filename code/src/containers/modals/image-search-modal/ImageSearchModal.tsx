@@ -30,7 +30,7 @@ const ImageSearchModal = ({ onSelect }: ImageSearchModalProps) => {
   };
 
   return (
-    <AppBox className={styles.imageSearchModal}>
+    <AppBox className={styles.imageSearchModal} data-cy="image-search-modal">
       <AppIconButton
         className={styles.imageSearchModal_closeIcon}
         onClick={closeModal}
