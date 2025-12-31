@@ -3,9 +3,15 @@ import ReserveButton from "@/pages/product-details/components/reserve-button/Res
 
 describe("ReserveButton", () => {
   test("renders a button", () => {
-    render(<ReserveButton />);
+    render(
+      <ReserveButton
+        isReserved={false}
+        isLoading={false}
+        onToggle={jest.fn()}
+      />
+    );
 
-    const reserveButton = screen.getByRole("button");   
+    const reserveButton = screen.getByRole("button");
     expect(reserveButton).toBeInTheDocument();
   });
 });

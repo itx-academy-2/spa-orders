@@ -52,5 +52,9 @@
   "loading.label": "Завантаження...",
   "appMenu.noOptions": "Немає доступних опцій",
   "userCabinet.title": "Кабінет користувача",
-  "userCabinet.description": "Керуйте налаштуваннями свого облікового запису"
+  "userCabinet.description": "Керуйте налаштуваннями свого облікового запису",
+  "reservations.add.success": "Товар додано до резервувань.",
+  "reservations.add.fail": "Щось пішло не так. Спробуйте ще раз.",
+  "reservations.add.limit.exceeded": "Можна зарезервувати не більше ніж 5 товарів.",
+  "reservations.add.totalCost.exceeded": "Загальна сума резервувань не може перевищувати 5 000 $."
 }

@@ -1,38 +1,43 @@
-import { useSearchParams } from "react-router-dom";
-
-import { sortOptions } from "@/containers/user-account/my-reservations/MyReservations.constants";
-
 import AppBox from "@/components/app-box/AppBox";
 import AppContainer from "@/components/app-container/AppContainer";
 import AppTypography from "@/components/app-typography/AppTypography";
-import AppDropdown from "@/components/app-dropdown/AppDropdown";
+
+import { useGetMyReservationsQuery } from "@/store/tanstack-api/modules/reservations";
+import { useLocaleContext } from "@/context/i18n/I18nProvider";
+import usePagination from "@/hooks/use-pagination/usePagination";
+import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
+import useScreenSize from "@/utils/check-screen-size/useScreenSize";
 
 import * as styles from "@/containers/user-account/my-reservations/MyReservations.module.scss";
+import ProductsContainer from "@/containers/products-container/ProductsContainer";
+import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
+import PaginationBlock from "@/containers/pagination-block/PaginationBlock";
+import PageLoadingFallback from "@/containers/page-loading-fallback/PageLoadingFallback";
 
 const MyReservations = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const sortOption = searchParams.get("sort");
+    const { locale } = useLocaleContext();
+    const { page } = usePagination();
+    const screenSize = useScreenSize();
+    const size = Math.min(setProductsPerPageSize(screenSize.width), 6);
 
-    const handleSortChange = (value: string) => {
-        const params = new URLSearchParams(searchParams);
-
-        if (value) {
-            params.set("sort", value);
-        } else {
-            params.delete("sort");
+    const { data: reservations, isLoading } = useGetMyReservationsQuery({
+        params: {
+            page: page - 1,
+            size,
+            lang: locale
         }
+    });
 
-        setSearchParams(params);
-    };
+    const productsList = reservations ?? [];
+    const productsCount = productsList.length;
+    const isEmpty = !isLoading && productsList.length === 0;
 
-    const productsCount = 0;
+    const { data: wishlistData } = useGetUserWishlistQuery();
+    const wishlist = wishlistData?.content ?? [];
 
-    const defaultDropdownText = sortOptions.find(
-        (item: { value: string | null; }) => item.value === sortOption
-    )?.label || <AppTypography
-            translationKey="sortOptions.newest"
-            data-testid="default-sort-label"
-        />;
+    if (isLoading) {
+        return <PageLoadingFallback />;
+    }
 
     return (
         <AppContainer className={styles.MyReservations}>
@@ -47,14 +52,23 @@ const MyReservations = () => {
                         translationProps={{ values: { count: productsCount } }}
                     />
                 </AppTypography>
-                <AppDropdown
-                    key={sortOption}
-                    options={sortOptions}
-                    onSelect={handleSortChange}
-                    defaultLabel={defaultDropdownText}
-                    className={styles.MyReservations_sort}
-                />
             </AppBox>
+            {isEmpty && (
+                <AppTypography
+                    className={styles.MyReservations_emptyMessage}
+                    translationKey="MyReservations.emptyMessage"
+                    variant="body"
+                />
+            )}
+            <ProductsContainer
+                className={styles.MyReservations_productsGrid}
+                products={productsList ?? []}
+                isLoading={isLoading}
+                loadingItemsCount={10}
+                wishlist={wishlist}
+                maxColumns={3}
+            />
+            <PaginationBlock page={page} />
         </AppContainer>
     );
 };

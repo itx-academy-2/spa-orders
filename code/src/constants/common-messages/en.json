@@ -52,5 +52,9 @@
   "loading.label": "Loading...",
   "appMenu.noOptions": "No available options",
   "userCabinet.title": "Customer Account",
-  "userCabinet.description": "Manage your account settings"
+  "userCabinet.description": "Manage your account settings",
+  "reservations.add.success": "Product successfully added to your reservations.",
+  "reservations.add.fail": "Something went wrong. Please try again.",
+  "reservations.add.limit.exceeded": "You can reserve up to 5 items.",
+  "reservations.add.totalCost.exceeded": "Your total reservation amount can not exceed $5,000."
 }
