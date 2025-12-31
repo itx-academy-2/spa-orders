@@ -8,7 +8,6 @@ import {
   GetManagerReservedByIdParams,
   GetManagerReservedByIdResponse
 } from "@/types/product.types";
-import { mockProductReservations } from "@/containers/tables/reservations-table/ReservationsTable.constants";
 
 export const productsApi = {
   getManagerImageSearch: async (
@@ -30,11 +29,5 @@ export const productsApi = {
         query,
       }
     );
-  },
-  getForManagerProductReservationsMock: async (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _: GetManagerReservedByIdParams
-  ): Promise<GetManagerReservedByIdResponse> => {
-    return mockProductReservations;
   },
 };
