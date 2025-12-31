@@ -5,11 +5,11 @@ import { APIError } from "@/types/common";
 
 const useAddToReservations = () => {
     const { openSnackbarWithTimeout } = useSnackbar();
-    const addMutation = useAddToReservationsMutation();
+    const addToReservations = useAddToReservationsMutation();
 
     const handleAddToReservations = async (params: ReservationProductParams) => {
         try {
-            await addMutation.mutateAsync(params);
+            await addToReservations.mutateAsync(params);
 
             openSnackbarWithTimeout({
                 variant: "success",
@@ -58,7 +58,7 @@ const useAddToReservations = () => {
         }
     };
 
-    return { handleAddToReservations, ...addMutation } as const;
+    return { handleAddToReservations, ...addToReservations } as const;
 };
 
 export default useAddToReservations;

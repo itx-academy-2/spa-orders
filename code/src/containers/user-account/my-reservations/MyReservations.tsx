@@ -21,9 +21,11 @@ const MyReservations = () => {
     const size = Math.min(setProductsPerPageSize(screenSize.width), 6);
 
     const { data: reservations, isLoading } = useGetMyReservationsQuery({
-        page: page - 1,
-        size,
-        lang: locale
+        params: {
+            page: page - 1,
+            size,
+            lang: locale
+        }
     });
 
     const productsList = reservations ?? [];

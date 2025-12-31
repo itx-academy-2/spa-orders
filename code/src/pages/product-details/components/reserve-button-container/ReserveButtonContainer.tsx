@@ -21,7 +21,7 @@ export const ReserveButtonContainer = ({
 
     const canUserInteract = !isUserAllowed(isAuthenticated, userRole);
 
-    const { data } = useGetMyReservationsQuery(undefined, {
+    const { data } = useGetMyReservationsQuery({
         enabled: !canUserInteract
     });
 

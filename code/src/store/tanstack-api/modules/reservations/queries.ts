@@ -1,22 +1,25 @@
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { reservationsApi } from "@/store/tanstack-api/modules/reservations/reservationsApi";
 import { reservationsKeys } from "@/store/tanstack-api/modules/reservations/queryKeys";
 import {
-  GetMyReservationsResponse,
   GetMyReservationsParams,
   ReservationProductParams
 } from "@/types/product.types";
 
-export const useGetMyReservationsQuery = (
-  params?: GetMyReservationsParams,
-  options?: Omit<UseQueryOptions<GetMyReservationsResponse>, "queryKey" | "queryFn">
-) => {
-  return useQuery<GetMyReservationsResponse>({
+type UseGetMyReservationsArgs = {
+  params?: GetMyReservationsParams;
+  enabled?: boolean;
+};
+
+export const useGetMyReservationsQuery = ({
+  params,
+  enabled = true,
+}: UseGetMyReservationsArgs = {}) =>
+  useQuery({
     queryKey: reservationsKeys.myReservations(),
     queryFn: () => reservationsApi.getMyReservations(params),
-    ...options,
+    enabled,
   });
-};
 
 export const useAddToReservationsMutation = () => {
   const queryClient = useQueryClient();
