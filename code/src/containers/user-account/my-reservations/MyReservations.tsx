@@ -50,6 +50,7 @@ const MyReservations = () => {
                         translationKey="MyReservations.productsCount"
                         component="span"
                         translationProps={{ values: { count: productsCount } }}
+                        data-cy="my-reservations-products-count"
                     />
                 </AppTypography>
             </AppBox>
