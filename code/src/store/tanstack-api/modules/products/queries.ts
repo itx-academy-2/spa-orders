@@ -17,12 +17,11 @@ export const useGetManagerImageSearchQuery = (params: GetManagerImageSearchParam
   });
 };
 
-// TODO: change getForManagerProductReservationsMock to getForManagerProductReservations
 export const useGetManagerProductReservationsQuery = (
   params: GetManagerReservedByIdParams
 ) => {
   return useQuery<GetManagerReservedByIdResponse>({
     queryKey: productsKeys.managerProductReservations(params.productId),
-    queryFn: () => productsApi.getForManagerProductReservationsMock(params),
+    queryFn: () => productsApi.getForManagerProductReservations(params),
   });
 };
