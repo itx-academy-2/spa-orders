@@ -18,6 +18,7 @@ const ReserveButton = ({
       onClick={onToggle}
       disabled={isLoading}
       className="reserve-button"
+      data-cy="reserve-product-button"
     >
       {isLoading ? (
         <AppLoader size="small" />
