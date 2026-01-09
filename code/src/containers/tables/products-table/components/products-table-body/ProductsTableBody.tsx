@@ -9,6 +9,7 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppLink from "@/components/app-link/AppLink";
 import { AppTableCell } from "@/components/app-table/components";
 import AppTypography from "@/components/app-typography/AppTypography";
+import DraftLabel from "@/components/draft-label/DraftLabel";
 
 import routes from "@/constants/routes";
 import cn from "@/utils/cn/cn";
@@ -35,13 +36,6 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
 
   const categoryName = getCategoryFromTags(tags);
 
-  const productStatus = (
-    <AppTypography
-      translationKey={productStatuToTranslationKeyMap[status]}
-      variant="caption"
-    />
-  );
-
   const category = categoryName ? (
     <AppTypography
       translationKey={`productsAll.${categoryName}`}
@@ -52,15 +46,18 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
   );
 
   const nameElement = (
-    <AppTypography
-      className="products-table__body-name"
-      variant="caption"
-      data-cy="products-table-item"
-    >
-      <AppLink to={routes.dashboard.products.productDetails.path(id)}>
-        {truncateWithEllipsis(name)}
-      </AppLink>
-    </AppTypography>
+    <AppBox className="products-table__body-name-wrapper">
+      <AppTypography
+        className="products-table__body-name"
+        variant="caption"
+        data-cy="products-table-item"
+      >
+        <AppLink to={routes.dashboard.products.productDetails.path(id)}>
+          {truncateWithEllipsis(name)}
+        </AppLink>
+      </AppTypography>
+      {status === "HIDDEN" && <DraftLabel />}
+    </AppBox>
   );
 
   return (
@@ -73,7 +70,6 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
         />
       </AppTableCell>
       <AppTableCell>{nameElement}</AppTableCell>
-      <AppTableCell>{productStatus}</AppTableCell>
       <AppTableCell>{category}</AppTableCell>
       <AppTableCell>{quantity}</AppTableCell>
       <AppTableCell>

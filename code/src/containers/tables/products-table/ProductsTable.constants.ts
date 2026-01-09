@@ -3,7 +3,6 @@ import { ManagerProduct } from "@/types/product.types";
 export const productsTableColumns = [
   "productsTable.columns.image",
   "productsTable.columns.name",
-  "productsTable.columns.status",
   "productsTable.columns.category",
   "productsTable.columns.quantity",
   "productsTable.columns.reserved",
