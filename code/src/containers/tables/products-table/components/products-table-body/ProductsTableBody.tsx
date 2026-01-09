@@ -1,6 +1,5 @@
 import EditIcon from "@mui/icons-material/Edit";
 
-import { productStatuToTranslationKeyMap } from "@/containers/tables/products-table/ProductsTable.constants";
 import { ProductsTableBodyProps } from "@/containers/tables/products-table/ProductsTable.types";
 
 import AppBox from "@/components/app-box/AppBox";
