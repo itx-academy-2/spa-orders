@@ -18,7 +18,7 @@ const ReservedLabel = () => {
     <StyledLabel data-testid="reserved-label">
       <AppTypography
         variant="caption-small"
-        translationKey="productsTable.label.reserved"
+        translationKey="productsTable.label.reservedLabel"
       />
     </StyledLabel>
   );

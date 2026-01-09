@@ -10,5 +10,5 @@
   "productsTable.fallback": "No products found",
   "productsTable.label.draft": "Draft",
   "productsTable.reservedButton": "Reserved",
-  "productsTable.label.reserved": "Reserved"
+  "productsTable.label.reservedLabel": "Reserved"
 }
