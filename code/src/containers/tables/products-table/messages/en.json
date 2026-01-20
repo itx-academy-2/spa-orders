@@ -9,5 +9,6 @@
   "productsTable.columns.date": "Date of creation",
   "productsTable.fallback": "No products found",
   "productsTable.label.draft": "Draft",
-  "productsTable.reservedButton": "Reserved"
+  "productsTable.reservedButton": "Reserved",
+  "productsTable.label.reservedLabel": "Reserved"
 }
