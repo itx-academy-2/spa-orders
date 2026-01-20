@@ -1,8 +1,7 @@
 import { screen } from "@testing-library/react";
 
 import {
-  mockProducts,
-  productStatuToTranslationKeyMap
+  mockProducts
 } from "@/containers/tables/products-table/ProductsTable.constants";
 import ProductsTableBody from "@/containers/tables/products-table/components/products-table-body/ProductsTableBody";
 
@@ -32,16 +31,13 @@ describe("Test ProductsTable", () => {
     const imageElement = screen.getByRole("img");
     const nameElement = screen.getByText(mockProducts[0].displayName!);
     const priceElement = screen.getByText(formatPrice(mockProducts[0].price));
-    const statusElement = screen.getByText(
-      productStatuToTranslationKeyMap[mockProducts[0].status]
-    );
+
     const categoryElement = screen.getByText(`productsAll.${categoryTag}`);
     const dateElement = screen.getByText(formatDate(mockProducts[0].createdAt));
 
     expect(imageElement).toBeInTheDocument();
     expect(nameElement).toBeInTheDocument();
     expect(priceElement).toBeInTheDocument();
-    expect(statusElement).toBeInTheDocument();
     expect(categoryElement).toBeInTheDocument();
     expect(dateElement).toBeInTheDocument();
   });

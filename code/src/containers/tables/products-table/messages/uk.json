@@ -1,7 +1,6 @@
 {
   "productsTable.columns.image": "Зображення",
   "productsTable.columns.name": "Назва",
-  "productsTable.columns.status": "Видимість",
   "productsTable.columns.category": "Категорія",
   "productsTable.columns.quantity": "Кількість",
   "productsTable.columns.reserved": "Зарезервовано",
