@@ -45,17 +45,17 @@ const ProductsFilterDrawer = ({
 
     return (
       <>
-        {tabKey === "all" && <CategoriesFilterSection tabKey={tabKey} />}
-        <DiscountFilterSection tabKey={tabKey} draft={draft} />
-        <PriceFilterSection tabKey={tabKey} min={data.minProductPrice} max={data.maxProductPrice} />
-        <AvailabilityFilterSection tabKey={tabKey} draft={draft} />
-        <DeliverySection tabKey={tabKey} draft={draft} />
+        {tabKey === "all" && <CategoriesFilterSection tabKey={tabKey} data-cy="categories-filter-section" />}
+        <DiscountFilterSection tabKey={tabKey} draft={draft} data-cy="discount-filter-section" />
+        <PriceFilterSection tabKey={tabKey} min={data.minProductPrice} max={data.maxProductPrice} data-cy="price-filter-section" />
+        <AvailabilityFilterSection tabKey={tabKey} draft={draft} data-cy="availability-filter-section" />
+        <DeliverySection tabKey={tabKey} draft={draft} data-cy="delivery-filter-section" />
       </>
     );
   };
 
   return (
-    <AppBox className="products-filters">
+    <AppBox className="products-filters" data-cy="products-filters-drawer">
       <AppBox className="products-filters__header">
         <AppBox className="products-filters__reset-icon">
           <ResetIcon

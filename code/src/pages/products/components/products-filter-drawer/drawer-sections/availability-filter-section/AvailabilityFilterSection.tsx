@@ -26,6 +26,7 @@ export const AvailabilityFilterSection = ({ tabKey, draft }: AvailabilityProps) 
             isFilterActive={isFilterActive}
             resetFilter={() => resetSection(tabKey, ["availability", "nonAvailability"])}
             sectionCaptionTranslationKey="productsFilter.availability"
+            data-cy="availability-filter-section"
         >
             <AppCheckbox
                 checked={draft.availability ?? defaultFilters.availability}
