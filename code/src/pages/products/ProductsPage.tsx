@@ -47,7 +47,7 @@ const ProductsPage = () => {
 
   const handleOpenFilterDrawer = () => setIsFilterDrawerOpened(true);
   const handleCloseFilterDrawer = () => setIsFilterDrawerOpened(false);
-  
+
   useTrackVisits("category", categoryType as string);
 
   const { data: wishlistData } = useWishlistWithAuthCheck();
@@ -131,7 +131,11 @@ const ProductsPage = () => {
               className="spa-products-page__sort"
               data-cy="products-dropdown"
             />
-            <AppButton variant="dark" onClick={handleOpenFilterDrawer}>
+            <AppButton
+              variant="dark"
+              onClick={handleOpenFilterDrawer}
+              data-cy="filters-button"
+            >
               {titleTypography}
               <FilterListIcon />
             </AppButton>

@@ -45,11 +45,11 @@ const ProductsFilterDrawer = ({
 
     return (
       <>
-        {tabKey === "all" && <CategoriesFilterSection tabKey={tabKey} data-cy="categories-filter-section" />}
-        <DiscountFilterSection tabKey={tabKey} draft={draft} data-cy="discount-filter-section" />
-        <PriceFilterSection tabKey={tabKey} min={data.minProductPrice} max={data.maxProductPrice} data-cy="price-filter-section" />
-        <AvailabilityFilterSection tabKey={tabKey} draft={draft} data-cy="availability-filter-section" />
-        <DeliverySection tabKey={tabKey} draft={draft} data-cy="delivery-filter-section" />
+        {tabKey === "all" && <CategoriesFilterSection tabKey={tabKey} />}
+        <DiscountFilterSection tabKey={tabKey} draft={draft} />
+        <PriceFilterSection tabKey={tabKey} min={data.minProductPrice} max={data.maxProductPrice} />
+        <AvailabilityFilterSection tabKey={tabKey} draft={draft} />
+        <DeliverySection tabKey={tabKey} draft={draft} />
       </>
     );
   };
