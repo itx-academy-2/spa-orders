@@ -10,18 +10,17 @@ Feature: | Filters |
 
     Scenario: User open filters button
         When I click on the 'Filters' button
-        Then I see drawer opens
+        Then Drawer opens
 
-    Scenario Outline: User see drawer section
+    Scenario: User filters products by discount
         Given The filters drawer is open
-        Then I see "<section>" section
+        When I enable 'Discounted items' filter
+        And I click on 'Apply' button
+        Then Only discounted products are displayed
 
-        Examples:
-            | section      |
-            | categories   |
-            | discount     |
-            | price        |
-            | availability |
-            | delivery     |
-
-
+    Scenario: User reset filters and close drawer
+        Given The filters drawer is open
+        And Some filters are applied
+        When The filters drawer is open
+        And I click on 'Reset' button
+        Then Drawer closes

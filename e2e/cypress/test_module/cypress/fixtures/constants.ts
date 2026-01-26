@@ -19,11 +19,3 @@ export const deliveryMethods = {
   "Nova Post": "NOVA",
   "Ukr Post": "UKRPOSHTA"
 } as const;
-
-export const productsFilterSections = {
-  categories: "categories",
-  discount: "discount",
-  price: "price",
-  availability: "availability",
-  delivery: "delivery"
-} as const;

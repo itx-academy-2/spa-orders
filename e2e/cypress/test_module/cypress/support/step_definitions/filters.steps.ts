@@ -1,9 +1,6 @@
 /// <reference types="cypress" />
 
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import {
-    productsFilterSections
-} from "@cypress-e2e/fixtures/constants";
 
 When("I look above the products section", () => {
     cy.get('.spa-products-page__info').should("be.visible");
@@ -17,7 +14,7 @@ When("I click on the 'Filters' button", () => {
     cy.getById("filters-button").click();
 });
 
-Then("I see drawer opens", () => {
+Then("Drawer opens", () => {
     cy.get('[data-cy="products-filters-drawer"]').should("be.visible");
 });
 
@@ -25,8 +22,32 @@ Given("The filters drawer is open", () => {
     cy.getById("filters-button").click();
 });
 
-Then("I see {string} section", (section: string) => {
+When("I enable 'Discounted items' filter", () => {
+    cy.get('[data-cy="discount-filter-checkbox"]').should('not.be.checked')
+    cy.get('[data-cy="non-discount-filter-checkbox"]').click({ force: true });
+});
 
-    cy.get(`[data-cy="${productsFilterSections[section]}-filter-section"]`)
-        .should("be.visible");
+When("I click on 'Apply' button", () => {
+    cy.get('[data-cy="apply-filters-button"]').click();
+});
+
+Then("Only discounted products are displayed", () => {
+    cy.get('[data-cy="product-card"]').each(card => {
+    cy.wrap(card)
+      .find('[data-testid="discount-label"]')
+      .should('exist');
+  });
+});
+
+Given("Some filters are applied", () => {
+    cy.get('[data-cy="price-range-from"]').clear().type('10');
+    cy.get('[data-cy="apply-filters-button"]').click();
+});
+
+When("I click on 'Reset' button", () => {
+    cy.get('[data-cy="reset-filters-button"]').click();
+});
+
+Then("Drawer closes", () => {
+    cy.get('[data-cy="products-filters-drawer"]').should("not.be.visible");
 });
