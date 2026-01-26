@@ -31,12 +31,14 @@ export const DiscountFilterSection = ({ tabKey, draft }: DiscountProps) => {
         onChange={handleCheckboxChange("discount")}
         labelTranslationKey="productsFilter.discounted"
         variant="dark"
+        data-cy="discount-filter-checkbox"
       />
       <AppCheckbox
         checked={draft.nonDiscount ?? defaultFilters.nonDiscount}
         onChange={handleCheckboxChange("nonDiscount")}
         labelTranslationKey="productsFilter.nonDiscounted"
         variant="dark"
+        data-cy="non-discount-filter-checkbox"
       />
     </FilterRecordAccordion>
   );

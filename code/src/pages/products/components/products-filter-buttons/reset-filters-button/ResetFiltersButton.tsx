@@ -7,7 +7,10 @@ import "@/pages/products/components/products-filter-buttons/reset-filters-button
 
 const ResetFiltersButton = ({ onClick }: ResetFiltersButtonProps) => (
   <AppButton onClick={onClick} className="reset-filters-button__reset-button">
-    <AppTypography translationKey="productsFilter.reset" />
+    <AppTypography
+      translationKey="productsFilter.reset"
+      data-cy="reset-filters-button"
+    />
   </AppButton>
 );
 

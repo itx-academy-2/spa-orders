@@ -37,6 +37,7 @@ export const CategoriesFilterSection = ({ tabKey }: CategoriesProps) => {
           onChange={handleCheckboxChange(id)}
           labelTranslationKey={translationKey}
           variant="dark"
+          data-cy="categories-filter-checkbox"
         />
       ))}
     </FilterRecordAccordion>

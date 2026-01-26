@@ -5,7 +5,10 @@ import { ApplyFiltersButtonProps } from "@/pages/products/components/products-fi
 
 const ApplyFiltersButton = ({ onClick }: ApplyFiltersButtonProps) => (
   <AppButton onClick={onClick}>
-    <AppTypography translationKey="productsFilter.apply" />
+    <AppTypography
+      translationKey="productsFilter.apply"
+      data-cy="apply-filters-button"
+    />
   </AppButton>
 );
 
