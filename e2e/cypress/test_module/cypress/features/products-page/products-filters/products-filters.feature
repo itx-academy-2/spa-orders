@@ -22,7 +22,7 @@ Feature: | Filters |
         Given The filters drawer is open
         And Some filters are applied
         And The filters drawer is open
-        And I click on 'Reset' button
+        When I click on 'Reset' button
         Then Drawer closes
 
     Scenario: User can filter by categories only on All Products page
