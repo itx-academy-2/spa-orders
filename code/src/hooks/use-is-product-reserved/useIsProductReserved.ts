@@ -6,17 +6,17 @@ export const useIsProductReserved = (productId: string) => {
     const isAuthenticated = useIsAuthSelector();
     const userRole = useUserRoleSelector();
 
-    const canUserInteract = !isUserAllowed(isAuthenticated, userRole);
+    const canUserSeeReserved = isUserAllowed(isAuthenticated, userRole);
 
     const { data } = useGetMyReservationsQuery({
-        enabled: !canUserInteract,
+        enabled: canUserSeeReserved,
     });
 
     const reservedProducts = data ?? [];
 
-    const isReserved = reservedProducts.some((p) => p.id === productId);
+    const isReserved = canUserSeeReserved
+    ? reservedProducts.some((p) => p.id === productId)
+    : false;
 
-    return {
-        isReserved
-    };
+    return { isReserved };
 };
