@@ -8,17 +8,17 @@ Feature: | Filters |
         When I look above the products section
         Then I see Filters button
 
-    Scenario: User open filters button
+    Scenario: User opens filters button
         When I click on the 'Filters' button
         Then Drawer opens
 
     Scenario: User filters products by discount
         Given The filters drawer is open
-        When I enable 'Discounted items' filter
+        When I turn off the 'Non-discounted items' filter
         And I click on 'Apply' button
         Then Only discounted products are displayed
 
-    Scenario: User reset filters and close drawer
+    Scenario: User resets filters and close drawer
         Given The filters drawer is open
         And Some filters are applied
         And The filters drawer is open

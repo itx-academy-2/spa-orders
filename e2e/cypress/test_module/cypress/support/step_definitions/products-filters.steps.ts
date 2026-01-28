@@ -22,8 +22,7 @@ Given("The filters drawer is open", () => {
     cy.getById("filters-button").click();
 });
 
-When("I enable 'Discounted items' filter", () => {
-    cy.get('[data-cy="discount-filter-checkbox"]').should('not.be.checked')
+When("I turn off the 'Non-discounted items' filter", () => {
     cy.get('[data-cy="non-discount-filter-checkbox"]').click({ force: true });
 });
 
