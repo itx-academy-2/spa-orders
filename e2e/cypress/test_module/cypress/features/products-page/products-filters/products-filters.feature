@@ -21,6 +21,23 @@ Feature: | Filters |
     Scenario: User reset filters and close drawer
         Given The filters drawer is open
         And Some filters are applied
-        When The filters drawer is open
+        And The filters drawer is open
         And I click on 'Reset' button
         Then Drawer closes
+
+    Scenario: User can filter by categories only on All Products page
+        Given I am on the All Products page
+        And The filters drawer is open
+        Then I see Categories section
+
+    Scenario Outline: User cannot filter by categories on other pages
+        Given I am on the '<category>' page
+        And The filters drawer is open
+        Then I don't see Categories section
+
+    Examples:
+        | category |
+        | computer |
+        | tablet   |
+        | mobile   |
+

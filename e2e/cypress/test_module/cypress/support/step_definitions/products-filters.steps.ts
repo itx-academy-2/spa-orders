@@ -51,3 +51,19 @@ When("I click on 'Reset' button", () => {
 Then("Drawer closes", () => {
     cy.get('[data-cy="products-filters-drawer"]').should("not.be.visible");
 });
+
+Given("I am on the All Products page", () => {
+    cy.visitWithLanguage('/products');
+});
+
+Then("I see Categories section", () => {
+    cy.get('[data-cy="categories-filter-checkbox"]').should("exist").and("be.visible");
+});
+
+Given("I am on the {string} page", (category: string) => {
+    cy.visitWithLanguage(`/products?category=${category}`);
+});
+
+Then("I don't see Categories section", () => {
+    cy.get('[data-cy="categories-filter-checkbox"]').should("not.exist");
+});
