@@ -37,6 +37,16 @@ jest.mock("@/store/slices/userSlice", () => ({
   useIsAuthSelector: jest.fn()
 }));
 
+jest.mock(
+  "@/hooks/use-is-product-reserved/useIsProductReserved",
+  () => ({
+    useIsProductReserved: jest.fn(() => ({
+      isReserved: false,
+      reservedProducts: []
+    }))
+  })
+);
+
 const renderAndMock = ({
   isProductInCart,
   isFavorite = false,
