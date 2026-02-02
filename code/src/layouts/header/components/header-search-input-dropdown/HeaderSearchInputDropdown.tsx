@@ -116,7 +116,7 @@ const HeaderSearchInputDropdown = ({
                   alt={name}
                 />
                 <AppBox className="search-input-dropdown__item-label-name-container">
-                  {isReserved && <ReservedLabel className="search-input-dropdown__item-label" />}
+                  {isReserved && <ReservedLabel className="search-input-dropdown__item-label" data-testid="reserved-label" />}
                   <AppTypography variant="caption-small">{name}</AppTypography>
                 </AppBox>
               </AppLink>
