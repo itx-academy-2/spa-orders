@@ -2,7 +2,7 @@ import { useGetMyReservationsQuery } from "@/store/tanstack-api/modules/reservat
 import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
 import { isUserAllowed } from "@/utils/is-user-allowed/isUserAllowed";
 
-export const useIsProductReserved = (productId: string) => {
+export const useIsProductReserved = (productId?: string) => {
     const isAuthenticated = useIsAuthSelector();
     const userRole = useUserRoleSelector();
 
@@ -14,9 +14,13 @@ export const useIsProductReserved = (productId: string) => {
 
     const reservedProducts = data ?? [];
 
-    const isReserved = canUserSeeReserved
-    ? reservedProducts.some((p) => p.id === productId)
-    : false;
+    const isReserved =
+        productId && canUserSeeReserved
+            ? reservedProducts.some((p) => p.id === productId)
+            : false;
 
-    return { isReserved };
+    return {
+        isReserved,
+        reservedProducts
+    };
 };
