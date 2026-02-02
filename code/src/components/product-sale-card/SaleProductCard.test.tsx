@@ -5,10 +5,11 @@ import SaleProductCard from "@/components/product-sale-card/SaleProductCard";
 import routes from "@/constants/routes";
 import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer";
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
+import { useIsProductReserved } from "@/hooks/use-is-product-reserved/useIsProductReserved";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
-import { useUserRoleSelector, useIsAuthSelector  } from "@/store/slices/userSlice";
+import { useUserRoleSelector, useIsAuthSelector } from "@/store/slices/userSlice";
 import { ROLES } from "@/constants/common";
 
 const mockAddToCartOrOpenDrawer = jest.fn();
@@ -24,6 +25,8 @@ jest.mock("@/store/slices/userSlice", () => ({
   useUserRoleSelector: jest.fn(),
   useIsAuthSelector: jest.fn()
 }));
+
+jest.mock("@/hooks/use-is-product-reserved/useIsProductReserved");
 
 const mockProduct: Product = {
   id: "1",
@@ -42,14 +45,16 @@ const renderAndMock = ({
   isFavorite = false,
   product = mockProduct,
   role,
-  isAuthenticated = true
-  }: {
-    isProductInCart: boolean;
-    isFavorite?: boolean;
-    product?: Product;
-    role?: string;
-    isAuthenticated?: boolean;
-  }) => {
+  isAuthenticated = true,
+  isReserved = false
+}: {
+  isProductInCart: boolean;
+  isFavorite?: boolean;
+  product?: Product;
+  role?: string;
+  isAuthenticated?: boolean;
+  isReserved?: boolean;
+}) => {
   (useAddToCartOrOpenDrawer as jest.Mock).mockReturnValue({
     isProductInCart,
     addToCartOrOpenDrawer: mockAddToCartOrOpenDrawer
@@ -59,9 +64,11 @@ const renderAndMock = ({
     isFavorite: () => isFavorite,
     toggle: mockToggle
   });
-  
+
   (useUserRoleSelector as jest.Mock).mockReturnValue(role);
   (useIsAuthSelector as jest.Mock).mockReturnValue(isAuthenticated);
+
+  (useIsProductReserved as jest.Mock).mockReturnValue({ isReserved });
 
   return renderWithProviders(<SaleProductCard product={product} />);
 };
@@ -198,7 +205,7 @@ describe("SaleProductCard", () => {
       const filledHeart = screen.getByTestId("FavoriteIcon");
       expect(filledHeart).toBeInTheDocument();
     });
-  
+
     test("should apply active class when product is favorite", () => {
       const isProductFavoriteElementActive = result.container.querySelector(
         ".spa-product-card__favorite-button--active"
@@ -218,12 +225,12 @@ describe("SaleProductCard", () => {
       const unfilledHeart = screen.getByTestId("FavoriteBorderIcon");
       expect(unfilledHeart).toBeInTheDocument();
     });
-  
+
 
     test("should call toggle function on favorite button click", () => {
       const favoriteButton = screen.getByTestId("FavoriteBorderIcon");
       fireEvent.click(favoriteButton);
-  
+
       expect(mockToggle).toHaveBeenCalledWith(mockProduct.id);
     });
     test('should not apply active class when product is not favorite', () => {
@@ -325,41 +332,53 @@ describe("SaleProductCard", () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
-  
+
     test("renders favorite and cart buttons for not authenticated user", () => {
       (useUserRoleSelector as jest.Mock).mockReturnValue(undefined);
       (useIsAuthSelector as jest.Mock).mockReturnValue(false);
-  
+
       renderAndMock({ isProductInCart: false, isFavorite: false });
-  
+
       expect(screen.getByTestId("FavoriteBorderIcon")).toBeInTheDocument();
       expect(screen.getByTestId("add-to-cart-icon")).toBeInTheDocument();
     });
-  
+
     test("renders favorite and cart buttons for USER role", () => {
       (useUserRoleSelector as jest.Mock).mockReturnValue(ROLES.USER);
       (useIsAuthSelector as jest.Mock).mockReturnValue(true);
-  
+
       renderAndMock({ isProductInCart: false, isFavorite: false });
-  
+
       expect(screen.getByTestId("FavoriteBorderIcon")).toBeInTheDocument();
       expect(screen.getByTestId("add-to-cart-icon")).toBeInTheDocument();
     });
-  
+
     test("does NOT render favorite and cart buttons for SHOP_MANAGER role", () => {
       renderAndMock({ isProductInCart: false, role: ROLES.SHOP_MANAGER });
-  
+
       expect(screen.queryByTestId("FavoriteIcon")).not.toBeInTheDocument();
       expect(screen.queryByTestId("FavoriteBorderIcon")).not.toBeInTheDocument();
       expect(screen.queryByTestId("add-to-cart-icon")).not.toBeInTheDocument();
     });
-  
+
     test("does NOT render favorite and cart buttons for ADMIN role", () => {
       renderAndMock({ isProductInCart: false, role: ROLES.ADMIN });
-        
+
       expect(screen.queryByTestId("FavoriteIcon")).not.toBeInTheDocument();
       expect(screen.queryByTestId("FavoriteBorderIcon")).not.toBeInTheDocument();
       expect(screen.queryByTestId("add-to-cart-icon")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("reserved label", () => {
+    test("should render reserved label when product is reserved", () => {
+      renderAndMock({ isProductInCart: false, isReserved: true });
+      expect(screen.getByTestId("reserved-label")).toBeInTheDocument();
+    });
+
+    test("should NOT render reserved label when product is not reserved", () => {
+      renderAndMock({ isProductInCart: false, isReserved: false });
+      expect(screen.queryByTestId("reserved-label")).not.toBeInTheDocument();
     });
   });
 });
