@@ -55,7 +55,7 @@ const ProductsFilterDrawer = ({
   };
 
   return (
-    <AppBox className="products-filters">
+    <AppBox className="products-filters" data-cy="products-filters-drawer">
       <AppBox className="products-filters__header">
         <AppBox className="products-filters__reset-icon">
           <ResetIcon
