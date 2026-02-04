@@ -8,6 +8,7 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppLink from "@/components/app-link/AppLink";
 import AppTypography from "@/components/app-typography/AppTypography";
 import { ProductCardProps } from "@/components/product-card/ProductCard.types";
+import ReservedLabel from "@/components/reserved-label/ReservedLabel";
 
 import AuthModal from "@/containers/modals/auth/AuthModal";
 
@@ -17,6 +18,7 @@ import fallbackImage from "@/assets/images/default-product-image.png";
 import routePaths from "@/constants/routes";
 import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer";
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
+import { useIsProductReserved } from "@/hooks/use-is-product-reserved/useIsProductReserved";
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 import { useModalContext } from "@/context/modal/ModalContext";
@@ -43,6 +45,8 @@ const SaleProductCard = ({
     description,
     percentageOfTotalOrders
   } = product;
+
+  const { isReserved } = useIsProductReserved(product.id);
 
   const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 
@@ -82,11 +86,14 @@ const SaleProductCard = ({
       className="spa-product-card spa-sale-product-card"
       data-cy="product-card"
     >
-      <AppBox
-        className="spa-sale-product-card__label"
-        data-testid="discount-label"
+      <AppBox className="spa-sale-product-card__labels">
+        <AppBox
+          className="spa-sale-product-card__label"
+          data-testid="discount-label"
         >
-        -{discount}%
+          -{discount}%
+        </AppBox>
+        {isReserved && <ReservedLabel />}
       </AppBox>
       <AppLink
         className="spa-product-card__link-wrapper"
@@ -145,7 +152,7 @@ const SaleProductCard = ({
             {formatPrice(priceWithDiscount ?? 0)}
           </AppTypography>
         </AppBox>
-        { isUserOrGuest && (
+        {isUserOrGuest && (
           <AppBox className="spa-product-card__footer-buttons">
             <AppIconButton
               data-cy="favorite-button"

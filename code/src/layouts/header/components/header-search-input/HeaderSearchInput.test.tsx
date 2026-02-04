@@ -11,6 +11,16 @@ jest.mock("@/store/api/productsApi", () => ({
   useGetUserProductsBySearchQuery: jest.fn()
 }));
 
+jest.mock(
+  "@/hooks/use-is-product-reserved/useIsProductReserved",
+  () => ({
+    useIsProductReserved: jest.fn(() => ({
+      isReserved: false,
+      reservedProducts: []
+    }))
+  })
+);
+
 const mockedContent = [{ id: 1, name: "Product 1", image: "image1.png" }];
 
 const mockUseGetUserProductsBySearchQuery = {

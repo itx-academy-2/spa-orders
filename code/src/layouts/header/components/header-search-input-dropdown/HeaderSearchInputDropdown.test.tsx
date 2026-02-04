@@ -3,7 +3,8 @@ import { fireEvent, screen } from "@testing-library/react";
 import HeaderSearchInputDropdown from "@/layouts/header/components/header-search-input-dropdown/HeaderSearchInputDropdown";
 
 import useInfiniteScroll from "@/hooks/use-infinite-scroll/useInfiniteScroll";
-import { ProductFromSearch } from "@/types/product.types";
+import { useIsProductReserved } from "@/hooks/use-is-product-reserved/useIsProductReserved";
+import { GetMyReservationsResponse, ProductFromSearch } from "@/types/product.types";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 
 jest.mock("@/store/api/productsApi", () => ({
@@ -12,10 +13,25 @@ jest.mock("@/store/api/productsApi", () => ({
 
 jest.mock("@/hooks/use-infinite-scroll/useInfiniteScroll");
 
+jest.mock("@/hooks/use-is-product-reserved/useIsProductReserved");
+const mockUseIsProductReserved = useIsProductReserved as jest.MockedFunction<typeof useIsProductReserved>;
+
 const searchResults: ProductFromSearch[] = [
   { id: "1", name: "Product 1", image: "image1.png" },
   { id: "2", name: "Product 2", image: "image2.png" }
 ];
+
+const reservedProductsMock: GetMyReservationsResponse = [
+  {
+    id: "1",
+    name: "Product 1",
+    image: "image1.png",
+    description: "desc 1",
+    status: "AVAILABLE",
+    tags: [],
+    price: 100
+  }
+]
 
 const noResultsLabel = /header.searchInputNoResults/;
 const mockHandleCloseDropdown = jest.fn();
@@ -40,6 +56,10 @@ describe("HeaderSearchInputDropdown", () => {
     beforeEach(() => {
       jest.clearAllMocks();
       (useInfiniteScroll as jest.Mock).mockReturnValue(jest.fn());
+      mockUseIsProductReserved.mockReturnValue({
+        isReserved: false,
+        reservedProducts: []
+      });
     });
 
     test("renders error label when isError is true", () => {
@@ -103,6 +123,32 @@ describe("HeaderSearchInputDropdown", () => {
     test("does not assign lastItemRef to items that are not the last item in searchResults", () => {
       const firstItem = screen.getByText(/Product 1/).closest("li");
       expect(mockLastItemRef).not.toHaveBeenCalledWith(firstItem);
+    });
+  });
+
+  describe("reserved label", () => {
+    test("renders ReservedLabel for reserved products", () => {
+      mockUseIsProductReserved.mockReturnValue({
+        isReserved: true,
+        reservedProducts: reservedProductsMock
+      });
+
+      renderComponent({ searchResults, totalElements: searchResults.length });
+
+      const reservedLabel = screen.getAllByTestId("reserved-label")[0];
+      expect(reservedLabel).toBeInTheDocument();
+    });
+
+    test("does NOT render ReservedLabel for non-reserved products", () => {
+      mockUseIsProductReserved.mockReturnValue({
+        isReserved: false,
+        reservedProducts: []
+      });
+
+      renderComponent({ searchResults, totalElements: searchResults.length });
+
+      const reservedLabel = screen.queryByTestId("reserved-label");
+      expect(reservedLabel).not.toBeInTheDocument();
     });
   });
 });

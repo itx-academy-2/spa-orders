@@ -3,10 +3,12 @@ import AppLink from "@/components/app-link/AppLink";
 import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
 import AppSkeleton from "@/components/app-skeleton/AppSkeleton";
 import AppTypography from "@/components/app-typography/AppTypography";
+import ReservedLabel from "@/components/reserved-label/ReservedLabel";
 
 import noResultsImage from "@/assets/images/search/no-results.png";
 import routePaths from "@/constants/routes";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll/useInfiniteScroll";
+import { useIsProductReserved } from "@/hooks/use-is-product-reserved/useIsProductReserved";
 import { ProductFromSearch } from "@/types/product.types";
 import repeatComponent from "@/utils/repeat-component/repeatComponent";
 
@@ -30,6 +32,8 @@ const HeaderSearchInputDropdown = ({
   loadNextPage
 }: HeaderSearchInputDropdownProps) => {
   const lastItemRef = useInfiniteScroll(loadNextPage);
+
+  const { reservedProducts } = useIsProductReserved();
 
   const errorLabel = (
     <AppTypography component="li" translationKey="errors.somethingWentWrong" /> //@TODO  will be replaced by error layout
@@ -91,27 +95,34 @@ const HeaderSearchInputDropdown = ({
     content = (
       <>
         {searchResultsLabel}
-        {searchResults.map(({ id, name, image }, index) => (
-          <AppMenuItem
-            key={id}
-            className="search-input-dropdown__item"
-            onClick={handleCloseDropdown}
-            ref={index === searchResults.length - 1 ? lastItemRef : undefined}
-          >
-            <AppLink
-              className="search-input-dropdown__item-container"
-              to={routePaths.productDetails.path(id)}
+        {searchResults.map(({ id, name, image }, index) => {
+          const isReserved = reservedProducts.some(p => p.id === id);
+
+          return (
+            <AppMenuItem
+              key={id}
+              className="search-input-dropdown__item"
+              onClick={handleCloseDropdown}
+              ref={index === searchResults.length - 1 ? lastItemRef : undefined}
             >
-              <AppBox
-                className="search-input-dropdown__item-image"
-                component="img"
-                src={image}
-                alt={name}
-              />
-              <AppTypography variant="caption-small">{name}</AppTypography>
-            </AppLink>
-          </AppMenuItem>
-        ))}
+              <AppLink
+                className="search-input-dropdown__item-container"
+                to={routePaths.productDetails.path(id)}
+              >
+                <AppBox
+                  className="search-input-dropdown__item-image"
+                  component="img"
+                  src={image}
+                  alt={name}
+                />
+                <AppBox className="search-input-dropdown__item-label-name-container">
+                  {isReserved && <ReservedLabel className="search-input-dropdown__item-label" data-testid="reserved-label" />}
+                  <AppTypography variant="caption-small">{name}</AppTypography>
+                </AppBox>
+              </AppLink>
+            </AppMenuItem>
+          )
+        })}
       </>
     );
   }

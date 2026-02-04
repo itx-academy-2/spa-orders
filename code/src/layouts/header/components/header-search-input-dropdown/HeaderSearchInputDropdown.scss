@@ -58,5 +58,17 @@
     &-image {
       @include box(40px);
     }
+
+    &-label-name-container {
+      display: flex;
+      flex-direction: column;
+      gap: spacing(1);
+    }
+
+    &-label {
+      max-width: spacing(25);
+      height: spacing(2);
+      align-items: center;
+    }
   }
 }
