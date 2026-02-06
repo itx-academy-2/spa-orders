@@ -147,3 +147,8 @@ When("I try to add one more of the same product", () => {
 
     cy.getById("reserve-product-button").click();
 });
+
+Then("I see this product with Reserved label", () => {
+    cy.getById("product-card").should("be.visible");
+    cy.get('[data-testid="reserved-label"]').should("be.visible");
+});
