@@ -34,3 +34,8 @@ Feature: | My Reservations page |
         When I am on the Product Details page
         And I try to add one more of the same product
         Then I should see a snackbar with the message 'You can reserve up to 5 items.'
+
+    Scenario: User see label for reserved product on Product card on My Reservations page
+        Given My reservations contain 1 product
+        When I navigated to the My Reservations page
+        Then I see this product with Reserved label
