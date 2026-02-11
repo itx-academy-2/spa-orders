@@ -97,8 +97,8 @@ const SaleProductCard = ({
         >
           -{discount}%
         </AppBox>
-        {labelKey && <ProductStatusLabel status={labelKey} />}
         {isReserved && <ReservedLabel />}
+        {labelKey && <ProductStatusLabel status={labelKey} />}
       </AppBox>
       <AppLink
         className="spa-product-card__link-wrapper"
