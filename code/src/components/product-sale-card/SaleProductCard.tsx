@@ -174,6 +174,7 @@ const SaleProductCard = ({
           <AppBox className="spa-product-card__footer-buttons">
             <AppIconButton
               data-cy="favorite-button"
+              data-testid="favorite-button"
               onClick={handleFavoriteClick}
               className={cn(
                 "spa-product-card__favorite-button",
@@ -189,6 +190,7 @@ const SaleProductCard = ({
             </AppIconButton>
             <AppIconButton
               data-cy="add-to-cart-button"
+              data-testid="add-to-cart-button"
               onClick={addToCartOrOpenDrawer}
               className={cn(
                 "spa-product-card__cart-button",
