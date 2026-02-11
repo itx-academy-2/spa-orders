@@ -22,11 +22,19 @@
 
   &__price {
     color: var(--spa-sale-price-color, $red);
+
+    &-disabled {
+      color: var(--color-disabled);
+    }
   }
 
   &__original-price {
     text-decoration: line-through;
     margin-right: spacing(1);
+
+    &-disabled {
+      color: var(--color-disabled);
+    }
   }
 
   &__price-container {
