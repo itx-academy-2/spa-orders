@@ -24,3 +24,9 @@ export const USER_STATUSES = {
   ACTIVE: "ACTIVE",
   DEACTIVATED: "DEACTIVATED"
 } as const;
+
+export const PRODUCT_STATUS = {
+  AVAILABLE: "AVAILABLE",
+  END_SOON: "END_SOON",
+  ENDED: "ENDED",
+} as const;
