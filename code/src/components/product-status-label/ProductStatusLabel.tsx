@@ -15,6 +15,7 @@ const ProductStatusLabel = ({
       <AppTypography
         translationKey={TRANSLATION_KEYS[status]}
         variant="caption-small"
+        data-testid="product-status-label"
       />
     </AppBox>
   );
