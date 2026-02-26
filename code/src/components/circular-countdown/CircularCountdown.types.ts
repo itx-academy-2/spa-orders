@@ -1,4 +1,4 @@
 export type CircularCountdownProps = {
     reservedAt: string;
-    size?: number;
+    size: number;
 };

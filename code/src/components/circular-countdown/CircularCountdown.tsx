@@ -5,13 +5,12 @@ import { CircularCountdownProps } from "@/components/circular-countdown/Circular
 import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTimeLeft";
 
 import { EXPIRATION_HOURS } from "@/constants/reservations";
-import { formatTimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
 
 import "@/components/circular-countdown/CircularCountdown.scss";
 
 const CircularCountdown = ({
   reservedAt,
-  size = 64,
+  size,
 }: CircularCountdownProps) => {
   const time = useTimeLeft(reservedAt);
 
@@ -33,17 +32,18 @@ const CircularCountdown = ({
         variant="determinate"
         value={percent}
         size={size}
-        thickness={4}
-        color={time.expired ? "error" : "info"}
+        thickness={2}
+        sx={{
+          transform: 'rotate(-90deg)'
+        }}
       />
-
-      <AppBox
-        position="absolute"
-        top="50%"
-        left="50%"
-        sx={{ transform: "translate(-50%, -50%)", fontSize: 12 }}
-      >
-        {formatTimeLeft(time)}
+      <AppBox className="circular-countdown__text">
+        <AppBox className="circular-countdown__text-time-hm">
+          {String(time.hours).padStart(2, "0")} : {String(time.minutes).padStart(2, "0")}
+        </AppBox>
+        <AppBox className="circular-countdown__text-time-s">
+          : {String(time.seconds).padStart(2, "0")}
+        </AppBox>
       </AppBox>
     </AppBox>
   );
