@@ -28,6 +28,7 @@ const CircularCountdown = ({
       position="relative"
       width={size}
       height={size}
+      data-testid="circular-countdown"
     >
       <AppTooltip titleTranslationKey="circular-countdown.tooltip">
         <CircularProgress
