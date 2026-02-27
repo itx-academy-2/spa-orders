@@ -16,6 +16,7 @@
   "dashboard.tooltip": "Адмін-панель",
   "cart.tooltip": "Кошик",
   "orders.tooltip": "Замовлення",
+  "circular-countdown.tooltip": "Час резервування",
   "orders.statuses.inProgress": "В процесі",
   "orders.statuses.shipped": "Відправлено",
   "orders.statuses.delivered": "Доставлено",

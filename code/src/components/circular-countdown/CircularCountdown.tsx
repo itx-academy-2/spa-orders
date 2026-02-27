@@ -1,6 +1,7 @@
 import CircularProgress from "@mui/material/CircularProgress";
 
 import AppBox from "@/components/app-box/AppBox";
+import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import { CircularCountdownProps } from "@/components/circular-countdown/CircularCountdown.types";
 import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTimeLeft";
 
@@ -28,15 +29,14 @@ const CircularCountdown = ({
       width={size}
       height={size}
     >
-      <CircularProgress
-        variant="determinate"
-        value={percent}
-        size={size}
-        thickness={2}
-        sx={{
-          transform: 'rotate(-90deg)'
-        }}
-      />
+      <AppTooltip titleTranslationKey="circular-countdown.tooltip">
+        <CircularProgress
+          variant="determinate"
+          value={percent}
+          size={size}
+          thickness={2}
+        />
+      </AppTooltip>
       <AppBox className="circular-countdown__text">
         <AppBox className="circular-countdown__text-time-hm">
           {String(time.hours).padStart(2, "0")} : {String(time.minutes).padStart(2, "0")}

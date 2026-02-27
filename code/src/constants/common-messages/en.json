@@ -16,6 +16,7 @@
   "dashboard.tooltip": "Dashboard",
   "cart.tooltip": "Cart",
   "orders.tooltip": "Orders",
+  "circular-countdown.tooltip": "Reservation time",
   "orders.statuses.inProgress": "In progress",
   "orders.statuses.shipped": "Shipped",
   "orders.statuses.delivered": "Delivered",
