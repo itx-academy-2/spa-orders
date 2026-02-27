@@ -5,7 +5,7 @@ import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import { CircularCountdownProps } from "@/components/circular-countdown/CircularCountdown.types";
 import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTimeLeft";
 
-import { getCountdownPercent } from "@/utils/get-countdown-percent/GetCountdownPercent";
+import { getCountdownPercent } from "@/utils/get-countdown-percent/getCountdownPercent";
 
 import "@/components/circular-countdown/CircularCountdown.scss";
 
