@@ -5,7 +5,7 @@ import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import { CircularCountdownProps } from "@/components/circular-countdown/CircularCountdown.types";
 import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTimeLeft";
 
-import { EXPIRATION_HOURS } from "@/constants/reservations";
+import { getCountdownPercent } from "@/utils/get-countdown-percent/GetCountdownPercent";
 
 import "@/components/circular-countdown/CircularCountdown.scss";
 
@@ -15,12 +15,7 @@ const CircularCountdown = ({
 }: CircularCountdownProps) => {
   const time = useTimeLeft(reservedAt);
 
-  const totalSeconds =
-    time.hours * 3600 + time.minutes * 60 + time.seconds;
-
-  const percent = time.expired
-    ? 0
-    : (totalSeconds / (EXPIRATION_HOURS * 3600)) * 100;
+  const { percent } = getCountdownPercent(time);
 
   return (
     <AppBox
