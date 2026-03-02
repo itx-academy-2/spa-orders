@@ -9,6 +9,17 @@
   position: relative;
   overflow: hidden;
 
+  &__labels {
+    position: absolute;
+    top: spacing(2);
+    left: spacing(2);
+    right: spacing(2);
+    display: flex;
+    align-items: center;
+    gap: spacing(1);
+    z-index: 1;
+  }
+
   &__best-sellers {
     padding: spacing(1);
     border: 3px solid var(--color-primary);
@@ -33,6 +44,12 @@
       visibility: visible;
       transform: translateY(0);
     }
+
+    &-grayscale {
+      filter: grayscale(100%);
+      opacity: 0.6;
+      transition: filter 0.2s ease, opacity 0.2s ease;
+    }
   }
 
   &__img-name {
@@ -45,10 +62,18 @@
     width: 100%;
     overflow: hidden;
     color: var(--color-text);
+
+    &-disabled {
+      color: var(--color-disabled);
+    }
   }
 
   &__footer-price {
     color: var(--color-secondary);
+
+    &-disabled {
+      color: var(--color-disabled);
+    }
   }
 
   &__description {

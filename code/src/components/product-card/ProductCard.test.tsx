@@ -8,7 +8,7 @@ import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { Product } from "@/types/product.types";
 import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
-import { useUserRoleSelector, useIsAuthSelector  } from "@/store/slices/userSlice";
+import { useUserRoleSelector, useIsAuthSelector } from "@/store/slices/userSlice";
 import { ROLES } from "@/constants/common";
 
 const mockProduct: Product = {
@@ -53,13 +53,13 @@ const renderAndMock = ({
   product = mockProduct,
   role,
   isAuthenticated = true
-  }: {
-    isProductInCart: boolean;
-    isFavorite?: boolean;
-    product?: Product;
-    role?: string;
-    isAuthenticated?: boolean;
-  }) => {
+}: {
+  isProductInCart: boolean;
+  isFavorite?: boolean;
+  product?: Product;
+  role?: string;
+  isAuthenticated?: boolean;
+}) => {
   (useAddToCartOrOpenDrawer as jest.Mock).mockReturnValue({
     isProductInCart,
     addToCartOrOpenDrawer: mockAddToCartOrOpenDrawer
@@ -161,16 +161,16 @@ describe("ProductCard", () => {
 
   describe("when product is favorite", () => {
     let result: ReturnType<typeof renderAndMock>;
-  
+
     beforeEach(() => {
       result = renderAndMock({ isProductInCart: false, isFavorite: true });
     });
-  
+
     test("should render filled heart icon when product is favorite", () => {
       const filledHeart = screen.getByTestId("FavoriteIcon");
       expect(filledHeart).toBeInTheDocument();
     });
-    
+
     test("should apply active class when product is favorite", () => {
       const isProductFavoriteElementActive = result.container.querySelector(
         ".spa-product-card__favorite-button--active"
@@ -178,14 +178,14 @@ describe("ProductCard", () => {
       expect(isProductFavoriteElementActive).toBeInTheDocument();
     });
   });
-  
+
   describe("when product is not favorite", () => {
     let result: ReturnType<typeof renderAndMock>;
-  
+
     beforeEach(() => {
       result = renderAndMock({ isProductInCart: false, isFavorite: false });
     });
-  
+
     test("should render unfilled heart icon when product is not favorite", () => {
       const unfilledHeart = screen.getByTestId("FavoriteBorderIcon");
       expect(unfilledHeart).toBeInTheDocument();
@@ -282,10 +282,36 @@ describe("ProductCard", () => {
 
     test("does NOT render favorite and cart buttons for ADMIN role", () => {
       renderAndMock({ isProductInCart: false, role: ROLES.ADMIN });
-      
+
       expect(screen.queryByTestId("FavoriteIcon")).not.toBeInTheDocument();
       expect(screen.queryByTestId("FavoriteBorderIcon")).not.toBeInTheDocument();
       expect(screen.queryByTestId("add-to-cart-icon")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("Out of stock", () => {
+    const endedProduct = {
+      ...mockProduct,
+      status: "ENDED" as const
+    };
+
+    beforeEach(() => {
+      renderAndMock({ isProductInCart: false, product: endedProduct });
+    });
+
+    test("should render out of stock label", () => {
+      const statusLabel = screen.getByTestId("product-status-label");
+      expect(statusLabel).toBeInTheDocument();
+    });
+
+    test("should disable favorite button", () => {
+      const favoriteButton = screen.getByTestId("favorite-button");
+      expect(favoriteButton).toBeDisabled();
+    });
+
+    test("should disable add-to-cart button", () => {
+      const addToCartButton = screen.getByTestId("add-to-cart-button");
+      expect(addToCartButton).toBeDisabled();
     });
   });
 });

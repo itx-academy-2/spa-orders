@@ -381,4 +381,30 @@ describe("SaleProductCard", () => {
       expect(screen.queryByTestId("reserved-label")).not.toBeInTheDocument();
     });
   });
+
+  describe("Out of stock", () => {
+    const endedProduct = {
+      ...mockProduct,
+      status: "ENDED" as const
+    };
+
+    beforeEach(() => {
+      renderAndMock({ isProductInCart: false, product: endedProduct });
+    });
+
+    test("should render out of stock label", () => {
+      const statusLabel = screen.getByTestId("product-status-label");
+      expect(statusLabel).toBeInTheDocument();
+    });
+
+    test("should disable favorite button", () => {
+      const favoriteButton = screen.getByTestId("favorite-button");
+      expect(favoriteButton).toBeDisabled();
+    });
+
+    test("should disable add-to-cart button", () => {
+      const addToCartButton = screen.getByTestId("add-to-cart-button");
+      expect(addToCartButton).toBeDisabled();
+    });
+  });
 });

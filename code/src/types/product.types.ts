@@ -2,7 +2,7 @@ import { ProductTranslation } from "@/containers/forms/product-form/ProductForm.
 
 import { Lang, Pageable, PageableResponse } from "@/types/common";
 
-export type ProductStatus = "AVAILABLE";
+export type ProductStatus = "AVAILABLE" | "END_SOON" | "ENDED";
 
 export type Product = {
   id: string;

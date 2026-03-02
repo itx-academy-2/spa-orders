@@ -1,0 +1,12 @@
+@import "@design-system";
+
+.spa-product-status-label {
+    display: inline-flex;
+    width: fit-content;
+    background-color: $purple;
+    color: $white;
+    padding: 5px 8px;
+    border-radius: 15px;
+    white-space: nowrap;
+    z-index: 1;
+}

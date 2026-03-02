@@ -6,6 +6,7 @@ import AppLink from "@/components/app-link/AppLink";
 import AppTypography from "@/components/app-typography/AppTypography";
 import { ProductCardProps } from "@/components/product-card/ProductCard.types";
 import ReservedLabel from "@/components/reserved-label/ReservedLabel";
+import ProductStatusLabel from "@/components/product-status-label/ProductStatusLabel";
 
 import AuthModal from "@/containers/modals/auth/AuthModal";
 
@@ -17,6 +18,7 @@ import routePaths from "@/constants/routes";
 import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer";
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { useIsProductReserved } from "@/hooks/use-is-product-reserved/useIsProductReserved";
+import { getProductStatus } from "@/utils/get-product-status/getProductStatus";
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 import { useModalContext } from "@/context/modal/ModalContext";
@@ -33,7 +35,9 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
     useAddToCartOrOpenDrawer(product);
   const { toggle, isFavorite } = useToggleFavorite(wishlist);
   const { isReserved } = useIsProductReserved(product.id);
-  
+
+  const { isEnded, labelKey } = getProductStatus(product);
+
   const { id, name, image, price, description, percentageOfTotalOrders } =
     product;
 
@@ -74,12 +78,18 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
       className="spa-product-card"
       data-cy="product-card"
     >
+      <AppBox className="spa-product-card__labels">
+        {isReserved && <ReservedLabel />}
+        {labelKey && <ProductStatusLabel status={labelKey} />}
+      </AppBox>
       <AppLink
         className="spa-product-card__link-wrapper"
         to={routePaths.productDetails.path(id)}
       >
-        <AppBox className="spa-product-card__img">
-          {isReserved && <ReservedLabel />}
+        <AppBox className={cn(
+          "spa-product-card__img",
+          isEnded && "spa-product-card__img-grayscale"
+        )}>
           <AppBox
             alt={name}
             className="spa-product-card__img-name"
@@ -117,25 +127,33 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
         <AppBox>
           <AppTypography
             variant="caption"
-            className="spa-product-card__product-name"
+            className={cn(
+              "spa-product-card__product-name",
+              isEnded && "spa-product-card__product-name-disabled"
+            )}
           >
             {name}
           </AppTypography>
         </AppBox>
       </AppLink>
       <AppBox className="spa-product-card__footer">
-        <AppTypography className="spa-product-card__footer-price">
+        <AppTypography
+          className={cn(
+            "spa-product-card__footer-price",
+            isEnded && "spa-product-card__footer-price-disabled"
+          )}>
           {formatPrice(price)}
         </AppTypography>
         {isUserOrGuest && (
           <AppBox className="spa-product-card__footer-buttons">
             <AppIconButton
-              data-cy="favorite-button"
+              data-testid="favorite-button"
               onClick={handleFavoriteClick}
               className={cn(
                 "spa-product-card__favorite-button",
                 isProductFavorite && "spa-product-card__favorite-button--active"
               )}
+              disabled={isEnded}
             >
               {isProductFavorite ? (
                 <FavoriteIcon fontSize="small" />
@@ -145,11 +163,13 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
             </AppIconButton>
             <AppIconButton
               data-cy="add-to-cart-button"
+              data-testid="add-to-cart-button"
               onClick={addToCartOrOpenDrawer}
               className={cn(
                 "spa-product-card__cart-button",
                 isProductInCart && "spa-product-card__cart-button--active"
               )}
+              disabled={isEnded}
             >
               <svg>
                 <use data-testid="add-to-cart-icon" href={cartIconFullLink} />
