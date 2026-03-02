@@ -2,7 +2,7 @@ import { PRODUCT_STATUS_LABELS } from "@/components/product-status-label/Product
 
 export type ProductStatusLabelKey = (typeof PRODUCT_STATUS_LABELS)[keyof typeof PRODUCT_STATUS_LABELS] | null;
 
-export type UseProductStatusResult = {
+export type GetProductStatusResult = {
     isEnded: boolean;
     labelKey: ProductStatusLabelKey;
 };

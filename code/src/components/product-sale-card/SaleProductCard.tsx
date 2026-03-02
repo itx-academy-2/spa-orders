@@ -20,7 +20,7 @@ import routePaths from "@/constants/routes";
 import useAddToCartOrOpenDrawer from "@/hooks/use-add-to-cart-or-open-drawer/useAddToCartOrOpenDrawer";
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { useIsProductReserved } from "@/hooks/use-is-product-reserved/useIsProductReserved";
-import { useProductStatus } from "@/hooks/use-product-status/useProductStatus";
+import { getProductStatus } from "@/utils/get-product-status/getProductStatus";
 import cn from "@/utils/cn/cn";
 import formatPrice from "@/utils/format-price/formatPrice";
 import { useModalContext } from "@/context/modal/ModalContext";
@@ -50,7 +50,7 @@ const SaleProductCard = ({
 
   const { isReserved } = useIsProductReserved(product.id);
 
-  const { isEnded, labelKey } = useProductStatus(product);
+  const { isEnded, labelKey } = getProductStatus(product);
 
   const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 
@@ -173,7 +173,6 @@ const SaleProductCard = ({
         {isUserOrGuest && (
           <AppBox className="spa-product-card__footer-buttons">
             <AppIconButton
-              data-cy="favorite-button"
               data-testid="favorite-button"
               onClick={handleFavoriteClick}
               className={cn(

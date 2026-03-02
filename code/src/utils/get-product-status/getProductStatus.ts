@@ -1,11 +1,12 @@
 import { PRODUCT_STATUS_LABELS } from "@/components/product-status-label/ProductStatusLabel.constants";
+
 import { PRODUCT_STATUS } from "@/constants/common";
 import { Product } from "@/types/product.types";
-import { UseProductStatusResult } from "@/hooks/use-product-status/useProductStatus.types";
+import { GetProductStatusResult } from "@/utils/get-product-status/getProductStatus.types";
 
-export const useProductStatus = (
+export const getProductStatus = (
   product?: Product
-): UseProductStatusResult => {
+): GetProductStatusResult => {
   const isEnded = product?.status === PRODUCT_STATUS.ENDED;
 
   return {
