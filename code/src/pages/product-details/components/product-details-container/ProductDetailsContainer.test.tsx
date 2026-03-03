@@ -235,7 +235,6 @@ describe("ProductDetailsContainer", () => {
         );
     });
 
-
     test("renders delivery methods correctly", () => {
         renderAndMock({ data: mockProduct });
 
@@ -409,5 +408,15 @@ describe("ProductDetailsContainer", () => {
 
         await userEvent.click(screen.getByTestId("FavoriteBorderIcon"));
         expect(mockOpenModal).toHaveBeenCalled();
+    });
+
+    test("renders out of stock when product is ended", () => {
+        renderAndMock({
+            data: { ...mockProduct, status: "ENDED" }
+        });
+
+        expect(
+            screen.getByText("productDetailsPage.outOfStock")
+        ).toBeInTheDocument();
     });
 });
