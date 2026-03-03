@@ -26,6 +26,7 @@ import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import cn from "@/utils/cn/cn";
+import { getProductStatus } from "@/utils/get-product-status/getProductStatus";
 import { Product } from "@/types/product.types";
 import { useModalContext } from "@/context/modal/ModalContext";
 import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
@@ -55,7 +56,9 @@ const ProductDetailsContainer = ({
     productId,
     lang: locale
   });
-  
+
+  const { isEnded } = getProductStatus(product);
+
   const isAuthenticated = useIsAuthSelector();
   const { openModal } = useModalContext();
   const userRole = useUserRoleSelector();
@@ -115,14 +118,17 @@ const ProductDetailsContainer = ({
     }
   );
 
-  const inStockTypography = product.quantity > 0 && (
+  const stockTranslationKey = isEnded
+    ? "productDetailsPage.outOfStock"
+    : "productDetailsPage.inStock";
+
+  const inStockTypography =
     <AppTypography
       className="product-details__in-stock"
       fontWeight="extra-bold"
       variant="caption"
-      translationKey="productDetailsPage.inStock"
+      translationKey={stockTranslationKey}
     />
-  );
 
   const productWithId = { ...product, id: productId };
 
@@ -157,7 +163,7 @@ const ProductDetailsContainer = ({
       openModal(<AuthModal />);
       return;
     }
-    
+
     toggle(productId);
   };
 
@@ -194,7 +200,7 @@ const ProductDetailsContainer = ({
                 discountedPriceSize="h3"
                 discountedPriceWeight="bold"
               />
-              { isUserOrGuest && (
+              {isUserOrGuest && (
                 <AppBox className="product-details__buy-favorite-buttons">
                   <AppIconButton
                     data-cy="favorite-button"
@@ -203,15 +209,21 @@ const ProductDetailsContainer = ({
                       "product-details__favorite-button",
                       isProductFavorite && "product-details__favorite-button--active"
                     )}
+                    disabled={isEnded}
                   >
-                  {isProductFavorite ? (
-                    <FavoriteIcon fontSize="medium" />
-                  ) : (
-                    <FavoriteBorderIcon fontSize="medium" />
-                  )}
+                    {isProductFavorite ? (
+                      <FavoriteIcon fontSize="medium" />
+                    ) : (
+                      <FavoriteBorderIcon fontSize="medium" />
+                    )}
                   </AppIconButton>
-                  <ReserveButtonContainer productId={productId} />
-                  <BuyNowButton productWithId={productWithId} />
+                  <ReserveButtonContainer
+                    productId={productId}
+                    disabled={isEnded}
+                  />
+                  <BuyNowButton
+                    productWithId={productWithId}
+                    disabled={isEnded} />
                 </AppBox>
               )}
             </AppBox>

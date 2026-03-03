@@ -5,18 +5,20 @@ import AppLoader from "@/components/app-loader/AppLoader";
 type ReserveButtonProps = {
   isReserved: boolean;
   isLoading?: boolean;
+  isDisabled?: boolean;
   onToggle: () => void;
 };
 
 const ReserveButton = ({
   isReserved,
   isLoading,
+  isDisabled = false,
   onToggle,
 }: ReserveButtonProps) => {
   return (
     <AppButton
       onClick={onToggle}
-      disabled={isLoading}
+      disabled={isDisabled || isLoading}
       className="reserve-button"
       data-cy="reserve-product-button"
     >
