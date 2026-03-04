@@ -203,7 +203,7 @@ const ProductDetailsContainer = ({
               {isUserOrGuest && (
                 <AppBox className="product-details__buy-favorite-buttons">
                   <AppIconButton
-                    data-cy="favorite-button"
+                    data-testid="favorite-button"
                     onClick={handleFavoriteClick}
                     className={cn(
                       "product-details__favorite-button",
@@ -223,7 +223,8 @@ const ProductDetailsContainer = ({
                   />
                   <BuyNowButton
                     productWithId={productWithId}
-                    disabled={isEnded} />
+                    disabled={isEnded}
+                  />
                 </AppBox>
               )}
             </AppBox>

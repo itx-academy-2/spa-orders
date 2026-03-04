@@ -410,7 +410,7 @@ describe("ProductDetailsContainer", () => {
         expect(mockOpenModal).toHaveBeenCalled();
     });
 
-    test("renders out of stock when product is ended", () => {
+    test("should render out of stock when product is ended", () => {
         renderAndMock({
             data: { ...mockProduct, status: "ENDED" }
         });
@@ -418,5 +418,14 @@ describe("ProductDetailsContainer", () => {
         expect(
             screen.getByText("productDetailsPage.outOfStock")
         ).toBeInTheDocument();
+    });
+
+    test("should disable favorite button when status is ENDED", () => {
+        renderAndMock({
+            data: { ...mockProduct, status: "ENDED" }
+        });
+
+        const favoriteButton = screen.getByTestId("favorite-button");
+        expect(favoriteButton).toBeDisabled();
     });
 });
