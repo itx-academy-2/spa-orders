@@ -106,7 +106,9 @@ const HeaderSearchInputDropdown = ({
           return (
             <AppMenuItem
               key={id}
-              className="search-input-dropdown__item"
+              className={cn("search-input-dropdown__item",
+                isEnded && "search-input-dropdown__item-inactive"
+              )}
               onClick={handleCloseDropdown}
               ref={index === searchResults.length - 1 ? lastItemRef : undefined}
             >

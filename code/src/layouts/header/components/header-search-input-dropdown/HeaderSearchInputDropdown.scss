@@ -77,6 +77,13 @@
       align-items: center;
     }
 
+    &-inactive {
+      &:hover {
+        background-color: transparent;
+
+      }
+    }
+
     &-name-inactive {
       color: var(--color-disabled);
     }
