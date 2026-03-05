@@ -151,4 +151,17 @@ describe("HeaderSearchInputDropdown", () => {
       expect(reservedLabel).not.toBeInTheDocument();
     });
   });
+
+  describe("Out of stock", () => {
+    const outOfStockProduct: ProductFromSearch[] = [
+      { id: "3", name: "Product 3", image: "image3.png", status: "ENDED" }
+    ];
+
+    test("should render out of stock label for ended product", () => {
+      renderComponent({ searchResults: outOfStockProduct, totalElements: 1 });
+
+      const statusLabel = screen.getByTestId("product-status-label");
+      expect(statusLabel).toBeInTheDocument();
+    });
+  });
 });
