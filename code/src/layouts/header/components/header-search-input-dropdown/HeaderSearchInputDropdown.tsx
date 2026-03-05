@@ -124,12 +124,28 @@ const HeaderSearchInputDropdown = ({
                   alt={name}
                 />
                 <AppBox className="search-input-dropdown__item-label-name-container">
-                  {isReserved && <ReservedLabel className="search-input-dropdown__item-label" data-testid="reserved-label" />}
-                  {labelKey && <ProductStatusLabel status={labelKey} />}
-                  <AppTypography variant="caption-small">{name}</AppTypography>
+                  {isReserved &&
+                    <ReservedLabel
+                      className="search-input-dropdown__item-label"
+                      data-testid="reserved-label"
+                    />
+                  }
+                  {labelKey &&
+                    <ProductStatusLabel
+                      status={labelKey}
+                      className="search-input-dropdown__item-label"
+                    />
+                  }
+                  <AppTypography
+                    variant="caption-small"
+                    className={cn("search-input-dropdown__item-name",
+                      isEnded && "search-input-dropdown__item-name-inactive"
+                    )}>
+                    {name}
+                  </AppTypography>
                 </AppBox>
               </AppLink>
-            </AppMenuItem>
+            </AppMenuItem >
           )
         })}
       </>

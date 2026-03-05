@@ -76,5 +76,9 @@
       height: spacing(2);
       align-items: center;
     }
+
+    &-name-inactive {
+      color: var(--color-disabled);
+    }
   }
 }
