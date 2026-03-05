@@ -17,8 +17,8 @@ jest.mock("@/hooks/use-is-product-reserved/useIsProductReserved");
 const mockUseIsProductReserved = useIsProductReserved as jest.MockedFunction<typeof useIsProductReserved>;
 
 const searchResults: ProductFromSearch[] = [
-  { id: "1", name: "Product 1", image: "image1.png" },
-  { id: "2", name: "Product 2", image: "image2.png" }
+  { id: "1", name: "Product 1", image: "image1.png", status: "AVAILABLE" },
+  { id: "2", name: "Product 2", image: "image2.png", status: "AVAILABLE" }
 ];
 
 const reservedProductsMock: GetMyReservationsResponse = [

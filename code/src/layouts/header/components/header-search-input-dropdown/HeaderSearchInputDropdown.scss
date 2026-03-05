@@ -57,6 +57,12 @@
 
     &-image {
       @include box(40px);
+
+      &-grayscale {
+        filter: grayscale(100%);
+        opacity: 0.6;
+        transition: filter 0.2s ease, opacity 0.2s ease;
+      }
     }
 
     &-label-name-container {

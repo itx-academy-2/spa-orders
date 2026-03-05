@@ -35,7 +35,7 @@ export type ManagerProduct = {
   priceWithDiscount: number | null;
 };
 
-export type ProductFromSearch = Pick<Product, "id" | "image" | "name">;
+export type ProductFromSearch = Pick<Product, "id" | "image" | "name" | "status">;
 
 export type GetUserProductsResponse = {
   minProductPrice: number;

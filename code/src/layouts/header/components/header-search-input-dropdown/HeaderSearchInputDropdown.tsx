@@ -4,6 +4,7 @@ import AppMenuItem from "@/components/app-menu-item/AppMenuItem";
 import AppSkeleton from "@/components/app-skeleton/AppSkeleton";
 import AppTypography from "@/components/app-typography/AppTypography";
 import ReservedLabel from "@/components/reserved-label/ReservedLabel";
+import ProductStatusLabel from "@/components/product-status-label/ProductStatusLabel";
 
 import noResultsImage from "@/assets/images/search/no-results.png";
 import routePaths from "@/constants/routes";
@@ -11,6 +12,8 @@ import useInfiniteScroll from "@/hooks/use-infinite-scroll/useInfiniteScroll";
 import { useIsProductReserved } from "@/hooks/use-is-product-reserved/useIsProductReserved";
 import { ProductFromSearch } from "@/types/product.types";
 import repeatComponent from "@/utils/repeat-component/repeatComponent";
+import { getProductStatus } from "@/utils/get-product-status/getProductStatus";
+import cn from "@/utils/cn/cn";
 
 import "@/layouts/header/components/header-search-input-dropdown/HeaderSearchInputDropdown.scss";
 
@@ -95,8 +98,10 @@ const HeaderSearchInputDropdown = ({
     content = (
       <>
         {searchResultsLabel}
-        {searchResults.map(({ id, name, image }, index) => {
+        {searchResults.map(({ id, name, image, status }, index) => {
           const isReserved = reservedProducts.some(p => p.id === id);
+
+          const { isEnded, labelKey } = getProductStatus(status);
 
           return (
             <AppMenuItem
@@ -110,13 +115,17 @@ const HeaderSearchInputDropdown = ({
                 to={routePaths.productDetails.path(id)}
               >
                 <AppBox
-                  className="search-input-dropdown__item-image"
+                  className={cn(
+                    "search-input-dropdown__item-image",
+                    isEnded && "search-input-dropdown__item-image-grayscale"
+                  )}
                   component="img"
                   src={image}
                   alt={name}
                 />
                 <AppBox className="search-input-dropdown__item-label-name-container">
                   {isReserved && <ReservedLabel className="search-input-dropdown__item-label" data-testid="reserved-label" />}
+                  {labelKey && <ProductStatusLabel status={labelKey} />}
                   <AppTypography variant="caption-small">{name}</AppTypography>
                 </AppBox>
               </AppLink>

@@ -5,9 +5,9 @@ import { Product } from "@/types/product.types";
 import { GetProductStatusResult } from "@/utils/get-product-status/getProductStatus.types";
 
 export const getProductStatus = (
-  product?: Product
+  status: Product["status"]
 ): GetProductStatusResult => {
-  const isEnded = product?.status === PRODUCT_STATUS.ENDED;
+  const isEnded = status === PRODUCT_STATUS.ENDED;
 
   return {
     isEnded,
