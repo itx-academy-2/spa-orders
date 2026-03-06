@@ -50,7 +50,7 @@ const SaleProductCard = ({
 
   const { isReserved } = useIsProductReserved(product.id);
 
-  const { isEnded, labelKey } = getProductStatus(product);
+  const { isEnded, labelKey } = getProductStatus(product.status);
 
   const roundedPercentage = Math.round(percentageOfTotalOrders || 0);
 

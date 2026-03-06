@@ -17,8 +17,8 @@ jest.mock("@/hooks/use-is-product-reserved/useIsProductReserved");
 const mockUseIsProductReserved = useIsProductReserved as jest.MockedFunction<typeof useIsProductReserved>;
 
 const searchResults: ProductFromSearch[] = [
-  { id: "1", name: "Product 1", image: "image1.png" },
-  { id: "2", name: "Product 2", image: "image2.png" }
+  { id: "1", name: "Product 1", image: "image1.png", status: "AVAILABLE" },
+  { id: "2", name: "Product 2", image: "image2.png", status: "AVAILABLE" }
 ];
 
 const reservedProductsMock: GetMyReservationsResponse = [
@@ -149,6 +149,19 @@ describe("HeaderSearchInputDropdown", () => {
 
       const reservedLabel = screen.queryByTestId("reserved-label");
       expect(reservedLabel).not.toBeInTheDocument();
+    });
+  });
+
+  describe("Out of stock", () => {
+    const outOfStockProduct: ProductFromSearch[] = [
+      { id: "3", name: "Product 3", image: "image3.png", status: "ENDED" }
+    ];
+
+    test("should render out of stock label for ended product", () => {
+      renderComponent({ searchResults: outOfStockProduct, totalElements: 1 });
+
+      const statusLabel = screen.getByTestId("product-status-label");
+      expect(statusLabel).toBeInTheDocument();
     });
   });
 });

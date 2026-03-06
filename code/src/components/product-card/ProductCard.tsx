@@ -36,10 +36,10 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
   const { toggle, isFavorite } = useToggleFavorite(wishlist);
   const { isReserved } = useIsProductReserved(product.id);
 
-  const { isEnded, labelKey } = getProductStatus(product);
-
   const { id, name, image, price, description, percentageOfTotalOrders } =
     product;
+
+  const { isEnded, labelKey } = getProductStatus(product.status);
 
   const [imgSrc, setImgSrc] = useState(image);
 
