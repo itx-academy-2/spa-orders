@@ -6,9 +6,10 @@ import { Product } from "@/types/product.types";
 
 type BuyNowButtonProps = {
   productWithId: Omit<Product, "status">;
+  disabled?: boolean;
 };
 
-const BuyNowButton = ({ productWithId }: BuyNowButtonProps) => {
+const BuyNowButton = ({ productWithId, disabled = false }: BuyNowButtonProps) => {
   const {
     isProductInCart,
     addToCartOrOpenDrawer,
@@ -26,13 +27,13 @@ const BuyNowButton = ({ productWithId }: BuyNowButtonProps) => {
     translationKey = "productDetailsPage.addToCartButton";
   }
 
-  const isDisabled = isAddingToCart || isCartLoading;
+  const isButtonLoading = isAddingToCart || isCartLoading;
 
   return (
     <AppButton
       onClick={addToCartOrOpenDrawer}
-      disabled={isDisabled}
-      isLoading={isDisabled}
+      disabled={disabled || isButtonLoading}
+      isLoading={isButtonLoading}
     >
       <AppTypography translationKey={translationKey} />
     </AppButton>

@@ -12,7 +12,8 @@ import { useModalContext } from "@/context/modal/ModalContext";
 import useAddToReservations from "@/hooks/use-add-to-reservations/useAddToReservations";
 
 export const ReserveButtonContainer = ({
-    productId
+    productId,
+    disabled = false
 }: ReserveButtonContainerProps) => {
     const isAuthenticated = useIsAuthSelector();
     const userRole = useUserRoleSelector();
@@ -53,6 +54,7 @@ export const ReserveButtonContainer = ({
         <ReserveButton
             isReserved={isReserved}
             isLoading={isLoading}
+            isDisabled={disabled}
             onToggle={handleToggle}
         />
     );

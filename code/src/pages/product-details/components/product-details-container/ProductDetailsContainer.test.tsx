@@ -13,7 +13,7 @@ import formatPrice from "@/utils/format-price/formatPrice";
 import renderWithProviders from "@/utils/render-with-providers/renderWithProviders";
 import useToggleFavorite from "@/hooks/use-toggle-favorite/useToggleFavorite";
 import { useUserRoleSelector, useIsAuthSelector } from "@/store/slices/userSlice";
-import { ROLES } from "@/constants/common";
+import { ROLES, PRODUCT_STATUS } from "@/constants/common";
 
 type MockProduct = Product & { quantity: number };
 
@@ -230,7 +230,7 @@ describe("ProductDetailsContainer", () => {
         expect(buyNowButton).toBeInTheDocument();
 
         expect(BuyNowButton).toHaveBeenCalledWith(
-            { productWithId: { ...mockProduct, id: productId } },
+            { productWithId: { ...mockProduct, id: productId }, disabled: false },
             {}
         );
     });
@@ -254,7 +254,7 @@ describe("ProductDetailsContainer", () => {
     });
 
     test("does not render stock typography when quantity is 0", () => {
-        renderAndMock({ data: { ...mockProduct, quantity: 0 } });
+        renderAndMock({ data: { ...mockProduct, status: PRODUCT_STATUS.ENDED } });
 
         const inStockTypography = screen.queryByText("productDetailsPage.inStock");
         expect(inStockTypography).not.toBeInTheDocument();
@@ -409,5 +409,23 @@ describe("ProductDetailsContainer", () => {
         await userEvent.click(screen.getByTestId("FavoriteBorderIcon"));
         expect(mockOpenModal).toHaveBeenCalled();
     });
-});
 
+    test("should render out of stock when product is ended", () => {
+        renderAndMock({
+            data: { ...mockProduct, status: "ENDED" }
+        });
+
+        expect(
+            screen.getByText("productDetailsPage.outOfStock")
+        ).toBeInTheDocument();
+    });
+
+    test("should disable favorite button when status is ENDED", () => {
+        renderAndMock({
+            data: { ...mockProduct, status: "ENDED" }
+        });
+
+        const favoriteButton = screen.getByTestId("favorite-button");
+        expect(favoriteButton).toBeDisabled();
+    });
+});
