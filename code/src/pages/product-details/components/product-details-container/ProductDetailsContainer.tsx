@@ -57,8 +57,6 @@ const ProductDetailsContainer = ({
     lang: locale
   });
 
-  const { isEnded } = getProductStatus(product);
-
   const isAuthenticated = useIsAuthSelector();
   const { openModal } = useModalContext();
   const userRole = useUserRoleSelector();
@@ -117,6 +115,8 @@ const ProductDetailsContainer = ({
       );
     }
   );
+
+  const { isEnded } = getProductStatus(product.status);
 
   const stockTranslationKey = isEnded
     ? "productDetailsPage.outOfStock"
