@@ -6,6 +6,7 @@ import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTim
 
 import { formatTimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
 import formatDate from "@/utils/format-date/formatDate";
+import { parseUTCDate } from "@/utils/parse-utc-date/parseUTCDate";
 
 const ReservationsTableBody = ({ reservation }: ReservationsTableBodyProps) => {
     const {
@@ -29,7 +30,7 @@ const ReservationsTableBody = ({ reservation }: ReservationsTableBodyProps) => {
                     formatTimeLeft(timeLeft)
                 )}
             </AppTableCell>
-            <AppTableCell>{formatDate(addedAt)}</AppTableCell>
+            <AppTableCell>{formatDate(parseUTCDate(addedAt))}</AppTableCell>
         </>
     );
 };

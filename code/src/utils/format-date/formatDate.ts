@@ -1,5 +1,3 @@
-import { parseUTCDate } from "@/utils/parse-utc-date/parseUTCDate";
-
 type FormatDateOptions = {
   locale?: string;
   options?: Intl.DateTimeFormatOptions;
@@ -9,7 +7,7 @@ const formatDate = (
   dateLike: string | Date,
   { locale = "en-GB", options = {} }: FormatDateOptions = {}
 ) => {
-  const date = dateLike instanceof Date ? dateLike : parseUTCDate(dateLike);
+  const date = dateLike instanceof Date ? dateLike : new Date(dateLike);
 
   if (date.toString() === "Invalid Date") {
     return "Invalid date";
