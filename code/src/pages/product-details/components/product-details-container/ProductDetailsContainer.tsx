@@ -74,8 +74,6 @@ const ProductDetailsContainer = ({
     return renderRedirectComponent(productNotFoundRedirectConfig);
   }
 
-  const { isEnded } = getProductStatus(product.status);
-
   if (error) {
     return (
       <AppTypography
@@ -117,6 +115,8 @@ const ProductDetailsContainer = ({
       );
     }
   );
+
+  const { isEnded } = getProductStatus(product.status);
 
   const stockTranslationKey = isEnded
     ? "productDetailsPage.outOfStock"
