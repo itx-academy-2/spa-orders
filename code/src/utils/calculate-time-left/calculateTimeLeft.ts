@@ -9,14 +9,17 @@ export type TimeLeft = {
 
 export const calculateTimeLeft = (addedAt: string): TimeLeft => {
     const now = Date.now();
-    const reserveTime = new Date(addedAt).getTime();
+
+     const normalizedAddedAt = addedAt.endsWith("Z") ? addedAt : `${addedAt}Z`;
+    const reserveTime = new Date(normalizedAddedAt).getTime();
+
     const expiresAt = reserveTime + EXPIRATION_HOURS * 60 * 60 * 1000;
 
     const diff = Math.max(0, expiresAt - now);
 
     const expired = diff === 0;
 
-    const hours = Math.floor(diff / 1000 / 60 / 60);
+    const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff / 1000 / 60) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
