@@ -27,9 +27,14 @@ export const calculateTimeLeft = (addedAt: string): TimeLeft => {
 /* 
   Formats the remaining time as a string (HH:MM:SS) or shows "expired" 
 */
-export const formatTimeLeft = (time: TimeLeft): string =>
-    time.expired
-        ? "reservationsTable.expired"
-        : `${time.hours.toString().padStart(2, "0")}:${time.minutes
-            .toString()
-            .padStart(2, "0")}:${time.seconds.toString().padStart(2, "0")}`;
+export const formatTimeLeft = (time: TimeLeft): string => {
+    if (time.expired) return "reservationsTable.expired";
+
+    if (!Number.isFinite(time.hours) || !Number.isFinite(time.minutes) || !Number.isFinite(time.seconds)) {
+        return "Invalid time";
+    }
+
+    return `${time.hours.toString().padStart(2, "0")}:${time.minutes
+        .toString()
+        .padStart(2, "0")}:${time.seconds.toString().padStart(2, "0")}`;
+};

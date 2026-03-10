@@ -1,6 +1,6 @@
 export function parseUTCDate(isoString: string): Date {
     if (!isoString) {
-        throw new Error("Invalid date string");
+        return new Date(NaN);
     }
 
     // Keep only the first 3 digits of milliseconds for valid ISO format
@@ -11,7 +11,7 @@ export function parseUTCDate(isoString: string): Date {
     const date = new Date(utcString);
 
     if (isNaN(date.getTime())) {
-        throw new Error(`Invalid date after normalization: ${isoString}`);
+        return new Date(NaN);
     }
 
     return date;
