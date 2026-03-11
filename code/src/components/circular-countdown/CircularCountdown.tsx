@@ -13,9 +13,13 @@ const CircularCountdown = ({
   reservedAt,
   size,
 }: CircularCountdownProps) => {
-  const time = useTimeLeft(reservedAt);
+  const duration = useTimeLeft(reservedAt);
 
-  const { percent } = getCountdownPercent(time);
+  const { percent } = getCountdownPercent(duration);
+
+  const time = duration
+    ?.shiftTo("hours", "minutes", "seconds")
+    .toObject() ?? { hours: 0, minutes: 0, seconds: 0 };
 
   return (
     <AppBox
@@ -35,10 +39,12 @@ const CircularCountdown = ({
       </AppTooltip>
       <AppBox className="circular-countdown__text">
         <AppBox className="circular-countdown__text-time-hm">
-          {String(time.hours).padStart(2, "0")} : {String(time.minutes).padStart(2, "0")}
+          {String(Math.floor(time.hours ?? 0)).padStart(2, "0")} :
+          {String(Math.floor(time.minutes ?? 0)).padStart(2, "0")}
         </AppBox>
+
         <AppBox className="circular-countdown__text-time-s">
-          : {String(time.seconds).padStart(2, "0")}
+          : {String(Math.floor(time.seconds ?? 0)).padStart(2, "0")}
         </AppBox>
       </AppBox>
     </AppBox>

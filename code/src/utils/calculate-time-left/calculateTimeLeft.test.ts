@@ -1,57 +1,48 @@
-import { calculateTimeLeft, formatTimeLeft, TimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
+import { DateTime, Duration } from "luxon";
+import { calculateTimeLeft, formatTimeLeft } from "./calculateTimeLeft";
 import { EXPIRATION_HOURS } from "@/constants/reservations";
 
 describe("calculateTimeLeft", () => {
-    beforeAll(() => {
-        jest.spyOn(global.Date, "now").mockImplementation(() =>
-            new Date("2025-01-01T12:00:00Z").getTime()
-        );
+    const now = DateTime.utc();
+
+    test("returns Duration for a future time", () => {
+        const addedAt = now.minus({ hours: 1 }).toISO();
+        const duration = calculateTimeLeft(addedAt!);
+
+        expect(duration).toBeInstanceOf(Duration);
+        expect(duration?.as("milliseconds")).toBeGreaterThan(0);
     });
 
-    afterAll(() => {
-        jest.spyOn(global.Date, "now").mockRestore();
+    test("returns Duration of 0 for a past time", () => {
+        const addedAt = now.minus({ hours: EXPIRATION_HOURS + 1 }).toISO();
+        const duration = calculateTimeLeft(addedAt!);
+
+        expect(duration?.as("milliseconds")).toBe(0);
     });
-    test("calculates correct time left when not expired", () => {
-        const addedAt = "2025-01-01T10:00:00Z";
-        const timeLeft: TimeLeft = calculateTimeLeft(addedAt);
 
-        expect(timeLeft.expired).toBe(false);
-        expect(timeLeft.hours).toBe(EXPIRATION_HOURS - 2);
-        expect(timeLeft.minutes).toBe(0);
-        expect(timeLeft.seconds).toBe(0);
-    });
-    test("returns expired=true when time is past expiration", () => {
-        const pastTime = new Date(Date.now() - (EXPIRATION_HOURS + 1) * 60 * 60 * 1000);
-        const addedAt = pastTime.toISOString();
-
-        const timeLeft: TimeLeft = calculateTimeLeft(addedAt);
-
-        expect(timeLeft.expired).toBe(true);
-        expect(timeLeft.hours).toBe(0);
-        expect(timeLeft.minutes).toBe(0);
-        expect(timeLeft.seconds).toBe(0);
-    });
-    test("calculates minutes and seconds correctly", () => {
-        const targetDiffMs = (1 * 60 * 60 + 30 * 60 + 45) * 1000;
-        const addedAtDate = new Date(Date.now() - (EXPIRATION_HOURS * 60 * 60 * 1000 - targetDiffMs));
-        const addedAt = addedAtDate.toISOString();
-
-        const timeLeft: TimeLeft = calculateTimeLeft(addedAt);
-
-        expect(timeLeft.expired).toBe(false);
-        expect(timeLeft.hours).toBe(1);
-        expect(timeLeft.minutes).toBe(30);
-        expect(timeLeft.seconds).toBe(45);
+    test("returns null for an invalid date", () => {
+        const duration = calculateTimeLeft("not-a-date");
+        expect(duration).toBeNull();
     });
 });
 
 describe("formatTimeLeft", () => {
-    test("formats as HH:MM:SS when not expired", () => {
-        const time: TimeLeft = { hours: 2, minutes: 5, seconds: 9, expired: false };
-        expect(formatTimeLeft(time)).toBe("02:05:09");
+    test("formats Duration to hh:mm:ss", () => {
+        const duration = Duration.fromObject({ hours: 2, minutes: 5, seconds: 9 });
+        expect(formatTimeLeft(duration)).toBe("02:05:09");
     });
-    test("returns expired translation key when expired", () => {
-        const time: TimeLeft = { hours: 0, minutes: 0, seconds: 0, expired: true };
-        expect(formatTimeLeft(time)).toBe("reservationsTable.expired");
+
+    test("returns 'Expired' for Duration of 0", () => {
+        const duration = Duration.fromMillis(0);
+        expect(formatTimeLeft(duration)).toBe("Expired");
+    });
+
+    test("returns 'Invalid time' for null", () => {
+        expect(formatTimeLeft(null)).toBe("Invalid time");
+    });
+
+    test("truncates fractional seconds correctly", () => {
+        const duration = Duration.fromObject({ hours: 1, minutes: 2, seconds: 59.7 });
+        expect(formatTimeLeft(duration)).toBe("01:02:59");
     });
 });

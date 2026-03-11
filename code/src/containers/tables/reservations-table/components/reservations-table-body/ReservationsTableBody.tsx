@@ -15,20 +15,16 @@ const ReservationsTableBody = ({ reservation }: ReservationsTableBodyProps) => {
         addedAt
     } = reservation;
 
-    const timeLeft = useTimeLeft(addedAt);
+    const duration = useTimeLeft(addedAt);
+
+    const formattedTime = formatTimeLeft(duration);
 
     return (
         <>
             <AppTableCell>{username}</AppTableCell>
             <AppTableCell>{email}</AppTableCell>
             <AppTableCell>{quantity}</AppTableCell>
-            <AppTableCell>
-                {timeLeft.expired ? (
-                    <AppTypography translationKey={formatTimeLeft(timeLeft)} variant="caption" />
-                ) : (
-                    formatTimeLeft(timeLeft)
-                )}
-            </AppTableCell>
+            <AppTableCell>{formattedTime}</AppTableCell>
             <AppTableCell>{formatDate(addedAt)}</AppTableCell>
         </>
     );
