@@ -1,5 +1,4 @@
 import { AppTableCell } from "@/components/app-table/components";
-import AppTypography from "@/components/app-typography/AppTypography";
 
 import { ReservationsTableBodyProps } from "@/containers/tables/reservations-table/components/reservations-table-body/ReservationsTableBody.types";
 import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTimeLeft";
