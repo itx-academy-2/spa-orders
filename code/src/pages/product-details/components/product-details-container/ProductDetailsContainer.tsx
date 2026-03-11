@@ -12,6 +12,7 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 import PriceLabel from "@/components/price-label/PriceLabel";
 import ProductDescription from "@/components/product-description/ProductDescription";
+import CircularCountdown from "@/components/circular-countdown/CircularCountdown";
 
 import { deliveryMethods as deliveryMethodsData } from "@/constants/deliveryMethods";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
