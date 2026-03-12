@@ -24,6 +24,7 @@ import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsD
 import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
 import ReserveButtonContainer from "@/pages/product-details/components/reserve-button-container/ReserveButtonContainer";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
+import { useGetMyReservationsMetadataQuery } from "@/store/tanstack-api/modules/reservations/queries";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import cn from "@/utils/cn/cn";
@@ -57,6 +58,8 @@ const ProductDetailsContainer = ({
     productId,
     lang: locale
   });
+
+  const { data: reservationsMetadata } = useGetMyReservationsMetadataQuery();
 
   const isAuthenticated = useIsAuthSelector();
   const { openModal } = useModalContext();
@@ -170,6 +173,10 @@ const ProductDetailsContainer = ({
 
   const isProductFavorite = isFavorite(productId);
 
+  const currentReservation = reservationsMetadata?.reservations?.find(
+    reservation => reservation.id === productId
+  );
+
   return (
     <AppBox className="product-details">
       <AppBox className="product-details__image-wrapper">
@@ -185,6 +192,12 @@ const ProductDetailsContainer = ({
           {categoryBadge}
           {bestsellerBadge}
         </AppBox>
+        {currentReservation && (
+          <CircularCountdown
+            reservedAt={currentReservation.reservedAt}
+            size={50}
+          />
+        )}
         <AppTypography variant="h3" component="h1">
           {product.name}
         </AppTypography>

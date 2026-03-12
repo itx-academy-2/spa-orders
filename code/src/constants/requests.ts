@@ -131,6 +131,7 @@ export const URLS = {
     put: ({ productId }: { productId: string }) =>
       `/v1/my-reservations/${productId}`,
     delete: ({ productId }: { productId: string }) =>
-      `/v1/my-reservations/${productId}`
+      `/v1/my-reservations/${productId}`,
+    getMyReservationsMetadata: "/v1/my-reservations/metadata"
   },
 } as const;

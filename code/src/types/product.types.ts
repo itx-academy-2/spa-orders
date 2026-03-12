@@ -264,3 +264,14 @@ export type GetMyReservationsParams = Lang & Omit<Pageable, "sort"> & {
 };
 
 export type GetMyReservationsResponse = Product[];
+
+export type ReservationMetadata = {
+  id: string;
+  reservedAt: string;
+};
+
+export type GetMyReservationsMetadataResponse = {
+  remainingMoney: string;
+  remainingItems: number;
+  reservations: ReservationMetadata[];
+};

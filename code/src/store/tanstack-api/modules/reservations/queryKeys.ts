@@ -3,4 +3,6 @@ export const reservationsKeys = {
 
   myReservations: () =>
     [...reservationsKeys.all, "myReservations"] as const,
+  myReservationsMetadata: () =>
+    [...reservationsKeys.all, "metadata"] as const,
 };

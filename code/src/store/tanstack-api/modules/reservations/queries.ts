@@ -3,7 +3,8 @@ import { reservationsApi } from "@/store/tanstack-api/modules/reservations/reser
 import { reservationsKeys } from "@/store/tanstack-api/modules/reservations/queryKeys";
 import {
   GetMyReservationsParams,
-  ReservationProductParams
+  ReservationProductParams,
+  GetMyReservationsMetadataResponse,
 } from "@/types/product.types";
 
 type UseGetMyReservationsArgs = {
@@ -48,3 +49,10 @@ export const useRemoveFromReservationsMutation = () => {
     },
   });
 };
+
+export const useGetMyReservationsMetadataQuery = (enabled = true) =>
+  useQuery<GetMyReservationsMetadataResponse>({
+    queryKey: reservationsKeys.myReservationsMetadata(),
+    queryFn: () => reservationsApi.getMyReservationsMetadata(),
+    enabled,
+  });
