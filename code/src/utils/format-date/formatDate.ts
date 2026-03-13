@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 type FormatDateOptions = {
   locale?: string;
   options?: Intl.DateTimeFormatOptions;
@@ -7,11 +9,10 @@ const formatDate = (
   dateLike: string | Date,
   { locale = "en-GB", options = {} }: FormatDateOptions = {}
 ) => {
-  const date = dateLike instanceof Date ? dateLike : new Date(dateLike + "Z");
-
-  if (date.toString() === "Invalid Date") {
-    return "Invalid date";
-  }
+  const date =
+    dateLike instanceof Date
+      ? DateTime.fromJSDate(dateLike)
+      : DateTime.fromISO(dateLike, { zone: "utc" });
 
   const defaultOptions: Intl.DateTimeFormatOptions = {
     day: "2-digit",
@@ -21,13 +22,13 @@ const formatDate = (
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-    timeZone: "Europe/Kiev"
+    timeZone: "Europe/Kyiv"
   };
 
   return new Intl.DateTimeFormat(locale, {
     ...defaultOptions,
-    ...options
-  }).format(date);
+    ...options,
+  }).format(date.toJSDate());
 };
 
 export default formatDate;

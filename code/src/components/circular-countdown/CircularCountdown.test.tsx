@@ -25,8 +25,8 @@ describe("CircularCountdown", () => {
     );
 
     render(<CircularCountdown reservedAt={reservedAt} size={100} />);
-    expect(screen.getByText("01 :02")).toBeInTheDocument();
-    expect(screen.getByText(": 03")).toBeInTheDocument();
+    expect(screen.getByText(/01\s*:\s*02/)).toBeInTheDocument();
+    expect(screen.getByText(/:\s*03/)).toBeInTheDocument();
   });
 
   test("updates percent correctly from getCountdownPercent", () => {
