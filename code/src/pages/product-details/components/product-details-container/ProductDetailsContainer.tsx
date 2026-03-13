@@ -29,6 +29,7 @@ import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromT
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import cn from "@/utils/cn/cn";
 import { getProductStatus } from "@/utils/get-product-status/getProductStatus";
+import { isUserAllowed } from "@/utils/is-user-allowed/isUserAllowed";
 import { Product } from "@/types/product.types";
 import { useModalContext } from "@/context/modal/ModalContext";
 import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
@@ -59,11 +60,13 @@ const ProductDetailsContainer = ({
     lang: locale
   });
 
-  const { data: reservationsMetadata } = useGetMyReservationsMetadataQuery();
-
   const isAuthenticated = useIsAuthSelector();
   const { openModal } = useModalContext();
   const userRole = useUserRoleSelector();
+
+  const canUserInteract = !isUserAllowed(isAuthenticated, userRole);
+
+  const { data: reservationsMetadata } = useGetMyReservationsMetadataQuery(!canUserInteract);
 
   const isUserOrGuest = !userRole || userRole === ROLES.USER;
 
@@ -188,16 +191,18 @@ const ProductDetailsContainer = ({
         )}
       </AppBox>
       <AppBox className="product-details__summary">
-        <AppBox style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {categoryBadge}
-          {bestsellerBadge}
+        <AppBox className="product-details__badges-timer">
+          <AppBox style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {categoryBadge}
+            {bestsellerBadge}
+          </AppBox>
+          {currentReservation && (
+            <CircularCountdown
+              reservedAt={currentReservation.reservedAt}
+              size={60}
+            />
+          )}
         </AppBox>
-        {currentReservation && (
-          <CircularCountdown
-            reservedAt={currentReservation.reservedAt}
-            size={50}
-          />
-        )}
         <AppTypography variant="h3" component="h1">
           {product.name}
         </AppTypography>
