@@ -5,7 +5,6 @@ import { ReservationsTableBodyProps } from "@/containers/tables/reservations-tab
 import { useTimeLeft } from "@/containers/tables/reservations-table/hooks/useTimeLeft";
 
 import { formatTimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
-import formatDate from "@/utils/format-date/formatDate";
 import { FormattedDate } from "react-intl";
 
 const ReservationsTableBody = ({ reservation }: ReservationsTableBodyProps) => {
