@@ -21,6 +21,8 @@ const CircularCountdown = ({
     ?.shiftTo("hours", "minutes", "seconds")
     .toObject() ?? { hours: 0, minutes: 0, seconds: 0 };
 
+  const pad = (num: number | undefined) => String(Math.floor(num ?? 0)).padStart(2, "0");
+
   return (
     <AppBox
       className="circular-countdown"
@@ -39,12 +41,11 @@ const CircularCountdown = ({
       </AppTooltip>
       <AppBox className="circular-countdown__text">
         <AppBox className="circular-countdown__text-time-hm">
-          {String(Math.floor(time.hours ?? 0)).padStart(2, "0")} :
-          {String(Math.floor(time.minutes ?? 0)).padStart(2, "0")}
+          {pad(time.hours)} : {pad(time.minutes)}
         </AppBox>
 
         <AppBox className="circular-countdown__text-time-s">
-          : {String(Math.floor(time.seconds ?? 0)).padStart(2, "0")}
+          : {pad(time.seconds)}
         </AppBox>
       </AppBox>
     </AppBox>
