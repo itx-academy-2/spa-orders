@@ -7,6 +7,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import { ProductCardProps } from "@/components/product-card/ProductCard.types";
 import ReservedLabel from "@/components/reserved-label/ReservedLabel";
 import ProductStatusLabel from "@/components/product-status-label/ProductStatusLabel";
+import CircularCountdown from "@/components/circular-countdown/CircularCountdown";
 
 import AuthModal from "@/containers/modals/auth/AuthModal";
 
@@ -30,7 +31,12 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import "@/components/product-card/ProductCard.scss";
 
-const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductCardProps) => {
+const ProductCard = ({
+  product,
+  isViewHistory = false,
+  wishlist = [],
+  reservedAt,
+}: ProductCardProps) => {
   const { isProductInCart, addToCartOrOpenDrawer } =
     useAddToCartOrOpenDrawer(product);
   const { toggle, isFavorite } = useToggleFavorite(wishlist);
@@ -78,9 +84,14 @@ const ProductCard = ({ product, isViewHistory = false, wishlist = [] }: ProductC
       className="spa-product-card"
       data-cy="product-card"
     >
-      <AppBox className="spa-product-card__labels">
-        {isReserved && <ReservedLabel />}
-        {labelKey && <ProductStatusLabel status={labelKey} />}
+      <AppBox className="spa-product-card__labels-timer">
+        <AppBox className="spa-product-card__labels">
+          {isReserved && <ReservedLabel />}
+          {labelKey && <ProductStatusLabel status={labelKey} />}
+        </AppBox>
+        {reservedAt && (
+          <CircularCountdown reservedAt={reservedAt} size={60} />
+        )}
       </AppBox>
       <AppLink
         className="spa-product-card__link-wrapper"
