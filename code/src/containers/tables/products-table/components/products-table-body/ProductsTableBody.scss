@@ -11,10 +11,6 @@
 
     background-color: var(--products-table-body-bg-color, $white);
 
-    &:hover {
-      background-color: var(--color-muted);
-    }
-
     &-name {
       @include text-truncate($line-clamp: 2);
 
