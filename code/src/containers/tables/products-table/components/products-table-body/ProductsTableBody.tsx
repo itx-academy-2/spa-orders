@@ -7,6 +7,7 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppLink from "@/components/app-link/AppLink";
 import { AppTableCell } from "@/components/app-table/components";
 import AppTypography from "@/components/app-typography/AppTypography";
+import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import DraftLabel from "@/components/draft-label/DraftLabel";
 
 import routes from "@/constants/routes";
@@ -32,6 +33,8 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
     priceWithDiscount,
     discount
   } = product;
+
+  const totalQuantity = quantity + reservedQuantity;
 
   const categoryName = getCategoryFromTags(tags);
 
@@ -70,7 +73,19 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
       </AppTableCell>
       <AppTableCell>{nameElement}</AppTableCell>
       <AppTableCell>{category}</AppTableCell>
-      <AppTableCell>{quantity}</AppTableCell>
+      <AppTableCell>
+        <AppTooltip
+          titleTranslationKey="productsTable.totalQuantity"
+          titleTranslationProps={{ values: { total: totalQuantity } }}
+        >
+          <AppTypography
+            variant="caption"
+            component="span"
+          >
+            {quantity}
+          </AppTypography>
+        </AppTooltip>
+      </AppTableCell>
       <AppTableCell>
         <AppLink to={routes.dashboard.products.reservationsDetails.path(id)}>
           <AppTypography

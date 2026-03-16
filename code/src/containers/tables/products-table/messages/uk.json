@@ -9,5 +9,6 @@
   "productsTable.fallback": "Продуктів не знайдено",
   "productsTable.label.draft": "Чернетка",
   "productsTable.reservedButton": "Резерв",
-  "productsTable.label.reservedLabel": "Зарезервовано"
+  "productsTable.label.reservedLabel": "Зарезервовано",
+  "productsTable.totalQuantity": "Загальна кількість: {total}"
 }
