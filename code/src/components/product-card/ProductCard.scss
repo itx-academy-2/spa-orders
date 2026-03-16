@@ -9,6 +9,13 @@
   position: relative;
   overflow: hidden;
 
+  &__labels-timer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: spacing(2);
+  }
+
   &__labels {
     position: absolute;
     top: spacing(2);
