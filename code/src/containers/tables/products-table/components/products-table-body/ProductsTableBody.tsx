@@ -3,7 +3,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ProductsTableBodyProps } from "@/containers/tables/products-table/ProductsTable.types";
 
 import AppBox from "@/components/app-box/AppBox";
-import AppButton from "@/components/app-button/AppButton";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppLink from "@/components/app-link/AppLink";
 import { AppTableCell } from "@/components/app-table/components";
