@@ -1,11 +1,18 @@
 @import "@design-system";
 
 .spa-sale-product-card {
-  &__labels {
+  &__labels-timer {
     position: absolute;
     top: spacing(2);
     left: spacing(2);
     right: spacing(2);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 2;
+  }
+
+  &__labels {
     display: flex;
     align-items: center;
     gap: spacing(1);

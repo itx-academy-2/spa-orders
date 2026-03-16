@@ -92,19 +92,21 @@ const SaleProductCard = ({
       className="spa-product-card spa-sale-product-card"
       data-cy="product-card"
     >
-      <AppBox className="spa-sale-product-card__labels">
-        <AppBox
-          className="spa-sale-product-card__label"
-          data-testid="discount-label"
-        >
-          -{discount}%
+      <AppBox className="spa-product-card__labels-timer">
+        <AppBox className="spa-sale-product-card__labels">
+          <AppBox
+            className="spa-sale-product-card__label"
+            data-testid="discount-label"
+          >
+            -{discount}%
+          </AppBox>
+          {isReserved && <ReservedLabel />}
+          {labelKey && <ProductStatusLabel status={labelKey} />}
         </AppBox>
-        {isReserved && <ReservedLabel />}
-        {labelKey && <ProductStatusLabel status={labelKey} />}
+        {reservedAt && (
+          <CircularCountdown reservedAt={reservedAt} size={60} />
+        )}
       </AppBox>
-      {reservedAt && (
-        <CircularCountdown reservedAt={reservedAt} size={60} />
-      )}
       <AppLink
         className="spa-product-card__link-wrapper"
         to={routePaths.productDetails.path(id)}
@@ -209,7 +211,7 @@ const SaleProductCard = ({
           </AppBox>
         )}
       </AppBox>
-    </AppBox>
+    </AppBox >
   );
 };
 

@@ -10,19 +10,20 @@
   overflow: hidden;
 
   &__labels-timer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-right: spacing(2);
-  }
-
-  &__labels {
     position: absolute;
     top: spacing(2);
     left: spacing(2);
     right: spacing(2);
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 2;
+  }
+
+  &__labels {
+    display: flex;
+    align-items: flex-start;
     gap: spacing(1);
     z-index: 1;
   }
