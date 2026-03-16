@@ -26,6 +26,7 @@ export type ManagerProduct = {
   description: string;
   imageLink: string;
   quantity: number;
+  reservedQuantity: number;
   price: number;
   createdAt: string;
   status: ManagerProductStatus;
@@ -153,6 +154,7 @@ export type GetManagerProductByIdResponse = {
   image: string;
   createdAt: string;
   quantity: number;
+  reservedQuantity: number;
   percentageOfTotalOrders: number | null;
   price: number;
   discount: number | null;

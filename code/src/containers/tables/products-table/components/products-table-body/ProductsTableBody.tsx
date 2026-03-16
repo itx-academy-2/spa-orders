@@ -25,6 +25,7 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
     imageLink,
     price,
     quantity,
+    reservedQuantity,
     status,
     tags,
     createdAt,
@@ -72,20 +73,14 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
       <AppTableCell>{category}</AppTableCell>
       <AppTableCell>{quantity}</AppTableCell>
       <AppTableCell>
-        {/* TODO: Replace with reserved quantity */}
-        <AppButton
-          className="products-table__body-reserved-button"
-          type="button"
-          size="small"
-          variant="outlined"
-          to={routes.dashboard.products.reservationsDetails.path(id)}
-        >
+        <AppLink to={routes.dashboard.products.reservationsDetails.path(id)}>
           <AppTypography
             variant="caption"
             component="span"
-            translationKey="productsTable.reservedButton"
-          />
-        </AppButton>
+          >
+            {reservedQuantity}
+          </AppTypography>
+        </AppLink>
       </AppTableCell>
       <AppTableCell>{formatPrice(price)}</AppTableCell>
       <AppTableCell

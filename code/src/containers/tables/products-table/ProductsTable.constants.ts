@@ -28,6 +28,7 @@ export const mockProducts: ManagerProduct[] = [
     imageLink:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
     quantity: 10,
+    reservedQuantity: 5,
     price: 100.45,
     priceWithDiscount: 5,
     percentageOfTotalOrders: null,
@@ -44,6 +45,7 @@ export const mockProducts: ManagerProduct[] = [
     imageLink:
       "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_2-tTDYhyoyqsEkwPzySFdXflYCe7TkUb.jpg",
     quantity: 10,
+    reservedQuantity: 2,
     price: 100.45,
     priceWithDiscount: null,
     percentageOfTotalOrders: null,
