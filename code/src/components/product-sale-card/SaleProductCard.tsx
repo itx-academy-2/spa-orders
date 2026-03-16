@@ -92,7 +92,7 @@ const SaleProductCard = ({
       className="spa-product-card spa-sale-product-card"
       data-cy="product-card"
     >
-      <AppBox className="spa-product-card__labels-timer">
+      <AppBox className="spa-sale-product-card__labels-timer">
         <AppBox className="spa-sale-product-card__labels">
           <AppBox
             className="spa-sale-product-card__label"
@@ -211,7 +211,7 @@ const SaleProductCard = ({
           </AppBox>
         )}
       </AppBox>
-    </AppBox >
+    </AppBox>
   );
 };
 

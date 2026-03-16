@@ -192,7 +192,7 @@ const ProductDetailsContainer = ({
       </AppBox>
       <AppBox className="product-details__summary">
         <AppBox className="product-details__badges-timer">
-          <AppBox style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <AppBox style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
             {categoryBadge}
             {bestsellerBadge}
           </AppBox>

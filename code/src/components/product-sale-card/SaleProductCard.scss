@@ -9,12 +9,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: flex-start;
     z-index: 2;
   }
 
   &__labels {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: spacing(1);
     z-index: 1;
   }
