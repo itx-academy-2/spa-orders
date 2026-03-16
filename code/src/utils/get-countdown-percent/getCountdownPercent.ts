@@ -1,14 +1,18 @@
 import { EXPIRATION_HOURS } from "@/constants/reservations";
-
-import { TimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
+import { Duration } from "luxon";
 
 // Calculates totalSeconds and the progress percentage for the CircularCountdown.
-export const getCountdownPercent = (time: TimeLeft) => {
-    const totalSeconds = time.hours * 3600 + time.minutes * 60 + time.seconds;
+export const getCountdownPercent = (duration: Duration | null) => {
+  if (!duration) {
+    return { totalSeconds: 0, percent: 0 };
+  }
 
-    const percent = time.expired
-        ? 0
-        : (totalSeconds / (EXPIRATION_HOURS * 3600)) * 100;
+  const totalSeconds = Math.max(0, Math.floor(duration.as("seconds")));
 
-    return { totalSeconds, percent };
+  const percent = Math.max(
+    0,
+    Math.min(100, (totalSeconds / (EXPIRATION_HOURS * 3600)) * 100)
+  );
+
+  return { totalSeconds, percent };
 };

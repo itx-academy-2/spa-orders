@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-
+import { Duration } from "luxon";
 import { calculateTimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
-import type { TimeLeft } from "@/utils/calculate-time-left/calculateTimeLeft";
 
 export const useTimeLeft = (addedAt: string) => {
-    const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => calculateTimeLeft(addedAt));
+  const [duration, setDuration] = useState<Duration | null>(() =>
+    calculateTimeLeft(addedAt)
+  );
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setTimeLeft(calculateTimeLeft(addedAt));
-        }, 1000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDuration(calculateTimeLeft(addedAt));
+    }, 1000);
 
-        return () => clearInterval(interval);
-    }, [addedAt]);
+    return () => clearInterval(interval);
+  }, [addedAt]);
 
-    return timeLeft;
+  return duration;
 };
