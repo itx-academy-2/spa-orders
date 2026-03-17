@@ -49,6 +49,7 @@ const testData: FullManagerProduct = {
   status: "HIDDEN",
   image: "https://example.com",
   quantity: 10,
+  reservedQuantity: 2,
   price: 100,
   tags: [{ id: 1, name: "category:mobile" }],
   priceWithDiscount: null,

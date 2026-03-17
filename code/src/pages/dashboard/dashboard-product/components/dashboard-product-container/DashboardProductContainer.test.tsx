@@ -31,6 +31,7 @@ const managerProduct: GetManagerProductByIdResponse = {
     "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
   createdAt: "2024-07-29T20:20:02.404Z",
   quantity: 10,
+  reservedQuantity: 2,
   percentageOfTotalOrders: null,
   price: 999.99,
   priceWithDiscount: 3,

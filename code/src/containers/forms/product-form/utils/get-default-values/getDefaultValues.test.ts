@@ -9,6 +9,7 @@ const product: FullManagerProduct = {
     "https://j65jb0fdkxuua0go.public.blob.vercel-storage.com/phone_1-QodrkqNjm6MWrKqg9ixBBMMfFU40X7.jpg",
   createdAt: "2024-07-29T20:20:02.404Z",
   quantity: 10,
+  reservedQuantity: 2,
   price: 999.99,
   percentageOfTotalOrders: null,
   priceWithDiscount: null,

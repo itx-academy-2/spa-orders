@@ -23,6 +23,7 @@ describe("ReservedProductDetails", () => {
     id: "1",
     image: "test-image.png",
     quantity: 5,
+    reservedQuantity: 2,
     price: 100,
     priceWithDiscount: 80,
     discount: 20,

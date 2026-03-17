@@ -3,11 +3,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ProductsTableBodyProps } from "@/containers/tables/products-table/ProductsTable.types";
 
 import AppBox from "@/components/app-box/AppBox";
-import AppButton from "@/components/app-button/AppButton";
 import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppLink from "@/components/app-link/AppLink";
 import { AppTableCell } from "@/components/app-table/components";
 import AppTypography from "@/components/app-typography/AppTypography";
+import AppTooltip from "@/components/app-tooltip/AppTooltip";
 import DraftLabel from "@/components/draft-label/DraftLabel";
 
 import routes from "@/constants/routes";
@@ -25,6 +25,7 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
     imageLink,
     price,
     quantity,
+    reservedQuantity,
     status,
     tags,
     createdAt,
@@ -32,6 +33,8 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
     priceWithDiscount,
     discount
   } = product;
+
+  const totalQuantity = quantity + reservedQuantity;
 
   const categoryName = getCategoryFromTags(tags);
 
@@ -70,22 +73,28 @@ const ProductsTableBody = ({ product }: ProductsTableBodyProps) => {
       </AppTableCell>
       <AppTableCell>{nameElement}</AppTableCell>
       <AppTableCell>{category}</AppTableCell>
-      <AppTableCell>{quantity}</AppTableCell>
       <AppTableCell>
-        {/* TODO: Replace with reserved quantity */}
-        <AppButton
-          className="products-table__body-reserved-button"
-          type="button"
-          size="small"
-          variant="outlined"
-          to={routes.dashboard.products.reservationsDetails.path(id)}
+        <AppTooltip
+          titleTranslationKey="productsTable.totalQuantity"
+          titleTranslationProps={{ values: { total: totalQuantity } }}
         >
           <AppTypography
             variant="caption"
             component="span"
-            translationKey="productsTable.reservedButton"
-          />
-        </AppButton>
+          >
+            {quantity}
+          </AppTypography>
+        </AppTooltip>
+      </AppTableCell>
+      <AppTableCell>
+        <AppLink to={routes.dashboard.products.reservationsDetails.path(id)}>
+          <AppTypography
+            variant="caption"
+            component="span"
+          >
+            {reservedQuantity}
+          </AppTypography>
+        </AppLink>
       </AppTableCell>
       <AppTableCell>{formatPrice(price)}</AppTableCell>
       <AppTableCell

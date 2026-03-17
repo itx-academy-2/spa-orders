@@ -9,5 +9,6 @@
   "productsTable.fallback": "No products found",
   "productsTable.label.draft": "Draft",
   "productsTable.reservedButton": "Reserved",
-  "productsTable.label.reservedLabel": "Reserved"
+  "productsTable.label.reservedLabel": "Reserved",
+  "productsTable.totalQuantity": "Total quantity: {total}"
 }

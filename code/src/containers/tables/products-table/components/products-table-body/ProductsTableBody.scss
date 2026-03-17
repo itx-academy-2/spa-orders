@@ -12,7 +12,7 @@
     background-color: var(--products-table-body-bg-color, $white);
 
     &:hover {
-      background-color: var(--color-muted);
+      background-color: var(--color-disabled);
     }
 
     &-name {
