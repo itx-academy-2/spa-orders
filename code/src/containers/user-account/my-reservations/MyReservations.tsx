@@ -2,7 +2,10 @@ import AppBox from "@/components/app-box/AppBox";
 import AppContainer from "@/components/app-container/AppContainer";
 import AppTypography from "@/components/app-typography/AppTypography";
 
-import { useGetMyReservationsQuery } from "@/store/tanstack-api/modules/reservations";
+import {
+    useGetMyReservationsMetadataQuery,
+    useGetMyReservationsQuery
+} from "@/store/tanstack-api/modules/reservations";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
 import setProductsPerPageSize from "@/utils/set-product-size/setProductsPerPageSize";
@@ -27,6 +30,7 @@ const MyReservations = () => {
             lang: locale
         }
     });
+    const { data: reservationsMetadata } = useGetMyReservationsMetadataQuery();
 
     const productsList = reservations ?? [];
     const productsCount = productsList.length;
@@ -68,6 +72,7 @@ const MyReservations = () => {
                 loadingItemsCount={10}
                 wishlist={wishlist}
                 maxColumns={3}
+                reservationsMetadata={reservationsMetadata?.reservations}
             />
             <PaginationBlock page={page} />
         </AppContainer>

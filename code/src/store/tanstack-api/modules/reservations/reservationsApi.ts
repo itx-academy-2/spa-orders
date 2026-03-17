@@ -7,6 +7,7 @@ import {
   GetMyReservationsParams,
   GetMyReservationsResponse,
   ReservationProductParams,
+  GetMyReservationsMetadataResponse,
 } from "@/types/product.types";
 
 export const reservationsApi = {
@@ -40,4 +41,10 @@ export const reservationsApi = {
       }
     );
   },
+
+  getMyReservationsMetadata: () =>
+    fetcher<GetMyReservationsMetadataResponse>(
+      URLS.reservations.getMyReservationsMetadata,
+      { method: httpMethods.get }
+    ),
 };

@@ -100,6 +100,11 @@ jest.mock(
         ))
     })
 );
+jest.mock("@/store/tanstack-api/modules/reservations/queries", () => ({
+    useGetMyReservationsMetadataQuery: jest.fn(() => ({
+        data: { reservations: [] }
+    }))
+}));
 
 type MockState = RTKQueryMockState<
     typeof mockProduct,

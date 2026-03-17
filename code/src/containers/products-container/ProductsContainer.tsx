@@ -25,6 +25,7 @@ const ProductsContainer = ({
   errorMessage = "errors.somethingWentWrong",
   isViewHistory = false,
   wishlist = [],
+  reservationsMetadata,
 }: ProductsContainerProps) => {
   const { isLoading: isCartLoading } = useGetCart();
   const isAuthLoading = useIsAuthLoadingSelector();
@@ -45,6 +46,10 @@ const ProductsContainer = ({
   }
 
   const productCards = products.map((product: Product) => {
+    const reservation = reservationsMetadata?.find(
+      r => r.id === product.id
+    );
+
     const productCard =
       product.priceWithDiscount && product.discount ? (
         <SaleProductCard
@@ -52,6 +57,7 @@ const ProductsContainer = ({
           product={product}
           isViewHistory={isViewHistory}
           wishlist={wishlist}
+          reservedAt={reservation?.reservedAt}
         />
       ) : (
         <ProductCard
@@ -59,6 +65,7 @@ const ProductsContainer = ({
           product={product}
           isViewHistory={isViewHistory}
           wishlist={wishlist}
+          reservedAt={reservation?.reservedAt}
         />
       );
 

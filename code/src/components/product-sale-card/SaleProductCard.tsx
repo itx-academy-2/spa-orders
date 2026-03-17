@@ -10,6 +10,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import { ProductCardProps } from "@/components/product-card/ProductCard.types";
 import ReservedLabel from "@/components/reserved-label/ReservedLabel";
 import ProductStatusLabel from "@/components/product-status-label/ProductStatusLabel";
+import CircularCountdown from "../circular-countdown/CircularCountdown";
 
 import AuthModal from "@/containers/modals/auth/AuthModal";
 
@@ -32,7 +33,8 @@ import "@/components/product-sale-card/SaleProductCard.scss";
 const SaleProductCard = ({
   product,
   isViewHistory = false,
-  wishlist = []
+  wishlist = [],
+  reservedAt,
 }: ProductCardProps) => {
   const { isProductInCart, addToCartOrOpenDrawer } =
     useAddToCartOrOpenDrawer(product);
@@ -90,15 +92,20 @@ const SaleProductCard = ({
       className="spa-product-card spa-sale-product-card"
       data-cy="product-card"
     >
-      <AppBox className="spa-sale-product-card__labels">
-        <AppBox
-          className="spa-sale-product-card__label"
-          data-testid="discount-label"
-        >
-          -{discount}%
+      <AppBox className="spa-sale-product-card__labels-timer">
+        <AppBox className="spa-sale-product-card__labels">
+          <AppBox
+            className="spa-sale-product-card__label"
+            data-testid="discount-label"
+          >
+            -{discount}%
+          </AppBox>
+          {isReserved && <ReservedLabel />}
+          {labelKey && <ProductStatusLabel status={labelKey} />}
         </AppBox>
-        {isReserved && <ReservedLabel />}
-        {labelKey && <ProductStatusLabel status={labelKey} />}
+        {reservedAt && (
+          <CircularCountdown reservedAt={reservedAt} size={60} />
+        )}
       </AppBox>
       <AppLink
         className="spa-product-card__link-wrapper"

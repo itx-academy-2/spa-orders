@@ -55,6 +55,14 @@
     }
   }
 
+  &__badges-timer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-right: spacing(2);
+  }
+
   &__in-stock {
     color: var(--spa-product-details-in-stock-color, $green);
   }

@@ -12,6 +12,7 @@ import AppIconButton from "@/components/app-icon-button/AppIconButton";
 import AppTypography from "@/components/app-typography/AppTypography";
 import PriceLabel from "@/components/price-label/PriceLabel";
 import ProductDescription from "@/components/product-description/ProductDescription";
+import CircularCountdown from "@/components/circular-countdown/CircularCountdown";
 
 import { deliveryMethods as deliveryMethodsData } from "@/constants/deliveryMethods";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
@@ -23,10 +24,12 @@ import { productNotFoundRedirectConfig } from "@/pages/product-details/ProductsD
 import BuyNowButton from "@/pages/product-details/components/buy-now-button/BuyNowButton";
 import ReserveButtonContainer from "@/pages/product-details/components/reserve-button-container/ReserveButtonContainer";
 import { useGetUserProductByIdQuery } from "@/store/api/productsApi";
+import { useGetMyReservationsMetadataQuery } from "@/store/tanstack-api/modules/reservations/queries";
 import getCategoryFromTags from "@/utils/get-category-from-tags/getCategoryFromTags";
 import isErrorWithStatus from "@/utils/is-error-with-status/isErrorWithStatus";
 import cn from "@/utils/cn/cn";
 import { getProductStatus } from "@/utils/get-product-status/getProductStatus";
+import { isUserAllowed } from "@/utils/is-user-allowed/isUserAllowed";
 import { Product } from "@/types/product.types";
 import { useModalContext } from "@/context/modal/ModalContext";
 import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice";
@@ -60,6 +63,10 @@ const ProductDetailsContainer = ({
   const isAuthenticated = useIsAuthSelector();
   const { openModal } = useModalContext();
   const userRole = useUserRoleSelector();
+
+  const canUserInteract = !isUserAllowed(isAuthenticated, userRole);
+
+  const { data: reservationsMetadata } = useGetMyReservationsMetadataQuery(!canUserInteract);
 
   const isUserOrGuest = !userRole || userRole === ROLES.USER;
 
@@ -169,6 +176,10 @@ const ProductDetailsContainer = ({
 
   const isProductFavorite = isFavorite(productId);
 
+  const currentReservation = reservationsMetadata?.reservations?.find(
+    reservation => reservation.id === productId
+  );
+
   return (
     <AppBox className="product-details">
       <AppBox className="product-details__image-wrapper">
@@ -180,9 +191,17 @@ const ProductDetailsContainer = ({
         )}
       </AppBox>
       <AppBox className="product-details__summary">
-        <AppBox style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {categoryBadge}
-          {bestsellerBadge}
+        <AppBox className="product-details__badges-timer">
+          <AppBox style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+            {categoryBadge}
+            {bestsellerBadge}
+          </AppBox>
+          {currentReservation && (
+            <CircularCountdown
+              reservedAt={currentReservation.reservedAt}
+              size={60}
+            />
+          )}
         </AppBox>
         <AppTypography variant="h3" component="h1">
           {product.name}

@@ -1,4 +1,4 @@
-import { Product } from "@/types/product.types";
+import { Product, ReservationMetadata } from "@/types/product.types";
 
 export type ProductsContainerProps = {
   products: Product[];
@@ -10,6 +10,7 @@ export type ProductsContainerProps = {
   maxColumns?: number;
   isViewHistory?: boolean;
   wishlist?: Product[];
+  reservationsMetadata?: ReservationMetadata[];
 };
 
 export type HandleCartIconClickParam = Product & { isInCart: boolean };

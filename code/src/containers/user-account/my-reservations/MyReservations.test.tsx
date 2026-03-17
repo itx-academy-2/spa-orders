@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import MyReservations from "@/containers/user-account/my-reservations/MyReservations";
 
-import { useGetMyReservationsQuery } from "@/store/tanstack-api/modules/reservations";
+import { useGetMyReservationsMetadataQuery, useGetMyReservationsQuery } from "@/store/tanstack-api/modules/reservations";
 import { useGetUserWishlistQuery } from "@/store/api/wishlistApi";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
 import usePagination from "@/hooks/use-pagination/usePagination";
@@ -14,6 +14,7 @@ jest.mock("@/context/i18n/I18nProvider");
 jest.mock("@/hooks/use-pagination/usePagination");
 jest.mock("@/utils/check-screen-size/useScreenSize");
 jest.mock("@/utils/set-product-size/setProductsPerPageSize");
+jest.mock("@/store/tanstack-api/modules/reservations");
 
 jest.mock(
     "@/containers/products-container/ProductsContainer",
@@ -55,6 +56,11 @@ describe("MyReservations", () => {
 
         (useGetMyReservationsQuery as jest.Mock).mockReturnValue({
             data: mockReservations,
+            isLoading: false
+        });
+
+        (useGetMyReservationsMetadataQuery as jest.Mock).mockReturnValue({
+            data: { reservations: mockReservations },
             isLoading: false
         });
 
