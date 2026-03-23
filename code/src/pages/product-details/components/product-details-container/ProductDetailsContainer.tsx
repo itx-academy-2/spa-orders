@@ -13,6 +13,7 @@ import AppTypography from "@/components/app-typography/AppTypography";
 import PriceLabel from "@/components/price-label/PriceLabel";
 import ProductDescription from "@/components/product-description/ProductDescription";
 import CircularCountdown from "@/components/circular-countdown/CircularCountdown";
+import ReservationCounter from "@/components/reservation-counter/ReservationCounter";
 
 import { deliveryMethods as deliveryMethodsData } from "@/constants/deliveryMethods";
 import { useLocaleContext } from "@/context/i18n/I18nProvider";
@@ -36,6 +37,7 @@ import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice
 import { ROLES } from "@/constants/common";
 
 import "@/pages/product-details/components/product-details-container/ProductDetailsContainer.scss";
+import App from "@/App";
 
 type ProductDetailsContainerProps = ProductDetailsPageParams & {
   wishlist: Product[];
@@ -208,17 +210,32 @@ const ProductDetailsContainer = ({
         </AppTypography>
         <AppBox>
           <AppBox className="product-details__section">
-            {inStockTypography}
-            <AppBox className="product-details__buy-action">
-              <PriceLabel
-                price={product.price}
-                priceWithDiscount={product.priceWithDiscount}
-                className="custom-price-label"
-                originalPriceSize="h3"
-                originalPriceWeight="bold"
-                discountedPriceSize="h3"
-                discountedPriceWeight="bold"
-              />
+            <AppBox className="product-details__actions">
+              <AppBox className="product-details__statuses-section">
+                <AppBox className="product-details__stock-status">
+                  {inStockTypography}
+                  <PriceLabel
+                    price={product.price}
+                    priceWithDiscount={product.priceWithDiscount}
+                    className="custom-price-label"
+                    originalPriceSize="h3"
+                    originalPriceWeight="bold"
+                    discountedPriceSize="h3"
+                    discountedPriceWeight="bold"
+                  />
+                </AppBox>
+                {isUserOrGuest && (
+                  <AppBox className="product-details__reservation-counter-section">
+                    <AppTypography
+                      className="product-details__in-reserve"
+                      fontWeight="extra-bold"
+                      variant="caption"
+                      translationKey="productDetailsPage.inReserve"
+                    />
+                    <ReservationCounter productId={productId} />
+                  </AppBox>
+                )}
+              </AppBox>
               {isUserOrGuest && (
                 <AppBox className="product-details__buy-favorite-buttons">
                   <AppIconButton

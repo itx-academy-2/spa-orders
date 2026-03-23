@@ -8,6 +8,7 @@
   "productDetailsPage.reservedButton": "Reserved",
   "productDetailsPage.inStock": "In stock",
   "productDetailsPage.outOfStock": "Out of stock",
+  "productDetailsPage.inReserve": "In reserve",
   "productDetailsPage.deliveryMethodsCaption": "Delivery methods",
   "productDetailsPage.descriptionCaption": "Description",
   "productDetailsPage.loadErrorMessage": "We encountered a problem while loading the product details.\nPlease try again later."

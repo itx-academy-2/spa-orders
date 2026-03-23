@@ -32,6 +32,9 @@ export const useAddToReservationsMutation = () => {
       queryClient.invalidateQueries({
         queryKey: reservationsKeys.myReservations(),
       });
+      queryClient.invalidateQueries({
+        queryKey: reservationsKeys.myReservationsMetadata(),
+      });
     },
   });
 };
@@ -45,6 +48,9 @@ export const useRemoveFromReservationsMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: reservationsKeys.myReservations(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: reservationsKeys.myReservationsMetadata(),
       });
     },
   });

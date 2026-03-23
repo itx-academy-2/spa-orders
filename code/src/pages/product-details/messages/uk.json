@@ -8,6 +8,7 @@
   "productDetailsPage.reservedButton": "Зарезервовано",
   "productDetailsPage.inStock": "На складі",
   "productDetailsPage.outOfStock": "Немає в наявності",
+  "productDetailsPage.inReserve": "У резерві",
   "productDetailsPage.deliveryMethodsCaption": "Методи доставки",
   "productDetailsPage.descriptionCaption": "Опис",
   "productDetailsPage.loadErrorMessage": "Під час завантаження інформації про товар виникла проблема.\nБудь ласка, спробуйте пізніше."

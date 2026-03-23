@@ -67,11 +67,33 @@
     color: var(--spa-product-details-in-stock-color, $green);
   }
 
-  &__buy-action {
+  &__in-reserve {
+    color: var(--spa-product-details-in-reserve-color, $green);
+  }
+
+  &__actions {
     display: flex;
     column-gap: 15px;
     align-items: center;
     justify-content: space-between;
+  }
+
+  &__statuses-section {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__stock-status {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(8);
+    padding-right: spacing(8);
+  }
+
+  &__reservation-counter-section {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(8);
   }
 
   &__buy-favorite-buttons {
