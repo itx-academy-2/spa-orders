@@ -37,7 +37,6 @@ import { useIsAuthSelector, useUserRoleSelector } from "@/store/slices/userSlice
 import { ROLES } from "@/constants/common";
 
 import "@/pages/product-details/components/product-details-container/ProductDetailsContainer.scss";
-import App from "@/App";
 
 type ProductDetailsContainerProps = ProductDetailsPageParams & {
   wishlist: Product[];
